@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerador Completo de Acordes - Organizado por Pastas</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #e0dcd4;
+            padding: 30px;
+            min-height: 100vh;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 {
+            font-family: 'Georgia', serif;
+            color: #c9a959;
+            text-align: center;
+            margin-bottom: 4px;
+            font-size: 2rem;
+        }
+        .subtitle {
+            text-align: center;
+            color: #b5b0a8;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        .progress-container {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(201,169,89,0.1);
+        }
+        .progress-bar-bg {
+            width: 100%;
+            height: 28px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 14px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #c9a959, #e8d5a3);
+            border-radius: 14px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        .status {
+            text-align: center;
+            margin-top: 12px;
+            color: #b5b0a8;
+            font-size: 0.9rem;
+        }
+        .status span { color: #c9a959; font-weight: 600; }
+        .btn-generate {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #c9a959;
+            color: #1a1a2e;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+        }
+        .btn-generate:hover {
+            background: #e8d5a3;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(201,169,89,0.3);
+        }
+        .btn-generate:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-download {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: rgba(201,169,89,0.12);
+            color: #c9a959;
+            border: 1px solid rgba(201,169,89,0.2);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+        .btn-download:hover:not(:disabled) {
+            background: rgba(201,169,89,0.25);
+            border-color: #c9a959;
+        }
+        .btn-download:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .log-area {
+            background: rgba(0,0,0,0.4);
+            border-radius: 10px;
+            padding: 14px 18px;
+            max-height: 150px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: #8a8a8a;
+            border: 1px solid rgba(201,169,89,0.05);
+            margin-top: 12px;
+            line-height: 1.6;
+        }
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+            max-height: 450px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+        .preview-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(201,169,89,0.06);
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+        }
+        .preview-item canvas {
+            width: 100%;
+            height: auto;
+            max-width: 150px;
+            border-radius: 4px;
+            background: #fff;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .preview-item .label {
+            font-size: 0.7rem;
+            color: #b5b0a8;
+            margin-top: 6px;
+            display: block;
+            font-weight: bold;
+        }
+        .preview-item .folder-label {
+            font-size: 0.6rem;
+            color: #c9a959;
+            display: block;
+            margin-top: 2px;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 10px 0 4px;
+        }
+        .stats .stat-item { text-align: center; }
+        .stats .stat-number { font-size: 1.4rem; font-weight: 700; color: #c9a959; }
+        .stats .stat-label { font-size: 0.65rem; color: #8a8a8a; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .log-area .error { color: #e74c3c; }
+        .log-area .success { color: #2ecc71; }
+        .log-area .info { color: #5dade2; }
+        .log-area .folder { color: #f39c12; }
+
+        .chord-count {
+            text-align: center;
+            color: #8a8a8a;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        .filter-info {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #6a6a6a;
+            margin-bottom: 8px;
+        }
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px 16px;
+            margin-bottom: 12px;
+            font-size: 0.7rem;
+            color: #8a8a8a;
+        }
+        .legend span {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 4px;
+            background: rgba(201,169,89,0.06);
+            border: 1px solid rgba(201,169,89,0.08);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎸 Gerador Completo de Acordes</h1>
+    <p class="subtitle">Diagramas organizados por categorias em pastas separadas</p>
+
+    <button class="btn-generate" id="btnGenerate">🚀 Gerar Todos os Acordes</button>
+    <button class="btn-download" id="btnDownload" disabled>📥 Baixar ZIP com todas as imagens (organizadas em pastas)</button>
+
+    <div class="legend">
+        <span>📁 Triades_Maiores</span>
+        <span>📁 Triades_Menores</span>
+        <span>📁 Triades_Diminutas</span>
+        <span>📁 Tetrades_Maiores</span>
+        <span>📁 Tetrades_Menores</span>
+        <span>📁 Dominantes</span>
+        <span>📁 Meio_Diminutas</span>
+        <span>📁 Diminutas</span>
+        <span>📁 Add9</span>
+        <span>📁 Nonas</span>
+        <span>📁 Suspensos</span>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar-bg">
+            <div class="progress-bar" id="progressBar"></div>
+            <div class="progress-text" id="progressText">0%</div>
+        </div>
+        <div class="status" id="statusText">Aguardando início... <span id="totalCount">0</span> acordes carregados</div>
+        <div class="stats">
+            <div class="stat-item"><div class="stat-number" id="statGenerated">0</div><div class="stat-label">Gerados</div></div>
+            <div class="stat-item"><div class="stat-number" id="statTotal">0</div><div class="stat-label">Total</div></div>
+            <div class="stat-item"><div class="stat-number" id="statErrors">0</div><div class="stat-label">Erros</div></div>
+        </div>
+    </div>
+
+    <div class="chord-count" id="chordCount"></div>
+    <div class="filter-info" id="filterInfo">📂 As imagens serão salvas em pastas separadas por categoria</div>
+
+    <div class="preview-grid" id="previewGrid"></div>
+    <div class="log-area" id="logArea"><div class="info">📋 Aguardando início da geração...</div></div>
+</div>
+
+<script>
+// ============================================================
+// 1. FUNÇÕES AUXILIARES
+// ============================================================
+
+function sanitizeFileName(name) {
+    let sanitized = name
+        .replace(/°/g, 'dim')
+        .replace(/\+/g, 'aug')
+        .replace(/7M/g, '7M')
+        .replace(/maj7/g, '7M')
+        .replace(/#/g, '#')
+        .replace(/♯/g, '#')
+        .replace(/♭/g, 'b')
+        .replace(/\?/g, '')
+        .replace(/[^a-zA-Z0-9#b]/g, '');
+    return sanitized;
+}
+
+function barreChord(name, frets, fingers, barreFret) {
+    return { id: sanitizeFileName(name), name, frets, fingers, barra: true, baseFret: 1, barreFret };
+}
+
+function openChord(name, frets, fingers) {
+    return { id: sanitizeFileName(name), name, frets, fingers, barra: false, baseFret: 1 };
+}
+
+// ============================================================
+// 2. DICIONÁRIO DE ACORDES COM CATEGORIAS E PASTAS
+// ============================================================
+
+function createChordEntry(name, frets, fingers, category, folder) {
+    const isBarre = frets.some(f => f > 4);
+    if (isBarre && frets.length === 6) {
+        // Tenta identificar a pestana
+        let barreFret = null;
+        let firstFret = null;
+        for (let f of frets) {
+            if (f !== 'x' && f > 0) {
+                if (firstFret === null) firstFret = f;
+                if (f !== firstFret) { barreFret = false; break; }
+            }
+        }
+        if (barreFret === null) barreFret = firstFret;
+        if (barreFret) {
+            return { ...barreChord(name, frets, fingers, barreFret), category, folder };
+        }
+    }
+    return { ...openChord(name, frets, fingers), category, folder };
+}
+
+const chordData = [
+    // ===== TRIADES MAIORES =====
+    createChordEntry('C',  ['x', 3, 2, 0, 1, 0], [0, 3, 2, 0, 1, 0], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('C#', ['x', 4, 3, 1, 2, 1], [0, 3, 2, 1, 4, 1], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('Db', ['x', 4, 3, 1, 2, 1], [0, 3, 2, 1, 4, 1], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('D',  ['x', 'x', 0, 2, 3, 2], [0, 0, 0, 1, 3, 2], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('D#', ['x', 6, 5, 3, 4, 3], [0, 3, 2, 1, 4, 1], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('Eb', ['x', 6, 5, 3, 4, 3], [0, 3, 2, 1, 4, 1], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('E',  [0, 2, 2, 1, 0, 0], [0, 2, 3, 1, 0, 0], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('F', [1, 3, 3, 2, 1, 1], [1, 3, 4, 2, 1, 1], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('F#', [2, 4, 4, 3, 2, 2], [1, 3, 4, 2, 1, 1], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('Gb', [2, 4, 4, 3, 2, 2], [1, 3, 4, 2, 1, 1], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('G',  [3, 2, 0, 0, 0, 3], [2, 1, 0, 0, 0, 3], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('G#', [4, 6, 6, 5, 4, 4], [1, 3, 4, 2, 1, 1], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('Ab', [4, 6, 6, 5, 4, 4], [1, 3, 4, 2, 1, 1], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('A',  ['x', 0, 2, 2, 2, 0], [0, 0, 1, 2, 3, 0], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('A#', [6, 8, 8, 7, 6, 6], [1, 3, 4, 2, 1, 1], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('Bb', [6, 8, 8, 7, 6, 6], [1, 3, 4, 2, 1, 1], 'Triade Maior', 'Triades_Maiores'),
+    createChordEntry('B', ['x', 2, 4, 4, 4, 2], [0, 1, 3, 4, 2, 1], 'Triade Maior', 'Triades_Maiores'),
+
+    // ===== TRIADES MENORES =====
+    createChordEntry('Cm', ['x', 3, 5, 5, 4, 3], [0, 1, 3, 4, 2, 1], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('C#m', ['x', 4, 6, 6, 5, 4], [0, 1, 3, 4, 2, 1], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('Dbm', ['x', 4, 6, 6, 5, 4], [0, 1, 3, 4, 2, 1], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('Dm',  ['x', 'x', 0, 2, 3, 1], [0, 0, 0, 2, 3, 1], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('D#m', ['x', 6, 8, 8, 7, 6], [0, 1, 3, 4, 2, 1], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('Ebm', ['x', 6, 8, 8, 7, 6], [0, 1, 3, 4, 2, 1], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('Em',  [0, 2, 2, 0, 0, 0], [0, 2, 3, 0, 0, 0], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('Fm', [1, 3, 3, 1, 1, 1], [1, 3, 4, 1, 1, 1], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('F#m', [2, 4, 4, 2, 2, 2], [1, 3, 4, 1, 1, 1], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('Gbm', [2, 4, 4, 2, 2, 2], [1, 3, 4, 1, 1, 1], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('Gm', [3, 5, 5, 3, 3, 3], [1, 3, 4, 1, 1, 1], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('G#m', [4, 6, 6, 4, 4, 4], [1, 3, 4, 1, 1, 1], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('Abm', [4, 6, 6, 4, 4, 4], [1, 3, 4, 1, 1, 1], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('Am',  ['x', 0, 2, 2, 1, 0], [0, 0, 2, 3, 1, 0], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('A#m', [6, 8, 8, 6, 6, 6], [1, 3, 4, 1, 1, 1], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('Bbm', [6, 8, 8, 6, 6, 6], [1, 3, 4, 1, 1, 1], 'Triade Menor', 'Triades_Menores'),
+    createChordEntry('Bm', ['x', 2, 4, 4, 3, 2], [0, 1, 3, 4, 2, 1], 'Triade Menor', 'Triades_Menores'),
+
+    // ===== TRIADES DIMINUTAS =====
+    createChordEntry('Cdim',  ['x', 3, 4, 2, 4, 'x'], [0, 2, 3, 1, 4, 0], 'Triade Diminuta', 'Triades_Diminutas'),
+    createChordEntry('C#dim', ['x', 4, 5, 3, 5, 'x'], [0, 2, 3, 1, 4, 0], 'Triade Diminuta', 'Triades_Diminutas'),
+    createChordEntry('Ddim',  ['x', 'x', 0, 1, 0, 1], [0, 0, 0, 1, 0, 2], 'Triade Diminuta', 'Triades_Diminutas'),
+    createChordEntry('D#dim', ['x', 6, 7, 5, 7, 'x'], [0, 2, 3, 1, 4, 0], 'Triade Diminuta', 'Triades_Diminutas'),
+    createChordEntry('Ebdim', ['x', 6, 7, 5, 7, 'x'], [0, 2, 3, 1, 4, 0], 'Triade Diminuta', 'Triades_Diminutas'),
+    createChordEntry('Edim',  ['x', 'x', 2, 3, 2, 3], [0, 0, 1, 3, 2, 4], 'Triade Diminuta', 'Triades_Diminutas'),
+    createChordEntry('Fdim',  ['x', 'x', 3, 4, 3, 4], [0, 0, 1, 3, 2, 4], 'Triade Diminuta', 'Triades_Diminutas'),
+    createChordEntry('F#dim', ['x', 'x', 4, 5, 4, 5], [0, 0, 1, 3, 2, 4], 'Triade Diminuta', 'Triades_Diminutas'),
+    createChordEntry('Gbdim', ['x', 'x', 4, 5, 4, 5], [0, 0, 1, 3, 2, 4], 'Triade Diminuta', 'Triades_Diminutas'),
+    createChordEntry('Gdim',  ['x', 'x', 5, 6, 5, 6], [0, 0, 1, 3, 2, 4], 'Triade Diminuta', 'Triades_Diminutas'),
+    createChordEntry('G#dim', ['x', 'x', 6, 7, 6, 7], [0, 0, 1, 3, 2, 4], 'Triade Diminuta', 'Triades_Diminutas'),
+    createChordEntry('Abdim', ['x', 'x', 6, 7, 6, 7], [0, 0, 1, 3, 2, 4], 'Triade Diminuta', 'Triades_Diminutas'),
+    createChordEntry('Adim',  ['x', 'x', 7, 8, 7, 8], [0, 0, 1, 3, 2, 4], 'Triade Diminuta', 'Triades_Diminutas'),
+    createChordEntry('A#dim', ['x', 'x', 8, 9, 8, 9], [0, 0, 1, 3, 2, 4], 'Triade Diminuta', 'Triades_Diminutas'),
+    createChordEntry('Bbdim', ['x', 'x', 8, 9, 8, 9], [0, 0, 1, 3, 2, 4], 'Triade Diminuta', 'Triades_Diminutas'),
+    createChordEntry('Bdim',  ['x', 2, 3, 0, 3, 'x'], [0, 1, 2, 0, 3, 0], 'Triade Diminuta', 'Triades_Diminutas'),
+
+    // ===== TETRADES MAIORES (7M) =====
+    createChordEntry('C7M',  ['x', 3, 2, 0, 0, 0], [0, 3, 2, 0, 0, 0], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('C#7M', ['x', 4, 3, 1, 1, 1], [0, 3, 2, 1, 1, 1], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('Db7M', ['x', 4, 3, 1, 1, 1], [0, 3, 2, 1, 1, 1], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('D7M',  ['x', 'x', 0, 2, 2, 2], [0, 0, 0, 1, 2, 3], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('D#7M', ['x', 6, 5, 3, 3, 3], [0, 3, 2, 1, 1, 1], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('Eb7M', ['x', 6, 5, 3, 3, 3], [0, 3, 2, 1, 1, 1], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('E7M',  [0, 2, 1, 1, 0, 0], [0, 3, 1, 2, 0, 0], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('F7M',  ['x', 'x', 3, 2, 1, 0], [0, 0, 3, 2, 1, 0], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('F#7M', ['x', 4, 3, 2, 2, 2], [0, 3, 2, 1, 1, 1], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('Gb7M', ['x', 4, 3, 2, 2, 2], [0, 3, 2, 1, 1, 1], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('G7M',  [3, 2, 0, 0, 0, 2], [3, 2, 0, 0, 0, 1], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('G#7M', ['x', 6, 5, 4, 4, 4], [0, 3, 2, 1, 1, 1], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('Ab7M', ['x', 6, 5, 4, 4, 4], [0, 3, 2, 1, 1, 1], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('A7M',  ['x', 0, 2, 1, 2, 0], [0, 0, 2, 1, 3, 0], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('A#7M', ['x', 8, 7, 6, 6, 6], [0, 3, 2, 1, 1, 1], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('Bb7M', ['x', 8, 7, 6, 6, 6], [0, 3, 2, 1, 1, 1], 'Tetrade Maior', 'Tetrades_Maiores'),
+    createChordEntry('B7M', ['x', 2, 4, 3, 4, 2], [0, 1, 3, 2, 4, 1], 'Tetrade Maior', 'Tetrades_Maiores'),
+
+    // ===== TETRADES MENORES (m7) =====
+    createChordEntry('Cm7', ['x', 3, 5, 3, 4, 3], [0, 1, 3, 1, 2, 1], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('C#m7', ['x', 4, 6, 4, 5, 4], [0, 1, 3, 1, 2, 1], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('Dbm7', ['x', 4, 6, 4, 5, 4], [0, 1, 3, 1, 2, 1], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('Dm7',  ['x', 'x', 0, 2, 1, 1], [0, 0, 0, 2, 1, 1], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('D#m7', ['x', 6, 8, 6, 7, 6], [0, 1, 3, 1, 2, 1], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('Ebm7', ['x', 6, 8, 6, 7, 6], [0, 1, 3, 1, 2, 1], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('Em7',  [0, 2, 2, 0, 3, 0], [0, 1, 2, 0, 4, 0], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('Fm7', [1, 3, 1, 1, 1, 1], [1, 3, 1, 1, 1, 1], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('F#m7', [2, 4, 2, 2, 2, 2], [1, 3, 1, 1, 1, 1], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('Gbm7', [2, 4, 2, 2, 2, 2], [1, 3, 1, 1, 1, 1], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('Gm7', [3, 5, 3, 3, 3, 3], [1, 3, 1, 1, 1, 1], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('G#m7', [4, 6, 4, 4, 4, 4], [1, 3, 1, 1, 1, 1], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('Abm7', [4, 6, 4, 4, 4, 4], [1, 3, 1, 1, 1, 1], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('Am7',  ['x', 0, 2, 0, 1, 0], [0, 0, 2, 0, 1, 0], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('A#m7', [6, 8, 6, 6, 6, 6], [1, 3, 1, 1, 1, 1], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('Bbm7', [6, 8, 6, 6, 6, 6], [1, 3, 1, 1, 1, 1], 'Tetrade Menor', 'Tetrades_Menores'),
+    createChordEntry('Bm7', ['x', 2, 4, 2, 3, 2], [0, 1, 3, 1, 2, 1], 'Tetrade Menor', 'Tetrades_Menores'),
+
+    // ===== DOMINANTES (7) =====
+    createChordEntry('C7',  ['x', 3, 2, 3, 1, 0], [0, 3, 2, 4, 1, 0], 'Dominante', 'Dominantes'),
+    createChordEntry('C#7', ['x', 4, 3, 4, 2, 1], [0, 3, 2, 4, 1, 1], 'Dominante', 'Dominantes'),
+    createChordEntry('Db7', ['x', 4, 3, 4, 2, 1], [0, 3, 2, 4, 1, 1], 'Dominante', 'Dominantes'),
+    createChordEntry('D7',  ['x', 'x', 0, 2, 1, 2], [0, 0, 0, 2, 1, 3], 'Dominante', 'Dominantes'),
+    createChordEntry('D#7', ['x', 6, 5, 6, 4, 3], [0, 3, 2, 4, 1, 1], 'Dominante', 'Dominantes'),
+    createChordEntry('Eb7', ['x', 6, 5, 6, 4, 3], [0, 3, 2, 4, 1, 1], 'Dominante', 'Dominantes'),
+    createChordEntry('E7',  [0, 2, 0, 1, 0, 0], [0, 2, 0, 1, 0, 0], 'Dominante', 'Dominantes'),
+    createChordEntry('F7', [1, 3, 1, 2, 1, 1], [1, 3, 1, 2, 1, 1], 'Dominante', 'Dominantes'),
+    createChordEntry('F#7', [2, 4, 2, 3, 2, 2], [1, 3, 1, 2, 1, 1], 'Dominante', 'Dominantes'),
+    createChordEntry('Gb7', [2, 4, 2, 3, 2, 2], [1, 3, 1, 2, 1, 1], 'Dominante', 'Dominantes'),
+    createChordEntry('G7',  [3, 2, 0, 0, 0, 1], [3, 2, 0, 0, 0, 1], 'Dominante', 'Dominantes'),
+    createChordEntry('G#7', [4, 6, 4, 5, 4, 4], [1, 3, 1, 2, 1, 1], 'Dominante', 'Dominantes'),
+    createChordEntry('Ab7', [4, 6, 4, 5, 4, 4], [1, 3, 1, 2, 1, 1], 'Dominante', 'Dominantes'),
+    createChordEntry('A7',  ['x', 0, 2, 0, 2, 0], [0, 0, 2, 0, 3, 0], 'Dominante', 'Dominantes'),
+    createChordEntry('A#7', [6, 8, 6, 7, 6, 6], [1, 3, 1, 2, 1, 1], 'Dominante', 'Dominantes'),
+    createChordEntry('Bb7', [6, 8, 6, 7, 6, 6], [1, 3, 1, 2, 1, 1], 'Dominante', 'Dominantes'),
+    createChordEntry('B7',  ['x', 2, 1, 2, 0, 2], [0, 2, 1, 3, 0, 4], 'Dominante', 'Dominantes'),
+
+    // ===== MEIO-DIMINUTAS (m7b5) =====
+    createChordEntry('Cm7b5', ['x', 3, 4, 3, 4, 'x'], [0, 1, 3, 2, 4, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+    createChordEntry('C#m7b5', ['x', 4, 5, 4, 5, 'x'], [0, 1, 3, 2, 4, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+    createChordEntry('Dm7b5', ['x', 5, 6, 5, 6, 'x'], [0, 1, 3, 2, 4, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+    createChordEntry('D#m7b5', ['x', 6, 7, 6, 7, 'x'], [0, 1, 3, 2, 4, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+    createChordEntry('Ebm7b5', ['x', 6, 7, 6, 7, 'x'], [0, 1, 3, 2, 4, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+    createChordEntry('Em7b5', ['x', 7, 8, 7, 8, 'x'], [0, 1, 3, 2, 4, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+    createChordEntry('Fm7b5', [1, 'x', 1, 1, 0, 'x'], [1, 0, 2, 3, 0, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+    createChordEntry('F#m7b5', [2, 'x', 2, 2, 1, 'x'], [1, 0, 2, 3, 0, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+    createChordEntry('Gbm7b5', [2, 'x', 2, 2, 1, 'x'], [1, 0, 2, 3, 0, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+    createChordEntry('Gm7b5', [3, 'x', 3, 3, 2, 'x'], [2, 0, 3, 4, 1, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+    createChordEntry('G#m7b5', [4, 'x', 4, 4, 3, 'x'], [2, 0, 3, 4, 1, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+    createChordEntry('Abm7b5', [4, 'x', 4, 4, 3, 'x'], [2, 0, 3, 4, 1, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+    createChordEntry('Am7b5', ['x', 0, 1, 0, 1, 'x'], [0, 0, 1, 0, 2, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+    createChordEntry('A#m7b5', ['x', 1, 2, 1, 2, 'x'], [0, 1, 3, 2, 4, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+    createChordEntry('Bbm7b5', ['x', 1, 2, 1, 2, 'x'], [0, 1, 3, 2, 4, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+    createChordEntry('Bm7b5', ['x', 2, 3, 2, 3, 'x'], [0, 1, 3, 2, 4, 0], 'Meio-Diminuta', 'Meio_Diminutas'),
+
+    // ===== DIMINUTAS (dim7) =====
+    createChordEntry('Cdim7', ['x', 3, 4, 2, 4, 'x'], [0, 2, 3, 1, 4, 0], 'Diminuta', 'Diminutas'),
+    createChordEntry('C#dim7', ['x', 4, 5, 3, 5, 'x'], [0, 2, 3, 1, 4, 0], 'Diminuta', 'Diminutas'),
+    createChordEntry('Ddim7', ['x', 'x', 0, 1, 0, 1], [0, 0, 0, 1, 0, 2], 'Diminuta', 'Diminutas'),
+    createChordEntry('D#dim7', ['x', 6, 7, 5, 7, 'x'], [0, 2, 3, 1, 4, 0], 'Diminuta', 'Diminutas'),
+    createChordEntry('Ebdim7', ['x', 6, 7, 5, 7, 'x'], [0, 2, 3, 1, 4, 0], 'Diminuta', 'Diminutas'),
+    createChordEntry('Edim7', ['x', 'x', 2, 3, 2, 3], [0, 0, 1, 3, 2, 4], 'Diminuta', 'Diminutas'),
+    createChordEntry('Fdim7', ['x', 'x', 3, 4, 3, 4], [0, 0, 1, 3, 2, 4], 'Diminuta', 'Diminutas'),
+    createChordEntry('F#dim7', ['x', 'x', 4, 5, 4, 5], [0, 0, 1, 3, 2, 4], 'Diminuta', 'Diminutas'),
+    createChordEntry('Gbdim7', ['x', 'x', 4, 5, 4, 5], [0, 0, 1, 3, 2, 4], 'Diminuta', 'Diminutas'),
+    createChordEntry('Gdim7', [3, 'x', 2, 3, 2, 'x'], [2, 0, 1, 3, 1, 0], 'Diminuta', 'Diminutas'),
+    createChordEntry('G#dim7', [4, 'x', 3, 4, 3, 'x'], [2, 0, 1, 3, 1, 0], 'Diminuta', 'Diminutas'),
+    createChordEntry('Abdim7', [4, 'x', 3, 4, 3, 'x'], [2, 0, 1, 3, 1, 0], 'Diminuta', 'Diminutas'),
+    createChordEntry('Adim7', ['x', 0, 1, 2, 1, 'x'], [0, 0, 1, 3, 2, 0], 'Diminuta', 'Diminutas'),
+    createChordEntry('A#dim7', ['x', 1, 2, 3, 2, 'x'], [0, 1, 3, 4, 2, 0], 'Diminuta', 'Diminutas'),
+    createChordEntry('Bbdim7', ['x', 1, 2, 3, 2, 'x'], [0, 1, 3, 4, 2, 0], 'Diminuta', 'Diminutas'),
+    createChordEntry('Bdim7', ['x', 2, 3, 1, 3, 'x'], [0, 2, 3, 1, 4, 0], 'Diminuta', 'Diminutas'),
+
+    // ===== ADD9 =====
+    createChordEntry('Cadd9', ['x', 3, 2, 0, 3, 0], [0, 2, 1, 0, 3, 0], 'Add9', 'Add9'),
+    createChordEntry('C#add9', ['x', 4, 3, 1, 4, 1], [0, 2, 1, 1, 3, 1], 'Add9', 'Add9'),
+    createChordEntry('Dbadd9', ['x', 4, 3, 1, 4, 1], [0, 2, 1, 1, 3, 1], 'Add9', 'Add9'),
+    createChordEntry('Dadd9', ['x', 'x', 0, 2, 5, 2], [0, 0, 0, 1, 4, 2], 'Add9', 'Add9'),
+    createChordEntry('D#add9', ['x', 6, 5, 3, 6, 3], [0, 2, 1, 1, 3, 1], 'Add9', 'Add9'),
+    createChordEntry('Ebadd9', ['x', 6, 5, 3, 6, 3], [0, 2, 1, 1, 3, 1], 'Add9', 'Add9'),
+    createChordEntry('Eadd9', [0, 2, 4, 1, 0, 0], [0, 2, 4, 1, 0, 0], 'Add9', 'Add9'),
+    createChordEntry('Fadd9', ['x', 'x', 3, 2, 1, 3], [0, 0, 3, 2, 1, 4], 'Add9', 'Add9'),
+    createChordEntry('F#add9', ['x', 4, 3, 2, 4, 2], [0, 2, 1, 1, 3, 1], 'Add9', 'Add9'),
+    createChordEntry('Gbadd9', ['x', 4, 3, 2, 4, 2], [0, 2, 1, 1, 3, 1], 'Add9', 'Add9'),
+    createChordEntry('Gadd9', [3, 'x', 0, 2, 0, 3], [2, 0, 0, 1, 0, 3], 'Add9', 'Add9'),
+    createChordEntry('G#add9', ['x', 6, 5, 4, 6, 4], [0, 2, 1, 1, 3, 1], 'Add9', 'Add9'),
+    createChordEntry('Abadd9', ['x', 6, 5, 4, 6, 4], [0, 2, 1, 1, 3, 1], 'Add9', 'Add9'),
+    createChordEntry('Aadd9', ['x', 0, 2, 4, 2, 0], [0, 0, 1, 3, 2, 0], 'Add9', 'Add9'),
+    createChordEntry('A#add9', ['x', 8, 7, 6, 8, 6], [0, 2, 1, 1, 3, 1], 'Add9', 'Add9'),
+    createChordEntry('Bbadd9', ['x', 8, 7, 6, 8, 6], [0, 2, 1, 1, 3, 1], 'Add9', 'Add9'),
+    createChordEntry('Badd9', ['x', 2, 4, 6, 4, 2], [0, 1, 2, 4, 3, 1], 'Add9', 'Add9'),
+
+    // ===== NONAS (9) =====
+    createChordEntry('C9',  ['x', 3, 2, 3, 3, 'x'], [0, 2, 1, 3, 4, 0], 'Nona', 'Nonas'),
+    createChordEntry('C#9', ['x', 4, 3, 4, 4, 'x'], [0, 2, 1, 3, 4, 0], 'Nona', 'Nonas'),
+    createChordEntry('Db9', ['x', 4, 3, 4, 4, 'x'], [0, 2, 1, 3, 4, 0], 'Nona', 'Nonas'),
+    createChordEntry('D9',  ['x', 5, 4, 5, 5, 'x'], [0, 2, 1, 3, 4, 0], 'Nona', 'Nonas'),
+    createChordEntry('D#9', ['x', 6, 5, 6, 6, 'x'], [0, 2, 1, 3, 4, 0], 'Nona', 'Nonas'),
+    createChordEntry('Eb9', ['x', 6, 5, 6, 6, 'x'], [0, 2, 1, 3, 4, 0], 'Nona', 'Nonas'),
+    createChordEntry('E9',  [0, 2, 0, 1, 3, 0], [0, 2, 0, 1, 4, 0], 'Nona', 'Nonas'),
+    createChordEntry('F9',  ['x', 8, 7, 8, 8, 'x'], [0, 2, 1, 3, 4, 0], 'Nona', 'Nonas'),
+    createChordEntry('F#9', ['x', 9, 8, 9, 9, 'x'], [0, 2, 1, 3, 4, 0], 'Nona', 'Nonas'),
+    createChordEntry('Gb9', ['x', 9, 8, 9, 9, 'x'], [0, 2, 1, 3, 4, 0], 'Nona', 'Nonas'),
+    createChordEntry('G9',  [3, 'x', 3, 2, 3, 'x'], [2, 0, 3, 1, 4, 0], 'Nona', 'Nonas'),
+    createChordEntry('G#9', ['x', 11, 10, 11, 11, 'x'], [0, 2, 1, 3, 4, 0], 'Nona', 'Nonas'),
+    createChordEntry('Ab9', ['x', 11, 10, 11, 11, 'x'], [0, 2, 1, 3, 4, 0], 'Nona', 'Nonas'),
+    createChordEntry('A9',  ['x', 0, 2, 4, 2, 3], [0, 0, 1, 4, 2, 3], 'Nona', 'Nonas'),
+    createChordEntry('A#9', ['x', 1, 3, 5, 3, 4], [0, 1, 2, 4, 3, 4], 'Nona', 'Nonas'),
+    createChordEntry('Bb9', ['x', 1, 3, 5, 3, 4], [0, 1, 2, 4, 3, 4], 'Nona', 'Nonas'),
+    createChordEntry('B9',  ['x', 2, 1, 2, 2, 'x'], [0, 2, 1, 3, 4, 0], 'Nona', 'Nonas'),
+
+    // ===== SUSPENSOS (sus2, sus4, 7sus4) =====
+    createChordEntry('Csus2', ['x', 3, 0, 0, 3, 3], [0, 1, 0, 0, 3, 4], 'Suspenso', 'Suspensos'),
+    createChordEntry('C#sus2', ['x', 4, 1, 1, 4, 4], [0, 1, 1, 0, 3, 4], 'Suspenso', 'Suspensos'),
+    createChordEntry('Dsus2', ['x', 'x', 0, 2, 3, 0], [0, 0, 0, 1, 3, 0], 'Suspenso', 'Suspensos'),
+    createChordEntry('D#sus2', ['x', 6, 3, 3, 6, 6], [0, 1, 1, 0, 3, 4], 'Suspenso', 'Suspensos'),
+    createChordEntry('Ebsus2', ['x', 6, 3, 3, 6, 6], [0, 1, 1, 0, 3, 4], 'Suspenso', 'Suspensos'),
+    createChordEntry('Esus2', [0, 2, 4, 4, 0, 0], [0, 1, 3, 4, 0, 0], 'Suspenso', 'Suspensos'),
+    createChordEntry('Fsus2', [1, 3, 3, 0, 1, 1], [1, 3, 4, 0, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('F#sus2', [2, 4, 4, 1, 2, 2], [1, 3, 4, 0, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('Gbsus2', [2, 4, 4, 1, 2, 2], [1, 3, 4, 0, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('Gsus2', [3, 0, 0, 2, 3, 3], [2, 0, 0, 1, 3, 4], 'Suspenso', 'Suspensos'),
+    createChordEntry('G#sus2', [4, 1, 1, 3, 4, 4], [2, 0, 0, 1, 3, 4], 'Suspenso', 'Suspensos'),
+    createChordEntry('Absus2', [4, 1, 1, 3, 4, 4], [2, 0, 0, 1, 3, 4], 'Suspenso', 'Suspensos'),
+    createChordEntry('Asus2', ['x', 0, 2, 2, 0, 0], [0, 0, 1, 2, 0, 0], 'Suspenso', 'Suspensos'),
+    createChordEntry('A#sus2', ['x', 1, 3, 3, 1, 1], [0, 1, 3, 4, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('Bbsus2', ['x', 1, 3, 3, 1, 1], [0, 1, 3, 4, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('Bsus2', ['x', 2, 4, 4, 2, 2], [0, 1, 3, 4, 1, 1], 'Suspenso', 'Suspensos'),
+
+    createChordEntry('Csus4', ['x', 3, 3, 0, 1, 1], [0, 3, 4, 0, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('C#sus4', ['x', 4, 4, 1, 2, 2], [0, 3, 4, 1, 2, 2], 'Suspenso', 'Suspensos'),
+    createChordEntry('Dsus4', ['x', 'x', 0, 2, 3, 3], [0, 0, 0, 1, 3, 4], 'Suspenso', 'Suspensos'),
+    createChordEntry('D#sus4', ['x', 6, 6, 3, 4, 4], [0, 3, 4, 1, 2, 2], 'Suspenso', 'Suspensos'),
+    createChordEntry('Ebsus4', ['x', 6, 6, 3, 4, 4], [0, 3, 4, 1, 2, 2], 'Suspenso', 'Suspensos'),
+    createChordEntry('Esus4', [0, 2, 2, 2, 0, 0], [0, 1, 2, 3, 0, 0], 'Suspenso', 'Suspensos'),
+    createChordEntry('Fsus4', [1, 3, 3, 3, 1, 1], [1, 3, 4, 2, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('F#sus4', [2, 4, 4, 4, 2, 2], [1, 3, 4, 2, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('Gbsus4', [2, 4, 4, 4, 2, 2], [1, 3, 4, 2, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('Gsus4', [3, 2, 0, 0, 1, 3], [3, 2, 0, 0, 1, 4], 'Suspenso', 'Suspensos'),
+    createChordEntry('G#sus4', [4, 6, 6, 6, 4, 4], [1, 3, 4, 2, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('Absus4', [4, 6, 6, 6, 4, 4], [1, 3, 4, 2, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('Asus4', ['x', 0, 2, 2, 3, 0], [0, 0, 1, 2, 4, 0], 'Suspenso', 'Suspensos'),
+    createChordEntry('A#sus4', [6, 8, 8, 8, 6, 6], [1, 3, 4, 2, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('Bbsus4', [6, 8, 8, 8, 6, 6], [1, 3, 4, 2, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('Bsus4', ['x', 2, 4, 4, 5, 2], [0, 1, 3, 4, 5, 1], 'Suspenso', 'Suspensos'),
+
+    createChordEntry('C7sus4', ['x', 3, 5, 3, 6, 3], [0, 1, 3, 1, 4, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('C#7sus4', ['x', 4, 6, 4, 7, 4], [0, 1, 3, 1, 4, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('Db7sus4', ['x', 4, 6, 4, 7, 4], [0, 1, 3, 1, 4, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('D7sus4',  ['x', 'x', 0, 2, 1, 3], [0, 0, 0, 2, 1, 4], 'Suspenso', 'Suspensos'),
+    createChordEntry('D#7sus4', ['x', 6, 8, 6, 9, 6], [0, 1, 3, 1, 4, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('Eb7sus4', ['x', 6, 8, 6, 9, 6], [0, 1, 3, 1, 4, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('E7sus4',  [0, 2, 0, 2, 0, 0], [0, 1, 0, 2, 0, 0], 'Suspenso', 'Suspensos'),
+    createChordEntry('F7sus4', [1, 3, 1, 3, 1, 1], [1, 3, 1, 4, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('F#7sus4', [2, 4, 2, 4, 2, 2], [1, 3, 1, 4, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('Gb7sus4', [2, 4, 2, 4, 2, 2], [1, 3, 1, 4, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('G7sus4', [3, 5, 3, 5, 3, 3], [1, 3, 1, 4, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('G#7sus4', [4, 6, 4, 6, 4, 4], [1, 3, 1, 4, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('Ab7sus4', [4, 6, 4, 6, 4, 4], [1, 3, 1, 4, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('A7sus4',  ['x', 0, 2, 0, 3, 0], [0, 0, 1, 0, 3, 0], 'Suspenso', 'Suspensos'),
+    createChordEntry('A#7sus4', [6, 8, 6, 8, 6, 6], [1, 3, 1, 4, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('Bb7sus4', [6, 8, 6, 8, 6, 6], [1, 3, 1, 4, 1, 1], 'Suspenso', 'Suspensos'),
+    createChordEntry('B7sus4', ['x', 2, 4, 2, 5, 2], [0, 1, 3, 1, 4, 1], 'Suspenso', 'Suspensos'),
+];
+
+// ============================================================
+// 3. MOTOR DE RENDERIZAÇÃO NO CANVAS
+// ============================================================
+
+function drawChord(chord) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 240;
+    canvas.height = 320;
+    const ctx = canvas.getContext('2d');
+
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = '#1a1a2e';
+    ctx.font = 'bold 32px Georgia';
+    ctx.textAlign = 'center';
+    ctx.fillText(chord.name, canvas.width / 2, 40);
+
+    const startX = 40;
+    const startY = 80;
+    const stringSpacing = 32;
+    const fretSpacing = 40;
+    
+    let maxFret = 0;
+    let minFret = 99;
+    chord.frets.forEach(f => {
+        if (f !== 'x' && f > 0) {
+            if (f > maxFret) maxFret = f;
+            if (f < minFret) minFret = f;
+        }
+    });
+    
+    let fretOffset = 0;
+    let drawNut = true;
+    if (maxFret > 5) {
+        fretOffset = minFret - 1;
+        drawNut = false;
+    }
+
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 1.5;
+    for (let i = 0; i < 6; i++) {
+        ctx.beginPath();
+        ctx.moveTo(startX + i * stringSpacing, startY);
+        ctx.lineTo(startX + i * stringSpacing, startY + 5 * fretSpacing);
+        ctx.stroke();
+    }
+
+    for (let i = 0; i <= 5; i++) {
+        ctx.lineWidth = (i === 0 && drawNut) ? 6 : 1.5;
+        ctx.beginPath();
+        ctx.moveTo(startX, startY + i * fretSpacing);
+        ctx.lineTo(startX + 5 * stringSpacing, startY + i * fretSpacing);
+        ctx.stroke();
+    }
+
+    if (!drawNut) {
+        ctx.fillStyle = '#1a1a2e';
+        ctx.font = 'bold 16px Arial';
+        ctx.textAlign = 'right';
+        ctx.fillText(minFret + 'ª', startX - 10, startY + fretSpacing / 2 + 6);
+    }
+
+    if (chord.barra && chord.barreFret) {
+        let displayBarreFret = chord.barreFret - fretOffset;
+        let y = startY + (displayBarreFret - 0.5) * fretSpacing;
+        
+        let minString = 5;
+        let maxString = 0;
+        for (let i = 0; i < 6; i++) {
+            if (chord.frets[i] !== 'x' && chord.frets[i] >= chord.barreFret) {
+                if (i < minString) minString = i;
+                if (i > maxString) maxString = i;
+            }
+        }
+        
+        ctx.fillStyle = '#1a1a2e';
+        ctx.beginPath();
+        const bx = startX + minString * stringSpacing - 12;
+        const bw = (maxString - minString) * stringSpacing + 24;
+        const radius = 12;
+        ctx.moveTo(bx + radius, y - 12);
+        ctx.arcTo(bx + bw, y - 12, bx + bw, y + 12, radius);
+        ctx.arcTo(bx + bw, y + 12, bx, y + 12, radius);
+        ctx.arcTo(bx, y + 12, bx, y - 12, radius);
+        ctx.arcTo(bx, y - 12, bx + bw, y - 12, radius);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    ctx.textAlign = 'center';
+    for (let i = 0; i < 6; i++) {
+        let fret = chord.frets[i];
+        let finger = chord.fingers[i];
+        let x = startX + i * stringSpacing;
+
+        if (fret === 'x') {
+            ctx.fillStyle = '#d35400';
+            ctx.font = 'bold 18px Arial';
+            ctx.fillText('X', x, startY - 13);
+        } else if (fret === 0) {
+            ctx.strokeStyle = '#27ae60';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(x, startY - 18, 6, 0, Math.PI * 2);
+            ctx.stroke();
+        } else {
+            let displayFret = fret - fretOffset;
+            let y = startY + (displayFret - 0.5) * fretSpacing;
+
+            ctx.fillStyle = '#1a1a2e';
+            ctx.beginPath();
+            ctx.arc(x, y, 12, 0, Math.PI * 2);
+            ctx.fill();
+
+            if (finger > 0) {
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 14px Arial';
+                ctx.fillText(finger, x, y + 5);
+            }
+        }
+    }
+
+    return canvas;
+}
+
+// ============================================================
+// 4. LÓGICA DE CONTROLE DA UI
+// ============================================================
+
+const btnGenerate = document.getElementById('btnGenerate');
+const btnDownload = document.getElementById('btnDownload');
+const previewGrid = document.getElementById('previewGrid');
+const progressBar = document.getElementById('progressBar');
+const progressText = document.getElementById('progressText');
+const logArea = document.getElementById('logArea');
+const statGenerated = document.getElementById('statGenerated');
+const statErrors = document.getElementById('statErrors');
+
+let generatedImages = [];
+
+function logMsg(msg, type='info') {
+    const div = document.createElement('div');
+    div.className = type;
+    div.innerHTML = msg;
+    logArea.appendChild(div);
+    logArea.scrollTop = logArea.scrollHeight;
+}
+
+document.getElementById('totalCount').innerText = chordData.length;
+document.getElementById('statTotal').innerText = chordData.length;
+document.getElementById('chordCount').innerHTML = `<span style="color: #c9a959;">${chordData.length}</span> acordes carregados prontos para compilação.`;
+
+btnGenerate.addEventListener('click', async () => {
+    btnGenerate.disabled = true;
+    previewGrid.innerHTML = '';
+    generatedImages = [];
+    logArea.innerHTML = '';
+    statErrors.innerText = '0';
+    statGenerated.innerText = '0';
+    
+    logMsg(`🚀 Iniciando renderização em lote (${chordData.length} diagramas)...`);
+    logMsg(`📁 Organizando em pastas por categoria:`, 'info');
+    
+    // Mostra as pastas que serão criadas
+    const folders = [...new Set(chordData.map(c => c.folder))];
+    folders.forEach(f => {
+        logMsg(`   📂 ${f}`, 'folder');
+    });
+    
+    const total = chordData.length;
+    
+    for (let i = 0; i < total; i++) {
+        const chord = chordData[i];
+        try {
+            const canvas = drawChord(chord);
+            
+            const item = document.createElement('div');
+            item.className = 'preview-item';
+            item.appendChild(canvas);
+            const label = document.createElement('span');
+            label.className = 'label';
+            label.innerText = chord.name;
+            item.appendChild(label);
+            const folderLabel = document.createElement('span');
+            folderLabel.className = 'folder-label';
+            folderLabel.innerText = `📁 ${chord.folder}`;
+            item.appendChild(folderLabel);
+            previewGrid.appendChild(item);
+            
+            generatedImages.push({
+                name: chord.id + '.png',
+                displayName: chord.name,
+                folder: chord.folder,
+                data: canvas.toDataURL("image/png").split(',')[1]
+            });
+            
+            statGenerated.innerText = i + 1;
+            const pct = Math.round(((i + 1) / total) * 100);
+            progressBar.style.width = `${pct}%`;
+            progressText.innerText = `${pct}%`;
+            
+            await new Promise(r => setTimeout(r, 3));
+            
+        } catch (e) {
+            logMsg(`❌ Erro ao renderizar ${chord.name}: ${e.message}`, 'error');
+            statErrors.innerText = parseInt(statErrors.innerText) + 1;
+        }
+    }
+    
+    logMsg(`✅ Concluído! ${generatedImages.length} diagramas gerados com sucesso.`, 'success');
+    logMsg(`📂 Organizados em ${folders.length} pastas diferentes.`, 'success');
+    btnDownload.disabled = false;
+    btnGenerate.disabled = false;
+});
+
+btnDownload.addEventListener('click', () => {
+    if (generatedImages.length === 0) {
+        logMsg('⚠️ Execute a geração primeiro.', 'error');
+        return;
+    }
+    logMsg(`📦 Criando arquivo ZIP com estrutura de pastas...`);
+    const zip = new JSZip();
+    
+    // Agrupa imagens por pasta
+    const grouped = {};
+    generatedImages.forEach(img => {
+        if (!grouped[img.folder]) grouped[img.folder] = [];
+        grouped[img.folder].push(img);
+    });
+    
+    // Cria pastas e adiciona os arquivos
+    Object.keys(grouped).forEach(folderName => {
+        const folder = zip.folder(folderName);
+        grouped[folderName].forEach(img => {
+            folder.file(img.name, img.data, {base64: true});
+        });
+    });
+    
+    zip.generateAsync({type:"blob"}).then(function(content) {
+        saveAs(content, "imagens_acordes_organizado.zip");
+        logMsg(`📥 Download iniciado!`, 'success');
+        logMsg(`📂 O ZIP contém ${Object.keys(grouped).length} pastas com ${generatedImages.length} imagens.`, 'success');
+        logMsg(`📁 Extraia o conteúdo na pasta: C:\\Users\\rene.bueno\\Desktop\\livro\\imagens_acordes\\`, 'success');
+    });
+});
+</script>
+
+</body>
+</html>

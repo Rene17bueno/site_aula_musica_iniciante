@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Capítulo V - Morfologia Avançada (Tétrades) | Tratado de Musicologia</title>
+    <meta name="description" content="Capítulo V do Tratado de Musicologia e Harmonia Tonal - Morfologia Avançada de Acordes (Tétrades)" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    
+    <link rel="stylesheet" href="css/css/style.css" />
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">
+        <div class="container-fluid container-md">
+            <a class="navbar-brand nav-brand-title" href="index.html">
+                <span>Tratado</span> · Musicologia
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                <ul class="navbar-nav mb-2 mb-lg-0 gap-2 text-center text-lg-start pt-3 pt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="capitulo1.html"><i class="fas fa-book me-1"></i> Capítulos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="apendice.html"><i class="fas fa-guitar me-1"></i> Acordes</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="chapter-content py-5" style="margin-top: 70px;">
+        <div class="container">
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0">
+                    <li class="breadcrumb-item"><a href="index.html">Início</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Capítulo V</li>
+                </ol>
+            </nav>
+
+            <span class="section-tag"><i class="fas fa-layer-group"></i> Capítulo V</span>
+            <h1>Morfologia Avançada de <span class="gold">Acordes</span> (Tétrades)</h1>
+            <p class="chapter-subtitle">A introdução da sétima, expansão harmônica e complexidade psicoacústica</p>
+
+            <h2>7.1 A Introdução da Sétima: Expansão Harmônica e Complexidade Psicoacústica</h2>
+            <p>
+                Enquanto a tríade fornece o esqueleto básico, limpo e direto da harmonia, a tétrade introduz a sofisticação
+                e a assinatura estilística da música moderna.
+            </p>
+
+            <div class="callout">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>O Trítono</strong> — O intervalo mais tenso e direcionado da música ocidental.
+            </div>
+
+            <div id="tabelaTetrades"></div>
+
+            <nav class="chapter-nav mt-5">
+                <a href="capitulo4.html">
+                    <span class="nav-label"><i class="fas fa-arrow-left"></i> Anterior</span>
+                    <span class="nav-title">Capítulo IV — Campo Harmônico Maior</span>
+                </a>
+                <a href="capitulo6.html">
+                    <span class="nav-label">Próximo <i class="fas fa-arrow-right"></i></span>
+                    <span class="nav-title">Capítulo VI — Os Três Campos Harmônicos Menores</span>
+                </a>
+            </nav>
+
+        </div>
+    </main>
+
+    <footer class="site-footer py-4">
+        <div class="container text-center">
+            <div class="footer-brand mb-2"><span>Tratado</span> · Musicologia</div>
+            <div class="small text-muted">
+                <i class="fas fa-copyright" style="color:#c9a959;"></i> 2026 · Renê Aparecido Bueno · Maringá — PR
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6Rzs3g7mGbJsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"></script>
+    <script src="js/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            createTable('tabelaTetrades',
+                ['Grau', 'Nome Comercial', 'Função Principal', 'Estrutura Física', 'Notas (Ex.: Tom C)'],
+                [
+                    ['I7M', 'Acorde Maior com Sétima Maior', 'Tônica', 'T + 3ªM + 5ªJ + 7ªM', 'C – E – G – B'],
+                    ['II7', 'Acorde Menor com Sétima Menor', 'Subdominante', 'T + 3ªm + 5ªJ + 7ªm', 'D – F – A – C'],
+                    ['III7', 'Acorde Menor com Sétima Menor', 'Tônica Secundária', 'T + 3ªm + 5ªJ + 7ªm', 'E – G – B – D'],
+                    ['IV7M', 'Acorde Maior com Sétima Maior', 'Subdominante', 'T + 3ªM + 5ªJ + 7ªM', 'F – A – C – E'],
+                    ['V7', 'Acorde Maior com Sétima Menor', 'Dominante (Trítono)', 'T + 3ªM + 5ªJ + 7ªm', 'G – B – D – F'],
+                    ['VI7', 'Acorde Menor com Sétima Menor', 'Tônica / Relativo', 'T + 3ªm + 5ªJ + 7ªm', 'A – C – E – G'],
+                    ['VIIm7(b5)', 'Acorde Meio-Diminuto', 'Dominante / Sensível', 'T + 3ªm + 5ªd + 7ªm', 'B – D – F – A']
+                ],
+                'Mapeamento de Tétrades Estruturais do Campo Harmônico Maior'
+            );
+        });
+    </script>
+
+</body>
+</html>
