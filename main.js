@@ -1,6 +1,7 @@
 // ============================================================
 // SISTEMA UNIFICADO DE ACORDES E ESCALAS
 // ============================================================
+//corrija a sintaxe do código
 
 const NOTAS = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 const AFINACAO = ["E", "B", "G", "D", "A", "E"];
@@ -279,10 +280,17 @@ for (let [nomeEscala, formula] of Object.entries(ESCALAS_FORMULAS)) {
 const container = document.getElementById('galleryContainer');
 const visibleSpan = document.getElementById('visibleCount');
 const totalSpan = document.getElementById('totalCount');
+const btnViewAcorde = document.getElementById('btnViewAcorde');
+const btnViewEscala = document.getElementById('btnViewEscala');
+const btnViewTodos = document.getElementById('btnViewTodos');
+const modal = document.getElementById('modalDetalhe');
 let currentFilter = 'all';
 let currentView = 'acorde';
 
 function render(filter = 'all', view = currentView) {
+    if (!container || !visibleSpan || !totalSpan) {
+        return;
+    }
     let filtered = items;
 
     if (view === 'acorde') {
@@ -335,45 +343,54 @@ document.querySelectorAll('.btn-filter').forEach(btn => {
 });
 
 // Toggle
-document.getElementById('btnViewAcorde').addEventListener('click', function() {
-    document.querySelectorAll('.btn-toggle').forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-    currentView = 'acorde';
-    render(currentFilter, currentView);
-});
-document.getElementById('btnViewEscala').addEventListener('click', function() {
-    document.querySelectorAll('.btn-toggle').forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-    currentView = 'escala';
-    render(currentFilter, currentView);
-});
-document.getElementById('btnViewTodos').addEventListener('click', function() {
-    document.querySelectorAll('.btn-toggle').forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-    currentView = 'todos';
-    render(currentFilter, currentView);
-});
+if (btnViewAcorde) {
+    btnViewAcorde.addEventListener('click', function() {
+        document.querySelectorAll('.btn-toggle').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentView = 'acorde';
+        render(currentFilter, currentView);
+    });
+}
+if (btnViewEscala) {
+    btnViewEscala.addEventListener('click', function() {
+        document.querySelectorAll('.btn-toggle').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentView = 'escala';
+        render(currentFilter, currentView);
+    });
+}
+if (btnViewTodos) {
+    btnViewTodos.addEventListener('click', function() {
+        document.querySelectorAll('.btn-toggle').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentView = 'todos';
+        render(currentFilter, currentView);
+    });
+}
 
 // Modal
-const modal = document.getElementById('modalDetalhe');
-modal.addEventListener('show.bs.modal', function(e) {
-    const card = e.relatedTarget;
-    const idx = parseInt(card.dataset.index);
-    const itemsList = window._modalItems || [];
-    const item = itemsList[idx];
-    if (!item) return;
+if (modal) {
+    modal.addEventListener('show.bs.modal', function(e) {
+        const card = e.relatedTarget;
+        const idx = parseInt(card.dataset.index);
+        const itemsList = window._modalItems || [];
+        const item = itemsList[idx];
+        if (!item) return;
 
-    document.getElementById('modalSvgContainer').innerHTML = item.svg;
-    document.getElementById('modalTitle').textContent = item.tituloModal || item.nome;
-    document.getElementById('modalBadge').textContent = item.badgeModal || item.badge;
-    document.getElementById('modalNotes').textContent = item.notas || '';
-});
+        document.getElementById('modalSvgContainer').innerHTML = item.svg;
+        document.getElementById('modalTitle').textContent = item.tituloModal || item.nome;
+        document.getElementById('modalBadge').textContent = item.badgeModal || item.badge;
+        document.getElementById('modalNotes').textContent = item.notas || '';
+    });
+}
 
 // ============================================================
 // 7. INICIALIZA
 // ============================================================
 
-document.getElementById('btnViewAcorde').classList.add('active');
+if (btnViewAcorde) {
+    btnViewAcorde.classList.add('active');
+}
 render('all', 'acorde');
 
 console.log(`✅ Dicionário carregado: ${items.length} itens (${items.filter(i=>i.tipo==='acorde').length} acordes, ${items.filter(i=>i.tipo==='escala').length} escalas)`);
