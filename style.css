@@ -362,3 +362,59 @@ body {
         font-size: 0.95rem;
     }
 }
+/* =========================================================
+   CORREÇÃO DO MENU SUSPENSO (DROPDOWN) E SUBMENUS
+   ========================================================= */
+
+/* Fundo do menu suspenso */
+.dropdown-menu {
+    background-color: #14131f !important; /* Cor igual ao fundo escuro do site */
+    border: 1px solid rgba(201, 169, 89, 0.15) !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    border-radius: 8px;
+    padding: 8px 0;
+    min-width: 200px;
+}
+
+/* Itens de dentro do menu (Capítulo 1, 2, etc.) */
+.dropdown-item {
+    color: #b5b0a8 !important;
+    padding: 10px 16px;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+
+/* Efeito ao passar o mouse e item ativo */
+.dropdown-item:hover,
+.dropdown-item.active {
+    background: rgba(201, 169, 89, 0.1) !important;
+    border-left-color: #c9a959 !important;
+    color: #e8d5a3 !important;
+}
+
+/* Ajuste das setinhas dos menus (Capítulos / Jogos) */
+.nav-link.dropdown-toggle::after {
+    border-top-color: #c9a959; /* Deixa a seta dourada */
+    vertical-align: middle;
+    margin-left: 6px;
+}
+.nav-link.dropdown-toggle[aria-expanded="true"]::after {
+    transform: rotate(180deg);
+}
+
+/* Ajuste para telas pequenas (celular) - para não quebrar o menu */
+@media (max-width: 991px) {
+    .dropdown-menu {
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding-left: 15px;
+    }
+    .dropdown-item {
+        color: #b5b0a8 !important;
+    }
+    .dropdown-item:hover {
+        color: #e8d5a3 !important;
+        background: transparent !important;
+    }
+}
