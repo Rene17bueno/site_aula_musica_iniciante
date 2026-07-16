@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio Visual de Acordes · Tratado Musicologia</title>
+    <!-- Fonts & Bootstrap (cdn) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* ===== ESTILOS GERAIS ===== */
+        body {
+            background: #0e0d1a;
+            color: #e4dfd7;
+            font-family: 'Inter', sans-serif;
+            padding-top: 90px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .gold {
+            color: #e8d5a3;
+        }
+        .bg-dark-custom {
+            background: #14131f;
+        }
+        .border-gold {
+            border-color: rgba(201, 169, 89, 0.3) !important;
+        }
+        .text-gold {
+            color: #e8d5a3;
+        }
+        .text-muted {
+            color: #b5b0a8 !important;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar-custom {
+            background: #0e0d1aee;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(201, 169, 89, 0.15);
+        }
+        .navbar-custom .nav-link {
+            color: #d1cbdc !important;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #e8d5a3 !important;
+        }
+        .nav-brand-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #e8d5a3 !important;
+            text-decoration: none;
+        }
+
+        .chapter-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        .section-tag {
+            display: inline-block;
+            background: rgba(201, 169, 89, 0.12);
+            color: #e8d5a3;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            padding: 5px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            text-transform: uppercase;
+        }
+
+        /* ===== CONTAINER DO JOGO ===== */
+        .game-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            transition: 0.3s ease;
+        }
+        
+        .level-badge {
+            background: rgba(201, 169, 89, 0.2);
+            color: #ffffff;
+            border: 1px solid #e8d5a3;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 6px 18px;
+            border-radius: 50px;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(201, 169, 89, 0.2);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c9a959, #f7e7c4);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* ===== CONTAINER DA IMAGEM (SVG) ===== */
+        .chord-svg-display {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(201, 169, 89, 0.15);
+            border-radius: 12px;
+            padding: 15px;
+            display: inline-block;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+        }
+        .chord-svg-display svg {
+            width: 100%;
+            height: auto;
+            max-height: 220px;
+            border-radius: 8px;
+        }
+
+        /* ===== BOTÕES DE RESPOSTA ===== */
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 169, 89, 0.35);
+            color: #ffffff !important;
+            padding: 14px 18px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 12px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        .option-btn:hover {
+            background: rgba(201, 169, 89, 0.25);
+            border-color: #f7e7c4;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 89, 0.2);
+        }
+
+        /* ===== FEEDBACK ===== */
+        .feedback-area {
+            min-height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .feedback-area.show {
+            opacity: 1;
+        }
+        .feedback-correct {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+        .feedback-incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+        }
+
+        /* ===== SELETOR DE NÍVEIS LATERAL ===== */
+        .btn-level-select {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(201, 169, 89, 0.15);
+            color: #e4dfd7;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .btn-level-select .level-title {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-level-select .level-desc {
+            color: #b5b0a8;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .btn-level-select:hover, .btn-level-select.active {
+            background: rgba(201, 169, 89, 0.15);
+            border-color: #e8d5a3;
+        }
+        .btn-level-select.active .level-title {
+            color: #e8d5a3;
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            border-top: 1px solid rgba(201, 169, 89, 0.1);
+            background: #0e0d1a;
+            padding: 1.5rem 0;
+        }
+        .site-footer .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #e8d5a3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container-fluid container-md">
+            <a class="navbar-brand nav-brand-title" href="index.html">
+                <span>Tratado</span> · Musicologia
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                <ul class="navbar-nav mb-2 mb-lg-0 gap-2 text-center text-lg-start pt-3 pt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Início</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="capitulosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-book me-1"></i> Capítulos
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capitulosDropdown">
+                            <li><a class="dropdown-item" href="capitulo1.html">Capítulo 1</a></li>
+                            <li><a class="dropdown-item" href="capitulo2.html">Capítulo 2</a></li>
+                            <li><a class="dropdown-item" href="capitulo3.html">Capítulo 3</a></li>
+                            <li><a class="dropdown-item" href="capitulo4.html">Capítulo 4</a></li>
+                            <li><a class="dropdown-item" href="capitulo5.html">Capítulo 5</a></li>
+                            <li><a class="dropdown-item" href="capitulo6.html">Capítulo 6</a></li>
+                            <li><a class="dropdown-item" href="capitulo7.html">Capítulo 7</a></li>
+                            <li><a class="dropdown-item" href="capitulo8.html">Capítulo 8</a></li>
+                            <li><a class="dropdown-item" href="capitulo9.html">Capítulo 9</a></li>
+                            <li><a class="dropdown-item" href="capitulo10.html">Capítulo 10</a></li>
+                            <li><a class="dropdown-item" href="capitulo11.html">Capítulo 11</a></li>
+                            <li><a class="dropdown-item" href="capitulo12.html">Capítulo 12</a></li>
+                            <li><a class="dropdown-item" href="capitulo13.html">Capítulo 13</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="acordes.html"><i class="fas fa-guitar me-1"></i> Acordes</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="jogosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-gamepad me-1"></i> Jogos
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="jogosDropdown">
+                            <li>
+                                <a class="dropdown-item active" href="jogo-imagem.html">
+                                    <i class="fas fa-eye me-2"></i> Desafio Visual
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="jogos.html">
+                                    <i class="fas fa-music me-2"></i> Identificação de Notas
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="apendice.html"><i class="fas fa-table me-1"></i> Apêndice</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <main class="chapter-content">
+        <div class="container">
+            
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <span class="section-tag"><i class="fas fa-eye me-1"></i> Percepção Visual</span>
+                    <h1 class="display-5 fw-bold mt-2">Adivinhe <span class="gold">o Acorde</span></h1>
+                    <p class="text-muted">Olhe para o diagrama no braço do violão e identifique qual cifra ele representa!</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Painel Lateral: Seleção de Fase e Regras -->
+                <div class="col-lg-4">
+                    <div class="game-card h-100">
+                        <h4 class="fw-bold mb-3" style="color: #e8d5a3;"><i class="fas fa-map-signs gold me-2"></i>Escolha sua Fase</h4>
+                        <p class="text-muted small">Alternar as categorias de acordes que deseja identificar:</p>
+                        
+                        <div class="d-flex flex-column gap-2" id="levelSelector">
+                            <!-- Injetado dinamicamente via JS -->
+                        </div>
+
+                        <hr class="border-gold my-4">
+
+                        <h5 class="fw-bold mb-2 text-gold"><i class="fas fa-info-circle me-2"></i>Instruções</h5>
+                        <ul class="text-muted small ps-3" style="line-height: 1.6;">
+                            <li>Analise as marcações do braço do instrumento (número das casas no topo, bolinhas amarelas/brancas com os dedos).</li>
+                            <li>Use o botão de cifra correto para adivinhar o acorde correspondente.</li>
+                            <li>Alcance <strong class="text-white">10 acertos seguidos</strong> para avançar ao próximo nível!</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Painel Central: O Jogo Ativo -->
+                <div class="col-lg-8">
+                    <div class="game-card text-center position-relative">
+                        <!-- Cabeçalho do Desafio -->
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+                            <span class="level-badge" id="levelBadgeDisplay">Fase 1: Maiores</span>
+                            <div class="fs-6 text-muted">
+                                Combo: <span id="comboCounter" class="gold fw-bold">0</span> / 10
+                            </div>
+                        </div>
+
+                        <!-- Barra de Progresso do Combo -->
+                        <div class="progress-container mb-4">
+                            <div class="progress-bar-fill" id="progressBar"></div>
+                        </div>
+
+                        <!-- Diagrama do Acorde (Gerado Dinamicamente) -->
+                        <div class="mb-4">
+                            <div class="chord-svg-display" id="chordSvgContainer">
+                                <!-- O SVG do acorde será renderizado aqui -->
+                            </div>
+                        </div>
+
+                        <h5 class="mb-4 text-white">Qual acorde é este representado acima?</h5>
+
+                        <!-- Alternativas -->
+                        <div class="row row-cols-1 row-cols-sm-2 g-3 px-md-4 mb-4" id="optionsContainer">
+                            <!-- Botões de Opção gerados via JS -->
+                        </div>
+
+                        <!-- Área de Feedback -->
+                        <div class="feedback-area p-3 mb-2" id="feedbackBox">
+                            Excelente trabalho! Parabéns!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+        <div class="container text-center">
+            <div class="footer-brand mb-1"><span>Tratado</span> · Musicologia</div>
+            <div class="small text-muted">
+                <i class="fas fa-copyright" style="color:#e8d5a3;"></i> 2026 · Renê Aparecido Bueno · Maringá - PR
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ===== SISTEMA DO JOGO (JAVASCRIPT) ===== -->
+    <script>
+        // Definição das Notas e Afinamento (Importados do seu dicionário)
+        const NOTAS = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+        const AFINACAO = ["E", "A", "D", "G", "B", "E"];
+
+        // Função utilitária para definir as formas (shapes)
+        function shape(baseFret, dots, status, barre = null, nome = '') {
+            return { baseFret, dots, status, barre, nome };
+        }
+
+        // Biblioteca de Acordes Reutilizada diretamente de acordes.html
+        const ACORDES_BIBLIOTECA = {
+            "Maior": {
+                "C": [shape(1, [[2,3,3,"C"],[3,2,2,"E"],[5,1,1,"C"]], ["x","o","o","o","o","o"], null, "aberto")],
+                "D": [shape(1, [[4,2,1,"D"],[5,3,3,"A"],[6,2,2,"F#"]], ["x","x","o","o","o","o"], null, "aberto")],
+                "E": [shape(1, [[2,2,2,"B"],[3,2,3,"E"],[4,1,1,"G#"]], ["o","o","o","o","o","o"], null, "aberto")],
+                "F": [shape(1, [[2,3,3,"C"],[3,3,4,"F"],[4,2,2,"A"]], ["o","o","o","o","o","o"], {fret:1,from:1,to:6}, "barre")],
+                "G": [shape(1, [[1,3,2,"G"],[2,2,1,"B"],[6,3,3,"G"]], ["o","o","o","o","o","o"], null, "aberto")],
+                "A": [shape(1, [[3,2,1,"E"],[4,2,2,"A"],[5,2,3,"C#"]], ["x","o","o","o","o","o"], null, "aberto")],
+                "B": [shape(2, [[3,3,2,"F#"],[4,3,3,"B"],[5,3,4,"D#"]], ["x","o","o","o","o","o"], {fret:1,from:2,to:6}, "barre")]
+            },
+            "Menor": {
+                "C": [shape(3, [[3,3,3,"G"],[4,3,4,"C"],[5,2,2,"D#"]], ["x","o","o","o","o","o"], {fret:1,from:2,to:6}, "barre")],
+                "D": [shape(1, [[4,2,2,"D"],[5,3,3,"A"],[6,1,1,"F"]], ["x","x","o","o","o","o"], null, "aberto")],
+                "E": [shape(1, [[2,2,2,"B"],[3,2,3,"E"]], ["o","o","o","o","o","o"], null, "aberto")],
+                "F": [shape(1, [[2,3,3,"C"],[3,3,4,"F"],[4,1,1,"G#"]], ["o","o","o","o","o","o"], {fret:1,from:1,to:6}, "barre")],
+                "G": [shape(3, [[2,3,3,"D"],[3,3,4,"G"],[4,1,1,"A#"]], ["o","o","o","o","o","o"], {fret:1,from:1,to:6}, "barre")],
+                "A": [shape(1, [[3,2,2,"E"],[4,2,3,"A"],[5,1,1,"C"]], ["x","o","o","o","o","o"], null, "aberto")],
+                "B": [shape(2, [[3,3,3,"F#"],[4,3,4,"B"],[5,2,2,"D"]], ["x","o","o","o","o","o"], {fret:1,from:2,to:6}, "barre")]
+            },
+            "Sétima (7)": {
+                "C": [shape(1, [[2,3,3,"C"],[3,2,2,"E"],[4,3,4,"A#"],[5,1,1,"C"]], ["x","o","o","o","o","o"], null, "aberto")],
+                "D": [shape(1, [[4,2,1,"D"],[5,1,2,"C"],[6,2,3,"F#"]], ["x","x","o","o","o","o"], null, "aberto")],
+                "E": [shape(1, [[2,2,2,"B"],[4,1,1,"G#"]], ["o","o","o","o","o","o"], null, "aberto")],
+                "G": [shape(1, [[1,3,3,"G"],[2,2,2,"B"],[6,1,1,"F"]], ["o","o","o","o","o","o"], null, "aberto")],
+                "A": [shape(1, [[3,2,1,"E"],[5,2,2,"G"]], ["x","o","o","o","o","o"], null, "aberto")],
+                "B": [shape(2, [[3,3,3,"F#"],[5,3,4,"E"]], ["x","o","o","o","o","o"], {fret:1,from:2,to:6}, "barre")]
+            },
+            "Diminuto (m♭5)": {
+                "C": [shape(1, [[4,1,1,"D#"],[5,4,4,"C"],[6,2,2,"F#"]], ["x","x","o","o","o","x"], null, "aberto")],
+                "D": [shape(1, [[4,0,0,"D"],[5,1,1,"G#"],[6,1,2,"F"]], ["x","x","o","o","o","o"], null, "aberto")],
+                "E": [shape(1, [[3,3,3,"A#"],[4,2,2,"E"],[5,2,1,"G"]], ["x","x","o","o","o","x"], null, "absky")],
+                "G": [shape(1, [[4,0,0,"G"],[5,2,1,"C#"],[6,3,2,"A#"]], ["x","x","o","o","o","o"], null, "aberto")],
+                "A": [shape(1, [[3,2,2,"D#"],[4,2,3,"A"],[5,1,1,"C"]], ["x","o","o","o","o","x"], null, "aberto")],
+                "B": [shape(1, [[2,2,2,"B"],[4,3,4,"F"],[5,1,1,"D"]], ["x","o","x","o","o","x"], null, "aberto")]
+            }
+        };
+
+        // Estruturação dos níveis de adivinhação
+        const GAME_LEVELS = [
+            { id: 1, type: "Maior", name: "Fase 1: Diagramas Maiores", desc: "Acordes maiores básicos em formato visual" },
+            { id: 2, type: "Menor", name: "Fase 2: Diagramas Menores", desc: "Aprenda a reconhecer formatos menores e pestanas" },
+            { id: 3, type: "Sétima (7)", name: "Fase 3: Sétima Dominante (7)", desc: "Reconhecimento de formatos com sétima dominante" },
+            { id: 4, type: "Diminuto (m♭5)", name: "Fase 4: Diminutos", desc: "Formas e digitações complexas de acordes diminutos" }
+        ];
+
+        // Estado do Jogo
+        let currentLevelIndex = 0;
+        let comboScore = 0;
+        const TARGET_COMBO = 10;
+        let currentChord = null;
+
+        // Elementos DOM
+        const levelBadgeDisplay = document.getElementById("levelBadgeDisplay");
+        const comboCounter = document.getElementById("comboCounter");
+        const progressBar = document.getElementById("progressBar");
+        const chordSvgContainer = document.getElementById("chordSvgContainer");
+        const optionsContainer = document.getElementById("optionsContainer");
+        const feedbackBox = document.getElementById("feedbackBox");
+        const levelSelector = document.getElementById("levelSelector");
+
+        // Sistema Gerador de SVG (idêntico ao do dicionário)
+        function gerarSvgAcorde(tonica, chord, largura = 480, altura = 190) {
+            const margemEsquerda = 50, margemSuperior = 32;
+            const espCordas = 26, espCasas = 68;
+            const numCasas = 9;
+
+            let svg = `<svg width="${largura}" height="${altura}" viewBox="0 0 ${largura} ${altura}" xmlns="http://www.w3.org/2000/svg">`;
+            svg += `<rect width="100%" height="100%" fill="#121212" rx="6"/>`;
+
+            const peso = (chord.baseFret === 1) ? 4 : 1.8;
+            svg += `<line x1="${margemEsquerda}" y1="${margemSuperior}" x2="${margemEsquerda}" y2="${margemSuperior + (espCordas*5)}" stroke="#888" stroke-width="${peso}" stroke-linecap="round"/>`;
+
+            for (let i=1; i<=numCasas; i++) {
+                let x = margemEsquerda + i*espCasas;
+                let casaReal = chord.baseFret + i - 1;
+                svg += `<line x1="${x}" y1="${margemSuperior}" x2="${x}" y2="${margemSuperior + (espCordas*5)}" stroke="#3a3a3a" stroke-width="1.5"/>`;
+                svg += `<text x="${x - espCasas/2}" y="${margemSuperior - 12}" font-family="'Inter',Arial" font-size="9" fill="#666" text-anchor="middle">${casaReal}</text>`;
+            }
+
+            for (let c=0; c<6; c++) {
+                let y = margemSuperior + c*espCordas;
+                svg += `<line x1="${margemEsquerda}" y1="${y}" x2="${margemEsquerda + numCasas*espCasas}" y2="${y}" stroke="#4a4a4a" stroke-width="1.2"/>`;
+                svg += `<text x="${margemEsquerda-20}" y="${y+5}" font-family="'Inter',Arial" font-size="10" font-weight="600" fill="#888" text-anchor="middle">${AFINACAO[c]}</text>`;
+            }
+
+            if (chord.barre) {
+                let b = chord.barre;
+                let xPos = margemEsquerda + b.fret*espCasas - espCasas/2;
+                let yIni = margemSuperior + (b.from-1)*espCordas;
+                let yFim = margemSuperior + (b.to-1)*espCordas;
+                svg += `<rect x="${xPos-5}" y="${yIni-3}" width="10" height="${yFim-yIni+6}" rx="4" fill="#e0e0e0" opacity="0.7"/>`;
+            }
+
+            chord.dots.forEach(d => {
+                let cordaIdx = d[0]-1, casaIdx = d[1], dedo = d[2], nota = d[3]||'';
+                let cx = margemEsquerda + casaIdx*espCasas - espCasas/2;
+                let cy = margemSuperior + cordaIdx*espCordas;
+                let isTonica = (nota === tonica);
+                let cor = isTonica ? '#c9a959' : '#f0f0f0';
+                let textoCor = isTonica ? '#0a0a0a' : '#0a0a0a';
+                svg += `<circle cx="${cx}" cy="${cy}" r="8" fill="${cor}" stroke="${isTonica ? '#c9a959' : '#555'}" stroke-width="0.8"/>`;
+                svg += `<text x="${cx}" y="${cy+3}" font-family="'Inter',Arial" font-size="8" font-weight="700" fill="${textoCor}" text-anchor="middle">${dedo}</text>`;
+            });
+
+            if (chord.status) {
+                chord.status.forEach((st,i) => {
+                    if (st === 'x' || st === 'o') {
+                        let y = margemSuperior + i*espCordas + 4;
+                        let cor = st==='x' ? '#ff5555' : '#66d966';
+                        svg += `<text x="${margemEsquerda + numCasas*espCasas + 16}" y="${y+5}" font-family="'Inter',Arial" font-size="13" font-weight="700" fill="${cor}" text-anchor="middle">${st.toUpperCase()}</text>`;
+                    }
+                });
+            }
+
+            svg += `</svg>`;
+            return svg;
+        }
+
+        // Inicialização
+        function initGame() {
+            renderLevelSelector();
+            loadLevel(0);
+        }
+
+        // Renderiza seletor lateral de níveis
+        function renderLevelSelector() {
+            levelSelector.innerHTML = "";
+            GAME_LEVELS.forEach((lvl, idx) => {
+                const btn = document.createElement("button");
+                btn.className = `btn-level-select ${idx === currentLevelIndex ? 'active' : ''}`;
+                btn.id = `lvl-select-${idx}`;
+                btn.innerHTML = `
+                    <div class="level-title"><i class="fas fa-eye me-2 gold"></i>${lvl.name}</div>
+                    <div class="level-desc">${lvl.desc}</div>
+                `;
+                btn.onclick = () => { loadLevel(idx); };
+                levelSelector.appendChild(btn);
+            });
+        }
+
+        // Carrega o nível selecionado
+        function loadLevel(index) {
+            currentLevelIndex = index;
+            comboScore = 0;
+
+            document.querySelectorAll(".btn-level-select").forEach(btn => btn.classList.remove("active"));
+            const activeBtn = document.getElementById(`lvl-select-${index}`);
+            if (activeBtn) activeBtn.classList.add("active");
+
+            updateProgress();
+            generateChallenge();
+        }
+
+        // Atualiza progresso visual
+        function updateProgress() {
+            comboCounter.innerText = comboScore;
+            const percentage = (comboScore / TARGET_COMBO) * 100;
+            progressBar.style.width = `${percentage}%`;
+            levelBadgeDisplay.innerText = GAME_LEVELS[currentLevelIndex].name;
+        }
+
+        // Cria o desafio (Escolhe o acorde secreto e monta as opções)
+        function generateChallenge() {
+            hideFeedback();
+            const levelType = GAME_LEVELS[currentLevelIndex].type;
+            const chordsPool = ACORDES_BIBLIOTECA[levelType];
+            const tonicas = Object.keys(chordsPool);
+            
+            // 1. Define a tônica correta aleatoriamente
+            const correctTonica = tonicas[Math.floor(Math.random() * tonicas.length)];
+            const selectedShape = chordsPool[correctTonica][0];
+            
+            currentChord = {
+                tonica: correctTonica,
+                type: levelType,
+                fullname: `${correctTonica}${getSuffix(levelType)}`
+            };
+
+            // 2. Renderiza o SVG do acorde selecionado
+            chordSvgContainer.innerHTML = gerarSvgAcorde(correctTonica, selectedShape);
+
+            // 3. Prepara as alternativas (A correta + 3 erradas da mesma categoria)
+            let wrongOptions = tonicas
+                .filter(t => t !== correctTonica)
+                .map(t => `${t}${getSuffix(levelType)}`);
+            
+            // Embaralha as erradas e pega 3 delas
+            wrongOptions = wrongOptions.sort(() => Math.random() - 0.5).slice(0, 3);
+            
+            // Junta com a correta e embaralha tudo de novo
+            const finalAlternatives = [...wrongOptions, currentChord.fullname].sort(() => Math.random() - 0.5);
+
+            // 4. Injeta as alternativas em botões
+            optionsContainer.innerHTML = "";
+            finalAlternatives.forEach(option => {
+                const col = document.createElement("div");
+                col.className = "col";
+                col.innerHTML = `
+                    <button class="option-btn" onclick="checkAnswer('${option}')">${option}</button>
+                `;
+                optionsContainer.appendChild(col);
+            });
+        }
+
+        // Retorna o sufixo apropriado para exibição do nome do acorde
+        function getSuffix(type) {
+            if (type === "Maior") return "";
+            if (type === "Menor") return "m";
+            if (type === "Sétima (7)") return "7";
+            if (type === "Diminuto (m♭5)") return "dim";
+            return "";
+        }
+
+        // Avalia se o palpite está correto
+        function checkAnswer(selectedOption) {
+            const buttons = optionsContainer.querySelectorAll(".option-btn");
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedOption === currentChord.fullname) {
+                comboScore++;
+                showFeedback(true, `✨ Sensacional! Você reconheceu corretamente o acorde de "${selectedOption}"!`);
+                
+                if (comboScore >= TARGET_COMBO) {
+                    setTimeout(() => {
+                        advanceLevel();
+                    }, 1800);
+                    return;
+                }
+            } else {
+                comboScore = 0;
+                showFeedback(false, `❌ Ops, não foi dessa vez! Esse diagrama representa o acorde de "${currentChord.fullname}".`);
+            }
+
+            updateProgress();
+
+            setTimeout(() => {
+                generateChallenge();
+            }, 1800);
+        }
+
+        // Exibe o painel de feedback com cores ajustadas
+        function showFeedback(isCorrect, message) {
+            feedbackBox.innerText = message;
+            feedbackBox.className = `feedback-area p-3 mb-2 show ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
+        }
+
+        // Esconde o painel de feedback
+        function hideFeedback() {
+            feedbackBox.className = "feedback-area p-3 mb-2";
+        }
+
+        // Avança o nível do jogador
+        function advanceLevel() {
+            if (currentLevelIndex < GAME_LEVELS.length - 1) {
+                currentLevelIndex++;
+                comboScore = 0;
+                alert(`🎉 Fantástico! Você dominou a leitura visual dessa fase e avançou de nível!`);
+                renderLevelSelector();
+                loadLevel(currentLevelIndex);
+            } else {
+                alert(`🏆 Extraordinário! Você provou ter uma percepção visual aguçada para ler diagramas de acordes!`);
+                comboScore = 10;
+                updateProgress();
+            }
+        }
+
+        // Inicializador de carregamento
+        window.onload = initGame;
+    </script>
+
+    <script id="activate-navbar-links-script">
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileName = window.location.pathname.split('/').pop() || 'index.html';
+        const currentPage = fileName === '' ? 'index.html' : fileName;
+        const allLinks = document.querySelectorAll('.navbar-nav .nav-link, .dropdown-menu .dropdown-item');
+
+        allLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPage || href === './' + currentPage) {
+                link.classList.add('active');
+                if (link.classList.contains('dropdown-item')) {
+                    const dropdown = link.closest('.dropdown');
+                    if (dropdown) {
+                        const toggle = dropdown.querySelector('.dropdown-toggle');
+                        if (toggle) {
+                            toggle.classList.add('active');
+                        }
+                    }
+                }
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        if (currentPage === 'index.html' || currentPage === '') {
+            const homeLink = document.querySelector('.navbar-nav .nav-link[href="index.html"]');
+            if (homeLink) homeLink.classList.add('active');
+        }
+    });
+    </script>
+</body>
+</html>

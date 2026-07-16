@@ -5,18 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Capítulo II - Fundamentos Físico-Acústicos | Tratado de Musicologia</title>
     <meta name="description" content="Capítulo II do Tratado de Musicologia e Harmonia Tonal - Fundamentos Físico-Acústicos da Matéria Musical" />
-    
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    
     <link rel="stylesheet" href="css/css/style.css" />
 </head>
 <body>
 
+    <!-- ===== NAVBAR PADRÃO COMPLETA ===== -->
     <nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">
         <div class="container-fluid container-md">
             <a class="navbar-brand nav-brand-title" href="index.html">
@@ -30,11 +28,48 @@
                     <li class="nav-item">
                         <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Início</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="capitulo1.html"><i class="fas fa-book me-1"></i> Capítulos</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="capitulosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-book me-1"></i> Capítulos
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capitulosDropdown">
+                            <li><a class="dropdown-item" href="capitulo1.html">Capítulo 1</a></li>
+                            <li><a class="dropdown-item" href="capitulo2.html">Capítulo 2</a></li>
+                            <li><a class="dropdown-item" href="capitulo3.html">Capítulo 3</a></li>
+                            <li><a class="dropdown-item" href="capitulo4.html">Capítulo 4</a></li>
+                            <li><a class="dropdown-item" href="capitulo5.html">Capítulo 5</a></li>
+                            <li><a class="dropdown-item" href="capitulo6.html">Capítulo 6</a></li>
+                            <li><a class="dropdown-item" href="capitulo7.html">Capítulo 7</a></li>
+                            <li><a class="dropdown-item" href="capitulo8.html">Capítulo 8</a></li>
+                            <li><a class="dropdown-item" href="capitulo9.html">Capítulo 9</a></li>
+                            <li><a class="dropdown-item" href="capitulo10.html">Capítulo 10</a></li>
+                            <li><a class="dropdown-item" href="capitulo11.html">Capítulo 11</a></li>
+                            <li><a class="dropdown-item" href="capitulo12.html">Capítulo 12</a></li>
+                            <li><a class="dropdown-item" href="capitulo13.html">Capítulo 13</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="apendice.html"><i class="fas fa-guitar me-1"></i> Acordes</a>
+                        <a class="nav-link" href="acordes.html"><i class="fas fa-guitar me-1"></i> Acordes</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="jogosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-gamepad me-1"></i> Jogos
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="jogosDropdown">
+                            <li>
+                                <a class="dropdown-item" href="jogo-imagem.html">
+                                    <i class="fas fa-eye me-2"></i> Desafio Visual
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="jogos.html">
+                                    <i class="fas fa-music me-2"></i> Identificação de Notas
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="apendice.html"><i class="fas fa-table me-1"></i> Apêndice</a>
                     </li>
                 </ul>
             </div>
@@ -43,18 +78,15 @@
 
     <main class="chapter-content py-5" style="margin-top: 70px;">
         <div class="container">
-
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent p-0">
                     <li class="breadcrumb-item"><a href="index.html">Início</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Capítulo II</li>
                 </ol>
             </nav>
-
             <span class="section-tag"><i class="fas fa-wave-square"></i> Capítulo II</span>
             <h1>Fundamentos <span class="gold">Físico-Acústicos</span> da Matéria Musical</h1>
             <p class="chapter-subtitle">A natureza ondulatória do som, série harmônica e temperamento igualitário</p>
-
             <h2>3.1 A Natureza Ondulatória do Som: Frequência, Amplitude e Timbre</h2>
             <p>
                 Do ponto de vista puramente físico, o som é uma onda mecânica longitudinal que se propaga em meio elástico
@@ -66,14 +98,12 @@
                 <li><strong>Amplitude (Intensidade):</strong> Relaciona-se ao volume ou força do som, medida em decibéis (dB).</li>
                 <li><strong>Timbre:</strong> A cor sonora que permite distinguir um violão de um piano, mesmo que toquem a mesma nota.</li>
             </ul>
-
             <h2>3.2 A Série Harmônica e a Justificativa Física das Consonâncias</h2>
             <p>
                 Quando uma corda de violão ou o encordoamento de um piano é percutido, ela não vibra apenas em sua totalidade.
                 A corda divide-se simultaneamente em frações geométricas (metade, terços, quartos, quintos etc.), gerando
                 frequências secundárias que ecoam em conjunto com a frequência principal.
             </p>
-
             <div class="callout">
                 <i class="fas fa-calculator"></i>
                 <strong>x¹² = 2</strong> → <strong>x = ∜√2 ≈ 1,059463</strong>
@@ -82,7 +112,6 @@
                     Este valor é a raiz décima segunda de dois, e é o número que rege a afinação de todos os instrumentos modernos.
                 </span>
             </div>
-
             <nav class="chapter-nav mt-5">
                 <a href="capitulo1.html">
                     <span class="nav-label"><i class="fas fa-arrow-left"></i> Anterior</span>
@@ -93,7 +122,6 @@
                     <span class="nav-title">Capítulo III — Morfologia dos Acordes (Tríades)</span>
                 </a>
             </nav>
-
         </div>
     </main>
 
@@ -108,6 +136,33 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6Rzs3g7mGbJsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"></script>
     <script src="js/js/main.js"></script>
-
+    <script id="activate-navbar-links-script">
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileName = window.location.pathname.split('/').pop() || 'index.html';
+        const currentPage = fileName === '' ? 'index.html' : fileName;
+        const allLinks = document.querySelectorAll('.navbar-nav .nav-link, .dropdown-menu .dropdown-item');
+        allLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPage || href === './' + currentPage) {
+                link.classList.add('active');
+                if (link.classList.contains('dropdown-item')) {
+                    const dropdown = link.closest('.dropdown');
+                    if (dropdown) {
+                        const toggle = dropdown.querySelector('.dropdown-toggle');
+                        if (toggle) {
+                            toggle.classList.add('active');
+                        }
+                    }
+                }
+            } else {
+                link.classList.remove('active');
+            }
+        });
+        if (currentPage === 'index.html' || currentPage === '') {
+            const homeLink = document.querySelector('.navbar-nav .nav-link[href="index.html"]');
+            if (homeLink) homeLink.classList.add('active');
+        }
+    });
+    </script>
 </body>
 </html>

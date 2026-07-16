@@ -14,10 +14,37 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     
     <link rel="stylesheet" href="css/css/style.css" />
-</head>
+
+    <style>
+        .dropdown-menu {
+            min-width: 200px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 1px solid rgba(201, 169, 89, 0.15);
+        }
+        .dropdown-item {
+            color: #e8d5a3 !important;
+            padding: 10px 16px;
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .dropdown-item:hover,
+        .dropdown-item.active {
+            background: rgba(201, 169, 89, 0.1) !important;
+            border-left-color: #c9a959;
+            color: #fff !important;
+        }
+        .nav-link.dropdown-toggle::after {
+            border-color: #c9a959;
+        }
+        .nav-link.dropdown-toggle[aria-expanded="true"]::after {
+            transform: rotate(180deg);
+        }
+    </style>
+
+    </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">
+                        <nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">
         <div class="container-fluid container-md">
             <a class="navbar-brand nav-brand-title" href="index.html">
                 <span>Tratado</span> · Musicologia
@@ -30,11 +57,28 @@
                     <li class="nav-item">
                         <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Início</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="capitulo1.html"><i class="fas fa-book me-1"></i> Capítulos</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="capitulosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-book me-1"></i> Capítulos
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capitulosDropdown">
+                            <li><a class="dropdown-item" href="capitulo1.html">Capítulo 1</a></li>
+                            <li><a class="dropdown-item" href="capitulo2.html">Capítulo 2</a></li>
+                            <li><a class="dropdown-item" href="capitulo3.html">Capítulo 3</a></li>
+                            <li><a class="dropdown-item" href="capitulo4.html">Capítulo 4</a></li>
+                            <li><a class="dropdown-item" href="capitulo5.html">Capítulo 5</a></li>
+                            <li><a class="dropdown-item" href="capitulo6.html">Capítulo 6</a></li>
+                            <li><a class="dropdown-item" href="capitulo7.html">Capítulo 7</a></li>
+                            <li><a class="dropdown-item" href="capitulo8.html">Capítulo 8</a></li>
+                            <li><a class="dropdown-item" href="capitulo9.html">Capítulo 9</a></li>
+                            <li><a class="dropdown-item" href="capitulo10.html">Capítulo 10</a></li>
+                            <li><a class="dropdown-item" href="capitulo11.html">Capítulo 11</a></li>
+                            <li><a class="dropdown-item" href="capitulo12.html">Capítulo 12</a></li>
+                            <li><a class="dropdown-item" href="capitulo13.html">Capítulo 13</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="apendice.html"><i class="fas fa-guitar me-1"></i> Acordes</a>
+                        <a class="nav-link" href="acordes.html"><i class="fas fa-guitar me-1"></i> Acordes</a>
                     </li>
                 </ul>
             </div>
@@ -101,5 +145,37 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6Rzs3g7mGbJsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous"></script>
     <script src="js/js/main.js"></script>
 
-</body>
+<script id="activate-navbar-links-script">
+document.addEventListener('DOMContentLoaded', function() {
+    const fileName = window.location.pathname.split('/').pop() || 'index.html';
+    const currentPage = fileName === '' ? 'index.html' : fileName;
+    const allLinks = document.querySelectorAll('.navbar-nav .nav-link, .dropdown-menu .dropdown-item');
+
+    allLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPage || href === './' + currentPage) {
+            link.classList.add('active');
+            if (link.classList.contains('dropdown-item')) {
+                const dropdown = link.closest('.dropdown');
+                if (dropdown) {
+                    const toggle = dropdown.querySelector('.dropdown-toggle');
+                    if (toggle) {
+                        toggle.classList.add('active');
+                    }
+                }
+            }
+        } else {
+            link.classList.remove('active');
+        }
+    });
+
+    if (currentPage === 'index.html' || currentPage === '') {
+        const homeLink = document.querySelector('.navbar-nav .nav-link[href="index.html"]');
+        if (homeLink) homeLink.classList.add('active');
+    }
+});
+</script></body>
 </html>
+
+
+

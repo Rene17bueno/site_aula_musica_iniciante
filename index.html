@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR" class="h-100">
 <head>
     <meta charset="UTF-8" />
@@ -13,9 +13,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/css/style.css" />
     
     <style>
+        .dropdown-menu {
+            min-width: 200px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 1px solid rgba(201, 169, 89, 0.15);
+        }
+        .dropdown-item {
+            color: #e8d5a3 !important;
+            padding: 10px 16px;
+            border-left: 3px solid transparent;
+            transition: all 0.2s ease;
+        }
+        .dropdown-item:hover,
+        .dropdown-item.active {
+            background: rgba(201, 169, 89, 0.1) !important;
+            border-left-color: #c9a959;
+            color: #fff !important;
+        }
+        .nav-link.dropdown-toggle::after {
+            border-color: #c9a959;
+        }
+        .nav-link.dropdown-toggle[aria-expanded="true"]::after {
+            transform: rotate(180deg);
+        }
         .hero-section {
             min-height: 60vh;
             display: flex;
@@ -64,10 +87,46 @@
             background: linear-gradient(90deg, transparent, #c9a959, transparent);
             margin: 20px auto;
         }
+        .chapter-list-section {
+            background: radial-gradient(circle at top center, rgba(201, 169, 89, 0.08), transparent 45%);
+        }
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+        .chapter-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 169, 89, 0.1);
+            border-radius: 18px;
+            padding: 18px 16px;
+            color: #f4efe4;
+            text-decoration: none;
+            transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+        }
+        .chapter-card:hover,
+        .chapter-card:focus {
+            transform: translateY(-3px);
+            border-color: rgba(201, 169, 89, 0.4);
+            background: rgba(201, 169, 89, 0.08);
+            color: #fff;
+        }
+        .chapter-card .chapter-label {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+        .chapter-card .chapter-copy {
+            color: #bfb8a8;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body class="d-flex flex-column h-100">
 
+    <!-- ===== NAVBAR ===== -->
     <nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">
         <div class="container-fluid container-md">
             <a class="navbar-brand nav-brand-title" href="index.html">
@@ -79,19 +138,57 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
                 <ul class="navbar-nav mb-2 mb-lg-0 gap-2 text-center text-lg-start pt-3 pt-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.html"><i class="fas fa-home me-1"></i> Início</a>
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Início</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="capitulo1.html"><i class="fas fa-book me-1"></i> Capítulos</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="capitulosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-book me-1"></i> Capítulos
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capitulosDropdown">
+                            <li><a class="dropdown-item" href="capitulo1.html">Capítulo 1</a></li>
+                            <li><a class="dropdown-item" href="capitulo2.html">Capítulo 2</a></li>
+                            <li><a class="dropdown-item" href="capitulo3.html">Capítulo 3</a></li>
+                            <li><a class="dropdown-item" href="capitulo4.html">Capítulo 4</a></li>
+                            <li><a class="dropdown-item" href="capitulo5.html">Capítulo 5</a></li>
+                            <li><a class="dropdown-item" href="capitulo6.html">Capítulo 6</a></li>
+                            <li><a class="dropdown-item" href="capitulo7.html">Capítulo 7</a></li>
+                            <li><a class="dropdown-item" href="capitulo8.html">Capítulo 8</a></li>
+                            <li><a class="dropdown-item" href="capitulo9.html">Capítulo 9</a></li>
+                            <li><a class="dropdown-item" href="capitulo10.html">Capítulo 10</a></li>
+                            <li><a class="dropdown-item" href="capitulo11.html">Capítulo 11</a></li>
+                            <li><a class="dropdown-item" href="capitulo12.html">Capítulo 12</a></li>
+                            <li><a class="dropdown-item" href="capitulo13.html">Capítulo 13</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="acordes.html"><i class="fas fa-guitar me-1"></i> Acordes</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="jogosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-gamepad me-1"></i> Jogos
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="jogosDropdown">
+                            <li>
+                                <a class="dropdown-item" href="jogo-imagem.html">
+                                    <i class="fas fa-eye me-2"></i> Desafio Visual
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="jogos.html">
+                                    <i class="fas fa-music me-2"></i> Identificação de Notas
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="apendice.html"><i class="fas fa-table me-1"></i> Apêndice</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
+    <!-- ===== HERO SECTION ===== -->
     <header class="hero-section text-center py-5 flex-grow-1">
         <div class="container-fluid container-md pt-5">
             <div class="row justify-content-center mx-0">
@@ -112,12 +209,82 @@
         </div>
     </header>
 
+    <!-- ===== LISTA DE CAPÍTULOS ===== -->
+    <section id="capitulos" class="chapter-list-section py-5">
+        <div class="container-fluid container-md">
+            <div class="row justify-content-center mx-0">
+                <div class="col-12 col-md-10 col-lg-9 text-center mb-4">
+                    <div class="hero-badge mb-3"><i class="fas fa-list me-2"></i> Lista de Capítulos</div>
+                    <h2 class="display-6 fw-bold">Acesse cada capítulo do tratado</h2>
+                    <p class="text-muted mx-auto" style="max-width: 640px; font-weight: 300;">
+                        Selecione um capítulo abaixo para navegar diretamente ao conteúdo correspondente.
+                    </p>
+                </div>
+            </div>
+            <div class="chapter-grid">
+                <a class="chapter-card" href="capitulo1.html">
+                    <span class="chapter-label">Capítulo 1</span>
+                    <span class="chapter-copy">Epistemologia e Arqueologia</span>
+                </a>
+                <a class="chapter-card" href="capitulo2.html">
+                    <span class="chapter-label">Capítulo 2</span>
+                    <span class="chapter-copy">Fundamentos Físico-Acústicos</span>
+                </a>
+                <a class="chapter-card" href="capitulo3.html">
+                    <span class="chapter-label">Capítulo 3</span>
+                    <span class="chapter-copy">Morfologia dos Acordes (Tríades)</span>
+                </a>
+                <a class="chapter-card" href="capitulo4.html">
+                    <span class="chapter-label">Capítulo 4</span>
+                    <span class="chapter-copy">Arquitetura do Campo Harmônico Maior</span>
+                </a>
+                <a class="chapter-card" href="capitulo5.html">
+                    <span class="chapter-label">Capítulo 5</span>
+                    <span class="chapter-copy">Morfologia Avançada (Tétrades)</span>
+                </a>
+                <a class="chapter-card" href="capitulo6.html">
+                    <span class="chapter-label">Capítulo 6</span>
+                    <span class="chapter-copy">Os Três Campos Harmônicos Menores</span>
+                </a>
+                <a class="chapter-card" href="capitulo7.html">
+                    <span class="chapter-label">Capítulo 7</span>
+                    <span class="chapter-copy">Cadências, Progressões e Fluxos Acústicos</span>
+                </a>
+                <a class="chapter-card" href="capitulo8.html">
+                    <span class="chapter-label">Capítulo 8</span>
+                    <span class="chapter-copy">Mecânica e Inversão no Teclado</span>
+                </a>
+                <a class="chapter-card" href="capitulo9.html">
+                    <span class="chapter-label">Capítulo 9</span>
+                    <span class="chapter-copy">Geometria do Braço do Violão (CAGED)</span>
+                </a>
+                <a class="chapter-card" href="capitulo10.html">
+                    <span class="chapter-label">Capítulo 10</span>
+                    <span class="chapter-copy">Dominantes Secundários</span>
+                </a>
+                <a class="chapter-card" href="capitulo11.html">
+                    <span class="chapter-label">Capítulo 11</span>
+                    <span class="chapter-copy">Empréstimo Modal e Modulações</span>
+                </a>
+                <a class="chapter-card" href="capitulo12.html">
+                    <span class="chapter-label">Capítulo 12</span>
+                    <span class="chapter-copy">Extensões e Tensões Harmônicas</span>
+                </a>
+                <a class="chapter-card" href="capitulo13.html">
+                    <span class="chapter-label">Capítulo 13</span>
+                    <span class="chapter-copy">Análise Composicional e Rearmonização</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
     <footer class="site-footer py-4 mt-auto">
         <div class="container text-center">
             <div class="footer-brand mb-2"><span>Tratado</span> · Musicologia</div>
-            <div class="small mb-3">
+            <div class="small mb-3" style="color: #b5b0a8;">
                 <i class="fas fa-copyright me-1" style="color:#c9a959;"></i>
-                2026 · Renê Aparecido Bueno · Maringá — PR
+                2026 · Renê Aparecido Bueno · Maringá · PR
             </div>
             <div class="footer-social d-flex justify-content-center gap-3">
                 <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
@@ -128,8 +295,40 @@
         </div>
     </footer>
 
+    <!-- Bootstrap & Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/js/main.js"></script>
 
+    <!-- Script para ativar dinamicamente os links da Navbar -->
+    <script id="activate-navbar-links-script">
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileName = window.location.pathname.split('/').pop() || 'index.html';
+        const currentPage = fileName === '' ? 'index.html' : fileName;
+        const allLinks = document.querySelectorAll('.navbar-nav .nav-link, .dropdown-menu .dropdown-item');
+
+        allLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPage || href === './' + currentPage) {
+                link.classList.add('active');
+                if (link.classList.contains('dropdown-item')) {
+                    const dropdown = link.closest('.dropdown');
+                    if (dropdown) {
+                        const toggle = dropdown.querySelector('.dropdown-toggle');
+                        if (toggle) {
+                            toggle.classList.add('active');
+                        }
+                    }
+                }
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        if (currentPage === 'index.html' || currentPage === '') {
+            const homeLink = document.querySelector('.navbar-nav .nav-link[href="index.html"]');
+            if (homeLink) homeLink.classList.add('active');
+        }
+    });
+    </script>
 </body>
 </html>

@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafios Harmônicos · Tratado Musicologia</title>
+    <!-- Fonts & Bootstrap (cdn) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* ===== ESTILOS GERAIS INTEGRADOS ===== */
+        body {
+            background: #0e0d1a;
+            color: #e4dfd7;
+            font-family: 'Inter', sans-serif;
+            padding-top: 90px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .gold {
+            color: #e8d5a3;
+        }
+        .bg-dark-custom {
+            background: #14131f;
+        }
+        .border-gold {
+            border-color: rgba(201, 169, 89, 0.3) !important;
+        }
+        .text-gold {
+            color: #e8d5a3;
+        }
+        .text-muted {
+            color: #b5b0a8 !important;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar-custom {
+            background: #0e0d1aee;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(201, 169, 89, 0.15);
+        }
+        .navbar-custom .nav-link {
+            color: #d1cbdc !important;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #e8d5a3 !important;
+        }
+        .nav-brand-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #e8d5a3 !important;
+            text-decoration: none;
+        }
+
+        .chapter-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        .section-tag {
+            display: inline-block;
+            background: rgba(201, 169, 89, 0.12);
+            color: #e8d5a3;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            padding: 5px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            text-transform: uppercase;
+        }
+
+        /* ===== CONTAINER DO JOGO ===== */
+        .game-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            transition: 0.3s ease;
+        }
+        
+        .level-badge {
+            background: rgba(201, 169, 89, 0.2);
+            color: #ffffff;
+            border: 1px solid #e8d5a3;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 6px 18px;
+            border-radius: 50px;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(201, 169, 89, 0.2);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c9a959, #f7e7c4);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* ===== PERGUNTA ===== */
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: #ffffff;
+            margin: 25px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* ===== BOTÕES DE RESPOSTA ===== */
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 169, 89, 0.35);
+            color: #ffffff !important;
+            padding: 16px 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        .option-btn:hover {
+            background: rgba(201, 169, 89, 0.25);
+            border-color: #f7e7c4;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 89, 0.2);
+        }
+
+        /* ===== FEEDBACK ===== */
+        .feedback-area {
+            min-height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .feedback-area.show {
+            opacity: 1;
+        }
+        .feedback-correct {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+        .feedback-incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+        }
+
+        /* ===== SELETOR DE NÍVEIS LATERAL ===== */
+        .btn-level-select {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(201, 169, 89, 0.15);
+            color: #e4dfd7;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .btn-level-select .level-title {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-level-select .level-desc {
+            color: #b5b0a8;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .btn-level-select:hover, .btn-level-select.active {
+            background: rgba(201, 169, 89, 0.15);
+            border-color: #e8d5a3;
+        }
+        .btn-level-select.active .level-title {
+            color: #e8d5a3;
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            border-top: 1px solid rgba(201, 169, 89, 0.1);
+            background: #0e0d1a;
+            padding: 1.5rem 0;
+        }
+        .site-footer .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #e8d5a3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+        <div class="container-fluid container-md">
+            <a class="navbar-brand nav-brand-title" href="index.html">
+                <span>Tratado</span> · Musicologia
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                <ul class="navbar-nav mb-2 mb-lg-0 gap-2 text-center text-lg-start pt-3 pt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Início</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="capitulosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-book me-1"></i> Capítulos
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capitulosDropdown">
+                            <li><a class="dropdown-item" href="capitulo1.html">Capítulo 1</a></li>
+                            <li><a class="dropdown-item" href="capitulo2.html">Capítulo 2</a></li>
+                            <li><a class="dropdown-item" href="capitulo3.html">Capítulo 3</a></li>
+                            <li><a class="dropdown-item" href="capitulo4.html">Capítulo 4</a></li>
+                            <li><a class="dropdown-item" href="capitulo5.html">Capítulo 5</a></li>
+                            <li><a class="dropdown-item" href="capitulo6.html">Capítulo 6</a></li>
+                            <li><a class="dropdown-item" href="capitulo7.html">Capítulo 7</a></li>
+                            <li><a class="dropdown-item" href="capitulo8.html">Capítulo 8</a></li>
+                            <li><a class="dropdown-item" href="capitulo9.html">Capítulo 9</a></li>
+                            <li><a class="dropdown-item" href="capitulo10.html">Capítulo 10</a></li>
+                            <li><a class="dropdown-item" href="capitulo11.html">Capítulo 11</a></li>
+                            <li><a class="dropdown-item" href="capitulo12.html">Capítulo 12</a></li>
+                            <li><a class="dropdown-item" href="capitulo13.html">Capítulo 13</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="acordes.html"><i class="fas fa-guitar me-1"></i> Acordes</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="#" id="jogosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-gamepad me-1"></i> Jogos
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="jogosDropdown">
+                            <li>
+                                <a class="dropdown-item" href="jogo-imagem.html">
+                                    <i class="fas fa-eye me-2"></i> Desafio Visual
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item active" href="jogos.html">
+                                    <i class="fas fa-music me-2"></i> Identificação de Notas
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="apendice.html"><i class="fas fa-table me-1"></i> Apêndice</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <main class="chapter-content">
+        <div class="container">
+            
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <span class="section-tag"><i class="fas fa-graduation-cap me-1"></i> Treinamento Harmônico</span>
+                    <h1 class="display-5 fw-bold mt-2">Desafios <span class="gold">de Cifragem</span></h1>
+                    <p class="text-muted">Domine a leitura de acordes maiores, menores e com sétima alcançando as metas de acerto de cada fase!</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Painel Lateral: Seleção de Fase e Regras -->
+                <div class="col-lg-4">
+                    <div class="game-card h-100">
+                        <h4 class="fw-bold mb-3" style="color: #e8d5a3;"><i class="fas fa-map-signs gold me-2"></i>Escolha sua Fase</h4>
+                        <p class="text-muted small">Clique abaixo para pular ou treinar uma fase específica:</p>
+                        
+                        <div class="d-flex flex-column gap-2" id="levelSelector">
+                            <!-- Injetado dinamicamente via JS -->
+                        </div>
+
+                        <hr class="border-gold my-4">
+
+                        <h5 class="fw-bold mb-2 text-gold"><i class="fas fa-info-circle me-2"></i>Como Jogar?</h5>
+                        <ul class="text-muted small ps-3" style="line-height: 1.6;">
+                            <li>Escolha a letra correspondente à cifra descrita na pergunta.</li>
+                            <li>Você precisa de <strong class="text-white">10 acertos consecutivos</strong> (Combo x10) para subir automaticamente de fase.</li>
+                            <li>Se você errar, o seu combo reinicia para garantir que você memorize perfeitamente!</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Painel Central: O Jogo Ativo -->
+                <div class="col-lg-8">
+                    <div class="game-card text-center position-relative">
+                        <!-- Cabeçalho do Desafio -->
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+                            <span class="level-badge" id="levelBadgeDisplay">Fase 1: Maiores</span>
+                            <div class="fs-6 text-muted">
+                                Combo: <span id="comboCounter" class="gold fw-bold">0</span> / 10
+                            </div>
+                        </div>
+
+                        <!-- Barra de Progresso do Combo -->
+                        <div class="progress-container mb-4">
+                            <div class="progress-bar-fill" id="progressBar"></div>
+                        </div>
+
+                        <!-- Pergunta Principal -->
+                        <div class="question-text" id="questionBox">
+                            <!-- Injetado dinamicamente via JS -->
+                        </div>
+
+                        <!-- Alternativas -->
+                        <div class="row row-cols-1 row-cols-sm-2 g-3 px-md-4 mb-4" id="optionsContainer">
+                            <!-- Botões de Opção gerados via JS -->
+                        </div>
+
+                        <!-- Área de Feedback -->
+                        <div class="feedback-area p-3 mb-2" id="feedbackBox">
+                            Excelente trabalho! Parabéns!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+        <div class="container text-center">
+            <div class="footer-brand mb-1"><span>Tratado</span> · Musicologia</div>
+            <div class="small text-muted">
+                <i class="fas fa-copyright" style="color:#e8d5a3;"></i> 2026 · Renê Aparecido Bueno · Maringá - PR
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ===== SISTEMA DO JOGO (JAVASCRIPT) ===== -->
+    <script>
+        // Configuração dos Níveis do Jogo
+        const GAME_LEVELS = [
+            {
+                id: 1,
+                name: "Fase 1: Acordes Maiores",
+                desc: "Associação básica de Cifras Maiores (A, B, C, D, E, F, G)",
+                questions: [
+                    { chord: "Dó", correct: "C", pool: ["A", "B", "C", "D", "E", "F", "G"] },
+                    { chord: "Ré", correct: "D", pool: ["A", "B", "C", "D", "E", "F", "G"] },
+                    { chord: "Mi", correct: "E", pool: ["A", "B", "C", "D", "E", "F", "G"] },
+                    { chord: "Fá", correct: "F", pool: ["A", "B", "C", "D", "E", "F", "G"] },
+                    { chord: "Sol", correct: "G", pool: ["A", "B", "C", "D", "E", "F", "G"] },
+                    { chord: "Lá", correct: "A", pool: ["A", "B", "C", "D", "E", "F", "G"] },
+                    { chord: "Si", correct: "B", pool: ["A", "B", "C", "D", "E", "F", "G"] }
+                ]
+            },
+            {
+                id: 2,
+                name: "Fase 2: Acordes Menores",
+                desc: "Treinamento de Cifras Menores (Am, Bm, Cm, Dm, Em, Fm, Gm)",
+                questions: [
+                    { chord: "Dó Menor", correct: "Cm", pool: ["Am", "Bm", "Cm", "Dm", "Em", "Fm", "Gm"] },
+                    { chord: "Ré Menor", correct: "Dm", pool: ["Am", "Bm", "Cm", "Dm", "Em", "Fm", "Gm"] },
+                    { chord: "Mi Menor", correct: "Em", pool: ["Am", "Bm", "Cm", "Dm", "Em", "Fm", "Gm"] },
+                    { chord: "Fá Menor", correct: "Fm", pool: ["Am", "Bm", "Cm", "Dm", "Em", "Fm", "Gm"] },
+                    { chord: "Sol Menor", correct: "Gm", pool: ["Am", "Bm", "Cm", "Dm", "Em", "Fm", "Gm"] },
+                    { chord: "Lá Menor", correct: "Am", pool: ["Am", "Bm", "Cm", "Dm", "Em", "Fm", "Gm"] },
+                    { chord: "Si Menor", correct: "Bm", pool: ["Am", "Bm", "Cm", "Dm", "Em", "Fm", "Gm"] }
+                ]
+            },
+            {
+                id: 3,
+                name: "Fase 3: Sétima Dominante (7)",
+                desc: "Treinamento de acordes Maiores com Sétima (C7, D7, E7, F7, G7, A7, B7)",
+                questions: [
+                    { chord: "Dó com Sétima", correct: "C7", pool: ["C7", "D7", "E7", "F7", "G7", "A7", "B7"] },
+                    { chord: "Ré com Sétima", correct: "D7", pool: ["C7", "D7", "E7", "F7", "G7", "A7", "B7"] },
+                    { chord: "Mi com Sétima", correct: "E7", pool: ["C7", "D7", "E7", "F7", "G7", "A7", "B7"] },
+                    { chord: "Fá com Sétima", correct: "F7", pool: ["C7", "D7", "E7", "F7", "G7", "A7", "B7"] },
+                    { chord: "Sol com Sétima", correct: "G7", pool: ["C7", "D7", "E7", "F7", "G7", "A7", "B7"] },
+                    { chord: "Lá com Sétima", correct: "A7", pool: ["C7", "D7", "E7", "F7", "G7", "A7", "B7"] },
+                    { chord: "Si com Sétima", correct: "B7", pool: ["C7", "D7", "E7", "F7", "G7", "A7", "B7"] }
+                ]
+            },
+            {
+                id: 4,
+                name: "Fase 4: Sétima Menor (m7)",
+                desc: "Associação avançada de acordes Menores com Sétima (Cm7, Dm7, Em7, Fm7, Gm7, Am7, Bm7)",
+                questions: [
+                    { chord: "Dó Menor com Sétima", correct: "Cm7", pool: ["Cm7", "Dm7", "Em7", "Fm7", "Gm7", "Am7", "Bm7"] },
+                    { chord: "Ré Menor com Sétima", correct: "Dm7", pool: ["Cm7", "Dm7", "Em7", "Fm7", "Gm7", "Am7", "Bm7"] },
+                    { chord: "Mi Menor com Sétima", correct: "Em7", pool: ["Cm7", "Dm7", "Em7", "Fm7", "Gm7", "Am7", "Bm7"] },
+                    { chord: "Fá Menor com Sétima", correct: "Fm7", pool: ["Cm7", "Dm7", "Em7", "Fm7", "Gm7", "Am7", "Bm7"] },
+                    { chord: "Sol Menor com Sétima", correct: "Gm7", pool: ["Cm7", "Dm7", "Em7", "Fm7", "Gm7", "Am7", "Bm7"] },
+                    { chord: "Lá Menor com Sétima", correct: "Am7", pool: ["Cm7", "Dm7", "Em7", "Fm7", "Gm7", "Am7", "Bm7"] },
+                    { chord: "Si Menor com Sétima", correct: "Bm7", pool: ["Cm7", "Dm7", "Em7", "Fm7", "Gm7", "Am7", "Bm7"] }
+                ]
+            }
+        ];
+
+        // Estado do Jogo
+        let currentLevelIndex = 0;
+        let comboScore = 0;
+        const TARGET_COMBO = 10;
+        let currentQuestion = null;
+
+        // Elementos DOM
+        const levelBadgeDisplay = document.getElementById("levelBadgeDisplay");
+        const comboCounter = document.getElementById("comboCounter");
+        const progressBar = document.getElementById("progressBar");
+        const questionBox = document.getElementById("questionBox");
+        const optionsContainer = document.getElementById("optionsContainer");
+        const feedbackBox = document.getElementById("feedbackBox");
+        const levelSelector = document.getElementById("levelSelector");
+
+        // Inicialização
+        function initGame() {
+            renderLevelSelector();
+            loadLevel(0);
+        }
+
+        // Renderiza o seletor lateral
+        function renderLevelSelector() {
+            levelSelector.innerHTML = "";
+            GAME_LEVELS.forEach((lvl, idx) => {
+                const btn = document.createElement("button");
+                btn.className = `btn-level-select ${idx === currentLevelIndex ? 'active' : ''}`;
+                btn.id = `lvl-select-${idx}`;
+                btn.innerHTML = `
+                    <div class="level-title"><i class="fas fa-music me-2 gold"></i>${lvl.name}</div>
+                    <div class="level-desc">${lvl.desc}</div>
+                `;
+                btn.onclick = () => {
+                    loadLevel(idx);
+                };
+                levelSelector.appendChild(btn);
+            });
+        }
+
+        // Carrega um nível específico
+        function loadLevel(index) {
+            currentLevelIndex = index;
+            comboScore = 0; 
+            
+            // Atualiza botões ativos no seletor lateral
+            document.querySelectorAll(".btn-level-select").forEach(btn => btn.classList.remove("active"));
+            const activeBtn = document.getElementById(`lvl-select-${index}`);
+            if (activeBtn) activeBtn.classList.add("active");
+
+            updateProgress();
+            generateQuestion();
+        }
+
+        // Atualiza combo e barra visual
+        function updateProgress() {
+            comboCounter.innerText = comboScore;
+            const percentage = (comboScore / TARGET_COMBO) * 100;
+            progressBar.style.width = `${percentage}%`;
+            levelBadgeDisplay.innerText = GAME_LEVELS[currentLevelIndex].name;
+        }
+
+        // Gera uma pergunta aleatória do nível atual
+        function generateQuestion() {
+            hideFeedback();
+            const level = GAME_LEVELS[currentLevelIndex];
+            const randomIndex = Math.floor(Math.random() * level.questions.length);
+            currentQuestion = level.questions[randomIndex];
+
+            questionBox.innerHTML = `Qual cifra representa o acorde de <span class="gold ms-2">${currentQuestion.chord}</span>?`;
+
+            // Prepara as alternativas (Embaralha as opções do pool)
+            optionsContainer.innerHTML = "";
+            const shuffledPool = [...currentQuestion.pool].sort(() => Math.random() - 0.5);
+
+            shuffledPool.forEach(option => {
+                const col = document.createElement("div");
+                col.className = "col";
+                col.innerHTML = `
+                    <button class="option-btn" onclick="checkAnswer('${option}')">${option}</button>
+                `;
+                optionsContainer.appendChild(col);
+            });
+        }
+
+        // Valida se a resposta está correta
+        function checkAnswer(selectedOption) {
+            const buttons = optionsContainer.querySelectorAll(".option-btn");
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedOption === currentQuestion.correct) {
+                comboScore++;
+                showFeedback(true, `✨ Maravilha! Você acertou! "${selectedOption}" é o acorde de ${currentQuestion.chord}!`);
+                
+                if (comboScore >= TARGET_COMBO) {
+                    setTimeout(() => {
+                        advanceLevel();
+                    }, 1800);
+                    return;
+                }
+            } else {
+                comboScore = 0; 
+                showFeedback(false, `❌ Ops, tente novamente! "${selectedOption}" não é o acorde de ${currentQuestion.chord}. O correto é "${currentQuestion.correct}".`);
+            }
+
+            updateProgress();
+
+            setTimeout(() => {
+                generateQuestion();
+            }, 1800);
+        }
+
+        // Exibe o painel de feedback com alto contraste
+        function showFeedback(isCorrect, message) {
+            feedbackBox.innerText = message;
+            feedbackBox.className = `feedback-area p-3 mb-2 show ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
+        }
+
+        // Esconde o painel de feedback
+        function hideFeedback() {
+            feedbackBox.className = "feedback-area p-3 mb-2";
+        }
+
+        // Avança de fase
+        function advanceLevel() {
+            if (currentLevelIndex < GAME_LEVELS.length - 1) {
+                currentLevelIndex++;
+                comboScore = 0;
+                alert(`🎉 Parabéns! Você completou 10 acertos seguidos e subiu para a próxima fase!`);
+                renderLevelSelector();
+                loadLevel(currentLevelIndex);
+            } else {
+                alert(`🏆 Incrível! Você completou todas as fases do Desafio Harmônico!`);
+                comboScore = 10;
+                updateProgress();
+            }
+        }
+
+        // Inicia tudo
+        window.onload = initGame;
+    </script>
+
+    <script id="activate-navbar-links-script">
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileName = window.location.pathname.split('/').pop() || 'index.html';
+        const currentPage = fileName === '' ? 'index.html' : fileName;
+        const allLinks = document.querySelectorAll('.navbar-nav .nav-link, .dropdown-menu .dropdown-item');
+
+        allLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === currentPage || href === './' + currentPage) {
+                link.classList.add('active');
+                if (link.classList.contains('dropdown-item')) {
+                    const dropdown = link.closest('.dropdown');
+                    if (dropdown) {
+                        const toggle = dropdown.querySelector('.dropdown-toggle');
+                        if (toggle) {
+                            toggle.classList.add('active');
+                        }
+                    }
+                }
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        if (currentPage === 'index.html' || currentPage === '') {
+            const homeLink = document.querySelector('.navbar-nav .nav-link[href="index.html"]');
+            if (homeLink) homeLink.classList.add('active');
+        }
+    });
+    </script>
+</body>
+</html>
