@@ -423,3 +423,18 @@ window.createTable = createTable;
 window.ACORDES_BIBLIOTECA = ACORDES_BIBLIOTECA;
 window.ESCALAS_FORMULAS = ESCALAS_FORMULAS;
 window.items = items;
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        NOTAS,
+        AFINACAO,
+        ACORDES_BIBLIOTECA,
+        ESCALAS_FORMULAS,
+        shape,
+        gerarSvgAcorde,
+        gerarSvgEscala,
+        items,
+        render,
+        createTable
+    };
+}
