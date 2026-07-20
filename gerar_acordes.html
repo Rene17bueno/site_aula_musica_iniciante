@@ -724,6 +724,10 @@ const statErrors = document.getElementById('statErrors');
 let generatedImages = [];
 
 function logMsg(msg, type='info') {
+    if (!logArea) {
+        (type === 'error' ? console.error : console.log)(msg);
+        return;
+    }
     const div = document.createElement('div');
     div.className = type;
     div.innerHTML = msg;
@@ -742,60 +746,67 @@ btnGenerate.addEventListener('click', async () => {
     logArea.innerHTML = '';
     statErrors.innerText = '0';
     statGenerated.innerText = '0';
-    
-    logMsg(`🚀 Iniciando renderização em lote (${chordData.length} diagramas)...`);
-    logMsg(`📁 Organizando em pastas por categoria:`, 'info');
-    
-    // Mostra as pastas que serão criadas
-    const folders = [...new Set(chordData.map(c => c.folder))];
-    folders.forEach(f => {
-        logMsg(`   📂 ${f}`, 'folder');
-    });
-    
-    const total = chordData.length;
-    
-    for (let i = 0; i < total; i++) {
-        const chord = chordData[i];
-        try {
-            const canvas = drawChord(chord);
-            
-            const item = document.createElement('div');
-            item.className = 'preview-item';
-            item.appendChild(canvas);
-            const label = document.createElement('span');
-            label.className = 'label';
-            label.innerText = chord.name;
-            item.appendChild(label);
-            const folderLabel = document.createElement('span');
-            folderLabel.className = 'folder-label';
-            folderLabel.innerText = `📁 ${chord.folder}`;
-            item.appendChild(folderLabel);
-            previewGrid.appendChild(item);
-            
-            generatedImages.push({
-                name: chord.id + '.png',
-                displayName: chord.name,
-                folder: chord.folder,
-                data: canvas.toDataURL("image/png").split(',')[1]
-            });
-            
-            statGenerated.innerText = i + 1;
-            const pct = Math.round(((i + 1) / total) * 100);
-            progressBar.style.width = `${pct}%`;
-            progressText.innerText = `${pct}%`;
-            
-            await new Promise(r => setTimeout(r, 3));
-            
-        } catch (e) {
-            logMsg(`❌ Erro ao renderizar ${chord.name}: ${e.message}`, 'error');
-            statErrors.innerText = parseInt(statErrors.innerText) + 1;
+
+    try {
+        logMsg(`🚀 Iniciando renderização em lote (${chordData.length} diagramas)...`);
+        logMsg(`📁 Organizando em pastas por categoria:`, 'info');
+
+        // Mostra as pastas que serão criadas
+        const folders = [...new Set(chordData.map(c => c.folder))];
+        folders.forEach(f => {
+            logMsg(`   📂 ${f}`, 'folder');
+        });
+
+        const total = chordData.length;
+
+        for (let i = 0; i < total; i++) {
+            const chord = chordData[i];
+            try {
+                const canvas = drawChord(chord);
+
+                const item = document.createElement('div');
+                item.className = 'preview-item';
+                item.appendChild(canvas);
+                const label = document.createElement('span');
+                label.className = 'label';
+                label.innerText = chord.name;
+                item.appendChild(label);
+                const folderLabel = document.createElement('span');
+                folderLabel.className = 'folder-label';
+                folderLabel.innerText = `📁 ${chord.folder}`;
+                item.appendChild(folderLabel);
+                previewGrid.appendChild(item);
+
+                generatedImages.push({
+                    name: chord.id + '.png',
+                    displayName: chord.name,
+                    folder: chord.folder,
+                    data: canvas.toDataURL("image/png").split(',')[1]
+                });
+
+                statGenerated.innerText = i + 1;
+                const pct = Math.round(((i + 1) / total) * 100);
+                progressBar.style.width = `${pct}%`;
+                progressText.innerText = `${pct}%`;
+
+                await new Promise(r => setTimeout(r, 3));
+
+            } catch (e) {
+                console.error(`Erro ao renderizar ${chord.name}:`, e);
+                logMsg(`❌ Erro ao renderizar ${chord.name}: ${e.message}`, 'error');
+                statErrors.innerText = parseInt(statErrors.innerText) + 1;
+            }
         }
+
+        logMsg(`✅ Concluído! ${generatedImages.length} diagramas gerados com sucesso.`, 'success');
+        logMsg(`📂 Organizados em ${folders.length} pastas diferentes.`, 'success');
+        btnDownload.disabled = generatedImages.length === 0;
+    } catch (e) {
+        console.error('Falha na geração em lote:', e);
+        logMsg(`❌ Falha inesperada durante a geração: ${e.message}`, 'error');
+    } finally {
+        btnGenerate.disabled = false;
     }
-    
-    logMsg(`✅ Concluído! ${generatedImages.length} diagramas gerados com sucesso.`, 'success');
-    logMsg(`📂 Organizados em ${folders.length} pastas diferentes.`, 'success');
-    btnDownload.disabled = false;
-    btnGenerate.disabled = false;
 });
 
 btnDownload.addEventListener('click', () => {
@@ -803,30 +814,51 @@ btnDownload.addEventListener('click', () => {
         logMsg('⚠️ Execute a geração primeiro.', 'error');
         return;
     }
+
+    if (typeof JSZip === 'undefined' || typeof saveAs === 'undefined') {
+        const msg = 'Bibliotecas de compactação não carregaram (JSZip/FileSaver). Verifique sua conexão e recarregue a página.';
+        console.error(msg);
+        logMsg(`❌ ${msg}`, 'error');
+        return;
+    }
+
+    btnDownload.disabled = true;
     logMsg(`📦 Criando arquivo ZIP com estrutura de pastas...`);
-    const zip = new JSZip();
-    
-    // Agrupa imagens por pasta
-    const grouped = {};
-    generatedImages.forEach(img => {
-        if (!grouped[img.folder]) grouped[img.folder] = [];
-        grouped[img.folder].push(img);
-    });
-    
-    // Cria pastas e adiciona os arquivos
-    Object.keys(grouped).forEach(folderName => {
-        const folder = zip.folder(folderName);
-        grouped[folderName].forEach(img => {
-            folder.file(img.name, img.data, {base64: true});
+
+    try {
+        const zip = new JSZip();
+
+        // Agrupa imagens por pasta
+        const grouped = {};
+        generatedImages.forEach(img => {
+            if (!grouped[img.folder]) grouped[img.folder] = [];
+            grouped[img.folder].push(img);
         });
-    });
-    
-    zip.generateAsync({type:"blob"}).then(function(content) {
-        saveAs(content, "imagens_acordes_organizado.zip");
-        logMsg(`📥 Download iniciado!`, 'success');
-        logMsg(`📂 O ZIP contém ${Object.keys(grouped).length} pastas com ${generatedImages.length} imagens.`, 'success');
-        logMsg(`📁 Extraia o conteúdo na pasta: C:\\Users\\rene.bueno\\Desktop\\livro\\imagens_acordes\\`, 'success');
-    });
+
+        // Cria pastas e adiciona os arquivos
+        Object.keys(grouped).forEach(folderName => {
+            const folder = zip.folder(folderName);
+            grouped[folderName].forEach(img => {
+                folder.file(img.name, img.data, {base64: true});
+            });
+        });
+
+        zip.generateAsync({type:"blob"}).then(function(content) {
+            saveAs(content, "imagens_acordes_organizado.zip");
+            logMsg(`📥 Download iniciado!`, 'success');
+            logMsg(`📂 O ZIP contém ${Object.keys(grouped).length} pastas com ${generatedImages.length} imagens.`, 'success');
+            logMsg(`📁 Extraia o conteúdo na pasta: C:\\Users\\rene.bueno\\Desktop\\livro\\imagens_acordes\\`, 'success');
+        }).catch(function(e) {
+            console.error('Falha ao gerar o ZIP:', e);
+            logMsg(`❌ Falha ao gerar o arquivo ZIP: ${e.message}`, 'error');
+        }).finally(function() {
+            btnDownload.disabled = false;
+        });
+    } catch (e) {
+        console.error('Falha ao montar o ZIP:', e);
+        logMsg(`❌ Falha ao montar o arquivo ZIP: ${e.message}`, 'error');
+        btnDownload.disabled = false;
+    }
 });
 </script>
 
