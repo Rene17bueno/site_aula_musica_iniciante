@@ -30,6 +30,8 @@ const dom = {
     authModeSignup: document.getElementById("btn-auth-mode-signup"),
     displayNameGroup: document.getElementById("group-display-name"),
     displayNameInput: document.getElementById("display-name"),
+    authEmail: document.getElementById("auth-email"),
+    authPassword: document.getElementById("auth-password"),
     authSession: document.getElementById("auth-session"),
     sessionUser: document.getElementById("session-user"),
     logoutBtn: document.getElementById("logout-btn"),
@@ -108,6 +110,10 @@ function setAuthenticatedUI(session) {
     });
 
     if (!isAuthenticated) {
+        dom.authForm.reset();
+        dom.authEmail.value = "";
+        dom.authPassword.value = "";
+        dom.displayNameInput.value = "";
         dom.sessionUser.textContent = "";
         dom.visitorName.value = "";
         dom.visitorEmail.value = "";
@@ -268,6 +274,12 @@ function bindEvents() {
     dom.logoutBtn.addEventListener("click", async () => {
         try {
             await logoutUser();
+            dom.authForm.reset();
+            dom.authEmail.value = "";
+            dom.authPassword.value = "";
+            dom.displayNameInput.value = "";
+            clearAlert(dom.chatAlert);
+            showAlert(dom.authAlert, "Sessao encerrada com sucesso.", "success");
         } catch (error) {
             showAlert(dom.authAlert, error.message || "Erro ao encerrar sessao.");
         }
