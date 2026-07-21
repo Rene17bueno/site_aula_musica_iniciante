@@ -1,8 +1,10 @@
 import {
+    browserSessionPersistence,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
-    onAuthStateChanged
+    onAuthStateChanged,
+    setPersistence
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
     doc,
@@ -11,6 +13,17 @@ import {
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { auth, db } from "./firebase-client.js";
+
+let persistenceReady = false;
+
+async function ensureSessionPersistence() {
+    if (persistenceReady) {
+        return;
+    }
+
+    await setPersistence(auth, browserSessionPersistence);
+    persistenceReady = true;
+}
 
 function fallbackName(email) {
     if (!email) {
@@ -54,6 +67,7 @@ export async function ensureUserProfile(user, partialProfile = {}) {
 }
 
 export async function signUpWithEmail({ name, email, password }) {
+    await ensureSessionPersistence();
     const credential = await createUserWithEmailAndPassword(auth, email, password);
     const profile = await ensureUserProfile(credential.user, {
         name,
@@ -69,6 +83,7 @@ export async function signUpWithEmail({ name, email, password }) {
 }
 
 export async function signInWithEmail({ email, password }) {
+    await ensureSessionPersistence();
     const credential = await signInWithEmailAndPassword(auth, email, password);
     const user = credential.user;
     const profile = await fetchUserProfile(user.uid);
