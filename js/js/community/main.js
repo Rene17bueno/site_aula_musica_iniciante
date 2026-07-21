@@ -46,6 +46,19 @@ const dom = {
     chatFile: document.getElementById("chat-file")
 };
 
+function syncSessionStorage(session) {
+    if (!session) {
+        localStorage.removeItem("communityRole");
+        localStorage.removeItem("communityEmail");
+        localStorage.removeItem("communityDisplayName");
+        return;
+    }
+
+    localStorage.setItem("communityRole", String(session.role || "user"));
+    localStorage.setItem("communityEmail", String(session.email || ""));
+    localStorage.setItem("communityDisplayName", String(session.displayName || ""));
+}
+
 function escapeHtml(value) {
     return String(value || "")
         .replaceAll("&", "&amp;")
@@ -203,6 +216,7 @@ function stopAdminThreadSubscription() {
 
 function handleSession(session) {
     state.session = session;
+    syncSessionStorage(session);
     setAuthenticatedUI(session);
 
     stopMessageSubscription();

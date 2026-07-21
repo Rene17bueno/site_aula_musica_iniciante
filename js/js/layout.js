@@ -63,13 +63,28 @@ const NAVBAR_HTML = `
                     <li class="nav-item">
                         <a class="nav-link" href="comunidade.html"><i class="fas fa-comments me-1"></i> Comunidade</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item d-none" id="nav-admin-item">
                         <a class="nav-link" href="comunidade-admin.html"><i class="fas fa-user-shield me-1"></i> Painel Admin</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>`;
+
+const ADMIN_ALLOWED_EMAIL = "rhb7pateta@gmail.com";
+
+function syncAdminNavVisibility() {
+    const adminItem = document.getElementById("nav-admin-item");
+    if (!adminItem) {
+        return;
+    }
+
+    const role = (localStorage.getItem("communityRole") || "").toLowerCase();
+    const email = (localStorage.getItem("communityEmail") || "").toLowerCase();
+    const canSeeAdmin = role === "admin" && email === ADMIN_ALLOWED_EMAIL;
+
+    adminItem.classList.toggle("d-none", !canSeeAdmin);
+}
 
 const FOOTER_HTML = `
     <footer class="site-footer py-4 mt-auto">
@@ -136,5 +151,6 @@ function activateNavLinks() {
 document.addEventListener('DOMContentLoaded', function() {
     renderNavbar();
     renderFooter();
+    syncAdminNavVisibility();
     activateNavLinks();
 });

@@ -35,6 +35,19 @@ const dom = {
     chatBox: document.getElementById("selected-chat-box")
 };
 
+function syncSessionStorage(session) {
+    if (!session) {
+        localStorage.removeItem("communityRole");
+        localStorage.removeItem("communityEmail");
+        localStorage.removeItem("communityDisplayName");
+        return;
+    }
+
+    localStorage.setItem("communityRole", String(session.role || "user"));
+    localStorage.setItem("communityEmail", String(session.email || ""));
+    localStorage.setItem("communityDisplayName", String(session.displayName || ""));
+}
+
 function escapeHtml(value) {
     return String(value || "")
         .replaceAll("&", "&amp;")
@@ -300,6 +313,7 @@ function init() {
 
     observeAuthSession((session) => {
         state.session = session;
+        syncSessionStorage(session);
 
         if (!validateAdminSession(session)) {
             if (state.unsubscribeEntries) {
