@@ -219,6 +219,13 @@ export async function signInWithEmail({ identifier, email, password }) {
         };
     }
 
+    await upsertAuthAliases({
+        uid: user.uid,
+        email: user.email,
+        whatsapp: profile.whatsapp || "",
+        instagram: profile.instagram || ""
+    });
+
     return {
         uid: user.uid,
         email: user.email,
