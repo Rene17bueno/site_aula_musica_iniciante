@@ -80,8 +80,8 @@ export const firebaseConfig = {
 
 ## Regras recomendadas do Firestore
 
-```txt
-rules_version = '2';
+Copie as regras do arquivo `firestore.rules` ja incluido no projeto:
+
 service cloud.firestore {
 	match /databases/{database}/documents {
 		function isSignedIn() {
@@ -123,8 +123,8 @@ service cloud.firestore {
 
 ## Regras recomendadas do Storage
 
-```txt
-rules_version = '2';
+Copie as regras do arquivo `storage.rules` ja incluido no projeto:
+
 service firebase.storage {
 	match /b/{bucket}/o {
 		match /chatAttachments/{threadId}/{fileName} {
