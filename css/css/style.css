@@ -362,6 +362,114 @@ body {
         font-size: 0.95rem;
     }
 }
+
+/* ===== AJUSTES GERAIS PARA SMARTPHONE ===== */
+@media (max-width: 576px) {
+    main.chapter-content.py-5[style*="margin-top"] {
+        margin-top: 58px !important;
+        padding-top: 1.25rem !important;
+        padding-bottom: 1.75rem !important;
+    }
+
+    .breadcrumb {
+        padding: 6px 0;
+        margin-bottom: 12px;
+        font-size: 0.75rem;
+    }
+
+    .chapter-content .section-tag {
+        margin-bottom: 10px;
+    }
+
+    .chapter-content .chapter-subtitle {
+        margin-bottom: 20px;
+    }
+
+    .chapter-content h2 {
+        margin: 28px 0 12px;
+    }
+
+    .chapter-content p {
+        margin-bottom: 12px;
+    }
+
+    .table-wrap {
+        margin: 16px 0;
+    }
+
+    .quote-block {
+        margin: 20px 0;
+    }
+
+    .chapter-nav {
+        margin-top: 32px;
+        padding-top: 20px;
+        gap: 10px;
+    }
+
+    .chapter-nav a {
+        min-width: 0;
+        width: 100%;
+        padding: 10px 12px;
+    }
+
+    .site-footer {
+        padding: 28px 0 20px;
+    }
+}
+
+@media (max-width: 430px) {
+    main.chapter-content.py-5[style*="margin-top"] {
+        padding-top: 1rem !important;
+        padding-bottom: 1.5rem !important;
+    }
+
+    .chapter-content h1 {
+        font-size: 1.7rem;
+        line-height: 1.2;
+    }
+
+    .chapter-content h2 {
+        font-size: 1.2rem;
+        margin: 24px 0 10px;
+    }
+
+    .chapter-nav {
+        margin-top: 24px;
+        padding-top: 16px;
+        gap: 8px;
+    }
+
+    .chapter-nav a {
+        padding: 9px 11px;
+    }
+}
+
+@media (max-width: 390px) {
+    .breadcrumb {
+        font-size: 0.7rem;
+        margin-bottom: 10px;
+    }
+
+    .chapter-content .section-tag {
+        font-size: 0.65rem;
+        padding: 4px 12px;
+    }
+
+    .table-wrap table {
+        min-width: 280px;
+    }
+}
+
+@media (max-width: 360px) {
+    .container {
+        padding: 0 12px;
+    }
+
+    .chapter-content h1 {
+        font-size: 1.55rem;
+    }
+}
 /* =========================================================
    CORREÇÃO DO MENU SUSPENSO (DROPDOWN) E SUBMENUS
    ========================================================= */

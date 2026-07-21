@@ -61,6 +61,12 @@ const NAVBAR_HTML = `
                         </ul>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="comunidade.html"><i class="fas fa-comments me-1"></i> Comunidade</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="comunidade-admin.html"><i class="fas fa-user-shield me-1"></i> Painel Admin</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="apendice.html"><i class="fas fa-table me-1"></i> Apêndice</a>
                     </li>
                 </ul>

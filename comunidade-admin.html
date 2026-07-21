@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-100">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel Admin | Tratado de Musicologia</title>
+    <meta name="description" content="Painel administrativo para moderar formularios de visitantes e responder chats." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="css/css/style.css" />
+    <link rel="stylesheet" href="css/css/community.css" />
+    <link rel="stylesheet" href="css/css/community-admin.css" />
+</head>
+<body class="d-flex flex-column h-100 community-page">
+    <div id="site-navbar"></div>
+
+    <main class="container-fluid container-md community-shell flex-grow-1">
+        <section class="mb-4 text-center">
+            <p class="community-muted mb-1">Area Restrita</p>
+            <h1 class="community-title mb-2">Painel Administrativo</h1>
+            <p class="community-muted mb-0">Gerencie envios, atualize status e responda mensagens com atalhos.</p>
+        </section>
+
+        <div id="admin-auth-alert" class="community-alert" style="display:none;"></div>
+
+        <div class="admin-layout">
+            <section class="community-card">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                    <h2 class="mb-0">Entradas de Visitantes</h2>
+                    <span id="admin-user-badge" class="community-user-badge"></span>
+                </div>
+
+                <div class="admin-filters mb-3">
+                    <button type="button" class="community-btn ghost admin-filter active" data-filter="all">Todos</button>
+                    <button type="button" class="community-btn ghost admin-filter" data-filter="new">Novos</button>
+                    <button type="button" class="community-btn ghost admin-filter" data-filter="open">Em andamento</button>
+                    <button type="button" class="community-btn ghost admin-filter" data-filter="resolved">Resolvidos</button>
+                </div>
+
+                <div id="admin-entries" class="admin-entry-list">
+                    <div class="chat-empty">Carregando entradas...</div>
+                </div>
+            </section>
+
+            <section class="community-card">
+                <h2>Resposta Rápida</h2>
+                <p class="community-muted">Selecione uma entrada para responder no chat do usuario.</p>
+
+                <div id="reply-alert" class="community-alert" style="display:none;"></div>
+
+                <div class="mb-2">
+                    <label class="community-label" for="quick-reply-template">Modelo de resposta</label>
+                    <select id="quick-reply-template" class="community-select">
+                        <option value="">Selecione um modelo...</option>
+                        <option value="Recebi sua mensagem e vou analisar seu caso ainda hoje.">Recebimento</option>
+                        <option value="Obrigado pelo feedback! Sua sugestao foi registrada para o proximo conteudo.">Agradecimento por sugestao</option>
+                        <option value="Seu atendimento foi finalizado. Se precisar, envie uma nova mensagem.">Fechamento</option>
+                    </select>
+                </div>
+
+                <div class="mb-2">
+                    <label class="community-label" for="reply-text">Mensagem para o chat</label>
+                    <textarea id="reply-text" class="community-textarea" placeholder="Digite a resposta para o usuario..."></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="community-label" for="reply-file">Anexo (opcional)</label>
+                    <input id="reply-file" class="community-input" type="file" accept="image/*,video/*" />
+                </div>
+
+                <div class="admin-actions">
+                    <button id="btn-send-reply" type="button" class="community-btn">Enviar resposta</button>
+                    <button id="btn-mark-open" type="button" class="community-btn ghost">Marcar em andamento</button>
+                    <button id="btn-mark-resolved" type="button" class="community-btn ghost">Marcar resolvido</button>
+                </div>
+
+                <hr class="my-3" />
+
+                <h2 class="mb-2">Chat da Conversa Selecionada</h2>
+                <div id="selected-chat-box" class="chat-box">
+                    <div class="chat-empty">Selecione uma entrada para carregar as mensagens.</div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="js/js/layout.js"></script>
+    <script type="module" src="js/js/community/admin-main.js"></script>
+</body>
+</html>

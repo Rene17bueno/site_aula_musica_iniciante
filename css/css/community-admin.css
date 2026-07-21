@@ -1,0 +1,93 @@
+.admin-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 1rem;
+}
+
+.admin-filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.admin-filters .admin-filter.active {
+    background: linear-gradient(135deg, #d8b967, #c9a959);
+    color: #1a1a1a;
+}
+
+.admin-entry-list {
+    max-height: 70vh;
+    overflow-y: auto;
+    border: 1px solid rgba(201, 169, 89, 0.15);
+    border-radius: 12px;
+    padding: 0.6rem;
+}
+
+.admin-entry-item {
+    border: 1px solid rgba(201, 169, 89, 0.15);
+    border-radius: 10px;
+    padding: 0.65rem;
+    margin-bottom: 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    cursor: pointer;
+}
+
+.admin-entry-item.active {
+    border-color: rgba(120, 194, 255, 0.45);
+    background: rgba(120, 194, 255, 0.12);
+}
+
+.admin-entry-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.2rem;
+}
+
+.admin-entry-title {
+    font-weight: 600;
+    color: #f1e8d3;
+}
+
+.admin-entry-meta {
+    font-size: 0.78rem;
+    color: #ccb98b;
+}
+
+.status-pill {
+    font-size: 0.72rem;
+    padding: 0.16rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid rgba(201, 169, 89, 0.35);
+}
+
+.status-pill.new {
+    color: #ffd9d9;
+    border-color: rgba(255, 123, 123, 0.55);
+    background: rgba(255, 123, 123, 0.2);
+}
+
+.status-pill.open {
+    color: #d8e8ff;
+    border-color: rgba(120, 194, 255, 0.55);
+    background: rgba(120, 194, 255, 0.2);
+}
+
+.status-pill.resolved {
+    color: #d9ffe2;
+    border-color: rgba(102, 217, 102, 0.55);
+    background: rgba(102, 217, 102, 0.2);
+}
+
+.admin-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 992px) {
+    .admin-layout {
+        grid-template-columns: 1fr;
+    }
+}

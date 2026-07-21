@@ -222,6 +222,24 @@
 
         /* responsivo */
         @media (max-width: 576px) {
+            body {
+                padding-top: 62px;
+            }
+            .chapter-content {
+                padding: 1.25rem 0 2rem;
+            }
+            .chapter-content h1 {
+                font-size: 1.8rem;
+                margin-bottom: 0.5rem;
+            }
+            .chapter-content .text-muted {
+                margin-bottom: 0.9rem;
+            }
+            .toggle-view {
+                gap: 8px;
+                margin: 10px 0 14px;
+                flex-wrap: wrap;
+            }
             .card-chord .svg-wrapper svg {
                 max-height: 100px;
             }
@@ -232,6 +250,59 @@
             .toggle-view .btn-toggle {
                 font-size: 0.65rem;
                 padding: 6px 16px;
+            }
+            .chapter-nav {
+                margin-top: 2rem !important;
+                gap: 10px;
+            }
+            .chapter-nav a {
+                width: 100%;
+                min-width: 0;
+                padding: 10px 12px;
+            }
+            .chapter-nav a.text-end {
+                text-align: left !important;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .chapter-content h1 {
+                font-size: 1.55rem;
+            }
+            .filter-group {
+                margin: 12px 0 16px;
+                gap: 6px 8px;
+            }
+            .filter-group .btn-filter {
+                padding: 4px 10px;
+            }
+            .card-chord {
+                padding: 10px 7px;
+            }
+            .card-chord .chord-name {
+                font-size: 0.86rem;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .row.g-3 {
+                --bs-gutter-x: 0.6rem;
+                --bs-gutter-y: 0.6rem;
+            }
+            .toggle-view {
+                margin: 8px 0 12px;
+            }
+            .toggle-view .btn-toggle {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .filter-group {
+                gap: 6px;
+            }
+            .toggle-view .btn-toggle {
+                width: 100%;
             }
         }
     </style>
@@ -689,4 +760,4 @@
 
     <script src="js/js/layout.js"></script>
 </body>
-</html>
+</html>
