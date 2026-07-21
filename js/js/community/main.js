@@ -57,6 +57,10 @@ function syncSessionStorage(session) {
     localStorage.setItem("communityRole", String(session.role || "user"));
     localStorage.setItem("communityEmail", String(session.email || ""));
     localStorage.setItem("communityDisplayName", String(session.displayName || ""));
+
+    if (typeof window.refreshAdminNavVisibility === "function") {
+        window.refreshAdminNavVisibility();
+    }
 }
 
 function escapeHtml(value) {

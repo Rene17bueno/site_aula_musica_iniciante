@@ -86,6 +86,8 @@ function syncAdminNavVisibility() {
     adminItem.classList.toggle("d-none", !canSeeAdmin);
 }
 
+window.refreshAdminNavVisibility = syncAdminNavVisibility;
+
 const FOOTER_HTML = `
     <footer class="site-footer py-4 mt-auto">
         <div class="container text-center">
