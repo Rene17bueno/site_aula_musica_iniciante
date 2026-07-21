@@ -85,6 +85,22 @@ body {
     color: var(--gold) !important;
 }
 
+/* Painel do menu no mobile com fundo sólido */
+@media (max-width: 991px) {
+    .custom-navbar .navbar-collapse {
+        background-color: #14131f;
+        border: 1px solid rgba(201, 169, 89, 0.15);
+        border-radius: 10px;
+        margin-top: 10px;
+        padding: 10px 12px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    .custom-navbar .navbar-nav {
+        gap: 0.4rem !important;
+    }
+}
+
 /* ===== BREADCRUMB ===== */
 .breadcrumb {
     padding: 10px 0;
@@ -513,16 +529,16 @@ body {
 /* Ajuste para telas pequenas (celular) - para não quebrar o menu */
 @media (max-width: 991px) {
     .dropdown-menu {
-        background-color: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        padding-left: 15px;
+        background-color: #1a1928 !important;
+        border: 1px solid rgba(201, 169, 89, 0.15) !important;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35) !important;
+        padding-left: 0;
     }
     .dropdown-item {
         color: #b5b0a8 !important;
     }
     .dropdown-item:hover {
         color: #e8d5a3 !important;
-        background: transparent !important;
+        background: rgba(201, 169, 89, 0.1) !important;
     }
 }
