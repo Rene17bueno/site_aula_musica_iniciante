@@ -17,9 +17,8 @@ import {
 } from "./attendance-service.js";
 
 const SUPPORT_WHATSAPP = "5544991379447";
-// Configure um webhook de automacao (n8n/Make/Zapier/Cloud Function)
-// para envio automatico sem abrir o WhatsApp Web.
-const WHATSAPP_AUTOMATION_WEBHOOK = "https://SEU-WEBHOOK-RENDER.onrender.com/send-class-notice";
+// Endpoint padrao para deploy no Netlify (Functions).
+const WHATSAPP_AUTOMATION_WEBHOOK = "/.netlify/functions/send-class-notice";
 const WHATSAPP_AUTOMATION_KEY = "";
 
 const state = {
@@ -396,10 +395,7 @@ async function sendWhatsappClassInfo() {
         note ? `Observacao: ${note}` : ""
     ].filter(Boolean).join("\n");
 
-    const webhookLooksConfigured =
-        WHATSAPP_AUTOMATION_WEBHOOK &&
-        !WHATSAPP_AUTOMATION_WEBHOOK.includes("SEU-WEBHOOK") &&
-        WHATSAPP_AUTOMATION_WEBHOOK.startsWith("https://");
+    const webhookLooksConfigured = Boolean(WHATSAPP_AUTOMATION_WEBHOOK);
 
     if (webhookLooksConfigured) {
         const payload = {
@@ -435,14 +431,6 @@ async function sendWhatsappClassInfo() {
             .catch((error) => {
                 showAlert(dom.attendanceAdminAlert, error.message || "Falha no envio automatico por WhatsApp.");
             });
-    }
-
-    if (WHATSAPP_AUTOMATION_WEBHOOK && !webhookLooksConfigured) {
-        showAlert(
-            dom.attendanceAdminAlert,
-            "Webhook com placeholder. Atualize WHATSAPP_AUTOMATION_WEBHOOK com a URL real do Render e tente novamente."
-        );
-        return;
     }
 
     const url = `https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent(text)}`;
