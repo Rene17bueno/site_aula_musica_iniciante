@@ -21,7 +21,7 @@ const state = {
     unsubscribeThreads: null
 };
 
-const SUPPORT_WHATSAPP = "5511999999999";
+const SUPPORT_WHATSAPP = "5544991379447";
 
 const dom = {
     authAlert: document.getElementById("auth-alert"),
