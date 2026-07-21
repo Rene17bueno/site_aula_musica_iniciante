@@ -396,7 +396,12 @@ async function sendWhatsappClassInfo() {
         note ? `Observacao: ${note}` : ""
     ].filter(Boolean).join("\n");
 
-    if (WHATSAPP_AUTOMATION_WEBHOOK) {
+    const webhookLooksConfigured =
+        WHATSAPP_AUTOMATION_WEBHOOK &&
+        !WHATSAPP_AUTOMATION_WEBHOOK.includes("SEU-WEBHOOK") &&
+        WHATSAPP_AUTOMATION_WEBHOOK.startsWith("https://");
+
+    if (webhookLooksConfigured) {
         const payload = {
             to: SUPPORT_WHATSAPP,
             message: text,
@@ -430,6 +435,14 @@ async function sendWhatsappClassInfo() {
             .catch((error) => {
                 showAlert(dom.attendanceAdminAlert, error.message || "Falha no envio automatico por WhatsApp.");
             });
+    }
+
+    if (WHATSAPP_AUTOMATION_WEBHOOK && !webhookLooksConfigured) {
+        showAlert(
+            dom.attendanceAdminAlert,
+            "Webhook com placeholder. Atualize WHATSAPP_AUTOMATION_WEBHOOK com a URL real do Render e tente novamente."
+        );
+        return;
     }
 
     const url = `https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent(text)}`;
