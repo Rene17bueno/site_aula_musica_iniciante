@@ -17,6 +17,9 @@ import {
 } from "./attendance-service.js";
 
 const SUPPORT_WHATSAPP = "5544991379447";
+// Configure um webhook de automacao (n8n/Make/Zapier/Cloud Function)
+// para envio automatico sem abrir o WhatsApp Web.
+const WHATSAPP_AUTOMATION_WEBHOOK = "";
 
 const state = {
     session: null,
@@ -370,7 +373,7 @@ async function saveClassSetup() {
     showAlert(dom.attendanceAdminAlert, "Configuracao de aula salva com sucesso.", "success");
 }
 
-function sendWhatsappClassInfo() {
+async function sendWhatsappClassInfo() {
     clearAlert(dom.attendanceAdminAlert);
 
     const classDate = dom.classDate.value;
@@ -392,9 +395,39 @@ function sendWhatsappClassInfo() {
         note ? `Observacao: ${note}` : ""
     ].filter(Boolean).join("\n");
 
+    if (WHATSAPP_AUTOMATION_WEBHOOK) {
+        const payload = {
+            to: SUPPORT_WHATSAPP,
+            message: text,
+            classDate,
+            weekday,
+            hasClass,
+            note,
+            sentByUid: state.session?.uid || ""
+        };
+
+        return fetch(WHATSAPP_AUTOMATION_WEBHOOK, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        })
+            .then(async (response) => {
+                if (!response.ok) {
+                    const body = await response.text();
+                    throw new Error(body || "Falha no envio automatico via webhook.");
+                }
+                showAlert(dom.attendanceAdminAlert, "Informativo enviado automaticamente por WhatsApp.", "success");
+            })
+            .catch((error) => {
+                showAlert(dom.attendanceAdminAlert, error.message || "Falha no envio automatico por WhatsApp.");
+            });
+    }
+
     const url = `https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent(text)}`;
     window.open(url, "_blank", "noopener");
-    showAlert(dom.attendanceAdminAlert, "WhatsApp aberto com a mensagem de confirmacao da aula.", "success");
+    showAlert(dom.attendanceAdminAlert, "Webhook nao configurado: abrimos o WhatsApp com a mensagem pronta.", "success");
 }
 
 async function sendQuickReply() {
