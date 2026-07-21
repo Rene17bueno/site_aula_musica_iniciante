@@ -361,16 +361,30 @@ async function saveClassSetup() {
         return;
     }
 
-    await upsertClassSession({
-        classDate,
-        weekday,
-        hasClass,
-        note,
-        updatedBy: state.session.uid
-    });
+    try {
+        await upsertClassSession({
+            classDate,
+            weekday,
+            hasClass,
+            note,
+            updatedBy: state.session.uid
+        });
 
-    state.selectedClassSessionId = classDate;
-    showAlert(dom.attendanceAdminAlert, "Configuracao de aula salva com sucesso.", "success");
+        state.selectedClassSessionId = classDate;
+        showAlert(dom.attendanceAdminAlert, "Configuracao de aula salva com sucesso.", "success");
+    } catch (error) {
+        const message = String(error?.message || "");
+        if (message.includes("Missing or insufficient permissions")) {
+            showAlert(
+                dom.attendanceAdminAlert,
+                "Permissao negada no Firestore. Publique novamente o arquivo firestore.rules no Firebase Console.",
+                "error"
+            );
+            return;
+        }
+
+        showAlert(dom.attendanceAdminAlert, error.message || "Falha ao salvar configuracao da aula.", "error");
+    }
 }
 
 async function sendWhatsappClassInfo() {
@@ -516,11 +530,7 @@ function bindEvents() {
     });
 
     dom.saveClassBtn.addEventListener("click", async () => {
-        try {
-            await saveClassSetup();
-        } catch (error) {
-            showAlert(dom.attendanceAdminAlert, error.message || "Falha ao salvar configuracao da aula.");
-        }
+        await saveClassSetup();
     });
 
     dom.sendWhatsappInfoBtn.addEventListener("click", sendWhatsappClassInfo);
