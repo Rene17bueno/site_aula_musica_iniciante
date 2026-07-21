@@ -155,4 +155,4 @@ service firebase.storage {
 
 O link de termos foi adicionado na pagina de comunidade apontando para:
 
-`Termos_de_Uso_e_Politica_de_Privacidade.pdf`
+`Termos_de_Uso_e_Politica_de_Privacidade.pdf`# Deploy rebuild
