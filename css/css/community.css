@@ -231,6 +231,37 @@
     background: rgba(120, 194, 255, 0.1);
 }
 
+.admin-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 560px;
+}
+
+.attendance-table th,
+.attendance-table td {
+    border-bottom: 1px solid rgba(201, 169, 89, 0.15);
+    padding: 0.5rem 0.45rem;
+    text-align: left;
+    font-size: 0.84rem;
+}
+
+.attendance-table th {
+    color: #f1dfb0;
+    font-weight: 600;
+}
+
+.attendance-empty {
+    text-align: center !important;
+    color: #b5b0a8;
+    padding: 1rem !important;
+}
+
 @media (max-width: 992px) {
     .community-col-5,
     .community-col-7 {

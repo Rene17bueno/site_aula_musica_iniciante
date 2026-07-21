@@ -10,6 +10,13 @@ import {
 import { db, isFirebaseConfigured } from "./firebase-client.js";
 import { observeAuthSession } from "./auth-service.js";
 import { sendChatMessage, subscribeThreadMessages } from "./chat-service.js";
+import {
+    subscribeAttendanceBySession,
+    subscribeClassSessions,
+    upsertClassSession
+} from "./attendance-service.js";
+
+const SUPPORT_WHATSAPP = "5544991379447";
 
 const state = {
     session: null,
@@ -17,7 +24,11 @@ const state = {
     entries: [],
     selectedEntry: null,
     unsubscribeEntries: null,
-    unsubscribeMessages: null
+    unsubscribeMessages: null,
+    unsubscribeClassSessions: null,
+    unsubscribeAttendanceBySession: null,
+    classSessions: [],
+    selectedClassSessionId: ""
 };
 
 const dom = {
@@ -32,7 +43,16 @@ const dom = {
     sendReply: document.getElementById("btn-send-reply"),
     markOpen: document.getElementById("btn-mark-open"),
     markResolved: document.getElementById("btn-mark-resolved"),
-    chatBox: document.getElementById("selected-chat-box")
+    chatBox: document.getElementById("selected-chat-box"),
+    attendanceAdminAlert: document.getElementById("attendance-admin-alert"),
+    classDate: document.getElementById("class-date"),
+    classWeekday: document.getElementById("class-weekday"),
+    classHasClass: document.getElementById("class-has-class"),
+    classNote: document.getElementById("class-note"),
+    saveClassBtn: document.getElementById("btn-save-class"),
+    sendWhatsappInfoBtn: document.getElementById("btn-send-whatsapp-info"),
+    attendanceSessionFilter: document.getElementById("attendance-session-filter"),
+    attendanceAdminBody: document.getElementById("attendance-admin-body")
 };
 
 function syncSessionStorage(session) {
@@ -40,6 +60,9 @@ function syncSessionStorage(session) {
         localStorage.removeItem("communityRole");
         localStorage.removeItem("communityEmail");
         localStorage.removeItem("communityDisplayName");
+        if (typeof window.refreshAdminNavVisibility === "function") {
+            window.refreshAdminNavVisibility();
+        }
         return;
     }
 
@@ -62,12 +85,18 @@ function escapeHtml(value) {
 }
 
 function showAlert(target, message, type = "error") {
+    if (!target) {
+        return;
+    }
     target.textContent = message;
     target.className = `community-alert ${type}`;
     target.style.display = "block";
 }
 
 function clearAlert(target) {
+    if (!target) {
+        return;
+    }
     target.textContent = "";
     target.className = "community-alert";
     target.style.display = "none";
@@ -84,6 +113,17 @@ function formatTimestamp(value) {
     }).format(date);
 }
 
+function formatClassDate(value) {
+    if (!value) {
+        return "-";
+    }
+    const [y, m, d] = String(value).split("-");
+    if (!y || !m || !d) {
+        return value;
+    }
+    return `${d}/${m}/${y}`;
+}
+
 function statusLabel(status) {
     if (status === "resolved") {
         return "Resolvido";
@@ -92,6 +132,16 @@ function statusLabel(status) {
         return "Em andamento";
     }
     return "Novo";
+}
+
+function attendanceStatusLabel(status) {
+    if (status === "present") {
+        return "Presente";
+    }
+    if (status === "absent") {
+        return "Ausente";
+    }
+    return "-";
 }
 
 function renderEntries() {
@@ -160,6 +210,61 @@ function renderMessages(messages) {
     dom.chatBox.scrollTop = dom.chatBox.scrollHeight;
 }
 
+function renderAttendanceSessionFilter() {
+    if (!dom.attendanceSessionFilter) {
+        return;
+    }
+
+    if (!state.classSessions.length) {
+        dom.attendanceSessionFilter.innerHTML = '<option value="">Sem aulas configuradas</option>';
+        state.selectedClassSessionId = "";
+        renderAttendanceTable([]);
+        return;
+    }
+
+    if (!state.selectedClassSessionId || !state.classSessions.some((item) => item.id === state.selectedClassSessionId)) {
+        state.selectedClassSessionId = state.classSessions[0].id;
+    }
+
+    dom.attendanceSessionFilter.innerHTML = state.classSessions
+        .map((item) => {
+            const status = item.hasClass ? "Aula confirmada" : "Sem aula";
+            const selected = item.id === state.selectedClassSessionId ? "selected" : "";
+            return `<option value="${item.id}" ${selected}>${formatClassDate(item.classDate)} · ${item.weekday || "Dia nao informado"} · ${status}</option>`;
+        })
+        .join("");
+
+    subscribeAttendanceForSelectedSession();
+}
+
+function renderAttendanceTable(rows) {
+    if (!dom.attendanceAdminBody) {
+        return;
+    }
+
+    if (!rows.length) {
+        dom.attendanceAdminBody.innerHTML = '<tr><td colspan="6" class="attendance-empty">Sem registros de presenca para esta aula.</td></tr>';
+        return;
+    }
+
+    dom.attendanceAdminBody.innerHTML = rows
+        .map((item) => `
+            <tr>
+                <td>${escapeHtml(item.studentName || "Aluno")}</td>
+                <td>${escapeHtml(item.studentEmail || "-")}</td>
+                <td>${formatClassDate(item.classDate)}</td>
+                <td>${escapeHtml(item.weekday || "-")}</td>
+                <td>${attendanceStatusLabel(item.status)}</td>
+                <td>${formatTimestamp(item.updatedAt || item.markedAt)}</td>
+            </tr>
+        `)
+        .join("");
+}
+
+function selectedClassSession() {
+    return state.classSessions.find((item) => item.id === state.selectedClassSessionId) || null;
+}
+
 function openEntry(entryId) {
     state.selectedEntry = state.entries.find((item) => item.id === entryId) || null;
     renderEntries();
@@ -212,6 +317,84 @@ function watchEntries() {
 
         renderEntries();
     });
+}
+
+function watchClassSessions() {
+    if (state.unsubscribeClassSessions) {
+        state.unsubscribeClassSessions();
+        state.unsubscribeClassSessions = null;
+    }
+
+    state.unsubscribeClassSessions = subscribeClassSessions((rows) => {
+        state.classSessions = rows;
+        renderAttendanceSessionFilter();
+    });
+}
+
+function subscribeAttendanceForSelectedSession() {
+    if (state.unsubscribeAttendanceBySession) {
+        state.unsubscribeAttendanceBySession();
+        state.unsubscribeAttendanceBySession = null;
+    }
+
+    if (!state.selectedClassSessionId) {
+        renderAttendanceTable([]);
+        return;
+    }
+
+    state.unsubscribeAttendanceBySession = subscribeAttendanceBySession(state.selectedClassSessionId, renderAttendanceTable);
+}
+
+async function saveClassSetup() {
+    clearAlert(dom.attendanceAdminAlert);
+
+    const classDate = dom.classDate.value;
+    const weekday = dom.classWeekday.value;
+    const hasClass = dom.classHasClass.value === "yes";
+    const note = dom.classNote.value.trim();
+
+    if (!classDate || !weekday) {
+        showAlert(dom.attendanceAdminAlert, "Preencha data e dia da semana para salvar a aula.");
+        return;
+    }
+
+    await upsertClassSession({
+        classDate,
+        weekday,
+        hasClass,
+        note,
+        updatedBy: state.session.uid
+    });
+
+    state.selectedClassSessionId = classDate;
+    showAlert(dom.attendanceAdminAlert, "Configuracao de aula salva com sucesso.", "success");
+}
+
+function sendWhatsappClassInfo() {
+    clearAlert(dom.attendanceAdminAlert);
+
+    const classDate = dom.classDate.value;
+    const weekday = dom.classWeekday.value;
+    const hasClass = dom.classHasClass.value === "yes";
+    const note = dom.classNote.value.trim();
+
+    if (!classDate || !weekday) {
+        showAlert(dom.attendanceAdminAlert, "Preencha data e dia para gerar o informativo.");
+        return;
+    }
+
+    const classStatus = hasClass ? "CONFIRMADA" : "CANCELADA";
+    const text = [
+        "Comunicado de Aula",
+        `Data: ${formatClassDate(classDate)}`,
+        `Dia: ${weekday}`,
+        `Status: ${classStatus}`,
+        note ? `Observacao: ${note}` : ""
+    ].filter(Boolean).join("\n");
+
+    const url = `https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent(text)}`;
+    window.open(url, "_blank", "noopener");
+    showAlert(dom.attendanceAdminAlert, "WhatsApp aberto com a mensagem de confirmacao da aula.", "success");
 }
 
 async function sendQuickReply() {
@@ -290,6 +473,29 @@ function bindEvents() {
             showAlert(dom.replyAlert, error.message || "Falha ao atualizar status.");
         }
     });
+
+    dom.saveClassBtn.addEventListener("click", async () => {
+        try {
+            await saveClassSetup();
+        } catch (error) {
+            showAlert(dom.attendanceAdminAlert, error.message || "Falha ao salvar configuracao da aula.");
+        }
+    });
+
+    dom.sendWhatsappInfoBtn.addEventListener("click", sendWhatsappClassInfo);
+
+    dom.attendanceSessionFilter.addEventListener("change", () => {
+        state.selectedClassSessionId = dom.attendanceSessionFilter.value;
+        subscribeAttendanceForSelectedSession();
+
+        const current = selectedClassSession();
+        if (current) {
+            dom.classDate.value = current.classDate || "";
+            dom.classWeekday.value = current.weekday || "";
+            dom.classHasClass.value = current.hasClass ? "yes" : "no";
+            dom.classNote.value = current.note || "";
+        }
+    });
 }
 
 function validateAdminSession(session) {
@@ -307,6 +513,33 @@ function validateAdminSession(session) {
     return true;
 }
 
+function clearAdminState() {
+    if (state.unsubscribeEntries) {
+        state.unsubscribeEntries();
+        state.unsubscribeEntries = null;
+    }
+
+    if (state.unsubscribeMessages) {
+        state.unsubscribeMessages();
+        state.unsubscribeMessages = null;
+    }
+
+    if (state.unsubscribeClassSessions) {
+        state.unsubscribeClassSessions();
+        state.unsubscribeClassSessions = null;
+    }
+
+    if (state.unsubscribeAttendanceBySession) {
+        state.unsubscribeAttendanceBySession();
+        state.unsubscribeAttendanceBySession = null;
+    }
+
+    dom.adminUserBadge.textContent = "sem sessao admin";
+    dom.adminEntries.innerHTML = '<div class="chat-empty">Sem permissao para visualizar entradas.</div>';
+    dom.chatBox.innerHTML = '<div class="chat-empty">Sem permissao para visualizar conversas.</div>';
+    renderAttendanceTable([]);
+}
+
 function init() {
     if (!isFirebaseConfigured) {
         showAlert(dom.adminAuthAlert, "Configure o Firebase em js/js/community/firebase-config.js.");
@@ -320,20 +553,13 @@ function init() {
         syncSessionStorage(session);
 
         if (!validateAdminSession(session)) {
-            if (state.unsubscribeEntries) {
-                state.unsubscribeEntries();
-            }
-            if (state.unsubscribeMessages) {
-                state.unsubscribeMessages();
-            }
-            dom.adminUserBadge.textContent = "sem sessao admin";
-            dom.adminEntries.innerHTML = '<div class="chat-empty">Sem permissao para visualizar entradas.</div>';
-            dom.chatBox.innerHTML = '<div class="chat-empty">Sem permissao para visualizar conversas.</div>';
+            clearAdminState();
             return;
         }
 
         dom.adminUserBadge.textContent = `${session.displayName} (admin)`;
         watchEntries();
+        watchClassSessions();
     });
 }
 

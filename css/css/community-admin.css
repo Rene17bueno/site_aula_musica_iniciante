@@ -86,8 +86,43 @@
     flex-wrap: wrap;
 }
 
+.attendance-admin-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 760px;
+}
+
+.attendance-table th,
+.attendance-table td {
+    border-bottom: 1px solid rgba(201, 169, 89, 0.15);
+    padding: 0.5rem 0.45rem;
+    text-align: left;
+    font-size: 0.84rem;
+}
+
+.attendance-table th {
+    color: #f1dfb0;
+    font-weight: 600;
+}
+
+.attendance-empty {
+    text-align: center !important;
+    color: #b5b0a8;
+    padding: 1rem !important;
+}
+
 @media (max-width: 992px) {
     .admin-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .attendance-admin-grid {
         grid-template-columns: 1fr;
     }
 }

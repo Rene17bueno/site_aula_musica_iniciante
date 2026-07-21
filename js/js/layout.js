@@ -63,6 +63,9 @@ const NAVBAR_HTML = `
                     <li class="nav-item">
                         <a class="nav-link" href="comunidade.html"><i class="fas fa-comments me-1"></i> Comunidade</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="presenca.html"><i class="fas fa-clipboard-check me-1"></i> Presenca</a>
+                    </li>
                     <li class="nav-item d-none" id="nav-admin-item">
                         <a class="nav-link" href="comunidade-admin.html"><i class="fas fa-user-shield me-1"></i> Painel Admin</a>
                     </li>

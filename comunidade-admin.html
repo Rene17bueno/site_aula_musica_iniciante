@@ -29,6 +29,75 @@
 
         <div id="admin-auth-alert" class="community-alert" style="display:none;"></div>
 
+        <section class="community-card mb-3">
+            <h2 class="mb-2">Lista de Presenca · Configuracao de Aula</h2>
+            <p class="community-muted">Defina data, dia da semana, se havera aula e gere informativo via WhatsApp.</p>
+
+            <div id="attendance-admin-alert" class="community-alert" style="display:none;"></div>
+
+            <div class="attendance-admin-grid mb-3">
+                <div>
+                    <label class="community-label" for="class-date">Data da aula</label>
+                    <input id="class-date" class="community-input" type="date" />
+                </div>
+                <div>
+                    <label class="community-label" for="class-weekday">Dia da semana</label>
+                    <select id="class-weekday" class="community-select">
+                        <option value="">Selecione...</option>
+                        <option value="Segunda-feira">Segunda-feira</option>
+                        <option value="Terca-feira">Terca-feira</option>
+                        <option value="Quarta-feira">Quarta-feira</option>
+                        <option value="Quinta-feira">Quinta-feira</option>
+                        <option value="Sexta-feira">Sexta-feira</option>
+                        <option value="Sabado">Sabado</option>
+                        <option value="Domingo">Domingo</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="community-label" for="class-has-class">Havera aula?</label>
+                    <select id="class-has-class" class="community-select">
+                        <option value="yes">Sim</option>
+                        <option value="no">Nao</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="community-label" for="class-note">Informativo da aula (opcional)</label>
+                <textarea id="class-note" class="community-textarea" placeholder="Ex.: Aula confirmada para as 19:30"></textarea>
+            </div>
+
+            <div class="admin-actions mb-3">
+                <button type="button" id="btn-save-class" class="community-btn">Salvar configuracao</button>
+                <button type="button" id="btn-send-whatsapp-info" class="community-btn ghost">Enviar informativo por WhatsApp</button>
+            </div>
+
+            <div class="mb-2">
+                <label class="community-label" for="attendance-session-filter">Visualizar lista da aula</label>
+                <select id="attendance-session-filter" class="community-select"></select>
+            </div>
+
+            <div class="admin-entry-list">
+                <table class="attendance-table">
+                    <thead>
+                        <tr>
+                            <th>Aluno</th>
+                            <th>Email</th>
+                            <th>Data</th>
+                            <th>Dia</th>
+                            <th>Status</th>
+                            <th>Atualizado em</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendance-admin-body">
+                        <tr>
+                            <td colspan="6" class="attendance-empty">Sem registros de presenca para exibir.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
         <div class="admin-layout">
             <section class="community-card">
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">

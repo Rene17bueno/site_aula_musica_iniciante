@@ -32,6 +32,17 @@ service cloud.firestore {
       allow update, delete: if isAdmin();
     }
 
+    match /classSessions/{sessionId} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /attendanceRecords/{recordId} {
+      allow read: if isAdmin() || (isSignedIn() && resource.data.uid == request.auth.uid);
+      allow create, update: if isSignedIn() && request.resource.data.uid == request.auth.uid;
+      allow delete: if isAdmin() || (isSignedIn() && resource.data.uid == request.auth.uid);
+    }
+
     match /chats/{threadId} {
       allow read, create, update: if isAdmin() || isOwner(threadId);
 
