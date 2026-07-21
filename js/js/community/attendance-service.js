@@ -14,35 +14,59 @@ function attendanceDocId(sessionId, uid) {
     return `${sessionId}_${uid}`;
 }
 
-export function subscribeClassSessions(callback) {
+export function subscribeClassSessions(callback, onError) {
     const sessionsQuery = query(collection(db, "classSessions"), orderBy("classDate", "desc"));
-    return onSnapshot(sessionsQuery, (snapshot) => {
-        callback(snapshot.docs.map((item) => ({ id: item.id, ...item.data() })));
-    });
+    return onSnapshot(
+        sessionsQuery,
+        (snapshot) => {
+            callback(snapshot.docs.map((item) => ({ id: item.id, ...item.data() })));
+        },
+        (error) => {
+            if (typeof onError === "function") {
+                onError(error);
+            }
+        }
+    );
 }
 
-export function subscribeAttendanceByUser(uid, callback) {
+export function subscribeAttendanceByUser(uid, callback, onError) {
     const attendanceQuery = query(
         collection(db, "attendanceRecords"),
         where("uid", "==", uid),
         orderBy("classDate", "desc")
     );
 
-    return onSnapshot(attendanceQuery, (snapshot) => {
-        callback(snapshot.docs.map((item) => ({ id: item.id, ...item.data() })));
-    });
+    return onSnapshot(
+        attendanceQuery,
+        (snapshot) => {
+            callback(snapshot.docs.map((item) => ({ id: item.id, ...item.data() })));
+        },
+        (error) => {
+            if (typeof onError === "function") {
+                onError(error);
+            }
+        }
+    );
 }
 
-export function subscribeAttendanceBySession(sessionId, callback) {
+export function subscribeAttendanceBySession(sessionId, callback, onError) {
     const attendanceQuery = query(
         collection(db, "attendanceRecords"),
         where("sessionId", "==", sessionId),
         orderBy("studentName", "asc")
     );
 
-    return onSnapshot(attendanceQuery, (snapshot) => {
-        callback(snapshot.docs.map((item) => ({ id: item.id, ...item.data() })));
-    });
+    return onSnapshot(
+        attendanceQuery,
+        (snapshot) => {
+            callback(snapshot.docs.map((item) => ({ id: item.id, ...item.data() })));
+        },
+        (error) => {
+            if (typeof onError === "function") {
+                onError(error);
+            }
+        }
+    );
 }
 
 export async function upsertClassSession({ classDate, weekday, hasClass, note, updatedBy }) {

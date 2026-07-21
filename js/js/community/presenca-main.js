@@ -172,11 +172,21 @@ function initObservers() {
     if (state.unsubscribeSessions) {
         state.unsubscribeSessions();
     }
-    state.unsubscribeSessions = subscribeClassSessions((rows) => {
-        state.sessions = rows;
-        renderSessionOptions();
-        setSessionUI(state.session);
-    });
+    state.unsubscribeSessions = subscribeClassSessions(
+        (rows) => {
+            state.sessions = rows;
+            renderSessionOptions();
+            setSessionUI(state.session);
+        },
+        (error) => {
+            showAlert(
+                dom.authAlert,
+                error?.message?.includes("Missing or insufficient permissions")
+                    ? "Permissao de leitura da agenda negada. Publique novamente o firestore.rules no Firebase."
+                    : (error.message || "Falha ao carregar agenda de aulas.")
+            );
+        }
+    );
 }
 
 function init() {
@@ -210,7 +220,13 @@ function init() {
             state.unsubscribeAttendance();
         }
 
-        state.unsubscribeAttendance = subscribeAttendanceByUser(session.uid, renderAttendanceHistory);
+        state.unsubscribeAttendance = subscribeAttendanceByUser(
+            session.uid,
+            renderAttendanceHistory,
+            (error) => {
+                showAlert(dom.markAlert, error.message || "Falha ao carregar historico de presenca.");
+            }
+        );
     });
 }
 

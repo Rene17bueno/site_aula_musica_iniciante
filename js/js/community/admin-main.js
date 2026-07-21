@@ -328,10 +328,21 @@ function watchClassSessions() {
         state.unsubscribeClassSessions = null;
     }
 
-    state.unsubscribeClassSessions = subscribeClassSessions((rows) => {
-        state.classSessions = rows;
-        renderAttendanceSessionFilter();
-    });
+    state.unsubscribeClassSessions = subscribeClassSessions(
+        (rows) => {
+            state.classSessions = rows;
+            renderAttendanceSessionFilter();
+        },
+        (error) => {
+            showAlert(
+                dom.attendanceAdminAlert,
+                error?.message?.includes("Missing or insufficient permissions")
+                    ? "Permissao negada para ler agenda de aulas. Publique novamente o firestore.rules no Firebase."
+                    : (error.message || "Falha ao carregar agenda de aulas."),
+                "error"
+            );
+        }
+    );
 }
 
 function subscribeAttendanceForSelectedSession() {
@@ -345,7 +356,13 @@ function subscribeAttendanceForSelectedSession() {
         return;
     }
 
-    state.unsubscribeAttendanceBySession = subscribeAttendanceBySession(state.selectedClassSessionId, renderAttendanceTable);
+    state.unsubscribeAttendanceBySession = subscribeAttendanceBySession(
+        state.selectedClassSessionId,
+        renderAttendanceTable,
+        (error) => {
+            showAlert(dom.attendanceAdminAlert, error.message || "Falha ao carregar lista de presenca.", "error");
+        }
+    );
 }
 
 async function saveClassSetup() {
