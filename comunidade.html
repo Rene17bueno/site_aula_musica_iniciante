@@ -31,7 +31,7 @@
             <section class="community-col-5">
                 <article class="community-card mb-3">
                     <h2>1) Acesso</h2>
-                    <p class="community-muted">Cadastro e login com email/senha.</p>
+                    <p class="community-muted">Cadastro com email + WhatsApp/@Instagram e login por email, numero ou @usuario.</p>
 
                     <div id="auth-alert" class="community-alert" style="display: none;"></div>
 
@@ -46,12 +46,28 @@
                             <input class="community-input" id="display-name" name="displayName" type="text" autocomplete="name" />
                         </div>
                         <div class="mb-2">
-                            <label class="community-label" for="auth-email">Email</label>
-                            <input class="community-input" id="auth-email" name="email" type="email" required autocomplete="email" />
+                            <label class="community-label" for="auth-identifier">Email, WhatsApp ou @Instagram</label>
+                            <input class="community-input" id="auth-identifier" name="identifier" type="text" required autocomplete="username" placeholder="email@dominio.com | 5599999999999 | @usuario" />
+                        </div>
+                        <div class="mb-2" id="group-signup-email" style="display:none;">
+                            <label class="community-label" for="signup-email">Email para cadastro</label>
+                            <input class="community-input" id="signup-email" name="signupEmail" type="email" autocomplete="email" placeholder="email@dominio.com" />
+                        </div>
+                        <div class="mb-2" id="group-whatsapp" style="display:none;">
+                            <label class="community-label" for="signup-whatsapp">WhatsApp</label>
+                            <input class="community-input" id="signup-whatsapp" name="whatsapp" type="tel" autocomplete="tel" placeholder="55DDDNUMERO" />
+                        </div>
+                        <div class="mb-2" id="group-instagram" style="display:none;">
+                            <label class="community-label" for="signup-instagram">Instagram (@usuario)</label>
+                            <input class="community-input" id="signup-instagram" name="instagram" type="text" autocomplete="nickname" placeholder="@rene_aparecido_bueno" />
                         </div>
                         <div class="mb-2">
                             <label class="community-label" for="auth-password">Senha</label>
                             <input class="community-input" id="auth-password" name="password" type="password" required minlength="6" autocomplete="current-password" />
+                        </div>
+                        <div class="community-reset-actions mb-2">
+                            <button type="button" class="community-link-btn" id="btn-reset-email">Redefinir por email</button>
+                            <button type="button" class="community-link-btn" id="btn-reset-whatsapp">Redefinir por WhatsApp</button>
                         </div>
                         <button type="submit" class="community-btn w-100" id="auth-submit">Entrar</button>
                     </form>

@@ -3,7 +3,8 @@ import {
     signUpWithEmail,
     signInWithEmail,
     observeAuthSession,
-    logoutUser
+    logoutUser,
+    sendResetPasswordEmail
 } from "./auth-service.js";
 import { submitVisitorEntry } from "./visitor-service.js";
 import {
@@ -20,6 +21,8 @@ const state = {
     unsubscribeThreads: null
 };
 
+const SUPPORT_WHATSAPP = "5511999999999";
+
 const dom = {
     authAlert: document.getElementById("auth-alert"),
     visitorAlert: document.getElementById("visitor-alert"),
@@ -30,8 +33,16 @@ const dom = {
     authModeSignup: document.getElementById("btn-auth-mode-signup"),
     displayNameGroup: document.getElementById("group-display-name"),
     displayNameInput: document.getElementById("display-name"),
-    authEmail: document.getElementById("auth-email"),
+    signupEmailGroup: document.getElementById("group-signup-email"),
+    signupEmail: document.getElementById("signup-email"),
+    signupWhatsappGroup: document.getElementById("group-whatsapp"),
+    signupWhatsapp: document.getElementById("signup-whatsapp"),
+    signupInstagramGroup: document.getElementById("group-instagram"),
+    signupInstagram: document.getElementById("signup-instagram"),
+    authIdentifier: document.getElementById("auth-identifier"),
     authPassword: document.getElementById("auth-password"),
+    resetByEmailBtn: document.getElementById("btn-reset-email"),
+    resetByWhatsappBtn: document.getElementById("btn-reset-whatsapp"),
     authSession: document.getElementById("auth-session"),
     sessionUser: document.getElementById("session-user"),
     logoutBtn: document.getElementById("logout-btn"),
@@ -106,7 +117,13 @@ function setAuthMode(mode) {
 
     const isSignup = mode === "signup";
     dom.displayNameGroup.style.display = isSignup ? "block" : "none";
+    dom.signupEmailGroup.style.display = isSignup ? "block" : "none";
+    dom.signupWhatsappGroup.style.display = isSignup ? "block" : "none";
+    dom.signupInstagramGroup.style.display = isSignup ? "block" : "none";
     dom.authSubmit.textContent = isSignup ? "Cadastrar" : "Entrar";
+    dom.authIdentifier.placeholder = isSignup
+        ? "Preencha com um email para login principal"
+        : "email@dominio.com | 5599999999999 | @usuario";
 
     dom.authModeLogin.classList.toggle("ghost", mode !== "login");
     dom.authModeSignup.classList.toggle("ghost", mode !== "signup");
@@ -128,9 +145,12 @@ function setAuthenticatedUI(session) {
 
     if (!isAuthenticated) {
         dom.authForm.reset();
-        dom.authEmail.value = "";
+        dom.authIdentifier.value = "";
         dom.authPassword.value = "";
         dom.displayNameInput.value = "";
+        dom.signupEmail.value = "";
+        dom.signupWhatsapp.value = "";
+        dom.signupInstagram.value = "";
         dom.sessionUser.textContent = "";
         dom.visitorName.value = "";
         dom.visitorEmail.value = "";
@@ -268,7 +288,10 @@ function bindEvents() {
         const formData = new FormData(dom.authForm);
         const payload = {
             name: String(formData.get("displayName") || "").trim(),
-            email: String(formData.get("email") || "").trim(),
+            identifier: String(formData.get("identifier") || "").trim(),
+            email: String(formData.get("signupEmail") || "").trim(),
+            whatsapp: String(formData.get("whatsapp") || "").trim(),
+            instagram: String(formData.get("instagram") || "").trim(),
             password: String(formData.get("password") || "")
         };
 
@@ -276,6 +299,12 @@ function bindEvents() {
             if (state.authMode === "signup") {
                 if (!payload.name) {
                     throw new Error("Informe seu nome para criar a conta.");
+                }
+                if (!payload.email) {
+                    throw new Error("Informe um email valido para o cadastro.");
+                }
+                if (!payload.whatsapp) {
+                    throw new Error("Informe seu numero de WhatsApp no cadastro.");
                 }
                 await signUpWithEmail(payload);
                 showAlert(dom.authAlert, "Conta criada com sucesso.", "success");
@@ -293,14 +322,41 @@ function bindEvents() {
         try {
             await logoutUser();
             dom.authForm.reset();
-            dom.authEmail.value = "";
+            dom.authIdentifier.value = "";
             dom.authPassword.value = "";
             dom.displayNameInput.value = "";
+            dom.signupEmail.value = "";
+            dom.signupWhatsapp.value = "";
+            dom.signupInstagram.value = "";
             clearAlert(dom.chatAlert);
             showAlert(dom.authAlert, "Sessao encerrada com sucesso.", "success");
         } catch (error) {
             showAlert(dom.authAlert, error.message || "Erro ao encerrar sessao.");
         }
+    });
+
+    dom.resetByEmailBtn.addEventListener("click", async () => {
+        clearAlert(dom.authAlert);
+        const identifier = dom.authIdentifier.value.trim();
+
+        if (!identifier) {
+            showAlert(dom.authAlert, "Informe email, WhatsApp ou @Instagram para recuperar a senha.");
+            return;
+        }
+
+        try {
+            await sendResetPasswordEmail(identifier);
+            showAlert(dom.authAlert, "Link de redefinicao enviado para o email da conta.", "success");
+        } catch (error) {
+            showAlert(dom.authAlert, error.message || "Falha ao enviar redefinicao por email.");
+        }
+    });
+
+    dom.resetByWhatsappBtn.addEventListener("click", () => {
+        const identifier = dom.authIdentifier.value.trim() || "sem identificador";
+        const url = `https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent(`Ola! Preciso redefinir minha senha. Identificador: ${identifier}`)}`;
+        window.open(url, "_blank", "noopener");
+        showAlert(dom.authAlert, "Abrimos o WhatsApp para solicitar redefinicao com suporte.", "success");
     });
 
     dom.visitorForm.addEventListener("submit", async (event) => {

@@ -133,6 +133,26 @@
     margin-bottom: 0.8rem;
 }
 
+.community-reset-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.community-link-btn {
+    background: transparent;
+    border: none;
+    color: var(--gold-light);
+    padding: 0;
+    font-size: 0.84rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.community-link-btn:hover {
+    color: #f3dfaa;
+}
+
 .community-user-badge {
     border: 1px solid rgba(102, 217, 102, 0.4);
     color: #b7f7b7;
