@@ -19,7 +19,8 @@ import {
 const SUPPORT_WHATSAPP = "5544991379447";
 // Configure um webhook de automacao (n8n/Make/Zapier/Cloud Function)
 // para envio automatico sem abrir o WhatsApp Web.
-const WHATSAPP_AUTOMATION_WEBHOOK = "";
+const WHATSAPP_AUTOMATION_WEBHOOK = "https://SEU-WEBHOOK-RENDER.onrender.com/send-class-notice";
+const WHATSAPP_AUTOMATION_KEY = "";
 
 const state = {
     session: null,
@@ -406,11 +407,17 @@ async function sendWhatsappClassInfo() {
             sentByUid: state.session?.uid || ""
         };
 
+        const headers = {
+            "Content-Type": "application/json"
+        };
+
+        if (WHATSAPP_AUTOMATION_KEY) {
+            headers["x-webhook-key"] = WHATSAPP_AUTOMATION_KEY;
+        }
+
         return fetch(WHATSAPP_AUTOMATION_WEBHOOK, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers,
             body: JSON.stringify(payload)
         })
             .then(async (response) => {
