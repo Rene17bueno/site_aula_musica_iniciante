@@ -34,19 +34,25 @@
             home: "Início", chapters: "Capítulos", chapter: "Capítulo",
             chords: "Acordes", games: "Jogos",
             visualChallenge: "Desafio Visual", noteId: "Identificação de Notas",
-            community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin"
+            community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin",
+            navBrand: "<span>Violão</span> &middot; Iniciante",
+            footBrand: "<span>Estudo de Violão</span> Iniciante"
         },
         en: {
             home: "Home", chapters: "Chapters", chapter: "Chapter",
             chords: "Chords", games: "Games",
             visualChallenge: "Visual Challenge", noteId: "Note Identification",
-            community: "Community", attendance: "Attendance", adminPanel: "Admin Panel"
+            community: "Community", attendance: "Attendance", adminPanel: "Admin Panel",
+            navBrand: "<span>Guitar</span> &middot; Beginner",
+            footBrand: "<span>Beginner</span> Guitar Study"
         },
         es: {
             home: "Inicio", chapters: "Capítulos", chapter: "Capítulo",
             chords: "Acordes", games: "Juegos",
             visualChallenge: "Desafío Visual", noteId: "Identificación de Notas",
-            community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración"
+            community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración",
+            navBrand: "<span>Guitarra</span> &middot; Principiante",
+            footBrand: "<span>Estudio de Guitarra</span> para Principiantes"
         }
     };
     var t = T[LANG];
@@ -92,7 +98,7 @@
     var NAVBAR_HTML =
         '<nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">' +
         '<div class="container-fluid container-md">' +
-        '<a class="navbar-brand nav-brand-title" href="' + local("index.html") + '"><span>Tratado</span> &middot; Musicologia</a>' +
+        '<a class="navbar-brand nav-brand-title" href="' + local("index.html") + '">' + t.navBrand + '</a>' +
         '<button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">' +
         '<span class="navbar-toggler-icon"></span></button>' +
         '<div class="collapse navbar-collapse justify-content-end" id="navbarContent">' +
@@ -134,7 +140,7 @@
     var FOOTER_HTML =
         '<footer class="site-footer py-4 mt-auto">' +
         '<div class="container text-center">' +
-        '<div class="footer-brand mb-2"><span>Tratado</span> &middot; Musicologia</div>' +
+        '<div class="footer-brand mb-2">' + t.footBrand + '</div>' +
         '<div class="small mb-3" style="color: #b5b0a8;">' +
         '<i class="fas fa-copyright me-1" style="color:#c9a959;"></i> 2026 &middot; Renê Aparecido Bueno &middot; Maringá &middot; PR' +
         '</div>' +
