@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://golden-sunflower-582f7f.netlify.app/sitemap.xml

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter VIII - Mechanics and Inversion on the Keyboard | Treatise on Musicology</title>
+    <meta name="description" content="Chapter VIII of the Treatise on Musicology and Tonal Harmony - Mechanics and Inversion of Chords on the Keyboard" />
+
+    <link rel="canonical" href="https://golden-sunflower-582f7f.netlify.app/en/capitulo8.html" />
+    <link rel="alternate" hreflang="pt-BR" href="https://golden-sunflower-582f7f.netlify.app/capitulo8.html" />
+    <link rel="alternate" hreflang="en" href="https://golden-sunflower-582f7f.netlify.app/en/capitulo8.html" />
+    <link rel="alternate" hreflang="es" href="https://golden-sunflower-582f7f.netlify.app/es/capitulo8.html" />
+    <link rel="alternate" hreflang="x-default" href="https://golden-sunflower-582f7f.netlify.app/capitulo8.html" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../css/css/style.css" />
+</head>
+<body>
+
+    <div id="site-navbar"></div>
+
+    <main class="chapter-content py-5" style="margin-top: 70px;" data-premium="true">
+        <div class="container">
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Chapter VIII</li>
+                </ol>
+            </nav>
+
+            <span class="section-tag"><i class="fas fa-hand-fist"></i> Chapter VIII</span>
+            <h1>Mechanics and Inversion of <span class="gold">Chords on the Keyboard</span></h1>
+            <p class="chapter-subtitle">Voice leading, economy of motion and a map of inversions</p>
+
+            <h2>12.1 Voice Leading and the Economy of Motion</h2>
+            <p>
+                In the practical study of the keyboard and the piano, one of the biggest mistakes beginners make is jumping
+                from one chord to the next while keeping every note in root position.
+            </p>
+
+            <h2>12.2 Root Position, First Inversion and Second Inversion</h2>
+            <p>
+                Inversion occurs when we change the physical order of the notes that make up the chord, changing which note
+                is placed as the lowest one (the bass).
+            </p>
+
+            <div id="tabelaInversoes"></div>
+
+            <nav class="chapter-nav mt-5">
+                <a href="capitulo7.html">
+                    <span class="nav-label"><i class="fas fa-arrow-left"></i> Previous</span>
+                    <span class="nav-title">Chapter VII &mdash; Cadences</span>
+                </a>
+                <a href="capitulo9.html">
+                    <span class="nav-label">Next <i class="fas fa-arrow-right"></i></span>
+                    <span class="nav-title">Chapter IX &mdash; Geometry of the Guitar Neck (CAGED)</span>
+                </a>
+            </nav>
+
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="../js/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            createTable('tabelaInversoes',
+                ['Inversion', 'Example Symbol', 'Note Order', 'Bass Note', 'Psychoacoustic Effect'],
+                [
+                    ['Root position', 'C (C major)', 'C &ndash; E &ndash; G', 'Root (C)', 'Total stability'],
+                    ['1st inversion', 'C/E', 'E &ndash; G &ndash; C', 'Third (E)', 'Softer sonority'],
+                    ['2nd inversion', 'C/G', 'G &ndash; C &ndash; E', 'Fifth (G)', 'Suspended character'],
+                    ['3rd inversion', 'Cmaj7/B', 'B &ndash; C &ndash; E &ndash; G', 'Seventh (B)', 'Strong melodic pull']
+                ],
+                'Mapping of Triad and Seventh-Chord Inversions on the Piano/Keyboard'
+            );
+        });
+    </script>
+
+    <script src="../js/js/paywall.js"></script>
+    <script src="../js/js/layout.js"></script>
+</body>
+</html>

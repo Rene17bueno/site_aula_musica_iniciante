@@ -1,161 +1,188 @@
 // ============================================================
-// LAYOUT COMPARTILHADO
-// Navbar, rodapé e ativação de links reutilizados em todas as
-// páginas do site. Injeta o markup nos placeholders
-// #site-navbar e #site-footer (ou, na ausência deles, no início
-// e no fim do <body>).
+// LAYOUT COMPARTILHADO / SHARED LAYOUT / DISEÑO COMPARTIDO
+// Navbar, rodapé e seletor de idioma reutilizados em todas as
+// páginas. Detecta o idioma pela URL (/en/ ou /es/) e injeta o
+// markup traduzido nos placeholders #site-navbar e #site-footer.
 // ============================================================
 
-const NAVBAR_HTML = `
-    <nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">
-        <div class="container-fluid container-md">
-            <a class="navbar-brand nav-brand-title" href="index.html">
-                <span>Tratado</span> · Musicologia
-            </a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
-                <ul class="navbar-nav mb-2 mb-lg-0 gap-2 text-center text-lg-start pt-3 pt-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html"><i class="fas fa-home me-1"></i> Início</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="capitulosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-book me-1"></i> Capítulos
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capitulosDropdown">
-                            <li><a class="dropdown-item" href="capitulo1.html">Capítulo 1</a></li>
-                            <li><a class="dropdown-item" href="capitulo2.html">Capítulo 2</a></li>
-                            <li><a class="dropdown-item" href="capitulo3.html">Capítulo 3</a></li>
-                            <li><a class="dropdown-item" href="capitulo4.html">Capítulo 4</a></li>
-                            <li><a class="dropdown-item" href="capitulo5.html">Capítulo 5</a></li>
-                            <li><a class="dropdown-item" href="capitulo6.html">Capítulo 6</a></li>
-                            <li><a class="dropdown-item" href="capitulo7.html">Capítulo 7</a></li>
-                            <li><a class="dropdown-item" href="capitulo8.html">Capítulo 8</a></li>
-                            <li><a class="dropdown-item" href="capitulo9.html">Capítulo 9</a></li>
-                            <li><a class="dropdown-item" href="capitulo10.html">Capítulo 10</a></li>
-                            <li><a class="dropdown-item" href="capitulo11.html">Capítulo 11</a></li>
-                            <li><a class="dropdown-item" href="capitulo12.html">Capítulo 12</a></li>
-                            <li><a class="dropdown-item" href="capitulo13.html">Capítulo 13</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="acordes.html"><i class="fas fa-guitar me-1"></i> Acordes</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="jogosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-gamepad me-1"></i> Jogos
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="jogosDropdown">
-                            <li>
-                                <a class="dropdown-item" href="jogo-imagem.html">
-                                    <i class="fas fa-eye me-2"></i> Desafio Visual
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="jogos.html">
-                                    <i class="fas fa-music me-2"></i> Identificação de Notas
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="comunidade.html"><i class="fas fa-comments me-1"></i> Comunidade</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="presenca.html"><i class="fas fa-clipboard-check me-1"></i> Presenca</a>
-                    </li>
-                    <li class="nav-item d-none" id="nav-admin-item">
-                        <a class="nav-link" href="comunidade-admin.html"><i class="fas fa-user-shield me-1"></i> Painel Admin</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>`;
+(function () {
+    "use strict";
 
-const ADMIN_ALLOWED_EMAIL = "rhb7pateta@gmail.com";
+    // ---- Detecção de idioma pela URL -----------------------
+    var path = window.location.pathname;
+    var LANG = "pt";
+    if (/\/en(\/|$)/.test(path)) LANG = "en";
+    else if (/\/es(\/|$)/.test(path)) LANG = "es";
 
-function syncAdminNavVisibility() {
-    const adminItem = document.getElementById("nav-admin-item");
-    if (!adminItem) {
-        return;
+    // Nome do arquivo atual (ex.: "capitulo4.html")
+    var file = path.split("/").pop();
+    if (!file) file = "index.html";
+
+    // Páginas que já possuem versão traduzida em /en/ e /es/
+    var TRANSLATED = {
+        "index.html": 1,
+        "capitulo1.html": 1, "capitulo2.html": 1, "capitulo3.html": 1,
+        "capitulo4.html": 1, "capitulo5.html": 1, "capitulo6.html": 1,
+        "capitulo7.html": 1, "capitulo8.html": 1, "capitulo9.html": 1,
+        "capitulo10.html": 1, "capitulo11.html": 1, "capitulo12.html": 1,
+        "capitulo13.html": 1
+    };
+
+    // ---- Dicionário de textos da interface -----------------
+    var T = {
+        pt: {
+            home: "Início", chapters: "Capítulos", chapter: "Capítulo",
+            chords: "Acordes", games: "Jogos",
+            visualChallenge: "Desafio Visual", noteId: "Identificação de Notas",
+            community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin"
+        },
+        en: {
+            home: "Home", chapters: "Chapters", chapter: "Chapter",
+            chords: "Chords", games: "Games",
+            visualChallenge: "Visual Challenge", noteId: "Note Identification",
+            community: "Community", attendance: "Attendance", adminPanel: "Admin Panel"
+        },
+        es: {
+            home: "Inicio", chapters: "Capítulos", chapter: "Capítulo",
+            chords: "Acordes", games: "Juegos",
+            visualChallenge: "Desafío Visual", noteId: "Identificación de Notas",
+            community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración"
+        }
+    };
+    var t = T[LANG];
+
+    // Páginas ainda não traduzidas: no /en/ e /es/ apontam para a raiz (PT).
+    function shared(f) {
+        return LANG === "pt" ? f : "../" + f;
+    }
+    // Páginas traduzidas: mesma pasta do idioma atual.
+    function local(f) {
+        return f;
     }
 
-    const role = (localStorage.getItem("communityRole") || "").toLowerCase();
-    const email = (localStorage.getItem("communityEmail") || "").toLowerCase();
-    const canSeeAdmin = role === "admin" && email === ADMIN_ALLOWED_EMAIL;
-
-    adminItem.classList.toggle("d-none", !canSeeAdmin);
-}
-
-window.refreshAdminNavVisibility = syncAdminNavVisibility;
-
-const FOOTER_HTML = `
-    <footer class="site-footer py-4 mt-auto">
-        <div class="container text-center">
-            <div class="footer-brand mb-2"><span>Tratado</span> · Musicologia</div>
-            <div class="small mb-3" style="color: #b5b0a8;">
-                <i class="fas fa-copyright me-1" style="color:#c9a959;"></i>
-                2026 · Renê Aparecido Bueno · Maringá · PR
-            </div>
-            <div class="footer-social d-flex justify-content-center gap-3">
-                <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                <a href="#" aria-label="E-mail"><i class="fas fa-envelope"></i></a>
-            </div>
-        </div>
-    </footer>`;
-
-function renderNavbar() {
-    const placeholder = document.getElementById('site-navbar');
-    if (placeholder) {
-        placeholder.outerHTML = NAVBAR_HTML;
-    } else {
-        document.body.insertAdjacentHTML('afterbegin', NAVBAR_HTML);
+    // ---- Link do seletor de idioma para a página equivalente ----
+    function switchTo(target) {
+        var f = TRANSLATED[file] ? file : "index.html";
+        if (target === "pt") return (LANG === "pt" ? f : "../" + f);
+        if (LANG === "pt") return target + "/" + f;
+        if (LANG === target) return f;
+        return "../" + target + "/" + f;
     }
-}
 
-function renderFooter() {
-    const placeholder = document.getElementById('site-footer');
-    if (placeholder) {
-        placeholder.outerHTML = FOOTER_HTML;
+    var CH = [];
+    for (var i = 1; i <= 13; i++) {
+        CH.push('<li><a class="dropdown-item" href="' + local("capitulo" + i + ".html") + '">' + t.chapter + " " + i + "</a></li>");
     }
-}
 
-function activateNavLinks() {
-    const fileName = window.location.pathname.split('/').pop() || 'index.html';
-    const currentPage = fileName === '' ? 'index.html' : fileName;
-    const allLinks = document.querySelectorAll('.navbar-nav .nav-link, .dropdown-menu .dropdown-item');
+    var LANG_SWITCH =
+        '<li class="nav-item dropdown">' +
+        '<a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">' +
+        '<i class="fas fa-globe me-1"></i> ' + LANG.toUpperCase() +
+        '</a>' +
+        '<ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="langDropdown">' +
+        '<li><a class="dropdown-item" href="' + switchTo("pt") + '">Português</a></li>' +
+        '<li><a class="dropdown-item" href="' + switchTo("en") + '">English</a></li>' +
+        '<li><a class="dropdown-item" href="' + switchTo("es") + '">Español</a></li>' +
+        '</ul>' +
+        '</li>';
 
-    allLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href === currentPage || href === './' + currentPage) {
-            link.classList.add('active');
-            if (link.classList.contains('dropdown-item')) {
-                const dropdown = link.closest('.dropdown');
-                if (dropdown) {
-                    const toggle = dropdown.querySelector('.dropdown-toggle');
-                    if (toggle) {
-                        toggle.classList.add('active');
+    var NAVBAR_HTML =
+        '<nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">' +
+        '<div class="container-fluid container-md">' +
+        '<a class="navbar-brand nav-brand-title" href="' + local("index.html") + '"><span>Tratado</span> &middot; Musicologia</a>' +
+        '<button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">' +
+        '<span class="navbar-toggler-icon"></span></button>' +
+        '<div class="collapse navbar-collapse justify-content-end" id="navbarContent">' +
+        '<ul class="navbar-nav mb-2 mb-lg-0 gap-2 text-center text-lg-start pt-3 pt-lg-0">' +
+        '<li class="nav-item"><a class="nav-link" href="' + local("index.html") + '"><i class="fas fa-home me-1"></i> ' + t.home + '</a></li>' +
+        '<li class="nav-item dropdown">' +
+        '<a class="nav-link dropdown-toggle" href="#" id="capitulosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-book me-1"></i> ' + t.chapters + '</a>' +
+        '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capitulosDropdown">' + CH.join("") + '</ul>' +
+        '</li>' +
+        '<li class="nav-item"><a class="nav-link" href="' + shared("acordes.html") + '"><i class="fas fa-guitar me-1"></i> ' + t.chords + '</a></li>' +
+        '<li class="nav-item dropdown">' +
+        '<a class="nav-link dropdown-toggle" href="#" id="jogosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-gamepad me-1"></i> ' + t.games + '</a>' +
+        '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="jogosDropdown">' +
+        '<li><a class="dropdown-item" href="' + shared("jogo-imagem.html") + '"><i class="fas fa-eye me-2"></i> ' + t.visualChallenge + '</a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("jogos.html") + '"><i class="fas fa-music me-2"></i> ' + t.noteId + '</a></li>' +
+        '</ul>' +
+        '</li>' +
+        '<li class="nav-item"><a class="nav-link" href="' + shared("comunidade.html") + '"><i class="fas fa-comments me-1"></i> ' + t.community + '</a></li>' +
+        '<li class="nav-item"><a class="nav-link" href="' + shared("presenca.html") + '"><i class="fas fa-clipboard-check me-1"></i> ' + t.attendance + '</a></li>' +
+        '<li class="nav-item d-none" id="nav-admin-item"><a class="nav-link" href="' + shared("comunidade-admin.html") + '"><i class="fas fa-user-shield me-1"></i> ' + t.adminPanel + '</a></li>' +
+        LANG_SWITCH +
+        '</ul>' +
+        '</div>' +
+        '</div>' +
+        '</nav>';
+
+    var ADMIN_ALLOWED_EMAIL = "rhb7pateta@gmail.com";
+
+    function syncAdminNavVisibility() {
+        var adminItem = document.getElementById("nav-admin-item");
+        if (!adminItem) return;
+        var role = (localStorage.getItem("communityRole") || "").toLowerCase();
+        var email = (localStorage.getItem("communityEmail") || "").toLowerCase();
+        var canSeeAdmin = role === "admin" && email === ADMIN_ALLOWED_EMAIL;
+        adminItem.classList.toggle("d-none", !canSeeAdmin);
+    }
+    window.refreshAdminNavVisibility = syncAdminNavVisibility;
+
+    var FOOTER_HTML =
+        '<footer class="site-footer py-4 mt-auto">' +
+        '<div class="container text-center">' +
+        '<div class="footer-brand mb-2"><span>Tratado</span> &middot; Musicologia</div>' +
+        '<div class="small mb-3" style="color: #b5b0a8;">' +
+        '<i class="fas fa-copyright me-1" style="color:#c9a959;"></i> 2026 &middot; Renê Aparecido Bueno &middot; Maringá &middot; PR' +
+        '</div>' +
+        '<div class="footer-social d-flex justify-content-center gap-3">' +
+        '<a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>' +
+        '<a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>' +
+        '<a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>' +
+        '<a href="#" aria-label="E-mail"><i class="fas fa-envelope"></i></a>' +
+        '</div>' +
+        '</div>' +
+        '</footer>';
+
+    function renderNavbar() {
+        var placeholder = document.getElementById("site-navbar");
+        if (placeholder) placeholder.outerHTML = NAVBAR_HTML;
+        else document.body.insertAdjacentHTML("afterbegin", NAVBAR_HTML);
+    }
+
+    function renderFooter() {
+        var placeholder = document.getElementById("site-footer");
+        if (placeholder) placeholder.outerHTML = FOOTER_HTML;
+    }
+
+    function activateNavLinks() {
+        var current = file === "" ? "index.html" : file;
+        var allLinks = document.querySelectorAll(".navbar-nav .nav-link, .dropdown-menu .dropdown-item");
+        allLinks.forEach(function (link) {
+            var href = (link.getAttribute("href") || "").split("/").pop();
+            if (href === current) {
+                link.classList.add("active");
+                if (link.classList.contains("dropdown-item")) {
+                    var dropdown = link.closest(".dropdown");
+                    if (dropdown) {
+                        var toggle = dropdown.querySelector(".dropdown-toggle");
+                        if (toggle) toggle.classList.add("active");
                     }
                 }
+            } else {
+                link.classList.remove("active");
             }
-        } else {
-            link.classList.remove('active');
+        });
+        if (current === "index.html") {
+            var homeLink = document.querySelector('.navbar-nav .nav-link[href$="index.html"]');
+            if (homeLink) homeLink.classList.add("active");
         }
-    });
-
-    if (currentPage === 'index.html' || currentPage === '') {
-        const homeLink = document.querySelector('.navbar-nav .nav-link[href="index.html"]');
-        if (homeLink) homeLink.classList.add('active');
     }
-}
 
-document.addEventListener('DOMContentLoaded', function() {
-    renderNavbar();
-    renderFooter();
-    syncAdminNavVisibility();
-    activateNavLinks();
-});
+    document.addEventListener("DOMContentLoaded", function () {
+        renderNavbar();
+        renderFooter();
+        syncAdminNavVisibility();
+        activateNavLinks();
+    });
+})();
