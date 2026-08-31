@@ -440,3 +440,25 @@ body {
     opacity: .65;
     margin-top: -.25rem;
 }
+.btn-premium-gate,
+a.btn-premium-gate {
+    display: inline-block;
+    padding: .8rem 1.8rem;
+    border-radius: 999px;
+    background: #c9a227;
+    color: #1a1a1a !important;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+.btn-premium-gate:hover,
+a.btn-premium-gate:hover {
+    transform: translateY(-2px);
+    color: #1a1a1a !important;
+    box-shadow: 0 6px 18px rgba(201,162,39,0.35);
+}
+.premium-gate-note {
+    font-size: .8rem;
+    opacity: .65;
+}
