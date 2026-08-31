@@ -3,6 +3,28 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+    /* i18n: detecta o idioma na 1a visita (navigator.language) e respeita a escolha manual salva */
+    (function () {
+      try {
+        var p = location.pathname;
+        var cur = /\/en(\/|$)/.test(p) ? "en" : (/\/es(\/|$)/.test(p) ? "es" : "pt");
+        var file = p.split("/").pop() || "index.html";
+        var translatable = file === "index.html" || /^capitulo([1-9]|1[0-3])\.html$/.test(file);
+        function go(lang) {
+          if (!translatable || lang === cur) return;
+          var path = lang === "pt" ? "/" + file : "/" + lang + "/" + file;
+          location.replace(location.origin + path + location.search + location.hash);
+        }
+        var pref = null;
+        try { pref = localStorage.getItem("preferredLang"); } catch (e) {}
+        if (pref === "pt" || pref === "en" || pref === "es") { go(pref); return; }
+        if (cur !== "pt") return;
+        var nav = ((navigator.languages && navigator.languages[0]) || navigator.language || "pt").toLowerCase();
+        go(nav.indexOf("es") === 0 ? "es" : (nav.indexOf("en") === 0 ? "en" : "pt"));
+      } catch (e) {}
+    })();
+    </script>
     <title>Capítulo II - Fundamentos Físico-Acústicos | Tratado de Musicologia</title>
     <meta name="description" content="Capítulo II do Tratado de Musicologia e Harmonia Tonal - Fundamentos Físico-Acústicos da Matéria Musical" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -74,15 +74,18 @@
         CH.push('<li><a class="dropdown-item" href="' + local("capitulo" + i + ".html") + '">' + t.chapter + " " + i + "</a></li>");
     }
 
+    // Grava a escolha manual para que a autodetecção não a sobreponha depois.
+    var SET = function (l) { return "try{localStorage.setItem('preferredLang','" + l + "')}catch(e){}"; };
+
     var LANG_SWITCH =
         '<li class="nav-item dropdown">' +
         '<a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">' +
         '<i class="fas fa-globe me-1"></i> ' + LANG.toUpperCase() +
         '</a>' +
         '<ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="langDropdown">' +
-        '<li><a class="dropdown-item" href="' + switchTo("pt") + '">Português</a></li>' +
-        '<li><a class="dropdown-item" href="' + switchTo("en") + '">English</a></li>' +
-        '<li><a class="dropdown-item" href="' + switchTo("es") + '">Español</a></li>' +
+        '<li><a class="dropdown-item" href="' + switchTo("pt") + '" onclick="' + SET("pt") + '">Português</a></li>' +
+        '<li><a class="dropdown-item" href="' + switchTo("en") + '" onclick="' + SET("en") + '">English</a></li>' +
+        '<li><a class="dropdown-item" href="' + switchTo("es") + '" onclick="' + SET("es") + '">Español</a></li>' +
         '</ul>' +
         '</li>';
 
