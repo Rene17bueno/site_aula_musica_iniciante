@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+    (function () {
+      try {
+        var p = location.pathname;
+        var cur = /\/en(\/|$)/.test(p) ? "en" : (/\/es(\/|$)/.test(p) ? "es" : "pt");
+        var file = p.split("/").pop() || "index.html";
+        var translatable = file === "index.html" || /^capitulo([1-9]|1[0-3])\.html$/.test(file);
+        function go(lang) {
+          if (!translatable || lang === cur) return;
+          var path = lang === "pt" ? "/" + file : "/" + lang + "/" + file;
+          location.replace(location.origin + path + location.search + location.hash);
+        }
+        var pref = null;
+        try { pref = localStorage.getItem("preferredLang"); } catch (e) {}
+        if (pref === "pt" || pref === "en" || pref === "es") { go(pref); return; }
+        if (cur !== "pt") return;
+        var nav = ((navigator.languages && navigator.languages[0]) || navigator.language || "pt").toLowerCase();
+        go(nav.indexOf("es") === 0 ? "es" : (nav.indexOf("en") === 0 ? "en" : "pt"));
+      } catch (e) {}
+    })();
+    </script>
+    <title>Capítulo IX - Geometría del Mástil de la Guitarra (CAGED) | Estudio de Guitarra para Principiantes</title>
+    <meta name="description" content="Capítulo IX del Tratado de Musicología y Armonía Tonal - Geometría del Mástil de la Guitarra y el Sistema CAGED" />
+
+    <link rel="canonical" href="https://estudodeviolaoiniciante.netlify.app/es/capitulo9.html" />
+    <link rel="alternate" hreflang="pt-BR" href="https://estudodeviolaoiniciante.netlify.app/capitulo9.html" />
+    <link rel="alternate" hreflang="en" href="https://estudodeviolaoiniciante.netlify.app/en/capitulo9.html" />
+    <link rel="alternate" hreflang="es" href="https://estudodeviolaoiniciante.netlify.app/es/capitulo9.html" />
+    <link rel="alternate" hreflang="x-default" href="https://estudodeviolaoiniciante.netlify.app/capitulo9.html" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../css/css/style.css" />
+</head>
+<body>
+
+    <div id="site-navbar"></div>
+
+    <main class="chapter-content py-5" style="margin-top: 70px;" data-premium="true">
+        <div class="container">
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0">
+                    <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Capítulo IX</li>
+                </ol>
+            </nav>
+
+            <span class="section-tag"><i class="fas fa-guitar"></i> Capítulo IX</span>
+            <h1>Geometría del Mástil de la Guitarra y el <span class="gold">Sistema CAGED</span></h1>
+            <p class="chapter-subtitle">Formas móviles, mapa de fundamentales y conexión con la función armónica</p>
+
+            <h2>13.1 El Sistema de Formas Móviles (CAGED)</h2>
+            <p>
+                A diferencia del teclado, donde la escala cromática se desarrolla de forma estrictamente lineal, la
+                guitarra presenta una geometría compleja y multidireccional.
+            </p>
+
+            <h2>13.2 Visualización Espacial: Mapa de Fundamentales en las 6 Cuerdas</h2>
+            <p>
+                Para aplicar el sistema CAGED con agilidad, el músico debe memorizar la ubicación de las notas
+                fundamentales en las tres cuerdas más graves del instrumento (6ª, 5ª y 4ª cuerdas).
+            </p>
+
+            <div id="tabelaCAGED"></div>
+
+            <nav class="chapter-nav mt-5">
+                <a href="capitulo8.html">
+                    <span class="nav-label"><i class="fas fa-arrow-left"></i> Anterior</span>
+                    <span class="nav-title">Capítulo VIII &mdash; Inversiones en el Teclado</span>
+                </a>
+                <a href="capitulo10.html">
+                    <span class="nav-label">Siguiente <i class="fas fa-arrow-right"></i></span>
+                    <span class="nav-title">Capítulo X &mdash; Dominantes Secundarios</span>
+                </a>
+            </nav>
+
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="../js/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            createTable('tabelaCAGED',
+                ['Forma original', 'Cuerda de la fundamental', 'Textura sonora', 'Uso práctico en el arreglo'],
+                [
+                    ['Forma de C', '5ª y 2ª cuerdas', 'Aguda y compacta', 'Ideal para arreglos acústicos'],
+                    ['Forma de A', '5ª y 3ª cuerdas', 'Media y con cuerpo', 'Cejilla ágil y versátil'],
+                    ['Forma de G', '6ª y 1ª cuerdas', 'Abierta y resonante', 'Usa inversiones avanzadas'],
+                    ['Forma de E', '6ª, 4ª y 1ª cuerdas', 'Grave y densa', 'La forma de sostén por excelencia'],
+                    ['Forma de D', '4ª y 2ª cuerdas', 'Fina y brillante', 'Destaca la melodía en la parte alta del acorde']
+                ],
+                'Conexión entre Formas Mecánicas y Funciones Armónicas &mdash; Sistema CAGED'
+            );
+        });
+    </script>
+
+    <script src="../js/js/paywall.js"></script>
+    <script src="../js/js/layout.js"></script>
+</body>
+</html>

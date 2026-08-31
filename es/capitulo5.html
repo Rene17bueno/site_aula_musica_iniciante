@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+    (function () {
+      try {
+        var p = location.pathname;
+        var cur = /\/en(\/|$)/.test(p) ? "en" : (/\/es(\/|$)/.test(p) ? "es" : "pt");
+        var file = p.split("/").pop() || "index.html";
+        var translatable = file === "index.html" || /^capitulo([1-9]|1[0-3])\.html$/.test(file);
+        function go(lang) {
+          if (!translatable || lang === cur) return;
+          var path = lang === "pt" ? "/" + file : "/" + lang + "/" + file;
+          location.replace(location.origin + path + location.search + location.hash);
+        }
+        var pref = null;
+        try { pref = localStorage.getItem("preferredLang"); } catch (e) {}
+        if (pref === "pt" || pref === "en" || pref === "es") { go(pref); return; }
+        if (cur !== "pt") return;
+        var nav = ((navigator.languages && navigator.languages[0]) || navigator.language || "pt").toLowerCase();
+        go(nav.indexOf("es") === 0 ? "es" : (nav.indexOf("en") === 0 ? "en" : "pt"));
+      } catch (e) {}
+    })();
+    </script>
+    <title>Capítulo V - Morfología Avanzada (Cuatríadas) | Estudio de Guitarra para Principiantes</title>
+    <meta name="description" content="Capítulo V del Tratado de Musicología y Armonía Tonal - Morfología Avanzada de Acordes (Cuatríadas)" />
+
+    <link rel="canonical" href="https://estudodeviolaoiniciante.netlify.app/es/capitulo5.html" />
+    <link rel="alternate" hreflang="pt-BR" href="https://estudodeviolaoiniciante.netlify.app/capitulo5.html" />
+    <link rel="alternate" hreflang="en" href="https://estudodeviolaoiniciante.netlify.app/en/capitulo5.html" />
+    <link rel="alternate" hreflang="es" href="https://estudodeviolaoiniciante.netlify.app/es/capitulo5.html" />
+    <link rel="alternate" hreflang="x-default" href="https://estudodeviolaoiniciante.netlify.app/capitulo5.html" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../css/css/style.css" />
+</head>
+<body>
+
+    <div id="site-navbar"></div>
+
+    <main class="chapter-content py-5" style="margin-top: 70px;" data-premium="true">
+        <div class="container">
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0">
+                    <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Capítulo V</li>
+                </ol>
+            </nav>
+
+            <span class="section-tag"><i class="fas fa-layer-group"></i> Capítulo V</span>
+            <h1>Morfología Avanzada de <span class="gold">Acordes</span> (Cuatríadas)</h1>
+            <p class="chapter-subtitle">La introducción de la séptima, la expansión armónica y la complejidad psicoacústica</p>
+
+            <h2>7.1 La Introducción de la Séptima: Expansión Armónica y Complejidad Psicoacústica</h2>
+            <p>
+                Mientras la tríada aporta el esqueleto básico, limpio y directo de la armonía, la cuatríada introduce la
+                sofisticación y la firma estilística de la música moderna.
+            </p>
+
+            <div class="callout">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>El tritono</strong> &mdash; el intervalo más tenso y direccional de la música occidental.
+            </div>
+
+            <div id="tabelaTetrades"></div>
+
+            <nav class="chapter-nav mt-5">
+                <a href="capitulo4.html">
+                    <span class="nav-label"><i class="fas fa-arrow-left"></i> Anterior</span>
+                    <span class="nav-title">Capítulo IV &mdash; Campo Armónico Mayor</span>
+                </a>
+                <a href="capitulo6.html">
+                    <span class="nav-label">Siguiente <i class="fas fa-arrow-right"></i></span>
+                    <span class="nav-title">Capítulo VI &mdash; Los Tres Campos Armónicos Menores</span>
+                </a>
+            </nav>
+
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="../js/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            createTable('tabelaTetrades',
+                ['Grado', 'Nombre común', 'Función principal', 'Estructura física', 'Notas (ej.: tonalidad de C)'],
+                [
+                    ['Imaj7', 'Acorde mayor con séptima mayor', 'Tónica', 'F + 3ªM + 5ªJ + 7ªM', 'C &ndash; E &ndash; G &ndash; B'],
+                    ['IIm7', 'Acorde menor con séptima menor', 'Subdominante', 'F + 3ªm + 5ªJ + 7ªm', 'D &ndash; F &ndash; A &ndash; C'],
+                    ['IIIm7', 'Acorde menor con séptima menor', 'Tónica secundaria', 'F + 3ªm + 5ªJ + 7ªm', 'E &ndash; G &ndash; B &ndash; D'],
+                    ['IVmaj7', 'Acorde mayor con séptima mayor', 'Subdominante', 'F + 3ªM + 5ªJ + 7ªM', 'F &ndash; A &ndash; C &ndash; E'],
+                    ['V7', 'Acorde mayor con séptima menor', 'Dominante (tritono)', 'F + 3ªM + 5ªJ + 7ªm', 'G &ndash; B &ndash; D &ndash; F'],
+                    ['VIm7', 'Acorde menor con séptima menor', 'Tónica / relativo', 'F + 3ªm + 5ªJ + 7ªm', 'A &ndash; C &ndash; E &ndash; G'],
+                    ['VIIm7(b5)', 'Acorde semidisminuido', 'Dominante / sensible', 'F + 3ªm + 5ªd + 7ªm', 'B &ndash; D &ndash; F &ndash; A']
+                ],
+                'Mapa de las Cuatríadas Estructurales del Campo Armónico Mayor'
+            );
+        });
+    </script>
+
+    <script src="../js/js/paywall.js"></script>
+    <script src="../js/js/layout.js"></script>
+</body>
+</html>

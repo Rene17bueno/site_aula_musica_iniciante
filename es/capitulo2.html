@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+    (function () {
+      try {
+        var p = location.pathname;
+        var cur = /\/en(\/|$)/.test(p) ? "en" : (/\/es(\/|$)/.test(p) ? "es" : "pt");
+        var file = p.split("/").pop() || "index.html";
+        var translatable = file === "index.html" || /^capitulo([1-9]|1[0-3])\.html$/.test(file);
+        function go(lang) {
+          if (!translatable || lang === cur) return;
+          var path = lang === "pt" ? "/" + file : "/" + lang + "/" + file;
+          location.replace(location.origin + path + location.search + location.hash);
+        }
+        var pref = null;
+        try { pref = localStorage.getItem("preferredLang"); } catch (e) {}
+        if (pref === "pt" || pref === "en" || pref === "es") { go(pref); return; }
+        if (cur !== "pt") return;
+        var nav = ((navigator.languages && navigator.languages[0]) || navigator.language || "pt").toLowerCase();
+        go(nav.indexOf("es") === 0 ? "es" : (nav.indexOf("en") === 0 ? "en" : "pt"));
+      } catch (e) {}
+    })();
+    </script>
+    <title>Capítulo II - Fundamentos Físico-Acústicos | Estudio de Guitarra para Principiantes</title>
+    <meta name="description" content="Capítulo II del Tratado de Musicología y Armonía Tonal - Fundamentos Físico-Acústicos de la Materia Musical" />
+
+    <link rel="canonical" href="https://estudodeviolaoiniciante.netlify.app/es/capitulo2.html" />
+    <link rel="alternate" hreflang="pt-BR" href="https://estudodeviolaoiniciante.netlify.app/capitulo2.html" />
+    <link rel="alternate" hreflang="en" href="https://estudodeviolaoiniciante.netlify.app/en/capitulo2.html" />
+    <link rel="alternate" hreflang="es" href="https://estudodeviolaoiniciante.netlify.app/es/capitulo2.html" />
+    <link rel="alternate" hreflang="x-default" href="https://estudodeviolaoiniciante.netlify.app/capitulo2.html" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../css/css/style.css" />
+</head>
+<body>
+
+    <div id="site-navbar"></div>
+
+    <main class="chapter-content py-5" style="margin-top: 70px;">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0">
+                    <li class="breadcrumb-item"><a href="index.html">Inicio</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Capítulo II</li>
+                </ol>
+            </nav>
+            <span class="section-tag"><i class="fas fa-wave-square"></i> Capítulo II</span>
+            <h1>Fundamentos <span class="gold">Físico-Acústicos</span> de la Materia Musical</h1>
+            <p class="chapter-subtitle">La naturaleza ondulatoria del sonido, la serie armónica y el temperamento igual</p>
+            <h2>3.1 La Naturaleza Ondulatoria del Sonido: Frecuencia, Amplitud y Timbre</h2>
+            <p>
+                Desde un punto de vista estrictamente físico, el sonido es una onda mecánica longitudinal que se propaga
+                en un medio elástico mediante ciclos sucesivos de compresión y rarefacción molecular. Tres parámetros
+                fundamentales definen la identidad de cualquier sonido musical:
+            </p>
+            <ul>
+                <li><strong>Frecuencia (altura):</strong> determina si el sonido es grave o agudo, se mide en hercios (Hz).</li>
+                <li><strong>Amplitud (intensidad):</strong> se relaciona con el volumen o la fuerza del sonido, se mide en decibelios (dB).</li>
+                <li><strong>Timbre:</strong> el color sonoro que permite distinguir una guitarra de un piano aunque toquen la misma nota.</li>
+            </ul>
+            <h2>3.2 La Serie Armónica y la Justificación Física de las Consonancias</h2>
+            <p>
+                Cuando se percute una cuerda de guitarra o el encordado de un piano, no vibra solo en su totalidad. La
+                cuerda se divide simultáneamente en fracciones geométricas (mitad, tercios, cuartos, quintos, etc.),
+                generando frecuencias secundarias que suenan junto con la frecuencia principal.
+            </p>
+            <div class="callout">
+                <i class="fas fa-calculator"></i>
+                <strong>x&sup1;&sup2; = 2</strong> &rarr; <strong>x = &#8730;&#8322;2 &asymp; 1,059463</strong>
+                <br />
+                <span style="color:#b5b0a8;font-size:0.9rem;">
+                    Este valor es la raíz duodécima de dos, y es el número que rige la afinación de todos los instrumentos modernos.
+                </span>
+            </div>
+            <nav class="chapter-nav mt-5">
+                <a href="capitulo1.html">
+                    <span class="nav-label"><i class="fas fa-arrow-left"></i> Anterior</span>
+                    <span class="nav-title">Capítulo I &mdash; Epistemología</span>
+                </a>
+                <a href="capitulo3.html">
+                    <span class="nav-label">Siguiente <i class="fas fa-arrow-right"></i></span>
+                    <span class="nav-title">Capítulo III &mdash; Morfología de los Acordes (Tríadas)</span>
+                </a>
+            </nav>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="../js/js/main.js"></script>
+    <script src="../js/js/layout.js"></script>
+</body>
+</html>
