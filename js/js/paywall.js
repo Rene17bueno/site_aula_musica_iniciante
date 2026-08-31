@@ -17,7 +17,7 @@
 (function () {
     "use strict";
 
-    const MP_PAYMENT_LINK = "https://mpago.la/COLE-AQUI-SEU-LINK"; // TODO: substituir pelo link real
+    const MP_PAYMENT_LINK = "https://mpago.la/2tCeYo9";
     const STORAGE_KEY = "acesso_premium";
     const FREE_BLOCKS = 6; // quantos elementos do início do capítulo ficam visíveis de graça
 
