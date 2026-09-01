@@ -496,6 +496,12 @@
             "A": [shape(1, [[3,2,2,"D#"],[4,2,3,"A"],[5,1,1,"C"]], ["x","o","o","o","o","x"], null, "aberto")],
             "B": [shape(1, [[2,2,2,"B"],[4,3,4,"F"],[5,1,1,"D"]], ["x","o","x","o","o","x"], null, "aberto")]
         };
+        // Aumentado, Nona e Nona Menor: sem forma "padrão" digitada à mão --
+        // os 12 tons vêm inteiros da pestana móvel (FORMAS_MOVEIS) via
+        // formaFallback(), na montagem dos itens logo abaixo.
+        ACORDES_BIBLIOTECA["Aumentado (aug)"] = {};
+        ACORDES_BIBLIOTECA["Nona (9)"] = {};
+        ACORDES_BIBLIOTECA["Nona Menor (m9)"] = {};
 
         // ---------- ESCALAS (fórmulas) ----------
         const ESCALAS_FORMULAS = {
@@ -611,22 +617,54 @@
 
         // ---------- POSIÇÕES MÓVEIS DO ACORDE (pestana E-shape / A-shape) ----------
         // As duas pestanas universais que qualquer violonista usa pra tocar o
-        // mesmo acorde em outra casa: a mesma forma dos acordes com pestana já
-        // existentes na biblioteca (ex.: F e B), deslizada até a tônica pedida.
-        // "E" ancora a tônica na corda mais grave (E); "A" ancora na corda A.
-        // offset = distância (em casas) de cada corda até a pestana; dedo =
-        // dedo da mão esquerda usado ali (extraído dos próprios F/B/Fm/Bm já
-        // publicados, pra manter a mesma digitação que o site já ensina).
-        // Cobre Maior e Menor por enquanto; os demais tipos (7, 7M, m7, sus4,
-        // diminuto) ainda não têm pestana móvel cadastrada.
+        // mesmo acorde em outra casa: pestana no braço inteiro (ancorada na
+        // tônica da corda E, forma "E") ou pestana curta ancorada na corda A
+        // (forma "A"). "dots" são os dedos extras além da pestana (off =
+        // quantas casas acima dela; dedo = dedo da mão esquerda); "mute" são
+        // cordas dentro da pestana que precisam ficar caladas porque a nota
+        // natural dali não pertence ao acorde.
+        // Maior/Menor foram extraídas direto dos acordes com pestana que já
+        // existiam no site (F, B, Fm, Bm) -- mesma digitação de sempre. Os
+        // demais tipos foram calculados por fórmula (intervalos do acorde) e
+        // conferidos nota-a-nota nos 12 tons antes de entrar.
         const FORMAS_MOVEIS = {
             "Maior": {
-                E: { 1: { off: 2, dedo: 3 }, 2: { off: 2, dedo: 4 }, 3: { off: 1, dedo: 2 } },
-                A: { 2: { off: 2, dedo: 2 }, 3: { off: 2, dedo: 3 }, 4: { off: 2, dedo: 4 } }
+                E: { dots: { 1: { off: 2, dedo: 3 }, 2: { off: 2, dedo: 4 }, 3: { off: 1, dedo: 2 } }, mute: [] },
+                A: { dots: { 2: { off: 2, dedo: 2 }, 3: { off: 2, dedo: 3 }, 4: { off: 2, dedo: 4 } }, mute: [] }
             },
             "Menor": {
-                E: { 1: { off: 2, dedo: 3 }, 2: { off: 2, dedo: 4 }, 3: { off: 0, dedo: 1 } },
-                A: { 2: { off: 2, dedo: 3 }, 3: { off: 2, dedo: 4 }, 4: { off: 1, dedo: 2 } }
+                E: { dots: { 1: { off: 2, dedo: 3 }, 2: { off: 2, dedo: 4 }, 3: { off: 0, dedo: 1 } }, mute: [] },
+                A: { dots: { 2: { off: 2, dedo: 3 }, 3: { off: 2, dedo: 4 }, 4: { off: 1, dedo: 2 } }, mute: [] }
+            },
+            "Sétima (7)": {
+                E: { dots: { 3: { off: 1, dedo: 2 } }, mute: [1] },
+                A: { dots: { 4: { off: 2, dedo: 3 } }, mute: [2] }
+            },
+            "Sétima Maior (7M)": {
+                E: { dots: { 2: { off: 1, dedo: 2 }, 3: { off: 1, dedo: 3 } }, mute: [1] },
+                A: { dots: { 3: { off: 1, dedo: 2 }, 4: { off: 2, dedo: 3 } }, mute: [2] }
+            },
+            "Sétima Menor (m7)": {
+                E: { dots: {}, mute: [1] },
+                A: { dots: { 4: { off: 1, dedo: 2 } }, mute: [2] }
+            },
+            "Suspenso 4 (sus4)": {
+                E: { dots: {}, mute: [2, 3] },
+                A: { dots: {}, mute: [3, 4] }
+            },
+            "Diminuto (m♭5)": {
+                E: { dots: { 1: { off: 1, dedo: 2 } }, mute: [2, 4] },
+                A: { dots: { 2: { off: 1, dedo: 2 }, 4: { off: 1, dedo: 3 } }, mute: [3, 5] }
+            },
+            "Aumentado (aug)": {
+                E: { dots: { 3: { off: 1, dedo: 2 }, 4: { off: 1, dedo: 3 } }, mute: [1, 2] },
+                A: { dots: { 4: { off: 2, dedo: 3 }, 5: { off: 1, dedo: 2 } }, mute: [2, 3] }
+            },
+            "Nona (9)": {
+                E: { dots: { 3: { off: 1, dedo: 2 }, 5: { off: 2, dedo: 3 } }, mute: [1, 4] }
+            },
+            "Nona Menor (m9)": {
+                E: { dots: { 5: { off: 2, dedo: 3 } }, mute: [1, 4] }
             }
         };
 
@@ -635,32 +673,52 @@
             return (NOTAS.indexOf(tonica) - idxBase + 12) % 12;
         }
 
-        function formaMovel(tonica, qualidade, shapeLetra) {
+        // permitirAberto: quando true, aceita baseFret=0 (a própria tônica
+        // cai na corda solta da âncora) e desenha sem pestana -- usado só
+        // pelo formaFallback(), quando não existe nenhuma forma padrão pra
+        // cair de volta. gerarPosicoesAcorde() não usa isso, pra não gerar
+        // uma posição "aberta" duplicada quando a forma padrão já existe.
+        function formaMovel(tonica, qualidade, shapeLetra, permitirAberto = false) {
             const tmpl = (FORMAS_MOVEIS[qualidade] || {})[shapeLetra];
             if (!tmpl) return null;
             const cordaAncora = (shapeLetra === 'E') ? 0 : 1;
             const baseFret = acharBaseFretNaCorda(cordaAncora, tonica);
-            if (baseFret === 0) return null; // é a posição aberta, já coberta pela forma padrão
+            if (baseFret === 0 && !permitirAberto) return null;
 
             const dots = [];
-            Object.keys(tmpl).map(Number).forEach(cordaIdx => {
-                const { off, dedo } = tmpl[cordaIdx];
+            Object.keys(tmpl.dots).map(Number).forEach(cordaIdx => {
+                const { off, dedo } = tmpl.dots[cordaIdx];
                 const casa = off + 1;
                 const idxBase = NOTAS.indexOf(AFINACAO[cordaIdx]);
                 const notaAbs = NOTAS[(idxBase + baseFret + off) % 12];
                 dots.push([cordaIdx + 1, casa, dedo, notaAbs]);
             });
             const fromCorda = (shapeLetra === 'E') ? 1 : 2;
-            const status = [0, 1, 2, 3, 4, 5].map(c => (c < fromCorda - 1) ? "x" : "o");
-            const chord = { baseFret, dots, status, barre: { fret: 1, from: fromCorda, to: 6 } };
+            const mutedas = new Set(tmpl.mute || []);
+            const status = [0, 1, 2, 3, 4, 5].map(c => (c < fromCorda - 1 || mutedas.has(c)) ? "x" : "o");
+            const chord = { baseFret, dots, status, barre: (baseFret === 0) ? null : { fret: 1, from: fromCorda, to: 6 } };
             return { baseFret, chord };
         }
 
+        // Quando um tom não tem forma "padrão" cadastrada na biblioteca (ex.:
+        // sustenidos/bemóis, ou tipos novos como Nona/Aumentado), usa a
+        // pestana móvel de casa mais baixa disponível como forma principal
+        // (aceitando também a posição aberta, já que aqui não há nenhuma
+        // outra forma pra cobrir esse caso).
+        function formaFallback(tonica, qualidade) {
+            const opcoes = ['E', 'A'].map(s => formaMovel(tonica, qualidade, s, true)).filter(Boolean);
+            if (opcoes.length === 0) return null;
+            opcoes.sort((a, b) => a.baseFret - b.baseFret);
+            return opcoes[0];
+        }
+
         // Gera todas as posições de um acorde: a forma padrão já existente na
-        // biblioteca + as pestanas móveis E-shape/A-shape (quando cadastradas
-        // pra essa qualidade), ordenadas do braço do início ao fim.
+        // biblioteca (quando houver) + as pestanas móveis E-shape/A-shape
+        // (quando cadastradas pra essa qualidade), ordenadas do braço do
+        // início ao fim.
         function gerarPosicoesAcorde(tonica, qualidade, formaDefault) {
-            const candidatas = [{ baseFret: formaDefault.baseFret, chord: formaDefault }];
+            const candidatas = [];
+            if (formaDefault) candidatas.push({ baseFret: formaDefault.baseFret, chord: formaDefault });
             ['E', 'A'].forEach(shapeLetra => {
                 const r = formaMovel(tonica, qualidade, shapeLetra);
                 if (r) candidatas.push(r);
@@ -815,40 +873,48 @@
         // ---------- MONTAGEM DOS ITENS ----------
         const items = [];
 
-        // 1. Acordes
+        // 1. Acordes -- todos os 12 tons cromáticos, pra cada qualidade
+        // cadastrada. Quando o tom tem forma "padrão" digitada à mão na
+        // biblioteca, usa ela; senão (sustenidos/bemóis que ainda não tinham
+        // forma, ou qualidades novas como Aumentado/Nona), usa a pestana
+        // móvel de casa mais baixa (formaFallback).
         for (let [tipo, mapa] of Object.entries(ACORDES_BIBLIOTECA)) {
-            for (let [tonica, formas] of Object.entries(mapa)) {
-                formas.forEach((f, idx) => {
-                    let nome = `${tonica} ${tipo}`;
-                    let badge = tipo;
-                    let cat = 'triade';
-                    if (tipo.includes('Sétima') || tipo.includes('7')) cat = 'tetrade';
-                    if (tipo.includes('Dominante')) cat = 'dominante';
-                    if (tipo.includes('Diminuto')) cat = 'diminuto';
-                    if (tipo.includes('Suspenso')) cat = 'suspenso';
-                    if (tipo.includes('Nona') || tipo.includes('11') || tipo.includes('13') || tipo.includes('6/9')) cat = 'extensao';
+            NOTAS.forEach(tonica => {
+                const formaPadrao = mapa[tonica] ? mapa[tonica][0] : null;
+                const gerada = formaPadrao ? null : formaFallback(tonica, tipo);
+                const f = formaPadrao || (gerada && gerada.chord);
+                if (!f) return; // essa qualidade ainda não tem pestana móvel calculada pra gerar esse tom
 
-                    let notas = f.dots.map(d => d[3] || '').filter(Boolean);
-                    let notasStr = notas.join(' · ');
+                let nome = `${tonica} ${tipo}`;
+                let badge = tipo;
+                let cat = 'triade';
+                if (tipo.includes('Sétima') || tipo.includes('7')) cat = 'tetrade';
+                if (tipo.includes('Dominante')) cat = 'dominante';
+                if (tipo.includes('Diminuto')) cat = 'diminuto';
+                if (tipo.includes('Suspenso')) cat = 'suspenso';
+                if (tipo.includes('Nona') || tipo.includes('11') || tipo.includes('13') || tipo.includes('6/9')) cat = 'extensao';
+                if (tipo.includes('Aumentado')) cat = 'triade';
 
-                    let svg = gerarSvgAcorde(tonica, f);
-                    let posicoesAcorde = gerarPosicoesAcorde(tonica, tipo, f);
+                let notas = f.dots.map(d => d[3] || '').filter(Boolean);
+                let notasStr = notas.join(' · ');
 
-                    items.push({
-                        tipo: 'acorde',
-                        nome: nome,
-                        badge: badge,
-                        categoria: cat,
-                        notas: notasStr,
-                        svg: svg,
-                        posicoes: posicoesAcorde,
-                        tonica: tonica,
-                        forma: f,
-                        tituloModal: nome,
-                        badgeModal: badge
-                    });
+                let svg = gerarSvgAcorde(tonica, f);
+                let posicoesAcorde = gerarPosicoesAcorde(tonica, tipo, formaPadrao);
+
+                items.push({
+                    tipo: 'acorde',
+                    nome: nome,
+                    badge: badge,
+                    categoria: cat,
+                    notas: notasStr,
+                    svg: svg,
+                    posicoes: posicoesAcorde,
+                    tonica: tonica,
+                    forma: f,
+                    tituloModal: nome,
+                    badgeModal: badge
                 });
-            }
+            });
         }
 
         // 2. Escalas
