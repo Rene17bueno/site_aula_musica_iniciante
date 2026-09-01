@@ -489,18 +489,26 @@
             "Bebop Maior": [0,2,4,5,7,8,9,11]
         };
 
-        // ---------- DEDILHADO DA MÃO DIREITA (polegar) ----------
-        // Regra: entre as 3 cordas mais graves (E, A, D = linhas 0, 1 e 2),
-        // o polegar toca a primeira que não estiver abafada ("x") — ali está
-        // o baixo do acorde (na maioria dos casos, a própria tônica).
-        function acharCordaPolegar(chord) {
+        // ---------- DEDILHADO DA MÃO DIREITA ----------
+        // Numeração: 1 = polegar, 2 = indicador, 3 = médio, 4 = anelar, 5 = mínimo.
+        // Linhas do diagrama (0 a 5) = E, A, D, G, B, E (grave -> aguda).
+        //   - Polegar (1): entre as 3 cordas mais graves (E, A, D), a primeira
+        //     que não estiver abafada ("x") -- ali está o baixo do acorde.
+        //   - Indicador (2) = corda G, Médio (3) = corda B, Anelar (4) = corda E aguda,
+        //     cada um só aparece se a corda não estiver abafada.
+        //   - Mínimo (5) fica de fora: um acorde de 6 cordas só precisa de 4 dedos
+        //     (polegar + indicador + médio + anelar) tocando uma corda cada.
+        function acharDedosMaoDireita(chord) {
+            const dedos = {};
             for (let i = 0; i <= 2; i++) {
                 if (chord.status && chord.status[i] === 'x') continue;
-                const dot = chord.dots.find(d => (d[0] - 1) === i);
-                const nota = dot ? (dot[3] || '') : AFINACAO[i];
-                return { linha: i, corda: AFINACAO[i], nota };
+                dedos[i] = 1;
+                break;
             }
-            return null;
+            [[3, 2], [4, 3], [5, 4]].forEach(([linha, dedo]) => {
+                if (!chord.status || chord.status[linha] !== 'x') dedos[linha] = dedo;
+            });
+            return dedos;
         }
 
         // ---------- GERADOR SVG (acordes) ----------
@@ -512,13 +520,7 @@
             let svg = `<svg width="${largura}" height="${altura}" viewBox="0 0 ${largura} ${altura}" xmlns="http://www.w3.org/2000/svg">`;
             svg += `<rect width="100%" height="100%" fill="#121212" rx="6"/>`;
 
-            const polegar = acharCordaPolegar(chord);
-            if (polegar) {
-                svg += `<title>Dedilhado: polegar (P) na corda ${polegar.corda}</title>`;
-                svg += `<circle cx="16" cy="14" r="9" fill="#c9a959"/>`;
-                svg += `<text x="16" y="17" font-family="'Inter',Arial" font-size="9" font-weight="700" fill="#0a0a0a" text-anchor="middle">P</text>`;
-                svg += `<text x="29" y="17" font-family="'Inter',Arial" font-size="10" font-weight="700" fill="#c9a959" text-anchor="start">${polegar.corda}</text>`;
-            }
+            const dedosDireita = acharDedosMaoDireita(chord);
 
             const peso = (chord.baseFret === 1) ? 4 : 1.8;
             svg += `<line x1="${margemEsquerda}" y1="${margemSuperior}" x2="${margemEsquerda}" y2="${margemSuperior + (espCordas*5)}" stroke="#888" stroke-width="${peso}" stroke-linecap="round"/>`;
@@ -534,6 +536,12 @@
                 let y = margemSuperior + c*espCordas;
                 svg += `<line x1="${margemEsquerda}" y1="${y}" x2="${margemEsquerda + numCasas*espCasas}" y2="${y}" stroke="#4a4a4a" stroke-width="1.2"/>`;
                 svg += `<text x="${margemEsquerda-20}" y="${y+5}" font-family="'Inter',Arial" font-size="10" font-weight="600" fill="#888" text-anchor="middle">${AFINACAO[c]}</text>`;
+
+                const dedo = dedosDireita[c];
+                if (dedo !== undefined) {
+                    svg += `<circle cx="13" cy="${y}" r="7" fill="#c9a959"/>`;
+                    svg += `<text x="13" y="${y+3}" font-family="'Inter',Arial" font-size="8" font-weight="700" fill="#0a0a0a" text-anchor="middle">${dedo}</text>`;
+                }
             }
 
             if (chord.barre) {
