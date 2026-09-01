@@ -489,6 +489,20 @@
             "Bebop Maior": [0,2,4,5,7,8,9,11]
         };
 
+        // ---------- DEDILHADO DA MÃO DIREITA (polegar) ----------
+        // Regra: entre as 3 cordas mais graves (E, A, D = linhas 0, 1 e 2),
+        // o polegar toca a primeira que não estiver abafada ("x") — ali está
+        // o baixo do acorde (na maioria dos casos, a própria tônica).
+        function acharCordaPolegar(chord) {
+            for (let i = 0; i <= 2; i++) {
+                if (chord.status && chord.status[i] === 'x') continue;
+                const dot = chord.dots.find(d => (d[0] - 1) === i);
+                const nota = dot ? (dot[3] || '') : AFINACAO[i];
+                return { linha: i, corda: AFINACAO[i], nota };
+            }
+            return null;
+        }
+
         // ---------- GERADOR SVG (acordes) ----------
         function gerarSvgAcorde(tonica, chord, largura = 480, altura = 190) {
             const margemEsquerda = 50, margemSuperior = 32;
@@ -497,6 +511,14 @@
 
             let svg = `<svg width="${largura}" height="${altura}" viewBox="0 0 ${largura} ${altura}" xmlns="http://www.w3.org/2000/svg">`;
             svg += `<rect width="100%" height="100%" fill="#121212" rx="6"/>`;
+
+            const polegar = acharCordaPolegar(chord);
+            if (polegar) {
+                svg += `<title>Dedilhado: polegar (P) na corda ${polegar.corda}</title>`;
+                svg += `<circle cx="16" cy="14" r="9" fill="#c9a959"/>`;
+                svg += `<text x="16" y="17" font-family="'Inter',Arial" font-size="9" font-weight="700" fill="#0a0a0a" text-anchor="middle">P</text>`;
+                svg += `<text x="29" y="17" font-family="'Inter',Arial" font-size="10" font-weight="700" fill="#c9a959" text-anchor="start">${polegar.corda}</text>`;
+            }
 
             const peso = (chord.baseFret === 1) ? 4 : 1.8;
             svg += `<line x1="${margemEsquerda}" y1="${margemSuperior}" x2="${margemEsquerda}" y2="${margemSuperior + (espCordas*5)}" stroke="#888" stroke-width="${peso}" stroke-linecap="round"/>`;
