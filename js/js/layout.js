@@ -141,14 +141,8 @@
         '<footer class="site-footer py-4 mt-auto">' +
         '<div class="container text-center">' +
         '<div class="footer-brand mb-2">' + t.footBrand + '</div>' +
-        '<div class="small mb-3" style="color: #b5b0a8;">' +
+        '<div class="small" style="color: #b5b0a8;">' +
         '<i class="fas fa-copyright me-1" style="color:#c9a959;"></i> 2026 &middot; Renê Aparecido Bueno &middot; Maringá &middot; PR' +
-        '</div>' +
-        '<div class="footer-social d-flex justify-content-center gap-3">' +
-        '<a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>' +
-        '<a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>' +
-        '<a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>' +
-        '<a href="#" aria-label="E-mail"><i class="fas fa-envelope"></i></a>' +
         '</div>' +
         '</div>' +
         '</footer>';
