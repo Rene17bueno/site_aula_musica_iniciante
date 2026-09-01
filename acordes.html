@@ -609,6 +609,80 @@
             return svg;
         }
 
+        // ---------- POSIÇÕES MÓVEIS DO ACORDE (pestana E-shape / A-shape) ----------
+        // As duas pestanas universais que qualquer violonista usa pra tocar o
+        // mesmo acorde em outra casa: a mesma forma dos acordes com pestana já
+        // existentes na biblioteca (ex.: F e B), deslizada até a tônica pedida.
+        // "E" ancora a tônica na corda mais grave (E); "A" ancora na corda A.
+        // offset = distância (em casas) de cada corda até a pestana; dedo =
+        // dedo da mão esquerda usado ali (extraído dos próprios F/B/Fm/Bm já
+        // publicados, pra manter a mesma digitação que o site já ensina).
+        // Cobre Maior e Menor por enquanto; os demais tipos (7, 7M, m7, sus4,
+        // diminuto) ainda não têm pestana móvel cadastrada.
+        const FORMAS_MOVEIS = {
+            "Maior": {
+                E: { 1: { off: 2, dedo: 3 }, 2: { off: 2, dedo: 4 }, 3: { off: 1, dedo: 2 } },
+                A: { 2: { off: 2, dedo: 2 }, 3: { off: 2, dedo: 3 }, 4: { off: 2, dedo: 4 } }
+            },
+            "Menor": {
+                E: { 1: { off: 2, dedo: 3 }, 2: { off: 2, dedo: 4 }, 3: { off: 0, dedo: 1 } },
+                A: { 2: { off: 2, dedo: 3 }, 3: { off: 2, dedo: 4 }, 4: { off: 1, dedo: 2 } }
+            }
+        };
+
+        function acharBaseFretNaCorda(cordaIdx, tonica) {
+            const idxBase = NOTAS.indexOf(AFINACAO[cordaIdx]);
+            return (NOTAS.indexOf(tonica) - idxBase + 12) % 12;
+        }
+
+        function formaMovel(tonica, qualidade, shapeLetra) {
+            const tmpl = (FORMAS_MOVEIS[qualidade] || {})[shapeLetra];
+            if (!tmpl) return null;
+            const cordaAncora = (shapeLetra === 'E') ? 0 : 1;
+            const baseFret = acharBaseFretNaCorda(cordaAncora, tonica);
+            if (baseFret === 0) return null; // é a posição aberta, já coberta pela forma padrão
+
+            const dots = [];
+            Object.keys(tmpl).map(Number).forEach(cordaIdx => {
+                const { off, dedo } = tmpl[cordaIdx];
+                const casa = off + 1;
+                const idxBase = NOTAS.indexOf(AFINACAO[cordaIdx]);
+                const notaAbs = NOTAS[(idxBase + baseFret + off) % 12];
+                dots.push([cordaIdx + 1, casa, dedo, notaAbs]);
+            });
+            const fromCorda = (shapeLetra === 'E') ? 1 : 2;
+            const status = [0, 1, 2, 3, 4, 5].map(c => (c < fromCorda - 1) ? "x" : "o");
+            const chord = { baseFret, dots, status, barre: { fret: 1, from: fromCorda, to: 6 } };
+            return { baseFret, chord };
+        }
+
+        // Gera todas as posições de um acorde: a forma padrão já existente na
+        // biblioteca + as pestanas móveis E-shape/A-shape (quando cadastradas
+        // pra essa qualidade), ordenadas do braço do início ao fim.
+        function gerarPosicoesAcorde(tonica, qualidade, formaDefault) {
+            const candidatas = [{ baseFret: formaDefault.baseFret, chord: formaDefault }];
+            ['E', 'A'].forEach(shapeLetra => {
+                const r = formaMovel(tonica, qualidade, shapeLetra);
+                if (r) candidatas.push(r);
+            });
+
+            const vistos = new Set();
+            const ordenadas = candidatas
+                .sort((a, b) => a.baseFret - b.baseFret)
+                .filter(p => {
+                    if (vistos.has(p.baseFret)) return false;
+                    vistos.add(p.baseFret);
+                    return true;
+                });
+
+            return ordenadas.map((p, i) => ({
+                posicao: i + 1,
+                total: ordenadas.length,
+                baseFret: p.baseFret,
+                svg: gerarSvgAcorde(tonica, p.chord)
+            }));
+        }
+
         // ---------- POSIÇÃO INICIAL DA ESCALA ----------
         // A escala sempre começa na tônica mais grave possível no violão:
         // a posição dela na corda mais grave (E), calculada por módulo.
@@ -758,6 +832,7 @@
                     let notasStr = notas.join(' · ');
 
                     let svg = gerarSvgAcorde(tonica, f);
+                    let posicoesAcorde = gerarPosicoesAcorde(tonica, tipo, f);
 
                     items.push({
                         tipo: 'acorde',
@@ -766,6 +841,7 @@
                         categoria: cat,
                         notas: notasStr,
                         svg: svg,
+                        posicoes: posicoesAcorde,
                         tonica: tonica,
                         forma: f,
                         tituloModal: nome,
@@ -896,7 +972,9 @@
                 b.classList.toggle('active', bi === i);
             });
             const casa = p.baseFret === 0 ? 'aberta' : `${p.baseFret}ª casa`;
-            modalPosicaoInfo.textContent = `Posição ${p.posicao} de ${p.total} — começa em ${p.notaGrau} (${casa})`;
+            modalPosicaoInfo.textContent = (item.tipo === 'escala')
+                ? `Posição ${p.posicao} de ${p.total} — começa em ${p.notaGrau} (${casa})`
+                : `Posição ${p.posicao} de ${p.total} — ${casa}`;
         }
 
         modal.addEventListener('show.bs.modal', function(e) {
@@ -910,7 +988,7 @@
             document.getElementById('modalBadge').textContent = item.badgeModal || item.badge;
             document.getElementById('modalNotes').textContent = item.notas || '';
 
-            if (item.tipo === 'escala' && item.posicoes && item.posicoes.length > 1) {
+            if (item.posicoes && item.posicoes.length > 1) {
                 modalPosicoes.classList.remove('d-none');
                 modalPosicoesBtns.innerHTML = item.posicoes
                     .map((p, i) => `<button type="button" class="btn-posicao" data-i="${i}">${p.posicao}</button>`)
