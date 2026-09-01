@@ -80,7 +80,7 @@
         var status = params.get("status") || params.get("collection_status");
         if (!paymentId || status !== "approved") return false;
         try {
-            var resp = await fetch("/.netlify/functions/verify-payment?payment_id=" + encodeURIComponent(paymentId));
+            var resp = await fetch("/api/verify-payment?payment_id=" + encodeURIComponent(paymentId));
             var data = await resp.json();
             if (data && data.ok && data.approved) {
                 localStorage.setItem(STORAGE_KEY, "true");
@@ -147,7 +147,7 @@
 
     function renderPayPal(targetEl, onSuccess, statusEl) {
         function setStatus(msg) { if (statusEl) statusEl.textContent = msg || ""; }
-        fetch("/.netlify/functions/verify-paypal?action=config")
+        fetch("/api/verify-paypal?action=config")
             .then(function (r) { return r.json(); })
             .then(function (cfg) {
                 if (!cfg || !cfg.ok || !cfg.clientId) { setStatus(s.unavailable); return; }
@@ -156,7 +156,7 @@
                     paypal.Buttons({
                         style: { shape: "pill", color: "gold", layout: "vertical", label: "pay" },
                         createOrder: function () {
-                            return fetch("/.netlify/functions/verify-paypal?action=create")
+                            return fetch("/api/verify-paypal?action=create")
                                 .then(function (r) { return r.json(); })
                                 .then(function (d) {
                                     if (!d.ok || !d.id) throw new Error(d.error || "create failed");
@@ -165,7 +165,7 @@
                         },
                         onApprove: function (data) {
                             setStatus(s.loading);
-                            return fetch("/.netlify/functions/verify-paypal?action=capture&order_id=" + encodeURIComponent(data.orderID))
+                            return fetch("/api/verify-paypal?action=capture&order_id=" + encodeURIComponent(data.orderID))
                                 .then(function (r) { return r.json(); })
                                 .then(function (d) {
                                     if (d.ok && d.approved) {

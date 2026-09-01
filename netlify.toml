@@ -5,6 +5,24 @@
 [functions]
   node_bundler = "esbuild"
 
+# Mesmas rotas /api/* usadas pelas Cloudflare Pages Functions (functions/api/*),
+# redirecionadas aqui para as Netlify Functions equivalentes -- assim o
+# front-end (paywall.js etc.) chama sempre /api/... e funciona nos dois hosts.
+[[redirects]]
+  from = "/api/verify-payment"
+  to = "/.netlify/functions/verify-payment"
+  status = 200
+
+[[redirects]]
+  from = "/api/verify-paypal"
+  to = "/.netlify/functions/verify-paypal"
+  status = 200
+
+[[redirects]]
+  from = "/api/send-class-notice"
+  to = "/.netlify/functions/send-class-notice"
+  status = 200
+
 [[headers]]
   for = "/.netlify/functions/*"
   [headers.values]
