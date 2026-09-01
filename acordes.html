@@ -577,21 +577,32 @@
             return svg;
         }
 
+        // ---------- POSIÇÃO INICIAL DA ESCALA ----------
+        // A escala sempre começa na tônica mais grave possível no violão:
+        // a posição dela na corda mais grave (E), calculada por módulo.
+        // Ex.: tônica A -> 5ª casa da corda E (não existe A mais grave que essa
+        // no braço em afinação padrão).
+        function acharBaseFretEscala(tonica) {
+            const idxGrave = NOTAS.indexOf(AFINACAO[0]);
+            const idxTonica = NOTAS.indexOf(tonica);
+            return (idxTonica - idxGrave + 12) % 12;
+        }
+
         // ---------- DEDILHADO DA MÃO DIREITA (escalas) ----------
         // Numeração: 1 = polegar, 2 = indicador, 3 = médio, 4 = anelar, 5 = mínimo.
         // Diferente dos acordes, a escala não abafa cordas -- normalmente as
         // 6 participam. Por isso a regra aqui é fixa por corda (E/A/D sempre
         // com o polegar, já que numa escala o baixo caminha pelas 3 cordas
         // graves), e só aparece o número se aquela corda realmente tiver
-        // alguma nota da escala dentro do trecho mostrado.
-        function acharDedosMaoDireitaEscala(notasDaEscala, numCasas) {
+        // alguma nota da escala dentro do trecho mostrado (a partir de baseFret).
+        function acharDedosMaoDireitaEscala(notasDaEscala, numCasas, baseFret) {
             const mapaDedo = { 0: 1, 1: 1, 2: 1, 3: 2, 4: 3, 5: 4 };
             const dedos = {};
             for (let c = 0; c < 6; c++) {
                 const idxBase = NOTAS.indexOf(AFINACAO[c]);
                 let temNota = false;
                 for (let casa = 0; casa <= numCasas; casa++) {
-                    if (notasDaEscala.includes(NOTAS[(idxBase + casa) % 12])) { temNota = true; break; }
+                    if (notasDaEscala.includes(NOTAS[(idxBase + baseFret + casa) % 12])) { temNota = true; break; }
                 }
                 if (temNota) dedos[c] = mapaDedo[c];
             }
@@ -604,17 +615,25 @@
             const espCordas = 26, espCasas = 68;
             const numCasas = 5;
 
+            const baseFret = acharBaseFretEscala(tonica);
+
             let svg = `<svg width="${largura}" height="${altura}" viewBox="0 0 ${largura} ${altura}" xmlns="http://www.w3.org/2000/svg">`;
             svg += `<rect width="100%" height="100%" fill="#121212" rx="6"/>`;
 
-            const dedosDireita = acharDedosMaoDireitaEscala(notasDaEscala, numCasas);
+            const dedosDireita = acharDedosMaoDireitaEscala(notasDaEscala, numCasas, baseFret);
 
-            svg += `<line x1="${margemEsquerda}" y1="${margemSuperior}" x2="${margemEsquerda}" y2="${margemSuperior + (espCordas*5)}" stroke="#888" stroke-width="4" stroke-linecap="round"/>`;
+            const peso = (baseFret === 0) ? 4 : 1.8;
+            svg += `<line x1="${margemEsquerda}" y1="${margemSuperior}" x2="${margemEsquerda}" y2="${margemSuperior + (espCordas*5)}" stroke="#888" stroke-width="${peso}" stroke-linecap="round"/>`;
+
+            if (baseFret > 0) {
+                svg += `<text x="${margemEsquerda}" y="${margemSuperior - 12}" font-family="'Inter',Arial" font-size="9" fill="#c9a959" text-anchor="middle">${baseFret}ª</text>`;
+            }
 
             for (let i=1; i<=numCasas; i++) {
                 let x = margemEsquerda + i*espCasas;
+                let casaReal = baseFret + i;
                 svg += `<line x1="${x}" y1="${margemSuperior}" x2="${x}" y2="${margemSuperior + (espCordas*5)}" stroke="#3a3a3a" stroke-width="1.5"/>`;
-                svg += `<text x="${x - espCasas/2}" y="${margemSuperior - 12}" font-family="'Inter',Arial" font-size="9" fill="#666" text-anchor="middle">${i}ª</text>`;
+                svg += `<text x="${x - espCasas/2}" y="${margemSuperior - 12}" font-family="'Inter',Arial" font-size="9" fill="#666" text-anchor="middle">${casaReal}ª</text>`;
             }
 
             for (let c=0; c<6; c++) {
@@ -632,7 +651,7 @@
             for (let c=0; c<6; c++) {
                 let idxBase = NOTAS.indexOf(AFINACAO[c]);
                 for (let casa=0; casa<=numCasas; casa++) {
-                    let idxNota = (idxBase + casa) % 12;
+                    let idxNota = (idxBase + baseFret + casa) % 12;
                     let notaAtual = NOTAS[idxNota];
                     if (notasDaEscala.includes(notaAtual)) {
                         let cx = margemEsquerda + casa*espCasas - (casa===0 ? 0 : espCasas/2);
