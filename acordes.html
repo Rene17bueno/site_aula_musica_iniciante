@@ -305,6 +305,24 @@
                 width: 100%;
             }
         }
+
+        /* ===== SELETOR DE POSIÇÕES (modal de escala) ===== */
+        .btn-posicao {
+            padding: 5px 14px;
+            border: 1px solid rgba(201, 169, 89, 0.15);
+            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.02);
+            color: #b5b0a8;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-posicao.active {
+            border-color: #c9a959;
+            color: #0a0a0a;
+            background: #c9a959;
+        }
     </style>
 </head>
 <body>
@@ -383,6 +401,10 @@
                     <h4 class="mt-3 mb-1 fw-bold" id="modalTitle" style="color:#e8d5a3;">Título</h4>
                     <span class="badge bg-secondary-subtle text-secondary text-uppercase fs-7" id="modalBadge">Tipo</span>
                     <p class="text-muted small mt-2" id="modalNotes"></p>
+                    <div id="modalPosicoes" class="d-none mt-3">
+                        <div id="modalPosicoesBtns" class="d-flex flex-wrap justify-content-center gap-2"></div>
+                        <p class="text-muted small mt-2 mb-0" id="modalPosicaoInfo"></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -610,12 +632,14 @@
         }
 
         // ---------- GERADOR SVG (escalas) ----------
-        function gerarSvgEscala(tonica, notasDaEscala, largura = 480, altura = 190) {
+        // baseFretOverride: usado pelas outras posições da escala (gerarPosicoesEscala).
+        // Quando omitido, desenha a posição 1 (começando na tônica mais grave).
+        function gerarSvgEscala(tonica, notasDaEscala, largura = 480, altura = 190, baseFretOverride = null) {
             const margemEsquerda = 50, margemSuperior = 32;
             const espCordas = 26, espCasas = 68;
             const numCasas = 5;
 
-            const baseFret = acharBaseFretEscala(tonica);
+            const baseFret = (baseFretOverride !== null) ? baseFretOverride : acharBaseFretEscala(tonica);
 
             let svg = `<svg width="${largura}" height="${altura}" viewBox="0 0 ${largura} ${altura}" xmlns="http://www.w3.org/2000/svg">`;
             svg += `<rect width="100%" height="100%" fill="#121212" rx="6"/>`;
@@ -670,6 +694,40 @@
             return svg;
         }
 
+        // ---------- TODAS AS POSIÇÕES DA ESCALA NO BRAÇO ----------
+        // A mesma escala pode começar em qualquer um dos seus graus, não só
+        // na tônica -- é a mesma "forma" repetida em casas diferentes,
+        // cobrindo o braço inteiro (do 1º grau, mais grave, até o último).
+        // Gera 1 posição por grau da fórmula, ancorada onde aquele grau
+        // aparece na corda mais grave (E), ordenadas da mais grave pra mais
+        // aguda.
+        function gerarPosicoesEscala(tonica, notasDaEscala, formula) {
+            const idxTonica = NOTAS.indexOf(tonica);
+
+            const candidatas = formula.map((intervalo, i) => {
+                const notaGrau = NOTAS[(idxTonica + intervalo) % 12];
+                return { grau: i + 1, notaGrau, baseFret: acharBaseFretEscala(notaGrau) };
+            });
+
+            const vistos = new Set();
+            const ordenadas = candidatas
+                .sort((a, b) => a.baseFret - b.baseFret)
+                .filter(p => {
+                    if (vistos.has(p.baseFret)) return false;
+                    vistos.add(p.baseFret);
+                    return true;
+                });
+
+            return ordenadas.map((p, i) => ({
+                posicao: i + 1,
+                total: ordenadas.length,
+                notaGrau: p.notaGrau,
+                grau: p.grau,
+                baseFret: p.baseFret,
+                svg: gerarSvgEscala(tonica, notasDaEscala, 480, 190, p.baseFret)
+            }));
+        }
+
         // ---------- MONTAGEM DOS ITENS ----------
         const items = [];
 
@@ -718,14 +776,15 @@
                 if (nomeEscala.includes('Blues') || nomeEscala.includes('Tons') || nomeEscala.includes('Diminuta') || nomeEscala.includes('Bebop')) cat = 'exotica';
                 if (nomeEscala.includes('Pentatônica')) cat = 'triade';
 
-                let svg = gerarSvgEscala(tonica, notasUnicas);
+                let posicoes = gerarPosicoesEscala(tonica, notasUnicas, formula);
                 items.push({
                     tipo: 'escala',
                     nome: `${tonica} ${nomeEscala}`,
                     badge: nomeEscala,
                     categoria: cat,
                     notas: notasUnicas.join(' · '),
-                    svg: svg,
+                    svg: posicoes[0].svg,
+                    posicoes: posicoes,
                     tonica: tonica,
                     tituloModal: `${tonica} · ${nomeEscala}`,
                     badgeModal: 'Escala'
@@ -815,6 +874,21 @@
 
         // ----- MODAL -----
         const modal = document.getElementById('modalDetalhe');
+        const modalSvgContainer = document.getElementById('modalSvgContainer');
+        const modalPosicoes = document.getElementById('modalPosicoes');
+        const modalPosicoesBtns = document.getElementById('modalPosicoesBtns');
+        const modalPosicaoInfo = document.getElementById('modalPosicaoInfo');
+
+        function mostrarPosicao(item, i) {
+            const p = item.posicoes[i];
+            modalSvgContainer.innerHTML = p.svg;
+            modalPosicoesBtns.querySelectorAll('.btn-posicao').forEach((b, bi) => {
+                b.classList.toggle('active', bi === i);
+            });
+            const casa = p.baseFret === 0 ? 'aberta' : `${p.baseFret}ª casa`;
+            modalPosicaoInfo.textContent = `Posição ${p.posicao} de ${p.total} — começa em ${p.notaGrau} (${casa})`;
+        }
+
         modal.addEventListener('show.bs.modal', function(e) {
             const card = e.relatedTarget;
             const idx = parseInt(card.dataset.index);
@@ -822,10 +896,24 @@
             const item = itemsList[idx];
             if (!item) return;
 
-            document.getElementById('modalSvgContainer').innerHTML = item.svg;
             document.getElementById('modalTitle').textContent = item.tituloModal || item.nome;
             document.getElementById('modalBadge').textContent = item.badgeModal || item.badge;
             document.getElementById('modalNotes').textContent = item.notas || '';
+
+            if (item.tipo === 'escala' && item.posicoes && item.posicoes.length > 1) {
+                modalPosicoes.classList.remove('d-none');
+                modalPosicoesBtns.innerHTML = item.posicoes
+                    .map((p, i) => `<button type="button" class="btn-posicao" data-i="${i}">${p.posicao}</button>`)
+                    .join('');
+                modalPosicoesBtns.querySelectorAll('.btn-posicao').forEach(btn => {
+                    btn.addEventListener('click', () => mostrarPosicao(item, parseInt(btn.dataset.i)));
+                });
+                mostrarPosicao(item, 0);
+            } else {
+                modalPosicoes.classList.add('d-none');
+                modalPosicoesBtns.innerHTML = '';
+                modalSvgContainer.innerHTML = item.svg;
+            }
         });
 
         // ----- INICIALIZA -----
