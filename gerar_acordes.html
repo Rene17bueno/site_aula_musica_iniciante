@@ -679,7 +679,7 @@ function acharDedosMaoDireita(frets) {
 
 function drawChord(chord) {
     const canvas = document.createElement('canvas');
-    canvas.width = 240;
+    canvas.width = 260;
     canvas.height = 320;
     const ctx = canvas.getContext('2d');
 
@@ -797,22 +797,23 @@ function drawChord(chord) {
     }
 
     // Numeração da mão direita (1=polegar, 2=indicador, 3=médio, 4=anelar),
-    // uma por corda tocada, logo abaixo do braço (esse diagrama é vertical,
-    // então "abaixo" é o equivalente de "extrema direita" nos diagramas horizontais).
+    // uma por corda tocada, empilhada na extrema direita da imagem -- mesmo
+    // lado usado nos diagramas horizontais (acordes.html / jogo-imagem.html),
+    // na mesma ordem grave->aguda (E, A, D, G, B, E).
     const dedosDireita = acharDedosMaoDireita(chord.frets);
-    const yDedos = startY + 5 * fretSpacing + 18;
+    const xDedos = canvas.width - 12;
     ctx.textAlign = 'center';
     for (let i = 0; i < 6; i++) {
         const dedo = dedosDireita[i];
         if (dedo === undefined) continue;
-        const x = startX + i * stringSpacing;
+        const y = startY + i * fretSpacing;
         ctx.fillStyle = '#c9a959';
         ctx.beginPath();
-        ctx.arc(x, yDedos, 9, 0, Math.PI * 2);
+        ctx.arc(xDedos, y, 9, 0, Math.PI * 2);
         ctx.fill();
         ctx.fillStyle = '#1a1a2e';
         ctx.font = 'bold 12px Arial';
-        ctx.fillText(dedo, x, yDedos + 4);
+        ctx.fillText(dedo, xDedos, y + 4);
     }
 
     return canvas;
