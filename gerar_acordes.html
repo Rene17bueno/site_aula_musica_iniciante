@@ -655,6 +655,28 @@ const chordData = [
 // 3. MOTOR DE RENDERIZAÇÃO NO CANVAS
 // ============================================================
 
+// ---------- DEDILHADO DA MÃO DIREITA ----------
+// Numeração: 1 = polegar, 2 = indicador, 3 = médio, 4 = anelar, 5 = mínimo.
+// frets[] segue a mesma ordem grave->aguda usada no resto do projeto:
+// 0=E, 1=A, 2=D, 3=G, 4=B, 5=E (aguda).
+//   - Polegar (1): entre as 3 cordas mais graves (E, A, D), a primeira
+//     que não estiver abafada ("x") -- ali está o baixo do acorde.
+//   - Indicador (2) = corda G, Médio (3) = corda B, Anelar (4) = corda E aguda,
+//     cada um só aparece se a corda não estiver abafada.
+//   - Mínimo (5) fica de fora: um acorde de 6 cordas só precisa de 4 dedos.
+function acharDedosMaoDireita(frets) {
+    const dedos = {};
+    for (let i = 0; i <= 2; i++) {
+        if (frets[i] === 'x') continue;
+        dedos[i] = 1;
+        break;
+    }
+    [[3, 2], [4, 3], [5, 4]].forEach(([i, dedo]) => {
+        if (frets[i] !== 'x') dedos[i] = dedo;
+    });
+    return dedos;
+}
+
 function drawChord(chord) {
     const canvas = document.createElement('canvas');
     canvas.width = 240;
@@ -772,6 +794,25 @@ function drawChord(chord) {
                 ctx.fillText(finger, x, y + 5);
             }
         }
+    }
+
+    // Numeração da mão direita (1=polegar, 2=indicador, 3=médio, 4=anelar),
+    // uma por corda tocada, logo abaixo do braço (esse diagrama é vertical,
+    // então "abaixo" é o equivalente de "extrema direita" nos diagramas horizontais).
+    const dedosDireita = acharDedosMaoDireita(chord.frets);
+    const yDedos = startY + 5 * fretSpacing + 18;
+    ctx.textAlign = 'center';
+    for (let i = 0; i < 6; i++) {
+        const dedo = dedosDireita[i];
+        if (dedo === undefined) continue;
+        const x = startX + i * stringSpacing;
+        ctx.fillStyle = '#c9a959';
+        ctx.beginPath();
+        ctx.arc(x, yDedos, 9, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#1a1a2e';
+        ctx.font = 'bold 12px Arial';
+        ctx.fillText(dedo, x, yDedos + 4);
     }
 
     return canvas;
