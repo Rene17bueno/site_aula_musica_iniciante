@@ -9,6 +9,7 @@
 // Configurar no Cloudflare Pages (Settings > Environment variables):
 //   MP_ACCESS_TOKEN = Access Token de produção da sua conta Mercado Pago
 //   (Painel Mercado Pago > Seu negócio > Configurações > Credenciais)
+//   MP_EXPECTED_AMOUNT = (opcional) valor mínimo aceito, ex.: 27 -- rejeita pagamentos de valor menor
 // ============================================================
 
 const CORS_HEADERS = {
@@ -47,7 +48,9 @@ export async function onRequestGet(context) {
             return json({ ok: false, error: (data && data.message) || "Falha ao consultar pagamento." }, response.status);
         }
 
-        const approved = data.status === "approved";
+        const expected = parseFloat(context.env.MP_EXPECTED_AMOUNT || "");
+        const amountOk = !expected || Number(data.transaction_amount) >= expected;
+        const approved = data.status === "approved" && amountOk;
         return json({
             ok: true,
             approved,

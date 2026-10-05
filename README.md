@@ -1,6 +1,6 @@
 # Site Aula Musica Iniciante
 
-Implementacao de autenticacao, formulario de visitantes e chat com upload de imagem/video para um site estatico hospedado no Netlify.
+Implementacao de autenticacao, formulario de visitantes e chat com upload de imagem/video para um site estatico hospedado no Cloudflare Pages (codigo no GitHub).
 
 ## Estrutura adicionada
 
@@ -145,10 +145,10 @@ service firebase.storage {
 2. No Firestore, abra `userProfiles/<uid>`.
 3. Altere o campo `role` para `admin`.
 
-## Deploy no Netlify
+## Deploy (Cloudflare Pages)
 
-1. Commit e push para o repositorio conectado ao Netlify.
-2. Aguarde novo deploy automatico.
+1. Commit e push para o repositorio GitHub conectado ao Cloudflare Pages.
+2. Aguarde novo deploy automatico (as rotas /api/* vem de functions/api).
 3. Acesse `comunidade.html` no site publicado.
 
 ## Termos de uso

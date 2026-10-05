@@ -6,14 +6,14 @@
 - [ ] Firebase Rules (Storage) - Aplicadas no Firebase Console
 - [ ] Firebase Config - `js/js/community/firebase-config.js` preenchida corretamente
 - [ ] Repositório GitHub - Último commit enviado (`997db78`)
-- [ ] Netlify - Site conectado e em produção
+- [ ] Cloudflare Pages - Site conectado ao GitHub e em produção
 
 ---
 
 ## 🧪 Testes Recomendados
 
 ### 1. **Teste de Autenticação**
-**URL**: `https://seu-site.netlify.app/comunidade.html`
+**URL**: `https://estudodeviolaoiniciante.pages.dev/comunidade.html`
 
 #### Teste 1.1 - Signup com email
 1. Clique em "Cadastro"
@@ -104,7 +104,7 @@ Path: chatAttachments/{seu-uid}/{timestamp}_{filename}
 ---
 
 ### 5. **Teste de Painel Admin**
-**URL**: `https://seu-site.netlify.app/comunidade-admin.html`
+**URL**: `https://estudodeviolaoiniciante.pages.dev/comunidade-admin.html`
 
 #### 5.1 - Acesso sem privilégios
 1. Faça logout do visitante
@@ -244,7 +244,7 @@ Path: chatAttachments/{seu-uid}/{timestamp}_{filename}
 - [ ] Storage Console mostra arquivos de teste
 - [ ] Admin consegue filtrar e responder entradas
 - [ ] Site responde rápido em mobile (<2s)
-- [ ] Netlify build logs sem warnings críticos
+- [ ] Cloudflare Pages build logs sem warnings críticos
 
 **Se tudo passou**: 🎉 Seu site está pronto para produção!
 
