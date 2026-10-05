@@ -31,7 +31,7 @@
     // ---- Dicionário de textos da interface -----------------
     var T = {
         pt: {
-            home: "Início", chapters: "Capítulos", chapter: "Capítulo",
+            home: "Início", lessons: "Aulas", chapters: "Capítulos", chapter: "Capítulo",
             chords: "Acordes", games: "Jogos",
             visualChallenge: "Desafio Visual", noteId: "Identificação de Notas",
             community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin",
@@ -39,7 +39,7 @@
             footBrand: "<span>Estudo de Violão</span> Iniciante"
         },
         en: {
-            home: "Home", chapters: "Chapters", chapter: "Chapter",
+            home: "Home", lessons: "Lessons (PT)", chapters: "Chapters", chapter: "Chapter",
             chords: "Chords", games: "Games",
             visualChallenge: "Visual Challenge", noteId: "Note Identification",
             community: "Community", attendance: "Attendance", adminPanel: "Admin Panel",
@@ -47,7 +47,7 @@
             footBrand: "<span>Beginner</span> Guitar Study"
         },
         es: {
-            home: "Inicio", chapters: "Capítulos", chapter: "Capítulo",
+            home: "Inicio", lessons: "Clases (PT)", chapters: "Capítulos", chapter: "Capítulo",
             chords: "Acordes", games: "Juegos",
             visualChallenge: "Desafío Visual", noteId: "Identificación de Notas",
             community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración",
@@ -104,6 +104,7 @@
         '<div class="collapse navbar-collapse justify-content-end" id="navbarContent">' +
         '<ul class="navbar-nav mb-2 mb-lg-0 gap-2 text-center text-lg-start pt-3 pt-lg-0">' +
         '<li class="nav-item"><a class="nav-link" href="' + local("index.html") + '"><i class="fas fa-home me-1"></i> ' + t.home + '</a></li>' +
+        '<li class="nav-item"><a class="nav-link" href="' + shared("aulas.html") + '"><i class="fas fa-circle-play me-1"></i> ' + t.lessons + '</a></li>' +
         '<li class="nav-item dropdown">' +
         '<a class="nav-link dropdown-toggle" href="#" id="capitulosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-book me-1"></i> ' + t.chapters + '</a>' +
         '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capitulosDropdown">' + CH.join("") + '</ul>' +

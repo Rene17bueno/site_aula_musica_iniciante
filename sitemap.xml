@@ -310,4 +310,9 @@
   <url>
     <loc>https://estudodeviolaoiniciante.netlify.app/presenca.html</loc>
   </url>
+  <url>
+    <loc>https://estudodeviolaoiniciante.netlify.app/aulas.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
 </urlset>
