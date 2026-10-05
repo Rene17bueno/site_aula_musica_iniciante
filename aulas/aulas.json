@@ -1,0 +1,175 @@
+{
+ "aulas": [
+  {
+   "n": 1,
+   "titulo": "Conhecendo o violão",
+   "desc": "Notas, cifras, partes do violão, dedos, cordas e o que é um acorde.",
+   "livre": true,
+   "partes": [
+    {
+     "id": "a1p1",
+     "n": 1,
+     "titulo": "As notas musicais e as cifras",
+     "desc": "As sete notas naturais e as letras (cifras) que as representam.",
+     "dur": 47
+    },
+    {
+     "id": "a1p2",
+     "n": 2,
+     "titulo": "Conhecendo as partes do violão",
+     "desc": "Cabeça, tarraxas, braço, trastes, boca, roseta e cavalete.",
+     "dur": 63
+    },
+    {
+     "id": "a1p3",
+     "n": 3,
+     "titulo": "Conhecendo as mãos",
+     "desc": "Numeração dos dedos da mão esquerda e letras P, I, M, A da direita.",
+     "dur": 51
+    },
+    {
+     "id": "a1p4",
+     "n": 4,
+     "titulo": "Conhecendo as cordas",
+     "desc": "As seis cordas, sua numeração e as notas Mi, Lá, Ré, Sol, Si, Mi.",
+     "dur": 39
+    },
+    {
+     "id": "a1p5",
+     "n": 5,
+     "titulo": "Tocando as cordas soltas",
+     "desc": "O som de cada corda solta.",
+     "dur": 37
+    },
+    {
+     "id": "a1p6",
+     "n": 6,
+     "titulo": "Apertando uma corda",
+     "desc": "Como uma casa apertada muda a nota.",
+     "dur": 39
+    },
+    {
+     "id": "a1p7",
+     "n": 7,
+     "titulo": "E os acordes?",
+     "desc": "O que é um acorde e uma prévia do primeiro acorde.",
+     "dur": 56
+    }
+   ]
+  },
+  {
+   "n": 2,
+   "titulo": "Primeiros acordes",
+   "desc": "Postura, diagramas e os acordes C, Am, G e F simplificado, com troca devagar.",
+   "livre": true,
+   "partes": [
+    {
+     "id": "a2p1",
+     "n": 1,
+     "titulo": "Como segurar o violão",
+     "desc": "Postura sentada, polegar atrás do braço e ponta dos dedos.",
+     "dur": 41
+    },
+    {
+     "id": "a2p2",
+     "n": 2,
+     "titulo": "Como ler um diagrama de acorde",
+     "desc": "Cordas, casas, bolinhas com números, X e O.",
+     "dur": 44
+    },
+    {
+     "id": "a2p3",
+     "n": 3,
+     "titulo": "Acorde C (Dó maior)",
+     "desc": "Dedos 3, 2 e 1; as notas C, E e G.",
+     "dur": 46
+    },
+    {
+     "id": "a2p4",
+     "n": 4,
+     "titulo": "Acorde Am (Lá menor)",
+     "desc": "O acorde menor e a diferença de som para o maior.",
+     "dur": 47
+    },
+    {
+     "id": "a2p5",
+     "n": 5,
+     "titulo": "Acorde G (Sol maior)",
+     "desc": "Dedos 2, 1 e 3; as seis cordas e o G que pede o C.",
+     "dur": 43
+    },
+    {
+     "id": "a2p6",
+     "n": 6,
+     "titulo": "Acorde F simplificado (Fá maior)",
+     "desc": "Versão de quatro cordas, sem pestana.",
+     "dur": 45
+    },
+    {
+     "id": "a2p7",
+     "n": 7,
+     "titulo": "Trocando de acorde",
+     "desc": "C, Am, F e G devagar, com resumo da aula.",
+     "dur": 52
+    }
+   ]
+  },
+  {
+   "n": 3,
+   "titulo": "Ritmo e batidas",
+   "desc": "Pulso, compasso, dedilhado P-I-M-A e a batida popular nos quatro acordes.",
+   "livre": false,
+   "partes": [
+    {
+     "id": "a3p1",
+     "n": 1,
+     "titulo": "Pulso e compasso",
+     "desc": "Contar 1, 2, 3, 4 com metrônomo a 60 bpm.",
+     "dur": 46
+    },
+    {
+     "id": "a3p2",
+     "n": 2,
+     "titulo": "A mão direita: P, I, M e A",
+     "desc": "Qual dedo toca qual corda.",
+     "dur": 45
+    },
+    {
+     "id": "a3p3",
+     "n": 3,
+     "titulo": "Primeiro dedilhado",
+     "desc": "P, I, M, A, M, I sobre o acorde C.",
+     "dur": 43
+    },
+    {
+     "id": "a3p4",
+     "n": 4,
+     "titulo": "Batida básica com setas",
+     "desc": "Seta para baixo e para cima, punho solto.",
+     "dur": 53
+    },
+    {
+     "id": "a3p5",
+     "n": 5,
+     "titulo": "A batida popular",
+     "desc": "Baixo, baixo-cima, cima, baixo-cima.",
+     "dur": 50
+    },
+    {
+     "id": "a3p6",
+     "n": 6,
+     "titulo": "Acorde mais batida",
+     "desc": "C, Am, F e G com a batida popular.",
+     "dur": 68
+    },
+    {
+     "id": "a3p7",
+     "n": 7,
+     "titulo": "Praticando todo dia",
+     "desc": "Plano de 10 minutos, metrônomo e resumo.",
+     "dur": 48
+    }
+   ]
+  }
+ ]
+}
