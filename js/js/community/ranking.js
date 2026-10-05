@@ -9,7 +9,7 @@ import { observeAuthSession } from "./auth-service.js";
 
 const box = document.getElementById("rankingBox");
 const game = box ? box.dataset.game : "";
-const GAMES = ["cifras", "diagramas"];
+const GAMES = ["cifras", "diagramas", "escalas", "notas"];
 const MEDALS = ["🥇", "🥈", "🥉"];
 
 let session = null;
