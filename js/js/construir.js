@@ -135,7 +135,7 @@
         var notes = spell(tonicPc, def);
         target = { notes: notes, set: {}, formula: degrees(def) };
         notes.forEach(function (n) { target.set[n.pc] = true; });
-        selected = {}; selected[tonicPc] = true; attempts = 2; finished = false;
+        selected = {}; selected[tonicPc] = true; attempts = 2; finished = false; shapes = []; shapeIdx = 0;
         var tonicName = notes[0].pt, cif = notes[0].cif;
         if (kind === "acordes") {
             titleEl.innerHTML = 'Construa o acorde <span class="gold">' + tonicName + " " + def.name + "</span>";
@@ -157,52 +157,182 @@
 
     // ---------- Braço do violão (afinação padrão E A D G B E) ----------
     var OPEN_PC = [4, 11, 7, 2, 9, 4]; // corda 1 (fina, no topo) ... corda 6 (grave)
+    var STR_LOW = [4, 9, 2, 7, 11, 4]; // corda 6 (grave) ... corda 1
     var SVGNS = "http://www.w3.org/2000/svg", BW = 62, BX0 = 56, BY0 = 30, BDY = 28;
+    var shapes = [], shapeIdx = 0;
+
     function svgEl(tag, attrs, txt) {
         var e = document.createElementNS(SVGNS, tag);
         for (var k in attrs) e.setAttribute(k, attrs[k]);
         if (txt != null) e.textContent = txt;
         $("board").appendChild(e); return e;
     }
-    function drawBoard(reveal) {
-        var rg = $("selRegiao").value.split("-"), f0 = +rg[0], f1 = +rg[1], fs = Math.max(f0, 1), n = f1 - fs + 1;
+    function dot(x, y, cls, label) {
+        svgEl("circle", { cx: x, cy: y, r: 12, "class": cls });
+        svgEl("text", { x: x, y: y, "class": "nt" }, label);
+    }
+
+    // Desenha a grade (casas f0..f1) e devolve as funcoes de posicao
+    function setupGrid(f0, f1) {
+        var fs = Math.max(f0, 1), n = f1 - fs + 1;
         var svg = $("board"), W = BX0 + n * BW + 20, H = BY0 + 5 * BDY + 46;
         svg.setAttribute("viewBox", "0 0 " + W + " " + H);
         svg.innerHTML = "";
-        var xs = function (f) { return BX0 + (f - fs + 0.5) * BW; };       // centro da casa f (f >= 1)
-        var xd = function (f) { return f === 0 ? BX0 - 18 : xs(f); };    // casa 0 = corda solta, a esquerda da pestana
-        var ys = function (i) { return BY0 + i * BDY; };
-        [3, 5, 7, 9].forEach(function (f) { if (f >= f0 && f <= f1) svgEl("circle", { cx: xs(f), cy: (ys(0) + ys(5)) / 2, r: 8, "class": "inlay" }); });
+        var xs = function (f) { return BX0 + (f - fs + 0.5) * BW; };
+        var g = {
+            xd: function (f) { return f === 0 ? BX0 - 18 : xs(f); },
+            ys: function (i) { return BY0 + i * BDY; }
+        };
+        [3, 5, 7, 9].forEach(function (f) { if (f >= f0 && f <= f1) svgEl("circle", { cx: xs(f), cy: (g.ys(0) + g.ys(5)) / 2, r: 8, "class": "inlay" }); });
         if (f1 >= 12 && 12 >= f0) {
-            svgEl("circle", { cx: xs(12), cy: ys(1) + BDY / 2, r: 8, "class": "inlay" });
-            svgEl("circle", { cx: xs(12), cy: ys(4) - BDY / 2, r: 8, "class": "inlay" });
+            svgEl("circle", { cx: xs(12), cy: g.ys(1) + BDY / 2, r: 8, "class": "inlay" });
+            svgEl("circle", { cx: xs(12), cy: g.ys(4) - BDY / 2, r: 8, "class": "inlay" });
         }
         for (var i = 0; i <= n; i++) {
             var x = BX0 + i * BW;
-            svgEl("line", { x1: x, x2: x, y1: ys(0), y2: ys(5), "class": (i === 0 && f0 === 0) ? "nut" : "fret" });
+            svgEl("line", { x1: x, x2: x, y1: g.ys(0), y2: g.ys(5), "class": (i === 0 && f0 === 0) ? "nut" : "fret" });
         }
-        for (var f = fs; f <= f1; f++) svgEl("text", { x: xs(f), y: ys(5) + 26, "class": "fnum" }, f);
-        if (f0 === 0) svgEl("text", { x: BX0 - 18, y: ys(5) + 26, "class": "fnum" }, "0");
-        for (var s = 0; s < 6; s++) {
-            svgEl("line", { x1: BX0, x2: BX0 + n * BW, y1: ys(s), y2: ys(s), "class": "str", "stroke-width": 1 + s * 0.5 });
-            svgEl("text", { x: 14, y: ys(s) + 5, "class": "snum" }, s + 1);
+        for (var f = fs; f <= f1; f++) svgEl("text", { x: xs(f), y: g.ys(5) + 26, "class": "fnum" }, f);
+        for (var st = 0; st < 6; st++) {
+            svgEl("line", { x1: BX0, x2: BX0 + n * BW, y1: g.ys(st), y2: g.ys(st), "class": "str", "stroke-width": 1 + st * 0.5 });
+            svgEl("text", { x: 14, y: g.ys(st) + 5, "class": "snum" }, st + 1);
         }
+        return g;
+    }
+
+    // Escalas: todas as posicoes da resposta (ou das notas marcadas) no braço
+    function drawBoard(reveal) {
+        var rg = $("selRegiao").value.split("-"), f0 = +rg[0], f1 = +rg[1];
+        var g = setupGrid(f0, f1);
         var names = {};
         if (reveal) target.notes.forEach(function (nt) { names[nt.pc] = nt.pt; });
         for (var st = 0; st < 6; st++) {
             for (var fr = f0; fr <= f1; fr++) {
                 var pc = (OPEN_PC[st] + fr) % 12;
-                var on = reveal ? target.set[pc] : selected[pc];
-                if (!on) continue;
-                var cls = pc === tonicPc ? "nd tonic" : (reveal ? "nd ok" : "nd sel");
-                svgEl("circle", { cx: xd(fr), cy: ys(st), r: 12, "class": cls });
-                svgEl("text", { x: xd(fr), y: ys(st), "class": "nt" }, names[pc] || KEY_LABELS[pc][0]);
+                if (!(reveal ? target.set[pc] : selected[pc])) continue;
+                dot(g.xd(fr), g.ys(st), pc === tonicPc ? "nd tonic" : (reveal ? "nd ok" : "nd sel"), names[pc] || KEY_LABELS[pc][0]);
             }
         }
     }
 
+    // ---------- Acordes: forma tocavel (voicing) ----------
+    // Procura formas com ate 4 dedos (pestana conta como 1), dentro de 4 casas, sem cordas
+    // abafadas no meio e com a tonica no baixo. As notas essenciais (tonica, terca, setima,
+    // extensoes) sao obrigatorias; a quinta pode ser omitida em acordes de 4+ notas.
+    function findShapes(root, tones) {
+        var pcSet = {}; tones.forEach(function (t) { pcSet[t.pc] = true; });
+        var many = tones.length >= 4;
+        function reqSet(level) {
+            var r = {};
+            tones.forEach(function (t) {
+                var skip5 = many && t.s % 12 === 7;
+                var skipExt = (level >= 1 && t.s >= 12) || (tones.length >= 6 && t.s >= 12 && t.s < 16);
+                var onlyCore = level >= 2 && t.s % 12 !== 0 && ![3, 4, 2, 5, 9, 10, 11].includes(t.s % 12);
+                if (!skip5 && !skipExt && !onlyCore) r[t.pc] = true;
+            });
+            r[root] = true; return r;
+        }
+        var results = {};
+        function evaluate(v, req, rootBass) {
+            var sounding = [], i;
+            for (i = 0; i < 6; i++) if (v[i] >= 0) sounding.push(i);
+            if (sounding.length < 3) return;
+            var lo = sounding[0], hi = sounding[sounding.length - 1];
+            for (i = lo; i <= hi; i++) if (v[i] < 0) return;            // sem abafadas no meio
+            if (rootBass && (STR_LOW[lo] + v[lo]) % 12 !== root) return;
+            var have = {}; sounding.forEach(function (k) { have[(STR_LOW[k] + v[k]) % 12] = true; });
+            for (var pc in req) if (!have[pc]) return;
+            var fretted = sounding.filter(function (k) { return v[k] > 0; });
+            var m = fretted.length ? Math.min.apply(null, fretted.map(function (k) { return v[k]; })) : 0;
+            var atM = fretted.filter(function (k) { return v[k] === m; });
+            var barre = false;
+            if (atM.length >= 2) {
+                var a = Math.min.apply(null, atM), b = Math.max.apply(null, atM);
+                barre = true;
+                for (i = a; i <= b; i++) if (v[i] < m) barre = false;     // corda solta no meio impede a pestana
+            }
+            var fingers = barre ? 1 + fretted.filter(function (k) { return v[k] > m; }).length : fretted.length;
+            if (fingers > 4) return;
+            var opens = sounding.length - fretted.length;
+            var mx = fretted.length ? Math.max.apply(null, fretted.map(function (k) { return v[k]; })) : 0;
+            var cost = fingers + 0.35 * m + 0.6 * (mx - m) + 2 * (6 - sounding.length) - 0.4 * opens + (barre ? 1.5 : 0) + (rootBass ? 0 : 3);
+            var key = v.join(",");
+            if (!results[key]) results[key] = { v: v.slice(), cost: cost, barre: barre, base: m };
+        }
+        function run(req, rootBass) {
+            for (var lo = 1; lo <= 10; lo++) {
+                var hi = lo + 3, v = [-1, -1, -1, -1, -1, -1];
+                (function rec(idx) {
+                    if (idx === 6) { evaluate(v, req, rootBass); return; }
+                    v[idx] = -1; rec(idx + 1);
+                    if (lo <= 2 && pcSet[STR_LOW[idx] % 12]) { v[idx] = 0; rec(idx + 1); }
+                    for (var f = lo; f <= hi; f++) {
+                        if (pcSet[(STR_LOW[idx] + f) % 12]) { v[idx] = f; rec(idx + 1); }
+                    }
+                    v[idx] = -1;
+                })(0);
+            }
+        }
+        for (var level = 0; level <= 2 && !Object.keys(results).length; level++) {
+            run(reqSet(level), true);
+            if (!Object.keys(results).length) run(reqSet(level), false);
+        }
+        return Object.keys(results).map(function (k) { return results[k]; })
+            .sort(function (a, b) { return a.cost - b.cost || a.base - b.base; });
+    }
+
+    function pickShapes() {
+        var tones = def.s.map(function (semis, i) { return { pc: target.notes[i].pc, s: semis }; });
+        var all = findShapes(tonicPc, tones), out = [], bases = {};
+        // formas com casas iniciais diferentes (mais simples primeiro), no maximo 6
+        all.forEach(function (sh) {
+            if (out.length < 6 && !bases[sh.base]) { bases[sh.base] = true; out.push(sh); }
+        });
+        shapes = out; shapeIdx = 0;
+    }
+
+    function drawShape() {
+        var sh = shapes[shapeIdx];
+        if (!sh) { $("board").innerHTML = ""; $("shapeInfo").textContent = "Não encontrei uma forma simples para este acorde."; return; }
+        var v = sh.v, frets = v.filter(function (f) { return f > 0; });
+        var hasOpen = v.some(function (f) { return f === 0; });
+        var top = Math.max.apply(null, frets), bot = Math.min.apply(null, frets);
+        var f0 = (hasOpen || bot <= 2) ? 0 : bot, f1 = Math.max(top, f0 === 0 ? 4 : bot + 3);
+        var g = setupGrid(f0, f1);
+        var names = {}; target.notes.forEach(function (nt) { names[nt.pc] = nt.pt; });
+        for (var row = 0; row < 6; row++) {
+            var k = 5 - row, f = v[k], y = g.ys(row), x0 = BX0 - 18;
+            if (f < 0) { svgEl("text", { x: x0, y: y + 5, "class": "mute" }, "×"); continue; }
+            var pc = (STR_LOW[k] + f) % 12, cls = pc === tonicPc ? "nd tonic" : "nd ok";
+            if (f === 0) { svgEl("circle", { cx: x0, cy: y, r: 12, "class": cls + " open" }); svgEl("text", { x: x0, y: y, "class": "nt" }, names[pc]); }
+            else dot(g.xd(f), y, cls, names[pc]);
+        }
+        if (sh.barre) {
+            var bs = [];
+            for (var q = 0; q < 6; q++) if (v[q] === sh.base) bs.push(5 - q);
+            var bx = g.xd(sh.base);
+            svgEl("rect", { x: bx - 16, y: g.ys(Math.min.apply(null, bs)) - 16, width: 32, height: g.ys(Math.max.apply(null, bs)) - g.ys(Math.min.apply(null, bs)) + 32, rx: 16, "class": "barre" });
+        }
+        var pos = sh.base === 0 ? "formato aberto" : "a partir da " + (f0 || sh.base) + "ª casa" + (sh.barre ? " (com pestana)" : "");
+        $("shapeInfo").textContent = "Forma " + (shapeIdx + 1) + " de " + shapes.length + " · " + pos;
+    }
+
+    // Mostra o painel certo: acordes = forma tocavel; escalas = notas em todo o braço
+    function renderBoard(reveal) {
+        var chord = kind === "acordes";
+        $("selRegiao").classList.toggle("d-none", chord);
+        $("btnShape").classList.toggle("d-none", !chord);
+        $("shapeInfo").classList.toggle("d-none", !chord);
+        $("boardLegend").classList.toggle("d-none", chord);
+        $("boardTitle").textContent = chord ? "O acorde no braço do violão" : "Notas da escala no braço do violão";
+        $("boardWrap").classList.toggle("d-none", chord && !reveal);
+        $("boardHint").classList.toggle("d-none", !(chord && !reveal));
+        if (!chord) { drawBoard(reveal); return; }
+        if (reveal) { if (!shapes.length) pickShapes(); drawShape(); }
+    }
+
     function renderKeys(reveal) {
-        drawBoard(!!reveal);
+        renderBoard(!!reveal);
         keysBox.querySelectorAll(".key").forEach(function (b) {
             var pc = +b.dataset.pc;
             b.className = "key" + (pc === tonicPc ? " tonic" : "") + (selected[pc] ? " sel" : "");
@@ -288,6 +418,7 @@
         t.addEventListener("click", function () { history.replaceState(null, "", "#" + t.dataset.kind); setKind(t.dataset.kind); });
     });
     $("selRegiao").addEventListener("change", function () { drawBoard(finished); });
+    $("btnShape").addEventListener("click", function () { if (shapes.length) { shapeIdx = (shapeIdx + 1) % shapes.length; drawShape(); } });
     selTom.addEventListener("change", function () { newExercise(); });
     selTipo.addEventListener("change", function () { newExercise(); });
     $("btnCheck").addEventListener("click", check);

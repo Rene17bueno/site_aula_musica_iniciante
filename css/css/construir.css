@@ -54,3 +54,7 @@
 .board-legend { text-align: center; font-size: .8rem; color: #b5b0a8; margin-bottom: 14px; }
 .dot-demo { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: -1px; margin-right: 2px; }
 .dot-demo.tonic { background: #e8d5a3; } .dot-demo.ok { background: #2ecc71; } .dot-demo.sel { background: #e4dfd7; }
+#board .mute { fill: #ff6b6b; font-size: 20px; font-weight: 700; text-anchor: middle; }
+#board .nd.open { fill: transparent; stroke: #e8d5a3; }
+#board .nd.open + .nt { fill: #e8d5a3; }
+#board .barre { fill: rgba(232,213,163,.22); stroke: #e8d5a3; stroke-width: 1.5; }
