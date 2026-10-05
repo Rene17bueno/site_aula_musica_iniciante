@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercícios de Dedilhado · Estudo de Violão Iniciante</title>
+    <meta name="description" content="Exercício Aranha para violão: dedos 1-2-3-4 nas casas 1-2-3-4, com animação no braço e metrônomo.">
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Estudo de Violão Iniciante" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content="https://estudodeviolaoiniciante.netlify.app/exercicios.html" />
+    <meta property="og:title" content="Exercícios de Dedilhado · Estudo de Violão Iniciante" />
+    <meta property="og:description" content="Exercício Aranha para violão com animação no braço, som e velocidade ajustável." />
+    <meta property="og:image" content="https://estudodeviolaoiniciante.netlify.app/og-image.png" />
+    <link rel="icon" type="image/png" href="/favicon-32.png">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8CMNEYXZ9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H8CMNEYXZ9');
+    </script>
+    <style>
+        body{background:#0e0d1a;color:#e4dfd7;font-family:'Inter',sans-serif;padding-top:90px;min-height:100vh;display:flex;flex-direction:column}
+        .gold{color:#e8d5a3}
+        .text-muted{color:#b5b0a8!important}
+        .navbar-custom{background:#0e0d1aee;backdrop-filter:blur(6px);border-bottom:1px solid rgba(201,169,89,.15)}
+        .navbar-custom .nav-link{color:#d1cbdc!important;font-weight:500;letter-spacing:.3px}
+        .navbar-custom .nav-link:hover,.navbar-custom .nav-link.active{color:#e8d5a3!important}
+        .nav-brand-title{font-family:'Playfair Display',serif;font-weight:700;letter-spacing:.5px;color:#e8d5a3!important;text-decoration:none}
+        .chapter-content{flex:1;padding:2rem 0}
+        .section-tag{display:inline-block;background:rgba(201,169,89,.12);color:#e8d5a3;font-size:.75rem;font-weight:600;letter-spacing:.8px;padding:5px 16px;border-radius:30px;border:1px solid rgba(201,169,89,.25);text-transform:uppercase}
+        .game-card{background:rgba(255,255,255,.03);border:1px solid rgba(201,169,89,.25);border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+        .site-footer{border-top:1px solid rgba(201,169,89,.1);background:#0e0d1a;padding:1.5rem 0}
+
+        /* Exercício */
+        .board-wrap{overflow-x:auto}
+        #board{min-width:640px;width:100%;height:auto;display:block}
+        .fret-line{stroke:#6b6577;stroke-width:2}
+        .nut{stroke:#e8d5a3;stroke-width:6}
+        .string-line{stroke:#b9b2a5}
+        .inlay{fill:rgba(232,213,163,.18)}
+        .fret-num{fill:#8d879a;font-size:13px;text-anchor:middle}
+        .str-num{fill:#e8d5a3;font-size:14px;font-weight:600;text-anchor:middle}
+        .barre{fill:rgba(232,213,163,.22);stroke:#e8d5a3;stroke-width:1.5}
+        .dot{fill:rgba(232,213,163,.28);stroke:#e8d5a3;stroke-width:1.5}
+        .dot.on{fill:#e8d5a3;stroke:#fff;stroke-width:2;filter:drop-shadow(0 0 8px #e8d5a3)}
+        .dot-t{font-size:15px;font-weight:700;text-anchor:middle;dominant-baseline:central;fill:#0e0d1a}
+        .dot-t.dim{fill:#e8d5a3}
+        .finger{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;border:2px solid rgba(201,169,89,.4);color:#e8d5a3;font-weight:700;font-size:1.2rem;transition:.08s}
+        .finger.on{background:#e8d5a3;color:#0e0d1a;box-shadow:0 0 14px #e8d5a3}
+        .thumb{display:inline-block;padding:4px 14px;border-radius:30px;border:1px solid rgba(201,169,89,.4);font-size:.85rem;transition:.08s}
+        .thumb.on{background:#e8d5a3;color:#0e0d1a}
+        .form-select,.form-control{background-color:#14131f;color:#e4dfd7;border-color:rgba(201,169,89,.3)}
+        .form-select:focus{background-color:#14131f;color:#e4dfd7}
+        .btn-gold{background:#e8d5a3;color:#0e0d1a;font-weight:600;border:0}
+        .btn-gold:hover{background:#fff;color:#0e0d1a}
+        input[type=range]{accent-color:#e8d5a3}
+        .now{font-size:1.05rem;min-height:1.6em}
+    </style>
+</head>
+<body>
+    <div id="site-navbar"></div>
+
+    <main class="chapter-content">
+        <div class="container">
+            <div class="text-center mb-4">
+                <span class="section-tag"><i class="fas fa-hand-pointer me-1"></i> Exercícios de Técnica</span>
+                <h1 class="display-5 fw-bold mt-2">Exercício <span class="gold">Aranha</span></h1>
+                <p class="text-muted mb-0">Dedo 1 na casa 1, dedo 2 na casa 2, dedo 3 na casa 3, dedo 4 na casa 4. Em cada nota, um toque do polegar. Ao terminar a corda, sobe para a próxima.</p>
+            </div>
+
+            <div class="game-card mb-4">
+                <div class="board-wrap">
+                    <svg id="board" viewBox="0 0 960 270" role="img" aria-label="Braço do violão com as casas 1 a 12"></svg>
+                </div>
+
+                <div class="d-flex flex-wrap align-items-center justify-content-center gap-3 mt-3">
+                    <div class="d-flex gap-2" id="fingers"></div>
+                    <span class="thumb" id="thumb"><i class="fas fa-hand-point-up me-1"></i><span id="rh">polegar (p)</span></span>
+                </div>
+                <div class="now text-center mt-2" id="now">Pressione Iniciar.</div>
+            </div>
+
+            <div class="game-card">
+                <div class="row g-3 align-items-end">
+                    <div class="col-6 col-md-3">
+                        <label class="form-label small text-muted">Ordem dos dedos</label>
+                        <select id="order" class="form-select">
+                            <option value="1,2,3,4">1-2-3-4 (Aranha)</option>
+                            <option value="1,3,2,4">1-3-2-4</option>
+                            <option value="1,2,4,3">1-2-4-3</option>
+                            <option value="1,4,2,3">1-4-2-3</option>
+                            <option value="4,3,2,1">4-3-2-1 (descendente)</option>
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label class="form-label small text-muted">Cordas</label>
+                        <select id="dir" class="form-select">
+                            <option value="up">6 → 1 (grave p/ aguda)</option>
+                            <option value="down">1 → 6 (aguda p/ grave)</option>
+                            <option value="both">Ida e volta</option>
+                        </select>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <label class="form-label small text-muted">Casa inicial (dedo 1)</label>
+                        <select id="start" class="form-select"></select>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="form-check mt-4">
+                            <input class="form-check-input" type="checkbox" id="barre">
+                            <label class="form-check-label small" for="barre">Dedo 1 em pestana (todas as cordas)</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="auto">
+                            <label class="form-check-label small" for="auto">Avançar uma casa a cada rodada</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label small text-muted">Velocidade: <b id="bpmv" class="gold">60</b> notas/min</label>
+                        <input type="range" id="bpm" class="form-range" min="30" max="160" value="60">
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="form-check form-switch mt-4">
+                            <input class="form-check-input" type="checkbox" id="snd" checked>
+                            <label class="form-check-label small" for="snd">Som</label>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 text-end">
+                        <button class="btn btn-gold px-4" id="go"><i class="fas fa-play me-1"></i> Iniciar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    (function(){
+        // Geometria: traste 0 = pestana (nut) em X0; 12 casas de W px; cordas 1 (fina, topo) a 6 (grave, base)
+        var X0=60, W=72, Y0=40, DY=36, FRETS=12, NS=6;
+        // MIDI das cordas soltas: 6=E2 ... 1=E4
+        var OPEN={6:40,5:45,4:50,3:55,2:59,1:64};
+        var NAMES=['Dó','Dó#','Ré','Ré#','Mi','Fá','Fá#','Sol','Sol#','Lá','Lá#','Si'];
+        var $=function(i){return document.getElementById(i)};
+        var NS_='http://www.w3.org/2000/svg';
+        var board=$('board');
+        var sy=function(s){return Y0+(s-1)*DY};
+        var fx=function(f){return X0+(f-.5)*W};
+
+        function el(tag,attrs,txt){var e=document.createElementNS(NS_,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;board.appendChild(e);return e}
+
+        // Desenho do braço
+        [3,5,7,9].forEach(function(f){el('circle',{cx:fx(f),cy:(sy(1)+sy(6))/2,r:9,class:'inlay'})});
+        el('circle',{cx:fx(12),cy:sy(2)+DY/2,r:9,class:'inlay'});
+        el('circle',{cx:fx(12),cy:sy(5)-DY/2,r:9,class:'inlay'});
+        for(var f=0;f<=FRETS;f++){
+            el('line',{x1:X0+f*W,x2:X0+f*W,y1:sy(1),y2:sy(6),class:f?'fret-line':'nut'});
+            if(f)el('text',{x:fx(f),y:sy(6)+34,class:'fret-num'},f);
+        }
+        for(var s=1;s<=NS;s++){
+            el('line',{x1:X0,x2:X0+FRETS*W,y1:sy(s),y2:sy(s),class:'string-line','stroke-width':1+(s-1)*.55});
+            el('text',{x:28,y:sy(s)+5,class:'str-num'},s);
+        }
+        var bar=el('g',{});
+        var dots=el('g',{});
+        // Mão direita: cordas 6-4 polegar, 3 indicador, 2 médio, 1 anular
+        var RH={6:'polegar (p)',5:'polegar (p)',4:'polegar (p)',3:'indicador (i)',2:'médio (m)',1:'anular (a)'};
+
+        // Seletor de casa inicial: dedo 4 precisa caber em FRETS
+        for(var i=1;i<=FRETS-3;i++)$('start').add(new Option('Casa '+i,i));
+        for(var d=1;d<=4;d++){var b=document.createElement('span');b.className='finger';b.id='fg'+d;b.textContent=d;$('fingers').appendChild(b)}
+
+        // Estado
+        var timer=null,idx=0,seq=[],start=1,ac=null,order4=4; // 4 notas por corda
+
+        function build(){
+            var order=$('order').value.split(',').map(Number),dir=$('dir').value;
+            var strs=dir==='up'?[6,5,4,3,2,1]:dir==='down'?[1,2,3,4,5,6]:[6,5,4,3,2,1,2,3,4,5];
+            seq=[];
+            strs.forEach(function(s){order.forEach(function(fg){seq.push({s:s,fg:fg,fret:start+fg-1})})});
+        }
+
+        function pluck(n){
+            if(!$('snd').checked)return;
+            ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+            var o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime,midi=OPEN[n.s]+n.fret;
+            o.type='triangle';o.frequency.value=440*Math.pow(2,(midi-69)/12);
+            g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.45,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+.9);
+            o.connect(g).connect(ac.destination);o.start(t);o.stop(t+.95);
+        }
+
+        function flash(id){var e=$(id);e.classList.add('on');setTimeout(function(){e.classList.remove('on')},110)}
+
+        function step(){
+            var n=seq[idx];
+            // Dedos ficam apertados durante a corda: limpa ao iniciar corda nova
+            if(idx%order4===0)dots.textContent='';
+            // marca anterior vira "apertado" (apagado)
+            Array.prototype.forEach.call(dots.querySelectorAll('.on'),function(e){e.classList.remove('on')});
+            Array.prototype.forEach.call(dots.querySelectorAll('.dot-t'),function(e){e.classList.add('dim')});
+            var c=document.createElementNS(NS_,'circle');c.setAttribute('cx',fx(n.fret));c.setAttribute('cy',sy(n.s));c.setAttribute('r',13);c.setAttribute('class','dot on');
+            var t=document.createElementNS(NS_,'text');t.setAttribute('x',fx(n.fret));t.setAttribute('y',sy(n.s));t.setAttribute('class','dot-t');t.textContent=n.fg;
+            dots.appendChild(c);dots.appendChild(t);
+            for(var d=1;d<=4;d++)$('fg'+d).classList.toggle('on',d===n.fg);
+            $('rh').textContent=RH[n.s];flash('thumb');pluck(n);
+            var note=NAMES[(OPEN[n.s]+n.fret)%12];
+            $('now').innerHTML='Dedo <b class="gold">'+n.fg+'</b> · casa <b class="gold">'+n.fret+'</b> · corda <b class="gold">'+n.s+'</b> · mão direita <b class="gold">'+RH[n.s]+'</b> · nota <b class="gold">'+note+'</b>';
+            idx++;
+            if(idx>=seq.length){
+                idx=0;
+                if($('auto').checked){start=start>=FRETS-3?1:start+1;$('start').value=start;build();drawBar()}
+            }
+        }
+
+        function drawBar(){
+            bar.textContent='';
+            if(!$('barre').checked)return;
+            var r=document.createElementNS(NS_,'rect');
+            r.setAttribute('x',fx(start)-15);r.setAttribute('y',sy(1)-15);r.setAttribute('width',30);r.setAttribute('height',5*DY+30);r.setAttribute('rx',15);r.setAttribute('class','barre');
+            bar.appendChild(r);
+        }
+        function loop(){step();timer=setTimeout(loop,60000/$('bpm').value)}
+        function stop(){clearTimeout(timer);bar.textContent='';timer=null;$('go').innerHTML='<i class="fas fa-play me-1"></i> Iniciar'}
+        function run(){start=+$('start').value;build();idx=0;dots.textContent='';drawBar();$('go').innerHTML='<i class="fas fa-stop me-1"></i> Parar';loop()}
+
+        $('go').onclick=function(){timer?stop():run()};
+        $('bpm').oninput=function(){$('bpmv').textContent=this.value};
+        // Mudou ordem/cordas/casa durante a execução: reinicia com a nova configuração
+        ['order','dir','start','barre'].forEach(function(i){$(i).onchange=function(){if(timer){stop();run()}}});
+    })();
+    </script>
+    <script src="js/js/layout.js"></script>
+</body>
+</html>
