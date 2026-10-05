@@ -30,7 +30,8 @@ export function chain(notes, steps, { hlNotes = [], hlSteps = [], tonic = 0 } = 
             parts.push(`<div class="link ${hl}"><u></u><b>${st === "st" ? "½ semitom" : "1 tom"}</b></div>`);
         }
     });
-    return `<div class="chain" style="--nw:${big ? 92 : 70}px;--lh:${big ? 54 : 38}px">${parts.join("")}</div>`;
+    const nw = n <= 3 ? 150 : big ? 92 : 70, lh = n <= 3 ? 110 : big ? 54 : 38;
+    return `<div class="chain" style="--nw:${nw}px;--lh:${lh}px;--lf:${n <= 3 ? 46 : big ? 34 : 30}px">${parts.join("")}</div>`;
 }
 
 // Doze teclas cromaticas

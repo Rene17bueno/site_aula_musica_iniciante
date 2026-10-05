@@ -170,6 +170,156 @@
      "dur": 48
     }
    ]
+  },
+  {
+   "n": 4,
+   "titulo": "Tons, semitons e escalas",
+   "desc": "Distância entre as notas, escala maior, escala menor, pentatônica e o exercício Construir Escalas.",
+   "livre": false,
+   "partes": [
+    {
+     "id": "a4p1",
+     "n": 1,
+     "titulo": "Tom e semitom",
+     "desc": "A menor distância entre duas notas e como ela aparece nas casas do violão.",
+     "dur": 66
+    },
+    {
+     "id": "a4p2",
+     "n": 2,
+     "titulo": "A escala maior",
+     "desc": "A fórmula tom, tom, semitom, tom, tom, tom, semitom e a escala de Dó maior.",
+     "dur": 70
+    },
+    {
+     "id": "a4p3",
+     "n": 3,
+     "titulo": "Escala maior em qualquer tom",
+     "desc": "A mesma fórmula começando em outra nota: Sol maior e o fá sustenido.",
+     "dur": 69
+    },
+    {
+     "id": "a4p4",
+     "n": 4,
+     "titulo": "Escala menor natural",
+     "desc": "A fórmula da escala menor e a diferença de som para a escala maior.",
+     "dur": 68
+    },
+    {
+     "id": "a4p5",
+     "n": 5,
+     "titulo": "Escala pentatônica menor",
+     "desc": "A escala de cinco notas mais usada em solos e o desenho no braço.",
+     "dur": 68
+    },
+    {
+     "id": "a4p6",
+     "n": 6,
+     "titulo": "Treinando escalas no site",
+     "desc": "Como usar o exercício Construir Escalas e o jogo Nome da Escala.",
+     "dur": 64
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "titulo": "Construindo acordes",
+   "desc": "Graus, tríades maiores e menores, diminutos, aumentados, sétimas, sextas, nonas e as formas no braço.",
+   "livre": false,
+   "partes": [
+    {
+     "id": "a5p1",
+     "n": 1,
+     "titulo": "Graus e intervalos",
+     "desc": "Como contar os graus a partir da tônica: terça e quinta.",
+     "dur": 66
+    },
+    {
+     "id": "a5p2",
+     "n": 2,
+     "titulo": "Tríade maior",
+     "desc": "O acorde de três notas: tônica, terça maior e quinta.",
+     "dur": 65
+    },
+    {
+     "id": "a5p3",
+     "n": 3,
+     "titulo": "Tríade menor",
+     "desc": "A terça menor e a diferença de som entre acorde maior e menor.",
+     "dur": 58
+    },
+    {
+     "id": "a5p4",
+     "n": 4,
+     "titulo": "Acordes diminuto e aumentado",
+     "desc": "As duas tríades que mudam a quinta: diminuta e aumentada.",
+     "dur": 59
+    },
+    {
+     "id": "a5p5",
+     "n": 5,
+     "titulo": "Acordes com sétima",
+     "desc": "Sétima menor, sétima maior e o menor com sétima.",
+     "dur": 70
+    },
+    {
+     "id": "a5p6",
+     "n": 6,
+     "titulo": "Sexta, nona e suspensos",
+     "desc": "Os acordes com sexta, nona e os suspensos sus dois e sus quatro.",
+     "dur": 69
+    },
+    {
+     "id": "a5p7",
+     "n": 7,
+     "titulo": "Acordes no braço do violão",
+     "desc": "Como ler o desenho do acorde e usar Outra forma e o seletor de casas.",
+     "dur": 66
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "titulo": "Técnica e treino",
+   "desc": "O exercício Aranha, suas variações e uma rotina de estudo diária.",
+   "livre": false,
+   "partes": [
+    {
+     "id": "a6p1",
+     "n": 1,
+     "titulo": "Por que treinar técnica",
+     "desc": "A numeração dos dedos e por que poucos minutos por dia funcionam.",
+     "dur": 52
+    },
+    {
+     "id": "a6p2",
+     "n": 2,
+     "titulo": "O exercício Aranha",
+     "desc": "Um dedo para cada casa: dedos 1, 2, 3 e 4 nas casas 1, 2, 3 e 4.",
+     "dur": 58
+    },
+    {
+     "id": "a6p3",
+     "n": 3,
+     "titulo": "Fazendo a Aranha, passo a passo",
+     "desc": "Como configurar e praticar o exercício com a velocidade certa.",
+     "dur": 57
+    },
+    {
+     "id": "a6p4",
+     "n": 4,
+     "titulo": "Variações da Aranha",
+     "desc": "Outras ordens de dedos, ida e volta, pestana e avançar casa.",
+     "dur": 60
+    },
+    {
+     "id": "a6p5",
+     "n": 5,
+     "titulo": "Rotina de estudo diária",
+     "desc": "Um plano de dez a quinze minutos com os exercícios e jogos do site.",
+     "dur": 56
+    }
+   ]
   }
  ]
 }
