@@ -58,3 +58,6 @@
 #board .nd.open { fill: transparent; stroke: #e8d5a3; }
 #board .nd.open + .nt { fill: #e8d5a3; }
 #board .barre { fill: rgba(232,213,163,.22); stroke: #e8d5a3; stroke-width: 1.5; }
+/* Forma do acorde: diagrama compacto, centralizado */
+#boardWrap.is-shape { max-width: 400px; margin: 0 auto 6px; overflow: visible; }
+#boardWrap.is-shape #board { min-width: 0; }

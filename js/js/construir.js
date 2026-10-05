@@ -326,6 +326,7 @@
         $("boardLegend").classList.toggle("d-none", chord);
         $("boardTitle").textContent = chord ? "O acorde no braço do violão" : "Notas da escala no braço do violão";
         $("boardWrap").classList.toggle("d-none", chord && !reveal);
+        $("boardWrap").classList.toggle("is-shape", chord);
         $("boardHint").classList.toggle("d-none", !(chord && !reveal));
         if (!chord) { drawBoard(reveal); return; }
         if (reveal) { if (!shapes.length) pickShapes(); drawShape(); }
