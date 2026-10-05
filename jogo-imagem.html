@@ -321,6 +321,7 @@
       gtag('config', 'G-H8CMNEYXZ9');
     </script>
     <link rel="stylesheet" href="css/css/ranking.css" />
+    <link rel="stylesheet" href="css/css/jogos.css" />
 </head>
 <body>
 
@@ -707,6 +708,10 @@
                 buttons.forEach(btn => btn.disabled = true);
                 comboScore = 0;
                 showFeedback(false, `❌ Você não conseguiu desta vez. Esse diagrama representa o acorde de "${currentChord.fullname}". O combo reiniciou.`);
+                highlightCorrect(buttons, currentChord.fullname);
+                updateProgress();
+                addNextButton(generateChallenge);
+                return;
             }
 
             updateProgress();
@@ -714,6 +719,22 @@
             setTimeout(() => {
                 generateChallenge();
             }, 1800);
+        }
+
+
+        // Mostra o botao para o jogador avancar so quando quiser (tempo para memorizar a resposta)
+        function addNextButton(next) {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.className = "btn-next-question";
+            b.textContent = "Próxima pergunta ➜";
+            b.addEventListener("click", next);
+            feedbackBox.appendChild(b);
+        }
+
+        // Marca em verde a alternativa correta
+        function highlightCorrect(buttons, correct) {
+            buttons.forEach(btn => { if (btn.textContent === correct) btn.classList.add("correct"); });
         }
 
         // Exibe o painel de feedback com cores ajustadas

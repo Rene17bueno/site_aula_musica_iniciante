@@ -184,9 +184,20 @@
                 showFeedback(false, "❌ Errou! Você ainda tem " + attemptsLeft + " chance. Tente de novo.");
                 return;
             }
-            buttons.forEach(function (b) { b.disabled = true; });
+            buttons.forEach(function (b) {
+                b.disabled = true;
+                if (b.textContent === current.correct) b.classList.add("correct");
+            });
             combo = 0;
             showFeedback(false, '❌ Você não conseguiu desta vez. A resposta correta era "' + current.correct + '". O combo reiniciou.');
+            updateProgress();
+            var next = document.createElement("button");
+            next.type = "button";
+            next.className = "btn-next-question";
+            next.textContent = "Próxima pergunta ➜";
+            next.addEventListener("click", renderQuestion);
+            feedbackBox.appendChild(next);
+            return;
         }
         updateProgress();
         setTimeout(renderQuestion, 1800);
