@@ -32,7 +32,7 @@
     var T = {
         pt: {
             home: "Início", lessons: "Aulas", chapters: "Capítulos", chapter: "Capítulo",
-            chords: "Acordes", exercises: "Exercícios", technique: "Técnica (Aranha)", buildChords: "Construir Acordes", buildScales: "Construir Escalas", games: "Jogos",
+            chords: "Acordes", chordDict: "Dicionário", chordEnc: "Enciclopédia", exercises: "Exercícios", technique: "Técnica (Aranha)", buildChords: "Construir Acordes", buildScales: "Construir Escalas", games: "Jogos",
             visualChallenge: "Desafio Visual", noteId: "Identificação de Notas", scaleGame: "Nome da Escala", chordNotes: "Notas do Acorde",
             community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin",
             navBrand: "<span>Violão</span> &middot; Iniciante",
@@ -40,7 +40,7 @@
         },
         en: {
             home: "Home", lessons: "Lessons (PT)", chapters: "Chapters", chapter: "Chapter",
-            chords: "Chords", exercises: "Exercises (PT)", technique: "Technique (PT)", buildChords: "Build Chords (PT)", buildScales: "Build Scales (PT)", games: "Games",
+            chords: "Chords", chordDict: "Dictionary (PT)", chordEnc: "Encyclopedia (PT)", exercises: "Exercises (PT)", technique: "Technique (PT)", buildChords: "Build Chords (PT)", buildScales: "Build Scales (PT)", games: "Games",
             visualChallenge: "Visual Challenge", noteId: "Note Identification", scaleGame: "Scale Name (PT)", chordNotes: "Chord Notes (PT)",
             community: "Community", attendance: "Attendance", adminPanel: "Admin Panel",
             navBrand: "<span>Guitar</span> &middot; Beginner",
@@ -48,7 +48,7 @@
         },
         es: {
             home: "Inicio", lessons: "Clases (PT)", chapters: "Capítulos", chapter: "Capítulo",
-            chords: "Acordes", exercises: "Ejercicios (PT)", technique: "Técnica (PT)", buildChords: "Construir Acordes (PT)", buildScales: "Construir Escalas (PT)", games: "Juegos",
+            chords: "Acordes", chordDict: "Diccionario (PT)", chordEnc: "Enciclopedia (PT)", exercises: "Ejercicios (PT)", technique: "Técnica (PT)", buildChords: "Construir Acordes (PT)", buildScales: "Construir Escalas (PT)", games: "Juegos",
             visualChallenge: "Desafío Visual", noteId: "Identificación de Notas", scaleGame: "Nombre de la Escala (PT)", chordNotes: "Notas del Acorde (PT)",
             community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración",
             navBrand: "<span>Guitarra</span> &middot; Principiante",
@@ -109,7 +109,13 @@
         '<a class="nav-link dropdown-toggle" href="#" id="capitulosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-book me-1"></i> ' + t.chapters + '</a>' +
         '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capitulosDropdown">' + CH.join("") + '</ul>' +
         '</li>' +
-        '<li class="nav-item"><a class="nav-link" href="' + shared("acordes.html") + '"><i class="fas fa-guitar me-1"></i> ' + t.chords + '</a></li>' +
+        '<li class="nav-item dropdown">' +
+        '<a class="nav-link dropdown-toggle" href="#" id="acordesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-guitar me-1"></i> ' + t.chords + '</a>' +
+        '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="acordesDropdown">' +
+        '<li><a class="dropdown-item" href="' + shared("acordes.html") + '"><i class="fas fa-th me-2"></i> ' + t.chordDict + '</a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("enciclopedia.html") + '"><i class="fas fa-book-open me-2"></i> ' + t.chordEnc + '</a></li>' +
+        '</ul>' +
+        '</li>' +
         '<li class="nav-item dropdown">' +
         '<a class="nav-link dropdown-toggle" href="#" id="exerciciosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-hand-pointer me-1"></i> ' + t.exercises + '</a>' +
         '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="exerciciosDropdown">' +

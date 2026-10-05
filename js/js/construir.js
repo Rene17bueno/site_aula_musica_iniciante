@@ -216,70 +216,8 @@
     }
 
     // ---------- Acordes: forma tocavel (voicing) ----------
-    // Procura formas com ate 4 dedos (pestana conta como 1), dentro de 4 casas, sem cordas
-    // abafadas no meio e com a tonica no baixo. As notas essenciais (tonica, terca, setima,
-    // extensoes) sao obrigatorias; a quinta pode ser omitida em acordes de 4+ notas.
-    function findShapes(root, tones) {
-        var pcSet = {}; tones.forEach(function (t) { pcSet[t.pc] = true; });
-        var many = tones.length >= 4;
-        function reqSet(level) {
-            var r = {};
-            tones.forEach(function (t) {
-                var skip5 = many && t.s % 12 === 7;
-                var skipExt = (level >= 1 && t.s >= 12) || (tones.length >= 6 && t.s >= 12 && t.s < 16);
-                var onlyCore = level >= 2 && t.s % 12 !== 0 && ![3, 4, 2, 5, 9, 10, 11].includes(t.s % 12);
-                if (!skip5 && !skipExt && !onlyCore) r[t.pc] = true;
-            });
-            r[root] = true; return r;
-        }
-        var results = {};
-        function evaluate(v, req, rootBass) {
-            var sounding = [], i;
-            for (i = 0; i < 6; i++) if (v[i] >= 0) sounding.push(i);
-            if (sounding.length < 3) return;
-            var lo = sounding[0], hi = sounding[sounding.length - 1];
-            for (i = lo; i <= hi; i++) if (v[i] < 0) return;            // sem abafadas no meio
-            if (rootBass && (STR_LOW[lo] + v[lo]) % 12 !== root) return;
-            var have = {}; sounding.forEach(function (k) { have[(STR_LOW[k] + v[k]) % 12] = true; });
-            for (var pc in req) if (!have[pc]) return;
-            var fretted = sounding.filter(function (k) { return v[k] > 0; });
-            var m = fretted.length ? Math.min.apply(null, fretted.map(function (k) { return v[k]; })) : 0;
-            var atM = fretted.filter(function (k) { return v[k] === m; });
-            var barre = false;
-            if (atM.length >= 2) {
-                var a = Math.min.apply(null, atM), b = Math.max.apply(null, atM);
-                barre = true;
-                for (i = a; i <= b; i++) if (v[i] < m) barre = false;     // corda solta no meio impede a pestana
-            }
-            var fingers = barre ? 1 + fretted.filter(function (k) { return v[k] > m; }).length : fretted.length;
-            if (fingers > 4) return;
-            var opens = sounding.length - fretted.length;
-            var mx = fretted.length ? Math.max.apply(null, fretted.map(function (k) { return v[k]; })) : 0;
-            var cost = fingers + 0.35 * m + 0.6 * (mx - m) + 2 * (6 - sounding.length) - 0.4 * opens + (barre ? 1.5 : 0) + (rootBass ? 0 : 3);
-            var key = v.join(",");
-            if (!results[key]) results[key] = { v: v.slice(), cost: cost, barre: barre, base: m, top: mx };
-        }
-        function run(req, rootBass) {
-            for (var lo = 1; lo <= 12; lo++) {
-                var hi = lo + 3, v = [-1, -1, -1, -1, -1, -1];
-                (function rec(idx) {
-                    if (idx === 6) { evaluate(v, req, rootBass); return; }
-                    v[idx] = -1; rec(idx + 1);
-                    if (lo <= 2 && pcSet[STR_LOW[idx] % 12]) { v[idx] = 0; rec(idx + 1); }
-                    for (var f = lo; f <= hi; f++) {
-                        if (pcSet[(STR_LOW[idx] + f) % 12]) { v[idx] = f; rec(idx + 1); }
-                    }
-                    v[idx] = -1;
-                })(0);
-            }
-        }
-        for (var level = 0; level <= 2 && !Object.keys(results).length; level++) {
-            run(reqSet(level), true);
-            if (!Object.keys(results).length) run(reqSet(level), false);
-        }
-        return Object.keys(results).map(function (k) { return results[k]; })
-            .sort(function (a, b) { return a.cost - b.cost || a.base - b.base; });
-    }
+    // A busca das formas esta em js/js/formas.js (compartilhada com a Enciclopedia de acordes).
+    var findShapes = window.FormasAcorde.findShapes;
 
     // Casa escolhida (0 = automatico): ordena pela proximidade da casa pedida e, depois, pela simplicidade
     function pickShapes() {

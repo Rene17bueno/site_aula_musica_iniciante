@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Construir Acordes e Escalas · Estudo de Violão Iniciante</title>
-    <meta name="description" content="Exercícios para construir todos os acordes e todas as escalas: marque as notas, confira a resposta e veja a fórmula." />
+    <title>Enciclopédia de Acordes · Estudo de Violão Iniciante</title>
+    <meta name="description" content="Enciclopédia com 65 acordes de violão: notas, fórmula, descrição e formas em todo o braço, da casa aberta à 15ª casa." />
     <link rel="icon" type="image/png" href="/favicon-32.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Estudo de Violão Iniciante" />
     <meta property="og:locale" content="pt_BR" />
-    <meta property="og:url" content="https://estudodeviolaoiniciante.pages.dev/construir.html" />
-    <meta property="og:title" content="Construir Acordes e Escalas · Estudo de Violão Iniciante" />
-    <meta property="og:description" content="Exercícios para construir todos os acordes e todas as escalas: marque as notas, confira a resposta e veja a fórmula." />
+    <meta property="og:url" content="https://estudodeviolaoiniciante.pages.dev/enciclopedia.html" />
+    <meta property="og:title" content="Enciclopédia de Acordes · Estudo de Violão Iniciante" />
+    <meta property="og:description" content="Enciclopédia com 65 acordes de violão: notas, fórmula, descrição e formas em todo o braço, da casa aberta à 15ª casa." />
     <meta property="og:image" content="https://estudodeviolaoiniciante.pages.dev/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Construir Acordes e Escalas · Estudo de Violão Iniciante" />
-    <meta name="twitter:description" content="Exercícios para construir todos os acordes e todas as escalas: marque as notas, confira a resposta e veja a fórmula." />
+    <meta name="twitter:title" content="Enciclopédia de Acordes · Estudo de Violão Iniciante" />
+    <meta name="twitter:description" content="Enciclopédia com 65 acordes de violão: notas, fórmula, descrição e formas em todo o braço, da casa aberta à 15ª casa." />
     <meta name="twitter:image" content="https://estudodeviolaoiniciante.pages.dev/og-image.png" />
     <!-- Fonts & Bootstrap (cdn) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -316,7 +316,7 @@
       gtag('js', new Date());
       gtag('config', 'G-H8CMNEYXZ9');
     </script>
-    <link rel="stylesheet" href="css/css/construir.css" />
+    <link rel="stylesheet" href="css/css/enciclopedia.css" />
 </head>
 <body>
 
@@ -324,86 +324,42 @@
 
     <main class="chapter-content">
         <div class="container">
-            <div class="text-center mb-4">
-                <span class="section-tag"><i class="fas fa-hammer me-1"></i> Exercícios de Construção</span>
-                <h1 class="display-5 fw-bold mt-2">Construir <span class="gold">Acordes e Escalas</span></h1>
-                <p class="text-muted mb-0">Marque as notas certas, confira e memorize a fórmula. São 12 tons e todos os tipos.</p>
+            <div class="text-center mb-3">
+                <span class="section-tag"><i class="fas fa-book-open me-1"></i> Enciclopédia</span>
+                <h1 class="display-5 fw-bold mt-2">Enciclopédia de <span class="gold">Acordes</span></h1>
+                <p class="text-muted mb-0">65 acordes com notas, fórmula e formas em todo o braço do violão, da casa aberta até a 15ª casa.</p>
             </div>
 
-            <div class="build-tabs">
-                <button type="button" class="build-tab active" data-kind="acordes"><i class="fas fa-guitar me-1"></i> Acordes</button>
-                <button type="button" class="build-tab" data-kind="escalas"><i class="fas fa-stairs me-1"></i> Escalas</button>
-            </div>
-
-            <div class="game-card">
-                <div class="row g-3 build-controls align-items-end">
-                    <div class="col-6 col-md-3">
-                        <label class="form-label small text-muted" for="selTom">Tom</label>
-                        <select id="selTom" class="form-select"></select>
-                    </div>
-                    <div class="col-6 col-md-5">
-                        <label class="form-label small text-muted" for="selTipo">Tipo</label>
-                        <select id="selTipo" class="form-select"></select>
-                    </div>
-                    <div class="col-12 col-md-4 text-md-end">
-                        <button type="button" class="btn btn-outline-warning" id="btnRandom"><i class="fas fa-dice me-1"></i> Sortear</button>
-                    </div>
+            <details class="game-card mb-4">
+                <summary class="fw-bold" style="cursor:pointer;color:#e8d5a3"><i class="fas fa-music me-2"></i>Notas e cifras</summary>
+                <div class="table-responsive mt-3">
+                    <table class="enc-table"><thead><tr><th>Cifra</th><th>Nota</th><th>Sustenido (#)</th><th>Bemol (b)</th><th>Explicação</th></tr></thead><tbody id="notasBody"></tbody></table>
                 </div>
-
-                <h2 class="build-title" id="buildTitle"></h2>
-                <p class="build-sub" id="buildSub"></p>
-
-                <div class="keys" id="keys" role="group" aria-label="Notas"></div>
-
-                <div class="board-head">
-                    <h3 class="board-title"><i class="fas fa-guitar me-2"></i><span id="boardTitle">No braço do violão</span></h3>
-                    <select id="selCasa" class="form-select form-select-sm d-none" aria-label="Posição no braço">
-                        <option value="0">Forma mais simples</option>
-                        <option value="1">Perto da casa 1</option><option value="2">Perto da casa 2</option>
-                        <option value="3">Perto da casa 3</option><option value="4">Perto da casa 4</option>
-                        <option value="5">Perto da casa 5</option><option value="6">Perto da casa 6</option>
-                        <option value="7">Perto da casa 7</option><option value="8">Perto da casa 8</option>
-                        <option value="9">Perto da casa 9</option><option value="10">Perto da casa 10</option>
-                        <option value="11">Perto da casa 11</option><option value="12">Perto da casa 12</option>
-                    </select>
-                    <button type="button" class="btn btn-sm btn-outline-warning d-none" id="btnShape"><i class="fas fa-shuffle me-1"></i> Outra forma</button>
-                    <select id="selRegiao" class="form-select form-select-sm" aria-label="Região do braço">
-                        <option value="0-12">Braço todo (casas 0–12)</option>
-                        <option value="0-5">Casas 0–5</option>
-                        <option value="3-8">Casas 3–8</option>
-                        <option value="5-10">Casas 5–10</option>
-                        <option value="7-12">Casas 7–12</option>
-                    </select>
-                </div>
-                <p class="text-muted small text-center" id="boardHint">O desenho do acorde no braço aparece depois que você verificar a resposta.</p>
-                <div class="board-wrap" id="boardWrap"><svg id="board" role="img" aria-label="Braço do violão com as notas marcadas"></svg></div>
-                <p class="text-center small text-muted d-none" id="shapeInfo"></p>
-                <p class="board-legend" id="boardLegend"><span class="dot-demo tonic"></span> tônica &nbsp; <span class="dot-demo ok"></span> notas da resposta &nbsp; <span class="dot-demo sel"></span> notas que você marcou</p>
-
-                <div class="build-actions">
-                    <button type="button" class="btn btn-gold" id="btnCheck" style="background:#e8d5a3;color:#0e0d1a;font-weight:600"><i class="fas fa-check me-1"></i> Verificar</button>
-                    <button type="button" class="btn btn-outline-light" id="btnClear"><i class="fas fa-eraser me-1"></i> Limpar</button>
-                    <button type="button" class="btn btn-outline-light" id="btnReveal"><i class="fas fa-eye me-1"></i> Mostrar resposta</button>
-                    <button type="button" class="btn btn-outline-light" id="btnListen"><i class="fas fa-volume-high me-1"></i> Ouvir</button>
-                    <button type="button" class="btn btn-gold d-none" id="btnNext" style="background:#e8d5a3;color:#0e0d1a;font-weight:600">Próximo desafio <i class="fas fa-arrow-right ms-1"></i></button>
-                </div>
-
-                <div class="build-result" id="buildResult" aria-live="polite"></div>
-                <small class="text-muted d-block text-center mt-3">Você tem 2 chances. Se errar as duas, a resposta aparece em verde para você memorizar.</small>
-            </div>
-
-            <details class="game-card mt-4">
-                <summary class="fw-bold" style="cursor:pointer;color:#e8d5a3" id="refTitle">Todos os acordes neste tom</summary>
-                <div class="mt-3 table-responsive" id="refBody"></div>
             </details>
+
+            <div class="enc-filters">
+                <button type="button" class="enc-filter active" data-grupo="todos">Todos</button>
+                <button type="button" class="enc-filter" data-grupo="maior-menor">Maiores e menores</button>
+                <button type="button" class="enc-filter" data-grupo="variacao">Variações e extensões</button>
+                <button type="button" class="enc-filter" data-grupo="slash">Baixos alterados</button>
+            </div>
+            <div class="enc-tools">
+                <input type="search" id="busca" class="form-control" placeholder="Buscar: C7M, menor, sétima..." aria-label="Buscar acorde">
+                <select id="tom" class="form-select" aria-label="Tom"></select>
+            </div>
+            <div class="enc-count" id="contagem"></div>
+            <p class="text-center small text-muted"><span class="dot-leg" style="background:#c9a959"></span> tônica &nbsp; <span class="dot-leg" style="background:#4a90d9"></span> baixo (acordes com baixo alterado) &nbsp; <span class="dot-leg" style="background:#e08a3c"></span> outras notas &nbsp; · o número é o dedo; × corda abafada; ○ corda solta</p>
+
+            <div id="lista"></div>
+
+            <p class="text-center text-muted small mt-4">Nesta enciclopédia, <b>C9</b> é o acorde maior com nona adicionada (add9). Para acordes com sétima e nona, veja <b>C7(9)</b>. Quer treinar? Use o exercício <a href="construir.html#acordes" class="gold">Construir Acordes</a>.</p>
         </div>
     </main>
 
     <div id="site-footer"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="js/js/formas.js"></script>
-    <script src="js/js/construir.js"></script>
+    <script src="js/js/enciclopedia.js"></script>
     <script src="js/js/layout.js"></script>
 </body>
 </html>

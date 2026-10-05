@@ -139,6 +139,13 @@ service firebase.storage {
 }
 ```
 
+## Enciclopedia de acordes
+
+`enciclopedia.html` lista os 65 acordes da planilha (notas, formula, descricao e formas em todo o braco).
+Os dados ficam em `data/enciclopedia.json`, gerados por `tools/enciclopedia/gerar.mjs` a partir de
+`tools/enciclopedia/fonte.json` (extraido da planilha com `extrair.py`). A busca das formas esta em `js/js/formas.js`,
+a mesma usada no exercicio Construir Acordes.
+
 ## Acesso total do dono
 
 Quem tem `role = admin` no Firestore (veja abaixo) recebe acesso total ao entrar na pagina Comunidade:
