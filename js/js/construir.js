@@ -135,7 +135,7 @@
         var notes = spell(tonicPc, def);
         target = { notes: notes, set: {}, formula: degrees(def) };
         notes.forEach(function (n) { target.set[n.pc] = true; });
-        selected = {}; selected[tonicPc] = true; attempts = 2; finished = false; shapes = []; shapeIdx = 0;
+        selected = {}; selected[tonicPc] = true; attempts = 2; finished = false; shapes = []; allShapes = []; shapeIdx = 0;
         var tonicName = notes[0].pt, cif = notes[0].cif;
         if (kind === "acordes") {
             titleEl.innerHTML = 'Construa o acorde <span class="gold">' + tonicName + " " + def.name + "</span>";
@@ -159,7 +159,7 @@
     var OPEN_PC = [4, 11, 7, 2, 9, 4]; // corda 1 (fina, no topo) ... corda 6 (grave)
     var STR_LOW = [4, 9, 2, 7, 11, 4]; // corda 6 (grave) ... corda 1
     var SVGNS = "http://www.w3.org/2000/svg", BW = 62, BX0 = 56, BY0 = 30, BDY = 28;
-    var shapes = [], shapeIdx = 0;
+    var shapes = [], allShapes = [], shapeIdx = 0;
 
     function svgEl(tag, attrs, txt) {
         var e = document.createElementNS(SVGNS, tag);
@@ -257,10 +257,10 @@
             var mx = fretted.length ? Math.max.apply(null, fretted.map(function (k) { return v[k]; })) : 0;
             var cost = fingers + 0.35 * m + 0.6 * (mx - m) + 2 * (6 - sounding.length) - 0.4 * opens + (barre ? 1.5 : 0) + (rootBass ? 0 : 3);
             var key = v.join(",");
-            if (!results[key]) results[key] = { v: v.slice(), cost: cost, barre: barre, base: m };
+            if (!results[key]) results[key] = { v: v.slice(), cost: cost, barre: barre, base: m, top: mx };
         }
         function run(req, rootBass) {
-            for (var lo = 1; lo <= 10; lo++) {
+            for (var lo = 1; lo <= 12; lo++) {
                 var hi = lo + 3, v = [-1, -1, -1, -1, -1, -1];
                 (function rec(idx) {
                     if (idx === 6) { evaluate(v, req, rootBass); return; }
@@ -281,11 +281,20 @@
             .sort(function (a, b) { return a.cost - b.cost || a.base - b.base; });
     }
 
+    // Casa escolhida (0 = automatico): ordena pela proximidade da casa pedida e, depois, pela simplicidade
     function pickShapes() {
-        var tones = def.s.map(function (semis, i) { return { pc: target.notes[i].pc, s: semis }; });
-        var all = findShapes(tonicPc, tones), out = [], bases = {};
-        // formas com casas iniciais diferentes (mais simples primeiro), no maximo 6
-        all.forEach(function (sh) {
+        if (!allShapes.length) {
+            var tones = def.s.map(function (semis, i) { return { pc: target.notes[i].pc, s: semis }; });
+            allShapes = findShapes(tonicPc, tones);
+        }
+        var want = +$("selCasa").value, out = [], bases = {};
+        // distancia 0 quando a casa pedida esta dentro das casas usadas pela forma
+        var dist = function (sh) { return want < sh.base ? sh.base - want : want > sh.top ? want - sh.top : 0; };
+        var ordered = want ? allShapes.slice().sort(function (a, b) {
+            return dist(a) - dist(b) || a.cost - b.cost;
+        }) : allShapes;
+        // formas com casas iniciais diferentes, no maximo 6
+        ordered.forEach(function (sh) {
             if (out.length < 6 && !bases[sh.base]) { bases[sh.base] = true; out.push(sh); }
         });
         shapes = out; shapeIdx = 0;
@@ -313,7 +322,9 @@
             var bx = g.xd(sh.base);
             svgEl("rect", { x: bx - 16, y: g.ys(Math.min.apply(null, bs)) - 16, width: 32, height: g.ys(Math.max.apply(null, bs)) - g.ys(Math.min.apply(null, bs)) + 32, rx: 16, "class": "barre" });
         }
-        var pos = sh.base === 0 ? "formato aberto" : "a partir da " + (f0 || sh.base) + "ª casa" + (sh.barre ? " (com pestana)" : "");
+        var want = +$("selCasa").value, at = f0 || sh.base;
+        var pos = sh.base === 0 ? "formato aberto" : "a partir da " + at + "ª casa" + (sh.barre ? " (com pestana)" : "");
+        if (want && (want < sh.base || (sh.top && want > sh.top))) pos += " · mais próxima da " + want + "ª casa";
         $("shapeInfo").textContent = "Forma " + (shapeIdx + 1) + " de " + shapes.length + " · " + pos;
     }
 
@@ -322,6 +333,7 @@
         var chord = kind === "acordes";
         $("selRegiao").classList.toggle("d-none", chord);
         $("btnShape").classList.toggle("d-none", !chord);
+        $("selCasa").classList.toggle("d-none", !chord);
         $("shapeInfo").classList.toggle("d-none", !chord);
         $("boardLegend").classList.toggle("d-none", chord);
         $("boardTitle").textContent = chord ? "O acorde no braço do violão" : "Notas da escala no braço do violão";
@@ -419,6 +431,7 @@
         t.addEventListener("click", function () { history.replaceState(null, "", "#" + t.dataset.kind); setKind(t.dataset.kind); });
     });
     $("selRegiao").addEventListener("change", function () { drawBoard(finished); });
+    $("selCasa").addEventListener("change", function () { if (finished) { pickShapes(); drawShape(); } });
     $("btnShape").addEventListener("click", function () { if (shapes.length) { shapeIdx = (shapeIdx + 1) % shapes.length; drawShape(); } });
     selTom.addEventListener("change", function () { newExercise(); });
     selTipo.addEventListener("change", function () { newExercise(); });
