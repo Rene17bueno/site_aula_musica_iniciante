@@ -139,6 +139,12 @@ service firebase.storage {
 }
 ```
 
+## Acesso total do dono
+
+Quem tem `role = admin` no Firestore (veja abaixo) recebe acesso total ao entrar na pagina Comunidade:
+o site grava `acesso_premium` no navegador e libera as Aulas 3 a 6 e os capitulos da apostila. Ao sair da conta
+(logout) essa liberacao e removida; a de quem comprou a apostila nao e afetada.
+
 ## Definir Admin
 
 1. Crie um usuario normal pelo front.

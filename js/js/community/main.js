@@ -57,7 +57,21 @@ const dom = {
     chatFile: document.getElementById("chat-file")
 };
 
+// Dono (role admin no Firestore) ganha acesso total as aulas e capitulos da apostila.
+// "acessoAdmin" marca que a liberacao veio do login de admin, para remove-la ao sair
+// sem apagar o acesso de quem comprou a apostila.
+function syncAdminPremium(session) {
+    if (session && session.role === "admin") {
+        localStorage.setItem("acesso_premium", "true");
+        localStorage.setItem("acessoAdmin", "1");
+    } else if (localStorage.getItem("acessoAdmin") === "1") {
+        localStorage.removeItem("acesso_premium");
+        localStorage.removeItem("acessoAdmin");
+    }
+}
+
 function syncSessionStorage(session) {
+    syncAdminPremium(session);
     if (!session) {
         localStorage.removeItem("communityRole");
         localStorage.removeItem("communityEmail");
