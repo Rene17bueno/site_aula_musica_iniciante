@@ -186,6 +186,11 @@
         .feedback-area.show {
             opacity: 1;
         }
+        .option-btn.wrong {
+            opacity: 0.45;
+            text-decoration: line-through;
+            border-color: #ff5555;
+        }
         .feedback-correct {
             background: rgba(46, 204, 113, 0.2);
             color: #2ecc71;
@@ -350,6 +355,7 @@
                             <li>Analise as marcações do braço do instrumento (número das casas no topo, bolinhas amarelas/brancas com os dedos).</li>
                             <li>Use o botão de cifra correto para adivinhar o acorde correspondente.</li>
                             <li>Alcance <strong class="text-white">10 acertos seguidos</strong> para avançar ao próximo nível!</li>
+                            <li>Você tem <strong class="text-white">2 chances</strong> em cada desafio. Se errar as duas, a resposta correta aparece e o combo reinicia.</li>
                         </ul>
                     </div>
                 </div>
@@ -462,6 +468,8 @@
         let currentLevelIndex = 0;
         let comboScore = 0;
         const TARGET_COMBO = 10;
+        const MAX_ATTEMPTS = 2;
+        let attemptsLeft = MAX_ATTEMPTS;
         let currentChord = null;
 
         // Elementos DOM
@@ -607,6 +615,7 @@
         // Cria o desafio (Escolhe o acorde secreto e monta as opções)
         function generateChallenge() {
             hideFeedback();
+            attemptsLeft = MAX_ATTEMPTS;
             const levelType = GAME_LEVELS[currentLevelIndex].type;
             const chordsPool = ACORDES_BIBLIOTECA[levelType];
             const tonicas = Object.keys(chordsPool);
@@ -659,12 +668,12 @@
         // Avalia se o palpite está correto
         function checkAnswer(selectedOption) {
             const buttons = optionsContainer.querySelectorAll(".option-btn");
-            buttons.forEach(btn => btn.disabled = true);
 
             if (selectedOption === currentChord.fullname) {
+                buttons.forEach(btn => btn.disabled = true);
                 comboScore++;
                 showFeedback(true, `✨ Sensacional! Você reconheceu corretamente o acorde de "${selectedOption}"!`);
-                
+
                 if (comboScore >= TARGET_COMBO) {
                     setTimeout(() => {
                         advanceLevel();
@@ -672,8 +681,22 @@
                     return;
                 }
             } else {
+                attemptsLeft--;
+                buttons.forEach(btn => {
+                    if (btn.textContent === selectedOption) {
+                        btn.disabled = true;
+                        btn.classList.add("wrong");
+                    }
+                });
+
+                if (attemptsLeft > 0) {
+                    showFeedback(false, `❌ Errou! Você ainda tem ${attemptsLeft} chance. Tente de novo.`);
+                    return;
+                }
+
+                buttons.forEach(btn => btn.disabled = true);
                 comboScore = 0;
-                showFeedback(false, `❌ Ops, não foi dessa vez! Esse diagrama representa o acorde de "${currentChord.fullname}".`);
+                showFeedback(false, `❌ Você não conseguiu desta vez. Esse diagrama representa o acorde de "${currentChord.fullname}". O combo reiniciou.`);
             }
 
             updateProgress();
