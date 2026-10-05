@@ -316,6 +316,7 @@
       gtag('js', new Date());
       gtag('config', 'G-H8CMNEYXZ9');
     </script>
+    <link rel="stylesheet" href="css/css/ranking.css" />
 </head>
 <body>
 
@@ -390,6 +391,14 @@
                 </div>
             </div>
 
+
+            <!-- Ranking -->
+            <div class="game-card ranking-card" id="rankingBox" data-game="cifras">
+                <h5 class="fw-bold mb-1 text-gold"><i class="fas fa-trophy me-2"></i>Ranking</h5>
+                <p class="rank-hint" data-rank-hint></p>
+                <ol class="rank-list" data-rank-list><li class="rank-empty">Carregando…</li></ol>
+                <small class="text-muted d-block mt-2">Acerto de primeira = 10 pts · acerto na 2ª chance = 5 pts.</small>
+            </div>
         </div>
     </main>
 
@@ -555,6 +564,7 @@
             if (selectedOption === currentQuestion.correct) {
                 buttons.forEach(btn => btn.disabled = true);
                 comboScore++;
+                if (window.GameRanking) window.GameRanking.record(attemptsLeft === MAX_ATTEMPTS ? 10 : 5);
                 showFeedback(true, `✨ Maravilha! Você acertou! "${selectedOption}" é o acorde de ${currentQuestion.chord}!`);
 
                 if (comboScore >= TARGET_COMBO) {
@@ -619,6 +629,7 @@
         window.onload = initGame;
     </script>
 
+        <script type="module" src="js/js/community/ranking.js"></script>
         <script src="js/js/layout.js"></script>
 </body>
 </html>

@@ -96,7 +96,7 @@
         '</li>';
 
     var NAVBAR_HTML =
-        '<nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">' +
+        '<nav class="navbar navbar-expand-lg navbar-dark custom-navbar navbar-custom fixed-top">' +
         '<div class="container-fluid container-md">' +
         '<a class="navbar-brand nav-brand-title" href="' + local("index.html") + '">' + t.navBrand + '</a>' +
         '<button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">' +

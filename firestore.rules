@@ -45,6 +45,28 @@ service cloud.firestore {
       allow delete: if isAdmin() || (isSignedIn() && resource.data.uid == request.auth.uid);
     }
 
+    // Ranking dos jogos: leitura publica (so primeiro nome + pontos);
+    // cada usuario so grava a propria linha e so pode somar ate 10 pts por gravacao.
+    match /gameRanking/{game}/entries/{uid} {
+      allow read: if true;
+      allow create: if isOwner(uid)
+        && game in ['cifras', 'diagramas']
+        && request.resource.data.uid == uid
+        && request.resource.data.name is string
+        && request.resource.data.name.size() <= 20
+        && request.resource.data.points is int
+        && request.resource.data.points > 0
+        && request.resource.data.points <= 10;
+      allow update: if isOwner(uid)
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.name is string
+        && request.resource.data.name.size() <= 20
+        && request.resource.data.points is int
+        && request.resource.data.points > resource.data.points
+        && request.resource.data.points - resource.data.points <= 10;
+      allow delete: if isAdmin();
+    }
+
     match /chats/{threadId} {
       allow read, create, update: if isAdmin() || isOwner(threadId);
 
