@@ -16,8 +16,10 @@ service cloud.firestore {
 
     match /userProfiles/{uid} {
       allow read: if isOwner(uid) || isAdmin();
-      allow create: if isOwner(uid);
-      allow update: if isOwner(uid) || isAdmin();
+      // role nunca pode ser definido/alterado pelo proprio usuario (evita auto-promocao a admin)
+      allow create: if isOwner(uid) && request.resource.data.role == 'user';
+      allow update: if isAdmin() ||
+        (isOwner(uid) && request.resource.data.role == resource.data.role);
     }
 
     match /authAliases/{aliasId} {
