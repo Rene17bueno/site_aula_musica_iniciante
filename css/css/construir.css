@@ -34,3 +34,23 @@
 .ref-table td, .ref-table th { padding: 6px 10px; border-bottom: 1px solid rgba(201,169,89,.12); vertical-align: top; }
 .ref-table th { color: #e8d5a3; text-align: left; }
 .ref-table td.f { color: #b5b0a8; white-space: nowrap; }
+
+.board-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin: 6px 0 8px; }
+.board-title { font-size: 1rem; margin: 0; color: #e8d5a3; font-weight: 600; }
+.board-head .form-select { width: auto; background-color: #14131f; color: #e4dfd7; border-color: rgba(201,169,89,.3); }
+.board-wrap { overflow-x: auto; margin-bottom: 6px; }
+#board { display: block; width: 100%; min-width: 560px; height: auto; }
+#board .fret { stroke: #6b6577; stroke-width: 2; }
+#board .nut { stroke: #e8d5a3; stroke-width: 6; }
+#board .str { stroke: #b9b2a5; }
+#board .inlay { fill: rgba(232,213,163,.18); }
+#board .fnum { fill: #8d879a; font-size: 12px; text-anchor: middle; }
+#board .snum { fill: #e8d5a3; font-size: 13px; font-weight: 600; text-anchor: middle; }
+#board .nd { stroke-width: 1.5; }
+#board .nd.sel { fill: #e4dfd7; stroke: #fff; }
+#board .nd.ok { fill: #2ecc71; stroke: #fff; }
+#board .nd.tonic { fill: #e8d5a3; stroke: #fff; }
+#board .nt { font-size: 10px; font-weight: 700; text-anchor: middle; dominant-baseline: central; fill: #0e0d1a; pointer-events: none; }
+.board-legend { text-align: center; font-size: .8rem; color: #b5b0a8; margin-bottom: 14px; }
+.dot-demo { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: -1px; margin-right: 2px; }
+.dot-demo.tonic { background: #e8d5a3; } .dot-demo.ok { background: #2ecc71; } .dot-demo.sel { background: #e4dfd7; }

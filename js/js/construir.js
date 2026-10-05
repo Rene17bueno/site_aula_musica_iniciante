@@ -155,7 +155,54 @@
         newExercise();
     }
 
+    // ---------- Braço do violão (afinação padrão E A D G B E) ----------
+    var OPEN_PC = [4, 11, 7, 2, 9, 4]; // corda 1 (fina, no topo) ... corda 6 (grave)
+    var SVGNS = "http://www.w3.org/2000/svg", BW = 62, BX0 = 56, BY0 = 30, BDY = 28;
+    function svgEl(tag, attrs, txt) {
+        var e = document.createElementNS(SVGNS, tag);
+        for (var k in attrs) e.setAttribute(k, attrs[k]);
+        if (txt != null) e.textContent = txt;
+        $("board").appendChild(e); return e;
+    }
+    function drawBoard(reveal) {
+        var rg = $("selRegiao").value.split("-"), f0 = +rg[0], f1 = +rg[1], fs = Math.max(f0, 1), n = f1 - fs + 1;
+        var svg = $("board"), W = BX0 + n * BW + 20, H = BY0 + 5 * BDY + 46;
+        svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+        svg.innerHTML = "";
+        var xs = function (f) { return BX0 + (f - fs + 0.5) * BW; };       // centro da casa f (f >= 1)
+        var xd = function (f) { return f === 0 ? BX0 - 18 : xs(f); };    // casa 0 = corda solta, a esquerda da pestana
+        var ys = function (i) { return BY0 + i * BDY; };
+        [3, 5, 7, 9].forEach(function (f) { if (f >= f0 && f <= f1) svgEl("circle", { cx: xs(f), cy: (ys(0) + ys(5)) / 2, r: 8, "class": "inlay" }); });
+        if (f1 >= 12 && 12 >= f0) {
+            svgEl("circle", { cx: xs(12), cy: ys(1) + BDY / 2, r: 8, "class": "inlay" });
+            svgEl("circle", { cx: xs(12), cy: ys(4) - BDY / 2, r: 8, "class": "inlay" });
+        }
+        for (var i = 0; i <= n; i++) {
+            var x = BX0 + i * BW;
+            svgEl("line", { x1: x, x2: x, y1: ys(0), y2: ys(5), "class": (i === 0 && f0 === 0) ? "nut" : "fret" });
+        }
+        for (var f = fs; f <= f1; f++) svgEl("text", { x: xs(f), y: ys(5) + 26, "class": "fnum" }, f);
+        if (f0 === 0) svgEl("text", { x: BX0 - 18, y: ys(5) + 26, "class": "fnum" }, "0");
+        for (var s = 0; s < 6; s++) {
+            svgEl("line", { x1: BX0, x2: BX0 + n * BW, y1: ys(s), y2: ys(s), "class": "str", "stroke-width": 1 + s * 0.5 });
+            svgEl("text", { x: 14, y: ys(s) + 5, "class": "snum" }, s + 1);
+        }
+        var names = {};
+        if (reveal) target.notes.forEach(function (nt) { names[nt.pc] = nt.pt; });
+        for (var st = 0; st < 6; st++) {
+            for (var fr = f0; fr <= f1; fr++) {
+                var pc = (OPEN_PC[st] + fr) % 12;
+                var on = reveal ? target.set[pc] : selected[pc];
+                if (!on) continue;
+                var cls = pc === tonicPc ? "nd tonic" : (reveal ? "nd ok" : "nd sel");
+                svgEl("circle", { cx: xd(fr), cy: ys(st), r: 12, "class": cls });
+                svgEl("text", { x: xd(fr), y: ys(st), "class": "nt" }, names[pc] || KEY_LABELS[pc][0]);
+            }
+        }
+    }
+
     function renderKeys(reveal) {
+        drawBoard(!!reveal);
         keysBox.querySelectorAll(".key").forEach(function (b) {
             var pc = +b.dataset.pc;
             b.className = "key" + (pc === tonicPc ? " tonic" : "") + (selected[pc] ? " sel" : "");
@@ -240,6 +287,7 @@
     document.querySelectorAll(".build-tab").forEach(function (t) {
         t.addEventListener("click", function () { history.replaceState(null, "", "#" + t.dataset.kind); setKind(t.dataset.kind); });
     });
+    $("selRegiao").addEventListener("change", function () { drawBoard(finished); });
     selTom.addEventListener("change", function () { newExercise(); });
     selTipo.addEventListener("change", function () { newExercise(); });
     $("btnCheck").addEventListener("click", check);
