@@ -1,0 +1,18 @@
+.option-btn.correct {
+    border-color: #66d966;
+    background: rgba(102, 217, 102, 0.18);
+    color: #fff;
+    opacity: 1;
+}
+.btn-next-question {
+    display: block;
+    margin: 12px auto 0;
+    padding: 8px 22px;
+    border: 0;
+    border-radius: 30px;
+    background: #e8d5a3;
+    color: #0e0d1a;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-next-question:hover { background: #fff; }

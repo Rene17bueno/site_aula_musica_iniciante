@@ -1,0 +1,63 @@
+.build-tabs { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+.build-tab {
+    padding: 8px 24px; border-radius: 40px; cursor: pointer; font-weight: 600; letter-spacing: .3px;
+    background: rgba(255,255,255,.03); color: #b5b0a8; border: 1px solid rgba(201,169,89,.25);
+}
+.build-tab.active { background: rgba(201,169,89,.15); color: #e8d5a3; border-color: #c9a959; }
+.build-controls .form-select {
+    background-color: #14131f; color: #e4dfd7; border-color: rgba(201,169,89,.3);
+}
+.build-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; text-align: center; margin: 18px 0 6px; }
+.build-sub { text-align: center; color: #b5b0a8; font-size: .9rem; margin-bottom: 18px; }
+.keys { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; max-width: 640px; margin: 0 auto 18px; }
+@media (min-width: 768px) { .keys { grid-template-columns: repeat(12, 1fr); max-width: none; } }
+.key {
+    padding: 14px 4px; border-radius: 10px; font-weight: 700; font-size: .9rem; line-height: 1.2;
+    background: rgba(255,255,255,.05); color: #fff; border: 1px solid rgba(201,169,89,.35); cursor: pointer;
+    transition: .15s; text-align: center;
+}
+.key small { display: block; font-weight: 400; font-size: .7rem; color: #b5b0a8; }
+.key:hover:not(:disabled) { background: rgba(201,169,89,.2); }
+.key.sel { background: #e8d5a3; color: #0e0d1a; border-color: #fff; }
+.key.sel small { color: #4a4636; }
+.key.tonic { border-color: #c9a959; box-shadow: 0 0 0 2px rgba(201,169,89,.5); }
+.key.ok { background: rgba(46,204,113,.35); border-color: #2ecc71; color: #fff; }
+.key.bad { background: rgba(231,76,60,.35); border-color: #ff5555; color: #fff; text-decoration: line-through; }
+.key.miss { border: 2px dashed #2ecc71; }
+.build-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 14px; }
+.build-result { min-height: 60px; border-radius: 10px; padding: 14px; text-align: center; font-weight: 600; opacity: 0; transition: .3s; }
+.build-result.show { opacity: 1; }
+.build-result.good { background: rgba(46,204,113,.2); color: #2ecc71; border: 1px solid rgba(46,204,113,.4); }
+.build-result.bad { background: rgba(231,76,60,.2); color: #ff6b6b; border: 1px solid rgba(231,76,60,.4); }
+.build-result .formula { display: block; margin-top: 6px; font-weight: 400; color: #e4dfd7; }
+.ref-table { width: 100%; font-size: .85rem; color: #e4dfd7; }
+.ref-table td, .ref-table th { padding: 6px 10px; border-bottom: 1px solid rgba(201,169,89,.12); vertical-align: top; }
+.ref-table th { color: #e8d5a3; text-align: left; }
+.ref-table td.f { color: #b5b0a8; white-space: nowrap; }
+
+.board-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin: 6px 0 8px; }
+.board-title { font-size: 1rem; margin: 0; color: #e8d5a3; font-weight: 600; }
+.board-head .form-select { width: auto; min-width: 0; background-color: #14131f; color: #e4dfd7; border-color: rgba(201,169,89,.3); }
+.board-wrap { overflow-x: auto; margin-bottom: 6px; }
+#board { display: block; width: 100%; min-width: 560px; height: auto; }
+#board .fret { stroke: #6b6577; stroke-width: 2; }
+#board .nut { stroke: #e8d5a3; stroke-width: 6; }
+#board .str { stroke: #b9b2a5; }
+#board .inlay { fill: rgba(232,213,163,.18); }
+#board .fnum { fill: #8d879a; font-size: 12px; text-anchor: middle; }
+#board .snum { fill: #e8d5a3; font-size: 13px; font-weight: 600; text-anchor: middle; }
+#board .nd { stroke-width: 1.5; }
+#board .nd.sel { fill: #e4dfd7; stroke: #fff; }
+#board .nd.ok { fill: #2ecc71; stroke: #fff; }
+#board .nd.tonic { fill: #e8d5a3; stroke: #fff; }
+#board .nt { font-size: 10px; font-weight: 700; text-anchor: middle; dominant-baseline: central; fill: #0e0d1a; pointer-events: none; }
+.board-legend { text-align: center; font-size: .8rem; color: #b5b0a8; margin-bottom: 14px; }
+.dot-demo { display: inline-block; width: 12px; height: 12px; border-radius: 50%; vertical-align: -1px; margin-right: 2px; }
+.dot-demo.tonic { background: #e8d5a3; } .dot-demo.ok { background: #2ecc71; } .dot-demo.sel { background: #e4dfd7; }
+#board .mute { fill: #ff6b6b; font-size: 20px; font-weight: 700; text-anchor: middle; }
+#board .nd.open { fill: transparent; stroke: #e8d5a3; }
+#board .nd.open + .nt { fill: #e8d5a3; }
+#board .barre { fill: rgba(232,213,163,.22); stroke: #e8d5a3; stroke-width: 1.5; }
+/* Forma do acorde: diagrama compacto, centralizado */
+#boardWrap.is-shape { max-width: 400px; margin: 0 auto 6px; overflow: visible; }
+#boardWrap.is-shape #board { min-width: 0; }

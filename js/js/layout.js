@@ -32,24 +32,24 @@
     var T = {
         pt: {
             home: "Início", lessons: "Aulas", chapters: "Capítulos", chapter: "Capítulo",
-            chords: "Acordes", games: "Jogos",
-            visualChallenge: "Desafio Visual", noteId: "Identificação de Notas",
+            chords: "Acordes", chordDict: "Dicionário", chordEnc: "Enciclopédia", exercises: "Exercícios", technique: "Técnica (Aranha)", buildChords: "Construir Acordes", buildScales: "Construir Escalas", games: "Jogos",
+            visualChallenge: "Desafio Visual", noteId: "Identificação de Notas", scaleGame: "Nome da Escala", chordNotes: "Notas do Acorde",
             community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin",
             navBrand: "<span>Violão</span> &middot; Iniciante",
             footBrand: "<span>Estudo de Violão</span> Iniciante"
         },
         en: {
             home: "Home", lessons: "Lessons (PT)", chapters: "Chapters", chapter: "Chapter",
-            chords: "Chords", games: "Games",
-            visualChallenge: "Visual Challenge", noteId: "Note Identification",
+            chords: "Chords", chordDict: "Dictionary (PT)", chordEnc: "Encyclopedia (PT)", exercises: "Exercises (PT)", technique: "Technique (PT)", buildChords: "Build Chords (PT)", buildScales: "Build Scales (PT)", games: "Games",
+            visualChallenge: "Visual Challenge", noteId: "Note Identification", scaleGame: "Scale Name (PT)", chordNotes: "Chord Notes (PT)",
             community: "Community", attendance: "Attendance", adminPanel: "Admin Panel",
             navBrand: "<span>Guitar</span> &middot; Beginner",
             footBrand: "<span>Beginner</span> Guitar Study"
         },
         es: {
             home: "Inicio", lessons: "Clases (PT)", chapters: "Capítulos", chapter: "Capítulo",
-            chords: "Acordes", games: "Juegos",
-            visualChallenge: "Desafío Visual", noteId: "Identificación de Notas",
+            chords: "Acordes", chordDict: "Diccionario (PT)", chordEnc: "Enciclopedia (PT)", exercises: "Ejercicios (PT)", technique: "Técnica (PT)", buildChords: "Construir Acordes (PT)", buildScales: "Construir Escalas (PT)", games: "Juegos",
+            visualChallenge: "Desafío Visual", noteId: "Identificación de Notas", scaleGame: "Nombre de la Escala (PT)", chordNotes: "Notas del Acorde (PT)",
             community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración",
             navBrand: "<span>Guitarra</span> &middot; Principiante",
             footBrand: "<span>Estudio de Guitarra</span> para Principiantes"
@@ -96,7 +96,7 @@
         '</li>';
 
     var NAVBAR_HTML =
-        '<nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">' +
+        '<nav class="navbar navbar-expand-lg navbar-dark custom-navbar navbar-custom fixed-top">' +
         '<div class="container-fluid container-md">' +
         '<a class="navbar-brand nav-brand-title" href="' + local("index.html") + '">' + t.navBrand + '</a>' +
         '<button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">' +
@@ -109,12 +109,28 @@
         '<a class="nav-link dropdown-toggle" href="#" id="capitulosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-book me-1"></i> ' + t.chapters + '</a>' +
         '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capitulosDropdown">' + CH.join("") + '</ul>' +
         '</li>' +
-        '<li class="nav-item"><a class="nav-link" href="' + shared("acordes.html") + '"><i class="fas fa-guitar me-1"></i> ' + t.chords + '</a></li>' +
+        '<li class="nav-item dropdown">' +
+        '<a class="nav-link dropdown-toggle" href="#" id="acordesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-guitar me-1"></i> ' + t.chords + '</a>' +
+        '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="acordesDropdown">' +
+        '<li><a class="dropdown-item" href="' + shared("acordes.html") + '"><i class="fas fa-th me-2"></i> ' + t.chordDict + '</a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("enciclopedia.html") + '"><i class="fas fa-book-open me-2"></i> ' + t.chordEnc + '</a></li>' +
+        '</ul>' +
+        '</li>' +
+        '<li class="nav-item dropdown">' +
+        '<a class="nav-link dropdown-toggle" href="#" id="exerciciosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-hand-pointer me-1"></i> ' + t.exercises + '</a>' +
+        '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="exerciciosDropdown">' +
+        '<li><a class="dropdown-item" href="' + shared("exercicios.html") + '"><i class="fas fa-hand-pointer me-2"></i> ' + t.technique + '</a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("construir.html") + '#acordes"><i class="fas fa-guitar me-2"></i> ' + t.buildChords + '</a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("construir.html") + '#escalas"><i class="fas fa-stairs me-2"></i> ' + t.buildScales + '</a></li>' +
+        '</ul>' +
+        '</li>' +
         '<li class="nav-item dropdown">' +
         '<a class="nav-link dropdown-toggle" href="#" id="jogosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-gamepad me-1"></i> ' + t.games + '</a>' +
         '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="jogosDropdown">' +
         '<li><a class="dropdown-item" href="' + shared("jogo-imagem.html") + '"><i class="fas fa-eye me-2"></i> ' + t.visualChallenge + '</a></li>' +
         '<li><a class="dropdown-item" href="' + shared("jogos.html") + '"><i class="fas fa-music me-2"></i> ' + t.noteId + '</a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("jogo-escalas.html") + '"><i class="fas fa-stairs me-2"></i> ' + t.scaleGame + '</a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("jogo-acordes-notas.html") + '"><i class="fas fa-guitar me-2"></i> ' + t.chordNotes + '</a></li>' +
         '</ul>' +
         '</li>' +
         '<li class="nav-item"><a class="nav-link" href="' + shared("comunidade.html") + '"><i class="fas fa-comments me-1"></i> ' + t.community + '</a></li>' +

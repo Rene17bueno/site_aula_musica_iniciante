@@ -10,16 +10,16 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Estudo de Violão Iniciante" />
     <meta property="og:locale" content="pt_BR" />
-    <meta property="og:url" content="https://estudodeviolaoiniciante.netlify.app/jogo-imagem.html" />
+    <meta property="og:url" content="https://estudodeviolaoiniciante.pages.dev/jogo-imagem.html" />
     <meta property="og:title" content="Desafio Visual de Acordes · Estudo de Violão Iniciante" />
     <meta property="og:description" content="Desafio visual: veja o diagrama do acorde no braço do violão e adivinhe qual é. Treine a leitura de acordes de forma divertida." />
-    <meta property="og:image" content="https://estudodeviolaoiniciante.netlify.app/og-image.png" />
+    <meta property="og:image" content="https://estudodeviolaoiniciante.pages.dev/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Desafio Visual de Acordes · Estudo de Violão Iniciante" />
     <meta name="twitter:description" content="Desafio visual: veja o diagrama do acorde no braço do violão e adivinhe qual é. Treine a leitura de acordes de forma divertida." />
-    <meta name="twitter:image" content="https://estudodeviolaoiniciante.netlify.app/og-image.png" />
+    <meta name="twitter:image" content="https://estudodeviolaoiniciante.pages.dev/og-image.png" />
     <!-- Fonts & Bootstrap (cdn) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -186,6 +186,11 @@
         .feedback-area.show {
             opacity: 1;
         }
+        .option-btn.wrong {
+            opacity: 0.45;
+            text-decoration: line-through;
+            border-color: #ff5555;
+        }
         .feedback-correct {
             background: rgba(46, 204, 113, 0.2);
             color: #2ecc71;
@@ -315,6 +320,8 @@
       gtag('js', new Date());
       gtag('config', 'G-H8CMNEYXZ9');
     </script>
+    <link rel="stylesheet" href="css/css/ranking.css" />
+    <link rel="stylesheet" href="css/css/jogos.css" />
 </head>
 <body>
 
@@ -350,6 +357,7 @@
                             <li>Analise as marcações do braço do instrumento (número das casas no topo, bolinhas amarelas/brancas com os dedos).</li>
                             <li>Use o botão de cifra correto para adivinhar o acorde correspondente.</li>
                             <li>Alcance <strong class="text-white">10 acertos seguidos</strong> para avançar ao próximo nível!</li>
+                            <li>Você tem <strong class="text-white">2 chances</strong> em cada desafio. Se errar as duas, a resposta correta aparece e o combo reinicia.</li>
                         </ul>
                     </div>
                 </div>
@@ -392,6 +400,14 @@
                 </div>
             </div>
 
+
+            <!-- Ranking -->
+            <div class="game-card ranking-card" id="rankingBox" data-game="diagramas">
+                <h5 class="fw-bold mb-1 text-gold"><i class="fas fa-trophy me-2"></i>Ranking</h5>
+                <p class="rank-hint" data-rank-hint></p>
+                <ol class="rank-list" data-rank-list><li class="rank-empty">Carregando…</li></ol>
+                <small class="text-muted d-block mt-2">Acerto de primeira = 10 pts · acerto na 2ª chance = 5 pts.</small>
+            </div>
         </div>
     </main>
 
@@ -462,6 +478,8 @@
         let currentLevelIndex = 0;
         let comboScore = 0;
         const TARGET_COMBO = 10;
+        const MAX_ATTEMPTS = 2;
+        let attemptsLeft = MAX_ATTEMPTS;
         let currentChord = null;
 
         // Elementos DOM
@@ -607,6 +625,7 @@
         // Cria o desafio (Escolhe o acorde secreto e monta as opções)
         function generateChallenge() {
             hideFeedback();
+            attemptsLeft = MAX_ATTEMPTS;
             const levelType = GAME_LEVELS[currentLevelIndex].type;
             const chordsPool = ACORDES_BIBLIOTECA[levelType];
             const tonicas = Object.keys(chordsPool);
@@ -659,12 +678,13 @@
         // Avalia se o palpite está correto
         function checkAnswer(selectedOption) {
             const buttons = optionsContainer.querySelectorAll(".option-btn");
-            buttons.forEach(btn => btn.disabled = true);
 
             if (selectedOption === currentChord.fullname) {
+                buttons.forEach(btn => btn.disabled = true);
                 comboScore++;
+                if (window.GameRanking) window.GameRanking.record(attemptsLeft === MAX_ATTEMPTS ? 10 : 5);
                 showFeedback(true, `✨ Sensacional! Você reconheceu corretamente o acorde de "${selectedOption}"!`);
-                
+
                 if (comboScore >= TARGET_COMBO) {
                     setTimeout(() => {
                         advanceLevel();
@@ -672,8 +692,26 @@
                     return;
                 }
             } else {
+                attemptsLeft--;
+                buttons.forEach(btn => {
+                    if (btn.textContent === selectedOption) {
+                        btn.disabled = true;
+                        btn.classList.add("wrong");
+                    }
+                });
+
+                if (attemptsLeft > 0) {
+                    showFeedback(false, `❌ Errou! Você ainda tem ${attemptsLeft} chance. Tente de novo.`);
+                    return;
+                }
+
+                buttons.forEach(btn => btn.disabled = true);
                 comboScore = 0;
-                showFeedback(false, `❌ Ops, não foi dessa vez! Esse diagrama representa o acorde de "${currentChord.fullname}".`);
+                showFeedback(false, `❌ Você não conseguiu desta vez. Esse diagrama representa o acorde de "${currentChord.fullname}". O combo reiniciou.`);
+                highlightCorrect(buttons, currentChord.fullname);
+                updateProgress();
+                addNextButton(generateChallenge);
+                return;
             }
 
             updateProgress();
@@ -681,6 +719,22 @@
             setTimeout(() => {
                 generateChallenge();
             }, 1800);
+        }
+
+
+        // Mostra o botao para o jogador avancar so quando quiser (tempo para memorizar a resposta)
+        function addNextButton(next) {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.className = "btn-next-question";
+            b.textContent = "Próxima pergunta ➜";
+            b.addEventListener("click", next);
+            feedbackBox.appendChild(b);
+        }
+
+        // Marca em verde a alternativa correta
+        function highlightCorrect(buttons, correct) {
+            buttons.forEach(btn => { if (btn.textContent === correct) btn.classList.add("correct"); });
         }
 
         // Exibe o painel de feedback com cores ajustadas
@@ -713,6 +767,7 @@
         window.onload = initGame;
     </script>
 
+        <script type="module" src="js/js/community/ranking.js"></script>
         <script src="js/js/layout.js"></script>
 </body>
 </html>

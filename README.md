@@ -1,6 +1,6 @@
 # Site Aula Musica Iniciante
 
-Implementacao de autenticacao, formulario de visitantes e chat com upload de imagem/video para um site estatico hospedado no Netlify.
+Implementacao de autenticacao, formulario de visitantes e chat com upload de imagem/video para um site estatico hospedado no Cloudflare Pages (codigo no GitHub).
 
 ## Estrutura adicionada
 
@@ -139,16 +139,29 @@ service firebase.storage {
 }
 ```
 
+## Enciclopedia de acordes
+
+`enciclopedia.html` lista os 65 acordes da planilha (notas, formula, descricao e formas em todo o braco).
+Os dados ficam em `data/enciclopedia.json`, gerados por `tools/enciclopedia/gerar.mjs` a partir de
+`tools/enciclopedia/fonte.json` (extraido da planilha com `extrair.py`). A busca das formas esta em `js/js/formas.js`,
+a mesma usada no exercicio Construir Acordes.
+
+## Acesso total do dono
+
+Quem tem `role = admin` no Firestore (veja abaixo) recebe acesso total ao entrar na pagina Comunidade:
+o site grava `acesso_premium` no navegador e libera as Aulas 3 a 6 e os capitulos da apostila. Ao sair da conta
+(logout) essa liberacao e removida; a de quem comprou a apostila nao e afetada.
+
 ## Definir Admin
 
 1. Crie um usuario normal pelo front.
 2. No Firestore, abra `userProfiles/<uid>`.
 3. Altere o campo `role` para `admin`.
 
-## Deploy no Netlify
+## Deploy (Cloudflare Pages)
 
-1. Commit e push para o repositorio conectado ao Netlify.
-2. Aguarde novo deploy automatico.
+1. Commit e push para o repositorio GitHub conectado ao Cloudflare Pages.
+2. Aguarde novo deploy automatico (as rotas /api/* vem de functions/api).
 3. Acesse `comunidade.html` no site publicado.
 
 ## Termos de uso
@@ -159,8 +172,8 @@ O link de termos foi adicionado na pagina de comunidade apontando para:
 
 ## Aulas em vídeo (aulas.html)
 
-- `aulas/aulas.json`: catálogo (3 aulas, 21 partes, `livre: true/false`).
+- `aulas/aulas.json`: catálogo (6 aulas, 39 partes, `livre: true/false`).
 - `aulas/video/aXpY.mp4` + `.vtt` (legenda PT) e `aulas/poster/aXpY.jpg`.
-- `js/js/aulas.js`: player, progresso (localStorage `aulas_vistas`), velocidade, transcrição clicável e bloqueio da Aula 3 com a mesma chave `acesso_premium` do paywall.
+- `js/js/aulas.js`: player, progresso (localStorage `aulas_vistas`), velocidade, transcrição clicável e bloqueio das Aulas 3 a 6 com a mesma chave `acesso_premium` do paywall.
 - Para adicionar uma aula: copie mp4/vtt/jpg com o padrão `aXpY` e inclua a entrada no JSON.
-- Atenção: o bloqueio é no navegador (como o dos capítulos); o arquivo .mp4 da Aula 3 continua acessível por URL direta.
+- Atenção: o bloqueio é no navegador (como o dos capítulos); os arquivos .mp4 das Aulas 3 a 6 continuam acessível por URL direta.

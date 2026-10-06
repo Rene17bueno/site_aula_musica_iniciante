@@ -1,5 +1,5 @@
 // Página de aulas em vídeo: carrega aulas/aulas.json, controla player, progresso,
-// bloqueio da Aula 3 (mesma chave de acesso do paywall.js) e transcrição.
+// bloqueio das Aulas 3 a 6 (mesma chave de acesso do paywall.js) e transcrição.
 (function () {
     "use strict";
     var KEY_ACCESS = "acesso_premium", KEY_SEEN = "aulas_vistas";

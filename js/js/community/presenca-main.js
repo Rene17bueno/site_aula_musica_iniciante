@@ -93,9 +93,18 @@ function renderSessionOptions() {
     dom.sessionSelect.innerHTML = validSessions
         .map((item) => {
             const selected = item.id === state.selectedSessionId ? "selected" : "";
-            return `<option value="${item.id}" ${selected}>${formatClassDate(item.classDate)} · ${item.weekday || "Dia nao informado"}</option>`;
+            return `<option value="${escapeHtml(item.id)}" ${selected}>${escapeHtml(formatClassDate(item.classDate))} · ${escapeHtml(item.weekday || "Dia nao informado")}</option>`;
         })
         .join("");
+}
+
+function escapeHtml(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
 }
 
 function renderAttendanceHistory(records) {
@@ -108,7 +117,7 @@ function renderAttendanceHistory(records) {
         .map((item) => `
             <tr>
                 <td>${formatClassDate(item.classDate)}</td>
-                <td>${item.weekday || "-"}</td>
+                <td>${escapeHtml(item.weekday || "-")}</td>
                 <td>${statusLabel(item.status)}</td>
                 <td>${formatTimestamp(item.updatedAt || item.markedAt)}</td>
             </tr>

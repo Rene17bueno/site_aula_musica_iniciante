@@ -1,0 +1,15 @@
+.ranking-card { margin-top: 24px; text-align: left; }
+.ranking-card h5 { font-family: 'Playfair Display', serif; }
+.ranking-card .rank-hint { font-size: .85rem; color: #b5b0a8; margin-bottom: 14px; }
+.ranking-card .rank-hint a { color: #e8d5a3; }
+.rank-list { list-style: none; margin: 0; padding: 0; }
+.rank-row, .rank-empty {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px; margin-bottom: 8px; border-radius: 10px;
+    background: rgba(255,255,255,.03); border: 1px solid rgba(201,169,89,.12);
+}
+.rank-empty { justify-content: center; color: #b5b0a8; }
+.rank-pos { width: 32px; text-align: center; font-weight: 700; color: #c9a959; }
+.rank-name { flex: 1; color: #e4dfd7; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rank-pts { font-weight: 700; color: #e8d5a3; }
+.rank-me { border-color: #c9a959; background: rgba(201,169,89,.12); }

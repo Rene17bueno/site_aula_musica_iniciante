@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://estudodeviolaoiniciante.netlify.app/sitemap.xml
+Sitemap: https://estudodeviolaoiniciante.pages.dev/sitemap.xml

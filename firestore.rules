@@ -16,8 +16,10 @@ service cloud.firestore {
 
     match /userProfiles/{uid} {
       allow read: if isOwner(uid) || isAdmin();
-      allow create: if isOwner(uid);
-      allow update: if isOwner(uid) || isAdmin();
+      // role nunca pode ser definido/alterado pelo proprio usuario (evita auto-promocao a admin)
+      allow create: if isOwner(uid) && request.resource.data.role == 'user';
+      allow update: if isAdmin() ||
+        (isOwner(uid) && request.resource.data.role == resource.data.role);
     }
 
     match /authAliases/{aliasId} {
@@ -41,6 +43,28 @@ service cloud.firestore {
       allow read: if isAdmin() || (isSignedIn() && resource.data.uid == request.auth.uid);
       allow create, update: if isSignedIn() && request.resource.data.uid == request.auth.uid;
       allow delete: if isAdmin() || (isSignedIn() && resource.data.uid == request.auth.uid);
+    }
+
+    // Ranking dos jogos: leitura publica (so primeiro nome + pontos);
+    // cada usuario so grava a propria linha e so pode somar ate 10 pts por gravacao.
+    match /gameRanking/{game}/entries/{uid} {
+      allow read: if true;
+      allow create: if isOwner(uid)
+        && game in ['cifras', 'diagramas', 'escalas', 'notas']
+        && request.resource.data.uid == uid
+        && request.resource.data.name is string
+        && request.resource.data.name.size() <= 20
+        && request.resource.data.points is int
+        && request.resource.data.points > 0
+        && request.resource.data.points <= 10;
+      allow update: if isOwner(uid)
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.name is string
+        && request.resource.data.name.size() <= 20
+        && request.resource.data.points is int
+        && request.resource.data.points > resource.data.points
+        && request.resource.data.points - resource.data.points <= 10;
+      allow delete: if isAdmin();
     }
 
     match /chats/{threadId} {

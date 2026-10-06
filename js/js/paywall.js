@@ -5,7 +5,7 @@
 // - Idioma detectado pela URL (/en/ ou /es/).
 // - Pagamento:
 //     PT  -> Mercado Pago (link em R$), botão <a> já no HTML / no card do gate.
-//     EN/ES -> PayPal em US$ (SDK + Netlify Function /verify-paypal).
+//     EN/ES -> PayPal em US$ (SDK + Pages Function /api/verify-paypal).
 // - O desbloqueio é compartilhado entre os idiomas (mesma chave no localStorage).
 // ============================================================
 

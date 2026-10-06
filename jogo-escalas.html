@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qual é a Escala? · Estudo de Violão Iniciante</title>
+    <meta name="description" content="Jogo para aprender a reconhecer escalas: maior, menores, modos gregos (dórico, frígio, lídio...), pentatônicas e blues." />
+    <link rel="icon" type="image/png" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Estudo de Violão Iniciante" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content="https://estudodeviolaoiniciante.pages.dev/jogo-escalas.html" />
+    <meta property="og:title" content="Qual é a Escala? · Estudo de Violão Iniciante" />
+    <meta property="og:description" content="Jogo para aprender a reconhecer escalas: maior, menores, modos gregos (dórico, frígio, lídio...), pentatônicas e blues." />
+    <meta property="og:image" content="https://estudodeviolaoiniciante.pages.dev/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Qual é a Escala? · Estudo de Violão Iniciante" />
+    <meta name="twitter:description" content="Jogo para aprender a reconhecer escalas: maior, menores, modos gregos (dórico, frígio, lídio...), pentatônicas e blues." />
+    <meta name="twitter:image" content="https://estudodeviolaoiniciante.pages.dev/og-image.png" />
+    <!-- Fonts & Bootstrap (cdn) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        /* ===== ESTILOS GERAIS INTEGRADOS ===== */
+        body {
+            background: #0e0d1a;
+            color: #e4dfd7;
+            font-family: 'Inter', sans-serif;
+            padding-top: 90px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .gold {
+            color: #e8d5a3;
+        }
+        .bg-dark-custom {
+            background: #14131f;
+        }
+        .border-gold {
+            border-color: rgba(201, 169, 89, 0.3) !important;
+        }
+        .text-gold {
+            color: #e8d5a3;
+        }
+        .text-muted {
+            color: #b5b0a8 !important;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar-custom {
+            background: #0e0d1aee;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(201, 169, 89, 0.15);
+        }
+        .navbar-custom .nav-link {
+            color: #d1cbdc !important;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #e8d5a3 !important;
+        }
+        .nav-brand-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #e8d5a3 !important;
+            text-decoration: none;
+        }
+
+        .chapter-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        .section-tag {
+            display: inline-block;
+            background: rgba(201, 169, 89, 0.12);
+            color: #e8d5a3;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            padding: 5px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            text-transform: uppercase;
+        }
+
+        /* ===== CONTAINER DO JOGO ===== */
+        .game-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            transition: 0.3s ease;
+        }
+        
+        .level-badge {
+            background: rgba(201, 169, 89, 0.2);
+            color: #ffffff;
+            border: 1px solid #e8d5a3;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 6px 18px;
+            border-radius: 50px;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(201, 169, 89, 0.2);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c9a959, #f7e7c4);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* ===== PERGUNTA ===== */
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: #ffffff;
+            margin: 25px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* ===== BOTÕES DE RESPOSTA ===== */
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 169, 89, 0.35);
+            color: #ffffff !important;
+            padding: 16px 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        .option-btn:hover {
+            background: rgba(201, 169, 89, 0.25);
+            border-color: #f7e7c4;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 89, 0.2);
+        }
+
+        /* ===== FEEDBACK ===== */
+        .feedback-area {
+            min-height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .feedback-area.show {
+            opacity: 1;
+        }
+        .option-btn.wrong {
+            opacity: 0.45;
+            text-decoration: line-through;
+            border-color: #ff5555;
+        }
+        .feedback-correct {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+        .feedback-incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+        }
+
+        /* ===== SELETOR DE NÍVEIS LATERAL ===== */
+        .btn-level-select {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(201, 169, 89, 0.15);
+            color: #e4dfd7;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .btn-level-select .level-title {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-level-select .level-desc {
+            color: #b5b0a8;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .btn-level-select:hover, .btn-level-select.active {
+            background: rgba(201, 169, 89, 0.15);
+            border-color: #e8d5a3;
+        }
+        .btn-level-select.active .level-title {
+            color: #e8d5a3;
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            border-top: 1px solid rgba(201, 169, 89, 0.1);
+            background: #0e0d1a;
+            padding: 1.5rem 0;
+        }
+        .site-footer .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #e8d5a3;
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding-top: 68px;
+            }
+            .chapter-content {
+                padding: 1.25rem 0 1.75rem;
+            }
+            .game-card {
+                padding: 18px 14px;
+                border-radius: 12px;
+            }
+            .question-text {
+                font-size: 1.35rem;
+                margin: 16px 0;
+                min-height: 56px;
+            }
+            .option-btn {
+                padding: 12px 14px;
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            .feedback-area {
+                min-height: 50px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .level-badge {
+                font-size: 0.78rem;
+                padding: 5px 12px;
+            }
+            .question-text {
+                font-size: 1.2rem;
+                margin: 12px 0;
+                min-height: 48px;
+            }
+            .option-btn {
+                padding: 11px 12px;
+                font-size: 0.95rem;
+            }
+            .row.g-4 {
+                --bs-gutter-y: 0.85rem;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .game-card {
+                padding: 14px 11px;
+            }
+            .feedback-area {
+                min-height: 46px;
+                font-size: 0.93rem;
+            }
+            .btn-level-select .level-desc {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .section-tag {
+                font-size: 0.68rem;
+                padding: 4px 12px;
+            }
+            .btn-level-select {
+                padding: 10px 12px;
+            }
+        }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8CMNEYXZ9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H8CMNEYXZ9');
+    </script>
+    <link rel="stylesheet" href="css/css/ranking.css" />
+    <link rel="stylesheet" href="css/css/jogos.css" />
+</head>
+<body data-mode="escalas">
+
+    <div id="site-navbar"></div>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <main class="chapter-content">
+        <div class="container">
+            
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <span class="section-tag"><i class="fas fa-stairs me-1"></i> Treinamento de Escalas</span>
+                    <h1 class="display-5 fw-bold mt-2">Qual é o nome <span class="gold">da Escala?</span></h1>
+                    <p class="text-muted">Veja as notas e descubra: maior, menores, modos gregos, pentatônicas e blues.</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Painel Lateral: Seleção de Fase e Regras -->
+                <div class="col-lg-4">
+                    <div class="game-card h-100">
+                        <h4 class="fw-bold mb-3" style="color: #e8d5a3;"><i class="fas fa-map-signs gold me-2"></i>Escolha sua Fase</h4>
+                        <p class="text-muted small">Clique abaixo para pular ou treinar uma fase específica:</p>
+                        
+                        <div class="d-flex flex-column gap-2" id="levelSelector">
+                            <!-- Injetado dinamicamente via JS -->
+                        </div>
+
+                        <hr class="border-gold my-4">
+
+                        <h5 class="fw-bold mb-2 text-gold"><i class="fas fa-info-circle me-2"></i>Como Jogar?</h5>
+                        <ul class="text-muted small ps-3" style="line-height: 1.6;">
+                            <li>Leia as notas da escala (a primeira é a tônica) e escolha o nome correto.</li>
+                            <li>Você precisa de <strong class="text-white">10 acertos consecutivos</strong> (Combo x10) para subir de fase.</li>
+                            <li>Você tem <strong class="text-white">2 chances</strong> em cada pergunta. Se errar as duas, a resposta correta aparece e o combo reinicia.</li>
+                            <li>Entre na Comunidade para pontuar no ranking.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Painel Central: O Jogo Ativo -->
+                <div class="col-lg-8">
+                    <div class="game-card text-center position-relative">
+                        <!-- Cabeçalho do Desafio -->
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+                            <span class="level-badge" id="levelBadgeDisplay">Fase 1: Maiores</span>
+                            <div class="fs-6 text-muted">
+                                Combo: <span id="comboCounter" class="gold fw-bold">0</span> / 10
+                            </div>
+                        </div>
+
+                        <!-- Barra de Progresso do Combo -->
+                        <div class="progress-container mb-4">
+                            <div class="progress-bar-fill" id="progressBar"></div>
+                        </div>
+
+                        <!-- Pergunta Principal -->
+                        <div class="question-text" id="questionBox">
+                            <!-- Injetado dinamicamente via JS -->
+                        </div>
+
+                        <!-- Alternativas -->
+                        <div class="row row-cols-1 row-cols-sm-2 g-3 px-md-4 mb-4" id="optionsContainer">
+                            <!-- Botões de Opção gerados via JS -->
+                        </div>
+
+                        <!-- Área de Feedback -->
+                        <div class="feedback-area p-3 mb-2" id="feedbackBox">
+                            Excelente trabalho! Parabéns!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Ranking -->
+            <div class="game-card ranking-card" id="rankingBox" data-game="escalas">
+                <h5 class="fw-bold mb-1 text-gold"><i class="fas fa-trophy me-2"></i>Ranking</h5>
+                <p class="rank-hint" data-rank-hint></p>
+                <ol class="rank-list" data-rank-list><li class="rank-empty">Carregando…</li></ol>
+                <small class="text-muted d-block mt-2">Acerto de primeira = 10 pts · acerto na 2ª chance = 5 pts.</small>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <div id="site-footer"></div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <script src="js/js/jogo-teoria.js"></script>
+
+        <script type="module" src="js/js/community/ranking.js"></script>
+        <script src="js/js/layout.js"></script>
+</body>
+</html>

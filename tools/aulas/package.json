@@ -1,0 +1,11 @@
+{
+  "name": "gerar-aulas",
+  "private": true,
+  "description": "Gera os videos das aulas (voz + imagens + legenda) para aulas/video",
+  "type": "module",
+  "scripts": { "gerar": "node gerar.mjs" },
+  "devDependencies": {
+    "@fontsource/poppins": "^5.0.0",
+    "playwright-core": "^1.48.0"
+  }
+}

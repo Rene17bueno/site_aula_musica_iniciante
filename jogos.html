@@ -10,16 +10,16 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Estudo de Violão Iniciante" />
     <meta property="og:locale" content="pt_BR" />
-    <meta property="og:url" content="https://estudodeviolaoiniciante.netlify.app/jogos.html" />
+    <meta property="og:url" content="https://estudodeviolaoiniciante.pages.dev/jogos.html" />
     <meta property="og:title" content="Desafios Harmônicos · Estudo de Violão Iniciante" />
     <meta property="og:description" content="Jogo de identificação de notas e acordes para treinar o ouvido musical e reconhecer harmonia de forma interativa." />
-    <meta property="og:image" content="https://estudodeviolaoiniciante.netlify.app/og-image.png" />
+    <meta property="og:image" content="https://estudodeviolaoiniciante.pages.dev/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Desafios Harmônicos · Estudo de Violão Iniciante" />
     <meta name="twitter:description" content="Jogo de identificação de notas e acordes para treinar o ouvido musical e reconhecer harmonia de forma interativa." />
-    <meta name="twitter:image" content="https://estudodeviolaoiniciante.netlify.app/og-image.png" />
+    <meta name="twitter:image" content="https://estudodeviolaoiniciante.pages.dev/og-image.png" />
     <!-- Fonts & Bootstrap (cdn) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -181,6 +181,11 @@
         .feedback-area.show {
             opacity: 1;
         }
+        .option-btn.wrong {
+            opacity: 0.45;
+            text-decoration: line-through;
+            border-color: #ff5555;
+        }
         .feedback-correct {
             background: rgba(46, 204, 113, 0.2);
             color: #2ecc71;
@@ -311,6 +316,8 @@
       gtag('js', new Date());
       gtag('config', 'G-H8CMNEYXZ9');
     </script>
+    <link rel="stylesheet" href="css/css/ranking.css" />
+    <link rel="stylesheet" href="css/css/jogos.css" />
 </head>
 <body>
 
@@ -345,7 +352,8 @@
                         <ul class="text-muted small ps-3" style="line-height: 1.6;">
                             <li>Escolha a letra correspondente à cifra descrita na pergunta.</li>
                             <li>Você precisa de <strong class="text-white">10 acertos consecutivos</strong> (Combo x10) para subir automaticamente de fase.</li>
-                            <li>Se você errar, o seu combo reinicia para garantir que você memorize perfeitamente!</li>
+                            <li>Você tem <strong class="text-white">2 chances</strong> em cada pergunta. Acertar na segunda chance também conta.</li>
+                            <li>Se errar as duas, a resposta correta aparece, o jogo avisa que você não conseguiu e o combo reinicia.</li>
                         </ul>
                     </div>
                 </div>
@@ -384,6 +392,14 @@
                 </div>
             </div>
 
+
+            <!-- Ranking -->
+            <div class="game-card ranking-card" id="rankingBox" data-game="cifras">
+                <h5 class="fw-bold mb-1 text-gold"><i class="fas fa-trophy me-2"></i>Ranking</h5>
+                <p class="rank-hint" data-rank-hint></p>
+                <ol class="rank-list" data-rank-list><li class="rank-empty">Carregando…</li></ol>
+                <small class="text-muted d-block mt-2">Acerto de primeira = 10 pts · acerto na 2ª chance = 5 pts.</small>
+            </div>
         </div>
     </main>
 
@@ -459,6 +475,8 @@
         let currentLevelIndex = 0;
         let comboScore = 0;
         const TARGET_COMBO = 10;
+        const MAX_ATTEMPTS = 2;
+        let attemptsLeft = MAX_ATTEMPTS;
         let currentQuestion = null;
 
         // Elementos DOM
@@ -519,6 +537,7 @@
         // Gera uma pergunta aleatória do nível atual
         function generateQuestion() {
             hideFeedback();
+            attemptsLeft = MAX_ATTEMPTS;
             const level = GAME_LEVELS[currentLevelIndex];
             const randomIndex = Math.floor(Math.random() * level.questions.length);
             currentQuestion = level.questions[randomIndex];
@@ -542,12 +561,13 @@
         // Valida se a resposta está correta
         function checkAnswer(selectedOption) {
             const buttons = optionsContainer.querySelectorAll(".option-btn");
-            buttons.forEach(btn => btn.disabled = true);
 
             if (selectedOption === currentQuestion.correct) {
+                buttons.forEach(btn => btn.disabled = true);
                 comboScore++;
+                if (window.GameRanking) window.GameRanking.record(attemptsLeft === MAX_ATTEMPTS ? 10 : 5);
                 showFeedback(true, `✨ Maravilha! Você acertou! "${selectedOption}" é o acorde de ${currentQuestion.chord}!`);
-                
+
                 if (comboScore >= TARGET_COMBO) {
                     setTimeout(() => {
                         advanceLevel();
@@ -555,8 +575,26 @@
                     return;
                 }
             } else {
-                comboScore = 0; 
-                showFeedback(false, `❌ Ops, tente novamente! "${selectedOption}" não é o acorde de ${currentQuestion.chord}. O correto é "${currentQuestion.correct}".`);
+                attemptsLeft--;
+                buttons.forEach(btn => {
+                    if (btn.textContent === selectedOption) {
+                        btn.disabled = true;
+                        btn.classList.add("wrong");
+                    }
+                });
+
+                if (attemptsLeft > 0) {
+                    showFeedback(false, `❌ Errou! Você ainda tem ${attemptsLeft} chance. Tente de novo.`);
+                    return;
+                }
+
+                buttons.forEach(btn => btn.disabled = true);
+                comboScore = 0;
+                showFeedback(false, `❌ Você não conseguiu desta vez. "${currentQuestion.correct}" é o acorde de ${currentQuestion.chord}. O combo reiniciou.`);
+                highlightCorrect(buttons, currentQuestion.correct);
+                updateProgress();
+                addNextButton(generateQuestion);
+                return;
             }
 
             updateProgress();
@@ -564,6 +602,22 @@
             setTimeout(() => {
                 generateQuestion();
             }, 1800);
+        }
+
+
+        // Mostra o botao para o jogador avancar so quando quiser (tempo para memorizar a resposta)
+        function addNextButton(next) {
+            const b = document.createElement("button");
+            b.type = "button";
+            b.className = "btn-next-question";
+            b.textContent = "Próxima pergunta ➜";
+            b.addEventListener("click", next);
+            feedbackBox.appendChild(b);
+        }
+
+        // Marca em verde a alternativa correta
+        function highlightCorrect(buttons, correct) {
+            buttons.forEach(btn => { if (btn.textContent === correct) btn.classList.add("correct"); });
         }
 
         // Exibe o painel de feedback com alto contraste
@@ -596,6 +650,7 @@
         window.onload = initGame;
     </script>
 
+        <script type="module" src="js/js/community/ranking.js"></script>
         <script src="js/js/layout.js"></script>
 </body>
 </html>
