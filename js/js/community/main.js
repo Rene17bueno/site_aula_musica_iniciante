@@ -202,7 +202,7 @@ function renderMessages(messages) {
             return `
                 <article class="chat-message ${isAdmin ? "admin" : ""}">
                     <div class="chat-meta">
-                        <span>${escapeHtml(message.senderName || "Usuario")}</span>
+                        <span>${escapeHtml(message.senderName || "Usuário")}</span>
                         <span>${formatTimestamp(message.createdAt)}</span>
                     </div>
                     <div>${escapeHtml(message.text || "")}</div>
@@ -301,10 +301,10 @@ function bindEvents() {
                     throw new Error("Informe seu nome para criar a conta.");
                 }
                 if (!payload.email) {
-                    throw new Error("Informe um email valido para o cadastro.");
+                    throw new Error("Informe um email válido para o cadastro.");
                 }
                 if (!payload.whatsapp) {
-                    throw new Error("Informe seu numero de WhatsApp no cadastro.");
+                    throw new Error("Informe seu número de WhatsApp no cadastro.");
                 }
                 await signUpWithEmail(payload);
                 showAlert(dom.authAlert, "Conta criada com sucesso.", "success");
@@ -314,7 +314,7 @@ function bindEvents() {
             }
             dom.authForm.reset();
         } catch (error) {
-            showAlert(dom.authAlert, error.message || "Falha na autenticacao.");
+            showAlert(dom.authAlert, error.message || "Falha na autenticação.");
         }
     });
 
@@ -329,9 +329,9 @@ function bindEvents() {
             dom.signupWhatsapp.value = "";
             dom.signupInstagram.value = "";
             clearAlert(dom.chatAlert);
-            showAlert(dom.authAlert, "Sessao encerrada com sucesso.", "success");
+            showAlert(dom.authAlert, "Sessão encerrada com sucesso.", "success");
         } catch (error) {
-            showAlert(dom.authAlert, error.message || "Erro ao encerrar sessao.");
+            showAlert(dom.authAlert, error.message || "Erro ao encerrar sessão.");
         }
     });
 
@@ -346,9 +346,9 @@ function bindEvents() {
 
         try {
             await sendResetPasswordEmail(identifier);
-            showAlert(dom.authAlert, "Link de redefinicao enviado para o email da conta.", "success");
+            showAlert(dom.authAlert, "Link de redefinição enviado para o email da conta.", "success");
         } catch (error) {
-            showAlert(dom.authAlert, error.message || "Falha ao enviar redefinicao por email.");
+            showAlert(dom.authAlert, error.message || "Falha ao enviar redefinição por email.");
         }
     });
 
@@ -356,7 +356,7 @@ function bindEvents() {
         const identifier = dom.authIdentifier.value.trim() || "sem identificador";
         const url = `https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent(`Ola! Preciso redefinir minha senha. Identificador: ${identifier}`)}`;
         window.open(url, "_blank", "noopener");
-        showAlert(dom.authAlert, "Abrimos o WhatsApp para solicitar redefinicao com suporte.", "success");
+        showAlert(dom.authAlert, "Abrimos o WhatsApp para solicitar redefinição com suporte.", "success");
     });
 
     dom.visitorForm.addEventListener("submit", async (event) => {
@@ -364,7 +364,7 @@ function bindEvents() {
         clearAlert(dom.visitorAlert);
 
         if (!state.session) {
-            showAlert(dom.visitorAlert, "Faca login para enviar o formulario.");
+            showAlert(dom.visitorAlert, "Faça login para enviar o formulário.");
             return;
         }
 
@@ -379,12 +379,12 @@ function bindEvents() {
 
         try {
             await submitVisitorEntry(payload);
-            showAlert(dom.visitorAlert, "Formulario enviado com sucesso.", "success");
+            showAlert(dom.visitorAlert, "Formulário enviado com sucesso.", "success");
             dom.visitorForm.reset();
             dom.visitorName.value = state.session.displayName || "";
             dom.visitorEmail.value = state.session.email || "";
         } catch (error) {
-            showAlert(dom.visitorAlert, error.message || "Falha no envio do formulario.");
+            showAlert(dom.visitorAlert, error.message || "Falha no envio do formulário.");
         }
     });
 
@@ -405,7 +405,7 @@ function bindEvents() {
         clearAlert(dom.chatAlert);
 
         if (!state.session) {
-            showAlert(dom.chatAlert, "Faca login para usar o chat.");
+            showAlert(dom.chatAlert, "Faça login para usar o chat.");
             return;
         }
 

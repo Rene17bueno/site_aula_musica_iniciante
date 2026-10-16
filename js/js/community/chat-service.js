@@ -28,7 +28,7 @@ async function uploadAttachment(threadId, file) {
     const isImage = file.type.startsWith("image/");
     const isVideo = file.type.startsWith("video/");
     if (!isImage && !isVideo) {
-        throw new Error("Anexe somente imagem ou video.");
+        throw new Error("Anexe somente imagem ou vídeo.");
     }
 
     const fileName = `${Date.now()}_${sanitizeFilename(file.name)}`;
@@ -48,7 +48,7 @@ async function uploadAttachment(threadId, file) {
 export async function sendChatMessage({ threadId, sender, text, file }) {
     const trimmedText = (text || "").trim();
     if (!threadId) {
-        throw new Error("Conversa invalida.");
+        throw new Error("Conversa inválida.");
     }
 
     if (!trimmedText && !file) {

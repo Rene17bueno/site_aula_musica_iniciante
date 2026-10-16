@@ -12,7 +12,7 @@ export const isFirebaseConfigured = requiredKeys.every((key) => {
 });
 
 if (!isFirebaseConfigured) {
-    console.warn("Firebase nao configurado. Preencha js/js/community/firebase-config.js.");
+    console.warn("Firebase não configurado. Preencha js/js/community/firebase-config.js.");
 }
 
 const app = initializeApp(firebaseConfig);

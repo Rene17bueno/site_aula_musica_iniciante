@@ -200,7 +200,7 @@ function renderMessages(messages) {
             return `
                 <article class="chat-message ${adminClass}">
                     <div class="chat-meta">
-                        <span>${escapeHtml(message.senderName || "Usuario")}</span>
+                        <span>${escapeHtml(message.senderName || "Usuário")}</span>
                         <span>${formatTimestamp(message.createdAt)}</span>
                     </div>
                     <div>${escapeHtml(message.text || "")}</div>
@@ -233,7 +233,7 @@ function renderAttendanceSessionFilter() {
         .map((item) => {
             const status = item.hasClass ? "Aula confirmada" : "Sem aula";
             const selected = item.id === state.selectedClassSessionId ? "selected" : "";
-            return `<option value="${item.id}" ${selected}>${formatClassDate(item.classDate)} · ${item.weekday || "Dia nao informado"} · ${status}</option>`;
+            return `<option value="${item.id}" ${selected}>${formatClassDate(item.classDate)} · ${item.weekday || "Dia não informado"} · ${status}</option>`;
         })
         .join("");
 
@@ -246,7 +246,7 @@ function renderAttendanceTable(rows) {
     }
 
     if (!rows.length) {
-        dom.attendanceAdminBody.innerHTML = '<tr><td colspan="6" class="attendance-empty">Sem registros de presenca para esta aula.</td></tr>';
+        dom.attendanceAdminBody.innerHTML = '<tr><td colspan="6" class="attendance-empty">Sem registros de presença para esta aula.</td></tr>';
         return;
     }
 
@@ -278,7 +278,7 @@ function openEntry(entryId) {
     }
 
     if (!state.selectedEntry?.uid) {
-        dom.chatBox.innerHTML = '<div class="chat-empty">A entrada selecionada nao possui UID valido.</div>';
+        dom.chatBox.innerHTML = '<div class="chat-empty">A entrada selecionada não possui UID válido.</div>';
         return;
     }
 
@@ -337,7 +337,7 @@ function watchClassSessions() {
             showAlert(
                 dom.attendanceAdminAlert,
                 error?.message?.includes("Missing or insufficient permissions")
-                    ? "Permissao negada para ler agenda de aulas. Publique novamente o firestore.rules no Firebase."
+                    ? "Permissão negada para ler agenda de aulas. Publique novamente o firestore.rules no Firebase."
                     : (error.message || "Falha ao carregar agenda de aulas."),
                 "error"
             );
@@ -360,7 +360,7 @@ function subscribeAttendanceForSelectedSession() {
         state.selectedClassSessionId,
         renderAttendanceTable,
         (error) => {
-            showAlert(dom.attendanceAdminAlert, error.message || "Falha ao carregar lista de presenca.", "error");
+            showAlert(dom.attendanceAdminAlert, error.message || "Falha ao carregar lista de presença.", "error");
         }
     );
 }
@@ -388,19 +388,19 @@ async function saveClassSetup() {
         });
 
         state.selectedClassSessionId = classDate;
-        showAlert(dom.attendanceAdminAlert, "Configuracao de aula salva com sucesso.", "success");
+        showAlert(dom.attendanceAdminAlert, "Configuração de aula salva com sucesso.", "success");
     } catch (error) {
         const message = String(error?.message || "");
         if (message.includes("Missing or insufficient permissions")) {
             showAlert(
                 dom.attendanceAdminAlert,
-                "Permissao negada no Firestore. Publique novamente o arquivo firestore.rules no Firebase Console.",
+                "Permissão negada no Firestore. Publique novamente o arquivo firestore.rules no Firebase Console.",
                 "error"
             );
             return;
         }
 
-        showAlert(dom.attendanceAdminAlert, error.message || "Falha ao salvar configuracao da aula.", "error");
+        showAlert(dom.attendanceAdminAlert, error.message || "Falha ao salvar configuração da aula.", "error");
     }
 }
 
@@ -423,7 +423,7 @@ async function sendWhatsappClassInfo() {
         `Data: ${formatClassDate(classDate)}`,
         `Dia: ${weekday}`,
         `Status: ${classStatus}`,
-        note ? `Observacao: ${note}` : ""
+        note ? `Observação: ${note}` : ""
     ].filter(Boolean).join("\n");
 
     const webhookLooksConfigured = Boolean(WHATSAPP_AUTOMATION_WEBHOOK);
@@ -455,18 +455,18 @@ async function sendWhatsappClassInfo() {
             .then(async (response) => {
                 if (!response.ok) {
                     const body = await response.text();
-                    throw new Error(body || "Falha no envio automatico via webhook.");
+                    throw new Error(body || "Falha no envio automático via webhook.");
                 }
                 showAlert(dom.attendanceAdminAlert, "Informativo enviado automaticamente por WhatsApp.", "success");
             })
             .catch((error) => {
-                showAlert(dom.attendanceAdminAlert, error.message || "Falha no envio automatico por WhatsApp.");
+                showAlert(dom.attendanceAdminAlert, error.message || "Falha no envio automático por WhatsApp.");
             });
     }
 
     const url = `https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent(text)}`;
     window.open(url, "_blank", "noopener");
-    showAlert(dom.attendanceAdminAlert, "Webhook nao configurado: abrimos o WhatsApp com a mensagem pronta.", "success");
+    showAlert(dom.attendanceAdminAlert, "Webhook não configurado: abrimos o WhatsApp com a mensagem pronta.", "success");
 }
 
 async function sendQuickReply() {
@@ -490,7 +490,7 @@ async function sendQuickReply() {
 
     dom.replyText.value = "";
     dom.replyFile.value = "";
-    showAlert(dom.replyAlert, "Resposta enviada no chat do usuario.", "success");
+    showAlert(dom.replyAlert, "Resposta enviada no chat do usuário.", "success");
 }
 
 function bindEvents() {
@@ -568,12 +568,12 @@ function bindEvents() {
 
 function validateAdminSession(session) {
     if (!session) {
-        showAlert(dom.adminAuthAlert, "Voce precisa entrar para acessar o painel admin.");
+        showAlert(dom.adminAuthAlert, "Você precisa entrar para acessar o painel admin.");
         return false;
     }
 
     if (session.role !== "admin") {
-        showAlert(dom.adminAuthAlert, "Acesso negado: seu usuario nao possui role admin.");
+        showAlert(dom.adminAuthAlert, "Acesso negado: seu usuário não possui role admin.");
         return false;
     }
 
@@ -602,9 +602,9 @@ function clearAdminState() {
         state.unsubscribeAttendanceBySession = null;
     }
 
-    dom.adminUserBadge.textContent = "sem sessao admin";
-    dom.adminEntries.innerHTML = '<div class="chat-empty">Sem permissao para visualizar entradas.</div>';
-    dom.chatBox.innerHTML = '<div class="chat-empty">Sem permissao para visualizar conversas.</div>';
+    dom.adminUserBadge.textContent = "sem sessão admin";
+    dom.adminEntries.innerHTML = '<div class="chat-empty">Sem permissão para visualizar entradas.</div>';
+    dom.chatBox.innerHTML = '<div class="chat-empty">Sem permissão para visualizar conversas.</div>';
     renderAttendanceTable([]);
 }
 

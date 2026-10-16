@@ -93,14 +93,14 @@ function renderSessionOptions() {
     dom.sessionSelect.innerHTML = validSessions
         .map((item) => {
             const selected = item.id === state.selectedSessionId ? "selected" : "";
-            return `<option value="${item.id}" ${selected}>${formatClassDate(item.classDate)} · ${item.weekday || "Dia nao informado"}</option>`;
+            return `<option value="${item.id}" ${selected}>${formatClassDate(item.classDate)} · ${item.weekday || "Dia não informado"}</option>`;
         })
         .join("");
 }
 
 function renderAttendanceHistory(records) {
     if (!records.length) {
-        dom.historyBody.innerHTML = '<tr><td colspan="4" class="attendance-empty">Sem marcacoes de presenca ainda.</td></tr>';
+        dom.historyBody.innerHTML = '<tr><td colspan="4" class="attendance-empty">Sem marcações de presença ainda.</td></tr>';
         return;
     }
 
@@ -124,13 +124,13 @@ async function submitAttendance(status) {
     clearAlert(dom.markAlert);
 
     if (!state.session) {
-        showAlert(dom.markAlert, "Faca login na comunidade para marcar presenca.");
+        showAlert(dom.markAlert, "Faça login na comunidade para marcar presença.");
         return;
     }
 
     const sessionRow = selectedSession();
     if (!sessionRow) {
-        showAlert(dom.markAlert, "Nao ha aula selecionada para marcar.");
+        showAlert(dom.markAlert, "Não há aula selecionada para marcar.");
         return;
     }
 
@@ -142,9 +142,9 @@ async function submitAttendance(status) {
         });
 
         const label = status === "present" ? "presente" : "ausente";
-        showAlert(dom.markAlert, `Presenca registrada como ${label}.`, "success");
+        showAlert(dom.markAlert, `Presença registrada como ${label}.`, "success");
     } catch (error) {
-        showAlert(dom.markAlert, error.message || "Falha ao registrar presenca.");
+        showAlert(dom.markAlert, error.message || "Falha ao registrar presença.");
     }
 }
 
@@ -161,7 +161,7 @@ function setSessionUI(session) {
     const logged = Boolean(session);
     dom.userBadge.textContent = logged
         ? `${session.displayName} (${session.email})`
-        : "sem sessao";
+        : "sem sessão";
 
     dom.markPresent.disabled = !logged;
     dom.markAbsent.disabled = !logged;
@@ -182,7 +182,7 @@ function initObservers() {
             showAlert(
                 dom.authAlert,
                 error?.message?.includes("Missing or insufficient permissions")
-                    ? "Permissao de leitura da agenda negada. Publique novamente o firestore.rules no Firebase."
+                    ? "Permissão de leitura da agenda negada. Publique novamente o firestore.rules no Firebase."
                     : (error.message || "Falha ao carregar agenda de aulas.")
             );
         }
@@ -193,7 +193,7 @@ function init() {
     bindEvents();
 
     if (!isFirebaseConfigured) {
-        showAlert(dom.authAlert, "Configure o Firebase antes de usar a lista de presenca.");
+        showAlert(dom.authAlert, "Configure o Firebase antes de usar a lista de presença.");
         return;
     }
 
@@ -204,7 +204,7 @@ function init() {
         clearAlert(dom.authAlert);
 
         if (!session) {
-            showAlert(dom.authAlert, "Entre na comunidade para marcar e visualizar sua presenca.");
+            showAlert(dom.authAlert, "Entre na comunidade para marcar e visualizar sua presença.");
             setSessionUI(null);
             renderAttendanceHistory([]);
             if (state.unsubscribeAttendance) {
@@ -224,7 +224,7 @@ function init() {
             session.uid,
             renderAttendanceHistory,
             (error) => {
-                showAlert(dom.markAlert, error.message || "Falha ao carregar historico de presenca.");
+                showAlert(dom.markAlert, error.message || "Falha ao carregar histórico de presença.");
             }
         );
     });

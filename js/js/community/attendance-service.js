@@ -83,7 +83,7 @@ export async function upsertClassSession({ classDate, weekday, hasClass, note, u
 
 export async function markAttendance({ session, classSession, status }) {
     if (!session?.uid) {
-        throw new Error("Sessao invalida para marcar presenca.");
+        throw new Error("Sessão inválida para marcar presença.");
     }
 
     if (!classSession?.classDate) {

@@ -28,7 +28,7 @@ async function ensureSessionPersistence() {
 
 function fallbackName(email) {
     if (!email) {
-        return "Usuario";
+        return "Usuário";
     }
     return email.split("@")[0];
 }
@@ -130,7 +130,7 @@ async function resolveEmailFromIdentifier(identifier) {
         }
     }
 
-    throw new Error("Nao encontramos conta com esse identificador. Tente email, WhatsApp ou @Instagram cadastrado.");
+    throw new Error("Não encontramos conta com esse identificador. Tente email, WhatsApp ou @Instagram cadastrado.");
 }
 
 export async function fetchUserProfile(uid) {

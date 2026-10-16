@@ -7,7 +7,7 @@
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" type="image/png" href="favicon-32.png" />
     <link rel="apple-touch-icon" href="favicon.png" />
-    <meta name="description" content="Painel administrativo para moderar formularios de visitantes e responder chats." />
+    <meta name="description" content="Painel administrativo para moderar formulários de visitantes e responder chats." />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -33,7 +33,7 @@
 
     <main class="container-fluid container-md community-shell flex-grow-1">
         <section class="mb-4 text-center">
-            <p class="community-muted mb-1">Area Restrita</p>
+            <p class="community-muted mb-1">Área Restrita</p>
             <h1 class="community-title mb-2">Painel Administrativo</h1>
             <p class="community-muted mb-0">Gerencie envios, atualize status e responda mensagens com atalhos.</p>
         </section>
@@ -41,8 +41,8 @@
         <div id="admin-auth-alert" class="community-alert" style="display:none;"></div>
 
         <section class="community-card mb-3">
-            <h2 class="mb-2">Lista de Presenca · Configuracao de Aula</h2>
-            <p class="community-muted">Defina data, dia da semana, se havera aula e gere informativo via WhatsApp.</p>
+            <h2 class="mb-2">Lista de Presença · Configuração de Aula</h2>
+            <p class="community-muted">Defina data, dia da semana, se haverá aula e gere informativo via WhatsApp.</p>
 
             <div id="attendance-admin-alert" class="community-alert" style="display:none;"></div>
 
@@ -56,19 +56,19 @@
                     <select id="class-weekday" class="community-select">
                         <option value="">Selecione...</option>
                         <option value="Segunda-feira">Segunda-feira</option>
-                        <option value="Terca-feira">Terca-feira</option>
+                        <option value="Terça-feira">Terça-feira</option>
                         <option value="Quarta-feira">Quarta-feira</option>
                         <option value="Quinta-feira">Quinta-feira</option>
                         <option value="Sexta-feira">Sexta-feira</option>
-                        <option value="Sabado">Sabado</option>
+                        <option value="Sábado">Sábado</option>
                         <option value="Domingo">Domingo</option>
                     </select>
                 </div>
                 <div>
-                    <label class="community-label" for="class-has-class">Havera aula?</label>
+                    <label class="community-label" for="class-has-class">Haverá aula?</label>
                     <select id="class-has-class" class="community-select">
                         <option value="yes">Sim</option>
-                        <option value="no">Nao</option>
+                        <option value="no">Não</option>
                     </select>
                 </div>
             </div>
@@ -79,7 +79,7 @@
             </div>
 
             <div class="admin-actions mb-3">
-                <button type="button" id="btn-save-class" class="community-btn">Salvar configuracao</button>
+                <button type="button" id="btn-save-class" class="community-btn">Salvar configuração</button>
                 <button type="button" id="btn-send-whatsapp-info" class="community-btn ghost">Enviar informativo por WhatsApp</button>
             </div>
 
@@ -102,7 +102,7 @@
                     </thead>
                     <tbody id="attendance-admin-body">
                         <tr>
-                            <td colspan="6" class="attendance-empty">Sem registros de presenca para exibir.</td>
+                            <td colspan="6" class="attendance-empty">Sem registros de presença para exibir.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -130,7 +130,7 @@
 
             <section class="community-card">
                 <h2>Resposta Rápida</h2>
-                <p class="community-muted">Selecione uma entrada para responder no chat do usuario.</p>
+                <p class="community-muted">Selecione uma entrada para responder no chat do usuário.</p>
 
                 <div id="reply-alert" class="community-alert" style="display:none;"></div>
 
@@ -139,14 +139,14 @@
                     <select id="quick-reply-template" class="community-select">
                         <option value="">Selecione um modelo...</option>
                         <option value="Recebi sua mensagem e vou analisar seu caso ainda hoje.">Recebimento</option>
-                        <option value="Obrigado pelo feedback! Sua sugestao foi registrada para o proximo conteudo.">Agradecimento por sugestao</option>
+                        <option value="Obrigado pelo feedback! Sua sugestão foi registrada para o próximo conteúdo.">Agradecimento por sugestão</option>
                         <option value="Seu atendimento foi finalizado. Se precisar, envie uma nova mensagem.">Fechamento</option>
                     </select>
                 </div>
 
                 <div class="mb-2">
                     <label class="community-label" for="reply-text">Mensagem para o chat</label>
-                    <textarea id="reply-text" class="community-textarea" placeholder="Digite a resposta para o usuario..."></textarea>
+                    <textarea id="reply-text" class="community-textarea" placeholder="Digite a resposta para o usuário..."></textarea>
                 </div>
 
                 <div class="mb-3">
