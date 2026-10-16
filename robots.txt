@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://estudodeviolaoiniciante.netlify.app/sitemap.xml
+Sitemap: https://rene17bueno.github.io/site_aula_musica_iniciante/sitemap.xml

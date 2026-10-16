@@ -1,6 +1,6 @@
 # Site Aula Musica Iniciante
 
-Implementacao de autenticacao, formulario de visitantes e chat com upload de imagem/video para um site estatico hospedado no Netlify.
+Implementacao de autenticacao, formulario de visitantes e chat com upload de imagem/video para um site estatico hospedado no GitHub Pages.
 
 ## Estrutura adicionada
 
@@ -145,11 +145,15 @@ service firebase.storage {
 2. No Firestore, abra `userProfiles/<uid>`.
 3. Altere o campo `role` para `admin`.
 
-## Deploy no Netlify
+## Deploy no GitHub Pages
 
-1. Commit e push para o repositorio conectado ao Netlify.
-2. Aguarde novo deploy automatico.
+Site: https://rene17bueno.github.io/site_aula_musica_iniciante/
+
+1. Commit e push para a branch `main` (Settings > Pages > Deploy from a branch > `main` / root).
+2. Aguarde o deploy automatico (1-2 min).
 3. Acesse `comunidade.html` no site publicado.
+
+GitHub Pages so serve arquivos estaticos: o endpoint `/api/send-class-notice` (aviso de aula por WhatsApp no painel admin) nao funciona aqui; use `whatsapp-webhook/` em outro servidor se precisar.
 
 ## Termos de uso
 

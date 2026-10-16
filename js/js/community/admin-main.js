@@ -17,7 +17,7 @@ import {
 } from "./attendance-service.js";
 
 const SUPPORT_WHATSAPP = "5544991379447";
-// Endpoint padrao para deploy no Netlify (Functions).
+// Endpoint de aviso por WhatsApp (precisa de backend; nao existe no GitHub Pages).
 const WHATSAPP_AUTOMATION_WEBHOOK = "/api/send-class-notice";
 const WHATSAPP_AUTOMATION_KEY = "";
 
