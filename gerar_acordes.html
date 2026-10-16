@@ -966,7 +966,6 @@ btnDownload.addEventListener('click', () => {
             saveAs(content, "imagens_acordes_organizado.zip");
             logMsg(`📥 Download iniciado!`, 'success');
             logMsg(`📂 O ZIP contém ${Object.keys(grouped).length} pastas com ${generatedImages.length} imagens.`, 'success');
-            logMsg(`📁 Extraia o conteúdo na pasta: C:\\Users\\rene.bueno\\Desktop\\livro\\imagens_acordes\\`, 'success');
         }).catch(function(e) {
             console.error('Falha ao gerar o ZIP:', e);
             logMsg(`❌ Falha ao gerar o arquivo ZIP: ${e.message}`, 'error');

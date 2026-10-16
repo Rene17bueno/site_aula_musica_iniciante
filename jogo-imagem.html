@@ -663,7 +663,7 @@
 
             if (selectedOption === currentChord.fullname) {
                 comboScore++;
-                showFeedback(true, `✨ Sensacional! Você reconheceu corretamente o acorde de "${selectedOption}"!`);
+                showFeedback(true, `Certo, é o ${selectedOption}.`);
                 
                 if (comboScore >= TARGET_COMBO) {
                     setTimeout(() => {
@@ -673,7 +673,7 @@
                 }
             } else {
                 comboScore = 0;
-                showFeedback(false, `❌ Ops, não foi dessa vez! Esse diagrama representa o acorde de "${currentChord.fullname}".`);
+                showFeedback(false, `Não é esse. O diagrama é de ${currentChord.fullname}.`);
             }
 
             updateProgress();
@@ -699,11 +699,11 @@
             if (currentLevelIndex < GAME_LEVELS.length - 1) {
                 currentLevelIndex++;
                 comboScore = 0;
-                alert(`🎉 Fantástico! Você dominou a leitura visual dessa fase e avançou de nível!`);
+                alert(`Fase concluída, vamos para a próxima.`);
                 renderLevelSelector();
                 loadLevel(currentLevelIndex);
             } else {
-                alert(`🏆 Extraordinário! Você provou ter uma percepção visual aguçada para ler diagramas de acordes!`);
+                alert(`Você terminou todas as fases.`);
                 comboScore = 10;
                 updateProgress();
             }

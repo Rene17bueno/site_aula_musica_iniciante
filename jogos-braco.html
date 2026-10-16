@@ -478,7 +478,7 @@ function ask(){$('feedbackBox').className='feedback-area p-3 mb-2';cur=LEVELS[li
     const b=document.createElement('button');b.className='option-btn';b.textContent=o;b.onclick=()=>answer(o);c.appendChild(b);$('optionsContainer').appendChild(c);});}
 function answer(o){document.querySelectorAll('#optionsContainer .option-btn').forEach(b=>b.disabled=true);
   const ok=o===cur.c;combo=ok?combo+1:0;
-  $('feedbackBox').textContent=ok?`✨ Correto! ${cur.c}`:`❌ Não foi dessa vez. O correto é "${cur.c}".`;
+  $('feedbackBox').textContent=ok?`Certo, é ${cur.c}.`:`Não é essa. A resposta era ${cur.c}.`;
   $('feedbackBox').className='feedback-area p-3 mb-2 show '+(ok?'feedback-correct':'feedback-incorrect');progress();
   setTimeout(()=>{if(combo>=TARGET){if(li<LEVELS.length-1)load(li+1);else{combo=0;load(0);}}else ask();},1500);}
 window.onload=()=>load(0);

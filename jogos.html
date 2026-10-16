@@ -546,7 +546,7 @@
 
             if (selectedOption === currentQuestion.correct) {
                 comboScore++;
-                showFeedback(true, `✨ Maravilha! Você acertou! "${selectedOption}" é o acorde de ${currentQuestion.chord}!`);
+                showFeedback(true, `Certo, ${currentQuestion.chord} é ${selectedOption}.`);
                 
                 if (comboScore >= TARGET_COMBO) {
                     setTimeout(() => {
@@ -556,7 +556,7 @@
                 }
             } else {
                 comboScore = 0; 
-                showFeedback(false, `❌ Ops, tente novamente! "${selectedOption}" não é o acorde de ${currentQuestion.chord}. O correto é "${currentQuestion.correct}".`);
+                showFeedback(false, `Não é essa. ${currentQuestion.chord} é ${currentQuestion.correct}.`);
             }
 
             updateProgress();
@@ -582,11 +582,11 @@
             if (currentLevelIndex < GAME_LEVELS.length - 1) {
                 currentLevelIndex++;
                 comboScore = 0;
-                alert(`🎉 Parabéns! Você completou 10 acertos seguidos e subiu para a próxima fase!`);
+                alert(`10 seguidas, próxima fase.`);
                 renderLevelSelector();
                 loadLevel(currentLevelIndex);
             } else {
-                alert(`🏆 Incrível! Você completou todas as fases do Desafio Harmônico!`);
+                alert(`Você terminou todas as fases.`);
                 comboScore = 10;
                 updateProgress();
             }
