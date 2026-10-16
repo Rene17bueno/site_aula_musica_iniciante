@@ -53,6 +53,7 @@
         .dot.root{fill:rgba(232,213,163,.55)}
         .dot.ghost{fill:none;stroke-dasharray:4 3;opacity:.8}
         .mark{fill:#e8d5a3;font-size:18px;font-weight:700;text-anchor:middle;dominant-baseline:central}
+        #board{margin:0 auto}
         .pill.sm{padding:2px 11px;font-size:.78rem;margin:2px}
         .chord-name{font-family:'Playfair Display',serif;font-size:1.6rem;color:#e8d5a3}
     </style>
@@ -75,7 +76,9 @@
                 <button class="pill" id="tabC" type="button">Campo harmônico</button>
             </div>
 
-            <div class="game-card mb-4">
+            <div class="row g-4 align-items-start">
+            <div class="col-12 col-lg-5" id="colB">
+            <div class="game-card">
                 <div class="board-wrap">
                     <svg id="board" viewBox="0 0 960 270" role="img" aria-label="Braço do violão"></svg>
                 </div>
@@ -83,6 +86,8 @@
                 <div class="text-center small text-muted mt-1" id="info"></div>
             </div>
 
+            </div>
+            <div class="col-12 col-lg-7" id="colC">
             <div class="game-card">
                 <div class="row g-3 align-items-end">
                     <div id="ctlE" class="col-12"><div class="row g-3">
@@ -187,6 +192,8 @@
                     </div>
                 </div>
             </div>
+            </div>
+            </div>
         </div>
     </main>
 
@@ -234,6 +241,8 @@
             off=off||0;
             board.textContent='';
             board.setAttribute('viewBox','0 0 '+(X0+fr*W+40)+' 270');
+            // desenho compacto: acordes (5 casas) pequenos; braço inteiro limitado em largura
+            board.style.maxWidth=(fr>6?900:440)+'px';board.style.minWidth=fr>6?'':'0';
             [3,5,7,9].forEach(function(a){var f=a-off;if(f>=1&&f<=fr)el('circle',{cx:fx(f),cy:(sy(1)+sy(6))/2,r:9,class:'inlay'})});
             var f12=12-off;
             if(f12>=1&&f12<=fr){el('circle',{cx:fx(f12),cy:sy(2)+DY/2,r:9,class:'inlay'});el('circle',{cx:fx(f12),cy:sy(5)-DY/2,r:9,class:'inlay'})}
@@ -415,6 +424,7 @@
             ['E','A','C'].forEach(function(k){$('ctl'+k).hidden=mode!==k;$('tab'+k).classList.toggle('active',mode===k)});
             $('gChord').hidden=$('practice').value!=='form';$('gProg').hidden=$('practice').value!=='troca';
             $('gKprog').hidden=$('ktrain').value!=='prog';
+            $('colB').className=mode==='E'?'col-12':'col-12 col-lg-5';$('colC').className=mode==='E'?'col-12':'col-12 col-lg-7';
             $('h1').innerHTML=TXT[mode][0];$('sub').textContent=TXT[mode][1];
             if(mode==='E'){buildScale();$('now').textContent='Pressione Iniciar.'}
             else if(mode==='A'){$('info').textContent='';previewChord()}
