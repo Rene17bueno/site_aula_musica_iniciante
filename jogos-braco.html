@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogos do Braço · Estudo de Violão Iniciante</title>
+    <meta name="description" content="Jogos baseados nos exercícios: acordes no braço, casa da nota base, campo harmônico e escalas." />
+    <link rel="icon" type="image/png" href="favicon-32.png" />
+    <link rel="apple-touch-icon" href="favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Estudo de Violão Iniciante" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content="https://rene17bueno.github.io/site_aula_musica_iniciante/jogos-braco.html" />
+    <meta property="og:title" content="Jogos do Braço · Estudo de Violão Iniciante" />
+    <meta property="og:description" content="Jogos baseados nos exercícios: acordes no braço, casa da nota base, campo harmônico e escalas." />
+    <meta property="og:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Jogos do Braço · Estudo de Violão Iniciante" />
+    <meta name="twitter:description" content="Jogos baseados nos exercícios: acordes no braço, casa da nota base, campo harmônico e escalas." />
+    <meta name="twitter:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <!-- Fonts & Bootstrap (cdn) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        /* ===== ESTILOS GERAIS INTEGRADOS ===== */
+        body {
+            background: #0e0d1a;
+            color: #e4dfd7;
+            font-family: 'Inter', sans-serif;
+            padding-top: 90px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .gold {
+            color: #e8d5a3;
+        }
+        .bg-dark-custom {
+            background: #14131f;
+        }
+        .border-gold {
+            border-color: rgba(201, 169, 89, 0.3) !important;
+        }
+        .text-gold {
+            color: #e8d5a3;
+        }
+        .text-muted {
+            color: #b5b0a8 !important;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar-custom {
+            background: #0e0d1aee;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(201, 169, 89, 0.15);
+        }
+        .navbar-custom .nav-link {
+            color: #d1cbdc !important;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #e8d5a3 !important;
+        }
+        .nav-brand-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #e8d5a3 !important;
+            text-decoration: none;
+        }
+
+        .chapter-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        .section-tag {
+            display: inline-block;
+            background: rgba(201, 169, 89, 0.12);
+            color: #e8d5a3;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            padding: 5px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            text-transform: uppercase;
+        }
+
+        /* ===== CONTAINER DO JOGO ===== */
+        .game-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            transition: 0.3s ease;
+        }
+        
+        .level-badge {
+            background: rgba(201, 169, 89, 0.2);
+            color: #ffffff;
+            border: 1px solid #e8d5a3;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 6px 18px;
+            border-radius: 50px;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(201, 169, 89, 0.2);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c9a959, #f7e7c4);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* ===== PERGUNTA ===== */
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: #ffffff;
+            margin: 25px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* ===== BOTÕES DE RESPOSTA ===== */
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 169, 89, 0.35);
+            color: #ffffff !important;
+            padding: 16px 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        .option-btn:hover {
+            background: rgba(201, 169, 89, 0.25);
+            border-color: #f7e7c4;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 89, 0.2);
+        }
+
+        /* ===== FEEDBACK ===== */
+        .feedback-area {
+            min-height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .feedback-area.show {
+            opacity: 1;
+        }
+        .feedback-correct {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+        .feedback-incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+        }
+
+        /* ===== SELETOR DE NÍVEIS LATERAL ===== */
+        .btn-level-select {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(201, 169, 89, 0.15);
+            color: #e4dfd7;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .btn-level-select .level-title {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-level-select .level-desc {
+            color: #b5b0a8;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .btn-level-select:hover, .btn-level-select.active {
+            background: rgba(201, 169, 89, 0.15);
+            border-color: #e8d5a3;
+        }
+        .btn-level-select.active .level-title {
+            color: #e8d5a3;
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            border-top: 1px solid rgba(201, 169, 89, 0.1);
+            background: #0e0d1a;
+            padding: 1.5rem 0;
+        }
+        .site-footer .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #e8d5a3;
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding-top: 68px;
+            }
+            .chapter-content {
+                padding: 1.25rem 0 1.75rem;
+            }
+            .game-card {
+                padding: 18px 14px;
+                border-radius: 12px;
+            }
+            .question-text {
+                font-size: 1.35rem;
+                margin: 16px 0;
+                min-height: 56px;
+            }
+            .option-btn {
+                padding: 12px 14px;
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            .feedback-area {
+                min-height: 50px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .level-badge {
+                font-size: 0.78rem;
+                padding: 5px 12px;
+            }
+            .question-text {
+                font-size: 1.2rem;
+                margin: 12px 0;
+                min-height: 48px;
+            }
+            .option-btn {
+                padding: 11px 12px;
+                font-size: 0.95rem;
+            }
+            .row.g-4 {
+                --bs-gutter-y: 0.85rem;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .game-card {
+                padding: 14px 11px;
+            }
+            .feedback-area {
+                min-height: 46px;
+                font-size: 0.93rem;
+            }
+            .btn-level-select .level-desc {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .section-tag {
+                font-size: 0.68rem;
+                padding: 4px 12px;
+            }
+            .btn-level-select {
+                padding: 10px 12px;
+            }
+        }
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8CMNEYXZ9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H8CMNEYXZ9');
+    </script>
+</head>
+<body>
+
+    <div id="site-navbar"></div>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <main class="chapter-content">
+        <div class="container">
+            
+            <div class="row mb-4">
+                <div class="col-12 text-center">
+                    <span class="section-tag"><i class="fas fa-graduation-cap me-1"></i> Treinamento Harmônico</span>
+                    <h1 class="display-5 fw-bold mt-2">Jogos <span class="gold">do Braço</span></h1>
+                    <p class="text-muted">Domine a leitura de acordes maiores, menores e com sétima alcançando as metas de acerto de cada fase!</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Painel Lateral: Seleção de Fase e Regras -->
+                <div class="col-lg-4">
+                    <div class="game-card h-100">
+                        <h4 class="fw-bold mb-3" style="color: #e8d5a3;"><i class="fas fa-map-signs gold me-2"></i>Escolha sua Fase</h4>
+                        <p class="text-muted small">Clique abaixo para pular ou treinar uma fase específica:</p>
+                        
+                        <div class="d-flex flex-column gap-2" id="levelSelector">
+                            <!-- Injetado dinamicamente via JS -->
+                        </div>
+
+                        <hr class="border-gold my-4">
+
+                        <h5 class="fw-bold mb-2 text-gold"><i class="fas fa-info-circle me-2"></i>Como Jogar?</h5>
+                        <ul class="text-muted small ps-3" style="line-height: 1.6;">
+                            <li>Responda com base no braço, no campo harmônico e nas escalas dos exercícios.</li>
+                            <li>Você precisa de <strong class="text-white">10 acertos consecutivos</strong> (Combo x10) para subir automaticamente de fase.</li>
+                            <li>Se você errar, o seu combo reinicia para garantir que você memorize perfeitamente!</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Painel Central: O Jogo Ativo -->
+                <div class="col-lg-8">
+                    <div class="game-card text-center position-relative">
+                        <!-- Cabeçalho do Desafio -->
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+                            <span class="level-badge" id="levelBadgeDisplay">Fase 1</span>
+                            <div class="fs-6 text-muted">
+                                Combo: <span id="comboCounter" class="gold fw-bold">0</span> / 10
+                            </div>
+                        </div>
+
+                        <!-- Barra de Progresso do Combo -->
+                        <div class="progress-container mb-4">
+                            <div class="progress-bar-fill" id="progressBar"></div>
+                        </div>
+
+                        <!-- Pergunta Principal -->
+                        <div class="question-text" id="questionBox">
+                            <!-- Injetado dinamicamente via JS -->
+                        </div>
+
+                        <!-- Alternativas -->
+                        <div class="row row-cols-1 row-cols-sm-2 g-3 px-md-4 mb-4" id="optionsContainer">
+                            <!-- Botões de Opção gerados via JS -->
+                        </div>
+
+                        <!-- Área de Feedback -->
+                        <div class="feedback-area p-3 mb-2" id="feedbackBox">
+                            Excelente trabalho! Parabéns!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <div id="site-footer"></div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <!-- ===== SISTEMA DO JOGO (JAVASCRIPT) ===== -->
+    <script>
+const N=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const OPEN=[4,9,2,7,11,4]; // cordas 6..1
+const SN=[6,5,4,3,2,1];
+const MAJ=[0,2,4,5,7,9,11], MIN=[0,2,3,5,7,8,10], PMIN=[0,3,5,7,10];
+const QM=['','m','m','','','m','dim'], Qm=['m','dim','','m','m','',''];
+const ROM_M=['I','ii','iii','IV','V','vi','vii°'], ROM_m=['i','ii°','III','iv','v','VI','VII'];
+const ORD=['1ª','2ª','3ª','4ª','5ª','6ª','7ª'];
+const OPENCH={C:[-1,3,2,0,1,0],D:[-1,-1,0,2,3,2],E:[0,2,2,1,0,0],G:[3,2,0,0,0,3],A:[-1,0,2,2,2,0],Am:[-1,0,2,2,1,0],Em:[0,2,2,0,0,0],Dm:[-1,-1,0,2,3,1]};
+const SH={E:{'':[0,2,2,1,0,0],m:[0,2,2,0,0,0]},A:{'':[-1,0,2,2,2,0],m:[-1,0,2,2,1,0]}};
+const R=n=>Math.floor(Math.random()*n), pick=a=>a[R(a.length)];
+const shuf=a=>[...a].sort(()=>Math.random()-.5);
+const uniq=(c,pool,n=4)=>{const s=new Set([c]);for(const x of shuf(pool)){if(s.size>=n)break;s.add(x);}return shuf([...s]);};
+const nm=p=>N[((p%12)+12)%12];
+
+function diagram(fr,base,barre){
+  const x=i=>30+i*28,y=j=>34+j*30;let s='<svg viewBox="0 0 200 190" style="max-width:220px;width:100%" class="mb-3">';
+  if(base===1)s+=`<rect x="${x(0)-2}" y="31" width="${x(5)-x(0)+4}" height="5" fill="#e8d5a3"/>`;
+  else s+=`<text x="${x(5)+14}" y="${y(0)+20}" fill="#e8d5a3" font-size="13">${base}ª casa</text>`;
+  for(let j=0;j<=4;j++)s+=`<line x1="${x(0)}" x2="${x(5)}" y1="${y(j)}" y2="${y(j)}" stroke="#6b6780"/>`;
+  for(let i=0;i<6;i++){s+=`<line x1="${x(i)}" x2="${x(i)}" y1="${y(0)}" y2="${y(4)}" stroke="#9c97b0"/>`;
+    const f=fr[i];if(f<0)s+=`<text x="${x(i)}" y="24" fill="#b5b0a8" font-size="14" text-anchor="middle">x</text>`;
+    else if(f===0&&base===1)s+=`<circle cx="${x(i)}" cy="20" r="5" fill="none" stroke="#b5b0a8"/>`;}
+  if(barre){const j=barre-base,c=y(j)+15;s+=`<rect x="${x(0)-8}" y="${c-9}" width="${x(5)-x(0)+16}" height="18" rx="9" fill="#c9a959" opacity=".55"/>`;}
+  fr.forEach((f,i)=>{if(f>0&&f>=base)s+=`<circle cx="${x(i)}" cy="${y(f-base)+15}" r="9" fill="#e8d5a3"/>`;});
+  return s+'</svg>';
+}
+function fretDot(s,f){ // s=1..6 (1 = mais fina)
+  const X=f=>60+f*70,Y=s=>20+(s-1)*28;let o='<svg viewBox="0 0 560 180" style="max-width:520px;width:100%" class="mb-3">';
+  for(let k=0;k<=7;k++)o+=`<line x1="${X(k)}" x2="${X(k)}" y1="${Y(1)}" y2="${Y(6)}" stroke="${k?'#6b6780':'#e8d5a3'}" stroke-width="${k?1:4}"/>`;
+  for(let t=1;t<=6;t++)o+=`<line x1="${X(0)}" x2="${X(7)}" y1="${Y(t)}" y2="${Y(t)}" stroke="#9c97b0"/>`;
+  for(let k=1;k<=7;k++)o+=`<text x="${X(k)-35}" y="172" fill="#8d88a0" font-size="12" text-anchor="middle">${k}</text>`;
+  for(let t=1;t<=6;t++)o+=`<text x="14" y="${Y(t)+4}" fill="#8d88a0" font-size="12">${t}ª</text>`;
+  return o+`<circle cx="${f?X(f)-35:X(0)-18}" cy="${Y(s)}" r="10" fill="#e8d5a3"/></svg>`;
+}
+const noteAt=(s,f)=>(OPEN[6-s]+f)%12;
+const keyChords=(r,minor)=>{const iv=minor?MIN:MAJ,q=minor?Qm:QM;return iv.map((x,i)=>nm(r+x)+q[i]);};
+
+const LEVELS=[
+ {name:'Fase 1: Notas no braço',desc:'Qual nota está nessa corda e casa? (casas 0–7)',q(){
+   const s=1+R(6),f=R(8),c=nm(noteAt(s,f));
+   return{html:`${fretDot(s,f)}<div>Corda <span class="gold">${s}ª</span>, casa <span class="gold">${f||'solta'}</span>: qual nota?</div>`,c,opts:uniq(c,N)}}},
+ {name:'Fase 2: Acorde no diagrama',desc:'Reconheça acordes abertos pelo desenho',q(){
+   const c=pick(Object.keys(OPENCH));
+   return{html:`${diagram(OPENCH[c],1)}<div>Qual é este acorde?</div>`,c,opts:uniq(c,Object.keys(OPENCH))}}},
+ {name:'Fase 3: Acorde com pestana',desc:'Formatos E e A deslocados pelo braço',q(){
+   const form=pick(['E','A']),m=pick(['','m']),root=form==='E'?4:9,k=1+R(11),pc=(root+k)%12,c=nm(pc)+m;
+   const fr=SH[form][m].map(f=>f<0?f:f+k),pool=[];
+   [-2,-1,1,2].forEach(d=>{pool.push(nm(pc+d)+m)});pool.push(nm(pc)+(m?'':'m'));
+   return{html:`${diagram(fr,k,k)}<div>Qual é este acorde? <small class="text-muted">(raiz na corda ${form==='E'?6:5})</small></div>`,c,opts:uniq(c,pool)}}},
+ {name:'Fase 4: Casa da nota base',desc:'Em que casa começa o acorde, pela raiz mais grave?',q(){
+   const form=pick(['E','A']),m=pick(['','m']),root=form==='E'?4:9,pc=R(12);if(pc===root)return this.q();
+   const k=(pc-root+12)%12;
+   return{html:`<div>Para tocar <span class="gold">${nm(pc)+m}</span> no formato <span class="gold">${form}</span> (raiz na corda ${form==='E'?6:5}), em qual casa fica a pestana?</div>`,
+     c:'Casa '+k,opts:uniq('Casa '+k,[1,2,3,4,5,6,7,8,9,10,11].map(x=>'Casa '+x))}}},
+ {name:'Fase 5: Campo harmônico maior',desc:'Qual acorde é o grau pedido?',q(){
+   const r=R(12),d=R(7),ch=keyChords(r,false),c=ch[d];
+   return{html:`<div>No campo harmônico de <span class="gold">${nm(r)} maior</span>, qual o acorde do grau <span class="gold">${ROM_M[d]}</span>?</div>`,c,opts:uniq(c,ch)}}},
+ {name:'Fase 6: Campo harmônico menor',desc:'Mesma ideia, na escala menor natural',q(){
+   const r=R(12),d=R(7),ch=keyChords(r,true),c=ch[d];
+   return{html:`<div>No campo harmônico de <span class="gold">${nm(r)} menor</span>, qual o acorde do grau <span class="gold">${ROM_m[d]}</span>?</div>`,c,opts:uniq(c,ch)}}},
+ {name:'Fase 7: Qual é o grau?',desc:'Transposição: ache o grau do acorde na tonalidade',q(){
+   const minor=!!R(2),r=R(12),d=R(7),ch=keyChords(r,minor),rom=minor?ROM_m:ROM_M,c=rom[d];
+   return{html:`<div>Em <span class="gold">${nm(r)} ${minor?'menor':'maior'}</span>, o acorde <span class="gold">${ch[d]}</span> é qual grau?</div>`,c,opts:uniq(c,rom)}}},
+ {name:'Fase 8: Notas da escala',desc:'Qual a nota do grau pedido?',q(){
+   const t=pick([['maior',MAJ],['menor natural',MIN],['pentatônica menor',PMIN]]),r=R(12),d=R(t[1].length);
+   const sc=t[1].map(x=>nm(r+x)),c=sc[d];
+   return{html:`<div>Na escala de <span class="gold">${nm(r)} ${t[0]}</span>, qual é a <span class="gold">${ORD[d]}</span> nota?</div>`,c,opts:uniq(c,N)}}},
+ {name:'Fase 9: Nota que falta',desc:'Complete a escala',q(){
+   const minor=!!R(2),r=R(12),sc=(minor?MIN:MAJ).map(x=>nm(r+x)),d=1+R(6),c=sc[d],v=[...sc];v[d]='?';
+   return{html:`<div>Escala de <span class="gold">${nm(r)} ${minor?'menor':'maior'}</span>:</div><div class="gold fs-3 my-2">${v.join(' – ')}</div><div>Qual nota falta?</div>`,c,opts:uniq(c,N)}}}
+];
+const TARGET=10;let li=0,combo=0,cur;
+const $=id=>document.getElementById(id);
+function selector(){$('levelSelector').innerHTML='';LEVELS.forEach((l,i)=>{const b=document.createElement('button');
+  b.className='btn-level-select'+(i===li?' active':'');b.innerHTML=`<div class="level-title"><i class="fas fa-guitar me-2 gold"></i>${l.name}</div><div class="level-desc">${l.desc}</div>`;
+  b.onclick=()=>load(i);$('levelSelector').appendChild(b);});}
+function load(i){li=i;combo=0;selector();progress();ask();}
+function progress(){$('comboCounter').textContent=combo;$('progressBar').style.width=combo/TARGET*100+'%';$('levelBadgeDisplay').textContent=LEVELS[li].name;}
+function ask(){$('feedbackBox').className='feedback-area p-3 mb-2';cur=LEVELS[li].q();$('questionBox').innerHTML=cur.html;
+  $('optionsContainer').innerHTML='';cur.opts.forEach(o=>{const c=document.createElement('div');c.className='col';
+    const b=document.createElement('button');b.className='option-btn';b.textContent=o;b.onclick=()=>answer(o);c.appendChild(b);$('optionsContainer').appendChild(c);});}
+function answer(o){document.querySelectorAll('#optionsContainer .option-btn').forEach(b=>b.disabled=true);
+  const ok=o===cur.c;combo=ok?combo+1:0;
+  $('feedbackBox').textContent=ok?`✨ Correto! ${cur.c}`:`❌ Não foi dessa vez. O correto é "${cur.c}".`;
+  $('feedbackBox').className='feedback-area p-3 mb-2 show '+(ok?'feedback-correct':'feedback-incorrect');progress();
+  setTimeout(()=>{if(combo>=TARGET){if(li<LEVELS.length-1)load(li+1);else{combo=0;load(0);}}else ask();},1500);}
+window.onload=()=>load(0);
+</script>
+<script src="js/js/layout.js"></script>
+</body>
+</html>
