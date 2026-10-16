@@ -86,7 +86,7 @@
     var CATHOLIC_URL = "https://rene17bueno.github.io/musico-catolico/";
     var CATHOLIC_BTN = '<a class="btn btn-sm fw-semibold" style="background:#c9a959;color:#0e0d1a;border-radius:10px;white-space:nowrap" href="' + CATHOLIC_URL + '" target="_blank" rel="noopener"><i class="fas fa-cross me-1"></i> ' + t.catholic + '</a>';
 
-    var LINKEDIN_URL = ""; // cole aqui a URL do perfil, ex.: https://www.linkedin.com/in/seu-nome
+    var LINKEDIN_URL = "https://www.linkedin.com/in/rene-aparecido-bueno-34030566";
     var CONTACTS =
         '<div class="mb-3 d-flex justify-content-center flex-wrap gap-3">' +
         (LINKEDIN_URL ? '<a class="footer-contact" href="' + LINKEDIN_URL + '" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin me-1"></i> LinkedIn</a>' : '') +
