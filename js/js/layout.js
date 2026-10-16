@@ -83,6 +83,21 @@
     // Grava a escolha manual para que a autodetecção não a sobreponha depois.
     var SET = function (l) { return "try{localStorage.setItem('preferredLang','" + l + "')}catch(e){}"; };
 
+    var STORE = {
+        pt: { h: "Livro e apostila", sub: "Quer ir além dos conteúdos grátis? Os materiais completos em PDF estão na Hotmart.", buy: "Ver na Hotmart",
+              items: [
+                { n: "Violão do Zero", d: "Apostila: seus primeiros acordes em 4 semanas.", u: "https://go.hotmart.com/A107863658L", i: "fa-guitar" },
+                { n: "Tratado de Musicologia e Harmonia Tonal", d: "Livro: guia prático para teclado e violão.", u: "https://go.hotmart.com/O107863361H", i: "fa-book" } ] },
+        en: { h: "Book and booklet", sub: "Want more than the free content? The complete PDFs are on Hotmart.", buy: "View on Hotmart",
+              items: [
+                { n: "Guitar from Zero", d: "Booklet: your first chords in 4 weeks.", u: "https://go.hotmart.com/M107864586F", i: "fa-guitar" },
+                { n: "Treatise on Musicology and Tonal Harmony", d: "Book: a practical guide for keyboard and guitar.", u: "https://go.hotmart.com/E107864675W", i: "fa-book" } ] },
+        es: { h: "Libro y cuadernillo", sub: "¿Quieres más que el contenido gratis? Los PDF completos están en Hotmart.", buy: "Ver en Hotmart",
+              items: [
+                { n: "Guitarra desde Cero", d: "Cuadernillo: tus primeros acordes en 4 semanas.", u: "https://go.hotmart.com/M107864634X", i: "fa-guitar" },
+                { n: "Tratado de Musicología y Armonía Tonal", d: "Libro: guía práctica para teclado y guitarra.", u: "https://go.hotmart.com/P107864717L", i: "fa-book" } ] }
+    }[LANG];
+
     var CATHOLIC_URL = "https://rene17bueno.github.io/musico-catolico/";
     var CATHOLIC_BTN = '<a class="catholic-btn" href="' + CATHOLIC_URL + '" target="_blank" rel="noopener"><span class="catholic-ico"><i class="fas fa-cross"></i></span><span class="catholic-txt">' + t.catholic + '<small>' + t.catholicSub + '</small></span><i class="fas fa-arrow-up-right-from-square catholic-ext"></i></a>';
 
@@ -168,6 +183,7 @@
         '<div class="container text-center">' +
         '<div class="footer-brand mb-2">' + t.footBrand + '</div>' +
         CONTACTS +
+        '<div class="mb-3"><a class="footer-contact" href="' + local("index.html") + '#loja"><i class="fas fa-book me-1"></i> ' + STORE.h + '</a></div>' +
         '<div class="mb-3">' + CATHOLIC_BTN + '</div>' +
         '<div class="small" style="color: #b5b0a8;">' +
         '<i class="fas fa-copyright me-1" style="color:#c9a959;"></i> 2026 &middot; Renê Aparecido Bueno &middot; Maringá &middot; PR' +
@@ -199,7 +215,7 @@
         '.btn:hover{transform:translateY(-1px)}',
         '.form-select,.form-control{border-radius:10px;min-height:42px}',
         'table{max-width:100%}',
-        '.site-footer{border-top:1px solid rgba(201,169,89,.2)}','.footer-contact{color:#e8d5a3;text-decoration:none;font-size:.9rem;padding:.3rem .6rem;border-radius:8px;transition:background .2s}','.footer-contact:hover{background:rgba(201,169,89,.14);color:#e8d5a3}','.catholic-btn{display:inline-flex;align-items:center;gap:.6rem;padding:.3rem .85rem .3rem .3rem;border-radius:999px;background:linear-gradient(135deg,#e8d5a3 0%,#c9a959 100%);color:#0e0d1a!important;text-decoration:none!important;font-weight:600;line-height:1.1;white-space:nowrap;box-shadow:0 0 0 1px rgba(232,213,163,.5),0 6px 18px rgba(201,169,89,.28);transition:transform .2s,box-shadow .2s}','.catholic-btn:hover{transform:translateY(-2px);box-shadow:0 0 0 1px #e8d5a3,0 10px 26px rgba(201,169,89,.45)}','.catholic-ico{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0e0d1a;color:#e8d5a3;font-size:.8rem;flex:none}','.catholic-txt{display:flex;flex-direction:column;font-size:.85rem}','.catholic-txt small{font-weight:500;font-size:.66rem;opacity:.75;letter-spacing:.2px}','.catholic-ext{font-size:.65rem;opacity:.6}','@media (min-width:992px) and (max-width:1399.98px){.catholic-txt small{display:none}.catholic-btn{padding-right:.7rem}}','.site-footer .catholic-btn{padding:.45rem 1.2rem .45rem .45rem;gap:.8rem}','.site-footer .catholic-ico{width:42px;height:42px;font-size:1rem}','.site-footer .catholic-txt{font-size:1rem}','.site-footer .catholic-txt small{font-size:.74rem}',
+        '.site-footer{border-top:1px solid rgba(201,169,89,.2)}','.footer-contact{color:#e8d5a3;text-decoration:none;font-size:.9rem;padding:.3rem .6rem;border-radius:8px;transition:background .2s}','.footer-contact:hover{background:rgba(201,169,89,.14);color:#e8d5a3}','.store-card{height:100%;padding:1.5rem;border:1px solid rgba(201,169,89,.3);border-radius:16px;background:#14131f;text-align:center;transition:transform .2s,border-color .2s}','.store-card:hover{transform:translateY(-3px);border-color:#c9a959}','.store-ico{font-size:1.6rem;color:#e8d5a3;margin-bottom:.6rem}','.store-name{font-family:"Playfair Display",serif;font-size:1.2rem;color:#e8d5a3;margin-bottom:.4rem}','.store-card p{color:#b5b0a8;font-size:.92rem}','.catholic-btn{display:inline-flex;align-items:center;gap:.6rem;padding:.3rem .85rem .3rem .3rem;border-radius:999px;background:linear-gradient(135deg,#e8d5a3 0%,#c9a959 100%);color:#0e0d1a!important;text-decoration:none!important;font-weight:600;line-height:1.1;white-space:nowrap;box-shadow:0 0 0 1px rgba(232,213,163,.5),0 6px 18px rgba(201,169,89,.28);transition:transform .2s,box-shadow .2s}','.catholic-btn:hover{transform:translateY(-2px);box-shadow:0 0 0 1px #e8d5a3,0 10px 26px rgba(201,169,89,.45)}','.catholic-ico{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0e0d1a;color:#e8d5a3;font-size:.8rem;flex:none}','.catholic-txt{display:flex;flex-direction:column;font-size:.85rem}','.catholic-txt small{font-weight:500;font-size:.66rem;opacity:.75;letter-spacing:.2px}','.catholic-ext{font-size:.65rem;opacity:.6}','@media (min-width:992px) and (max-width:1399.98px){.catholic-txt small{display:none}.catholic-btn{padding-right:.7rem}}','.site-footer .catholic-btn{padding:.45rem 1.2rem .45rem .45rem;gap:.8rem}','.site-footer .catholic-ico{width:42px;height:42px;font-size:1rem}','.site-footer .catholic-txt{font-size:1rem}','.site-footer .catholic-txt small{font-size:.74rem}',
         /* notebook/tablet estreito: menu cabe em uma linha */
         '@media (min-width:992px) and (max-width:1399.98px){.custom-navbar .nav-link{font-size:.8rem!important;padding:.45rem .5rem!important}.custom-navbar .navbar-nav{gap:.1rem!important}.custom-navbar .navbar-brand{font-size:1rem}.custom-navbar .container-md,.custom-navbar .container-fluid{max-width:100%}}',
         /* tablet/celular: menu recolhido rolável, alvos de toque grandes */
@@ -252,6 +268,25 @@
         window.addEventListener("load", function () { navigator.serviceWorker.register(base + "sw.js").catch(function () {}); });
     }
 
+
+    // ===== Livros e apostila (Hotmart) =====
+
+    function storeCards() {
+        return STORE.items.map(function (x) {
+            return '<div class="col-md-6"><div class="store-card"><i class="fas ' + x.i + ' store-ico"></i><div class="store-name">' + x.n + '</div><p>' + x.d + '</p>' +
+                '<a class="catholic-btn" style="padding:.5rem 1.1rem" href="' + x.u + '" target="_blank" rel="noopener sponsored">' + STORE.buy + ' <i class="fas fa-arrow-up-right-from-square ms-1" style="font-size:.7rem"></i></a></div></div>';
+        }).join("");
+    }
+
+    function renderStore() {
+        if (file !== "index.html" && file !== "") return;
+        var f = document.getElementById("site-footer");
+        if (!f) return;
+        f.insertAdjacentHTML("beforebegin",
+            '<section id="loja" class="py-5"><div class="container"><div class="text-center mb-4"><h2 class="fw-bold" style="font-family:\'Playfair Display\',serif">' + STORE.h + '</h2>' +
+            '<p class="mb-0" style="color:#b5b0a8">' + STORE.sub + '</p></div><div class="row g-4 justify-content-center" style="max-width:860px;margin:0 auto">' + storeCards() + '</div></div></section>');
+    }
+
     function renderNavbar() {
         var placeholder = document.getElementById("site-navbar");
         if (placeholder) placeholder.outerHTML = NAVBAR_HTML;
@@ -292,6 +327,7 @@
         keepAwake();
         document.querySelectorAll("img:not([loading])").forEach(function (im) { im.loading = "lazy"; });
         renderNavbar();
+        renderStore();
         renderFooter();
         syncAdminNavVisibility();
         activateNavLinks();
