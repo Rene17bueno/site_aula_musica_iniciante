@@ -91,6 +91,7 @@
         '<div class="mb-3 d-flex justify-content-center flex-wrap gap-3">' +
         (LINKEDIN_URL ? '<a class="footer-contact" href="' + LINKEDIN_URL + '" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin me-1"></i> LinkedIn</a>' : '') +
         '<a class="footer-contact" href="https://github.com/Rene17bueno" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github me-1"></i> GitHub</a>' +
+        '<a class="footer-contact" href="https://wa.me/5544991379447" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp me-1"></i> WhatsApp</a>' +
         '<a class="footer-contact" href="mailto:renebueno17@outlook.com" aria-label="E-mail"><i class="fas fa-envelope me-1"></i> renebueno17@outlook.com</a>' +
         '</div>';
 
