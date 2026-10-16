@@ -124,12 +124,12 @@
         '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capitulosDropdown">' + CH.join("") + '</ul>' +
         '</li>' +
         '<li class="nav-item"><a class="nav-link" href="' + shared("acordes.html") + '"><i class="fas fa-guitar me-1"></i> ' + t.chords + '</a></li>' +
+        '<li class="nav-item"><a class="nav-link" href="' + shared("afinador.html") + '"><i class="fas fa-sliders me-1"></i> ' + t.tuner + '</a></li>' +
         '<li class="nav-item dropdown">' +
         '<a class="nav-link dropdown-toggle" href="#" id="praticarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-hand-pointer me-1"></i> ' + t.practice + '</a>' +
         '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="praticarDropdown">' +
         '<li><a class="dropdown-item" href="' + shared("exercicios.html") + '"><i class="fas fa-hand-pointer me-2"></i> ' + t.exercises + '</a></li>' +
         '<li><a class="dropdown-item" href="' + shared("trocas.html") + '"><i class="fas fa-stopwatch me-2"></i> ' + t.changes + '</a></li>' +
-        '<li><a class="dropdown-item" href="' + shared("afinador.html") + '"><i class="fas fa-sliders me-2"></i> ' + t.tuner + '</a></li>' +
         '<li><a class="dropdown-item" href="' + shared("tecnica.html") + '"><i class="fas fa-hand me-2"></i> ' + t.technique + '</a></li>' +
         '<li><hr class="dropdown-divider"></li>' +
         '<li><a class="dropdown-item" href="' + shared("jogo-imagem.html") + '"><i class="fas fa-eye me-2"></i> ' + t.visualChallenge + '</a></li>' +
