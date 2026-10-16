@@ -34,7 +34,7 @@
             home: "Início", lessons: "Aulas", chapters: "Capítulos", chapter: "Capítulo",
             chords: "Acordes", exercises: "Exercícios", games: "Jogos",
             visualChallenge: "Desafio Visual", noteId: "Identificação de Notas", fretGames: "Jogos do Braço",
-            trail: "Comece aqui", practice: "Praticar", changes: "Trocas de acordes", tuner: "Afinador", technique: "Técnica e saúde", community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin",
+            trail: "Comece aqui", practice: "Praticar", changes: "Trocas de acordes", tuner: "Afinador", technique: "Técnica e saúde", map: "Mapa do braço", community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin",
             navBrand: "<span>Violão</span> &middot; Iniciante",
             footBrand: "<span>Estudo de Violão</span> Iniciante", catholic: "Músico Católico", catholicSub: "Cifras e repertórios para a missa"
         },
@@ -42,7 +42,7 @@
             home: "Home", lessons: "Lessons (PT)", chapters: "Chapters", chapter: "Chapter",
             chords: "Chords", exercises: "Exercises (PT)", games: "Games",
             visualChallenge: "Visual Challenge", noteId: "Note Identification", fretGames: "Fretboard Games (PT)",
-            trail: "Start here (PT)", practice: "Practice", changes: "Chord changes (PT)", tuner: "Tuner (PT)", technique: "Technique (PT)", community: "Community", attendance: "Attendance", adminPanel: "Admin Panel",
+            trail: "Start here (PT)", practice: "Practice", changes: "Chord changes (PT)", tuner: "Tuner (PT)", technique: "Technique (PT)", map: "Fretboard map (PT)", community: "Community", attendance: "Attendance", adminPanel: "Admin Panel",
             navBrand: "<span>Guitar</span> &middot; Beginner",
             footBrand: "<span>Beginner</span> Guitar Study", catholic: "Catholic Musician", catholicSub: "Chord sheets for Mass (PT)"
         },
@@ -50,7 +50,7 @@
             home: "Inicio", lessons: "Clases (PT)", chapters: "Capítulos", chapter: "Capítulo",
             chords: "Acordes", exercises: "Ejercicios (PT)", games: "Juegos",
             visualChallenge: "Desafío Visual", noteId: "Identificación de Notas", fretGames: "Juegos del Brazo (PT)",
-            trail: "Empieza aquí (PT)", practice: "Practicar", changes: "Cambios de acordes (PT)", tuner: "Afinador (PT)", technique: "Técnica (PT)", community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración",
+            trail: "Empieza aquí (PT)", practice: "Practicar", changes: "Cambios de acordes (PT)", tuner: "Afinador (PT)", technique: "Técnica (PT)", map: "Mapa del mástil (PT)", community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración",
             navBrand: "<span>Guitarra</span> &middot; Principiante",
             footBrand: "<span>Estudio de Guitarra</span> para Principiantes", catholic: "Músico Católico", catholicSub: "Cifras e repertórios para a missa"
         }
@@ -145,6 +145,7 @@
         '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="praticarDropdown">' +
         '<li><a class="dropdown-item" href="' + shared("exercicios.html") + '"><i class="fas fa-hand-pointer me-2"></i> ' + t.exercises + '</a></li>' +
         '<li><a class="dropdown-item" href="' + shared("trocas.html") + '"><i class="fas fa-stopwatch me-2"></i> ' + t.changes + '</a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("mapa-braco.html") + '"><i class="fas fa-map me-2"></i> ' + t.map + '</a></li>' +
         '<li><a class="dropdown-item" href="' + shared("tecnica.html") + '"><i class="fas fa-hand me-2"></i> ' + t.technique + '</a></li>' +
         '<li><hr class="dropdown-divider"></li>' +
         '<li><a class="dropdown-item" href="' + shared("jogo-imagem.html") + '"><i class="fas fa-eye me-2"></i> ' + t.visualChallenge + '</a></li>' +

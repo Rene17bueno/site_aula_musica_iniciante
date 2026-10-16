@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa do braço · Estudo de Violão Iniciante</title>
+    <meta name="description" content="Todas as formas de qualquer acorde no braço do violão: abertas, CAGED e com pestana, com dedilhado e som." />
+    <link rel="icon" type="image/png" href="favicon-32.png" />
+    <link rel="apple-touch-icon" href="favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Estudo de Violão Iniciante" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content="https://rene17bueno.github.io/site_aula_musica_iniciante/mapa-braco.html" />
+    <meta property="og:title" content="Mapa do braço · Estudo de Violão Iniciante" />
+    <meta property="og:description" content="Todas as formas de qualquer acorde no braço do violão: abertas, CAGED e com pestana, com dedilhado e som." />
+    <meta property="og:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Mapa do braço · Estudo de Violão Iniciante" />
+    <meta name="twitter:description" content="Todas as formas de qualquer acorde no braço do violão: abertas, CAGED e com pestana, com dedilhado e som." />
+    <meta name="twitter:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <!-- Fonts & Bootstrap (cdn) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        /* ===== ESTILOS GERAIS INTEGRADOS ===== */
+        body {
+            background: #0e0d1a;
+            color: #e4dfd7;
+            font-family: 'Inter', sans-serif;
+            padding-top: 90px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .gold {
+            color: #e8d5a3;
+        }
+        .bg-dark-custom {
+            background: #14131f;
+        }
+        .border-gold {
+            border-color: rgba(201, 169, 89, 0.3) !important;
+        }
+        .text-gold {
+            color: #e8d5a3;
+        }
+        .text-muted {
+            color: #b5b0a8 !important;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar-custom {
+            background: #0e0d1aee;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(201, 169, 89, 0.15);
+        }
+        .navbar-custom .nav-link {
+            color: #d1cbdc !important;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #e8d5a3 !important;
+        }
+        .nav-brand-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #e8d5a3 !important;
+            text-decoration: none;
+        }
+
+        .chapter-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        .section-tag {
+            display: inline-block;
+            background: rgba(201, 169, 89, 0.12);
+            color: #e8d5a3;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            padding: 5px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            text-transform: uppercase;
+        }
+
+        /* ===== CONTAINER DO JOGO ===== */
+        .game-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            transition: 0.3s ease;
+        }
+        
+        .level-badge {
+            background: rgba(201, 169, 89, 0.2);
+            color: #ffffff;
+            border: 1px solid #e8d5a3;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 6px 18px;
+            border-radius: 50px;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(201, 169, 89, 0.2);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c9a959, #f7e7c4);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* ===== PERGUNTA ===== */
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: #ffffff;
+            margin: 25px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* ===== BOTÕES DE RESPOSTA ===== */
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 169, 89, 0.35);
+            color: #ffffff !important;
+            padding: 16px 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        .option-btn:hover {
+            background: rgba(201, 169, 89, 0.25);
+            border-color: #f7e7c4;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 89, 0.2);
+        }
+
+        /* ===== FEEDBACK ===== */
+        .feedback-area {
+            min-height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .feedback-area.show {
+            opacity: 1;
+        }
+        .feedback-correct {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+        .feedback-incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+        }
+
+        /* ===== SELETOR DE NÍVEIS LATERAL ===== */
+        .btn-level-select {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(201, 169, 89, 0.15);
+            color: #e4dfd7;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .btn-level-select .level-title {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-level-select .level-desc {
+            color: #b5b0a8;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .btn-level-select:hover, .btn-level-select.active {
+            background: rgba(201, 169, 89, 0.15);
+            border-color: #e8d5a3;
+        }
+        .btn-level-select.active .level-title {
+            color: #e8d5a3;
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            border-top: 1px solid rgba(201, 169, 89, 0.1);
+            background: #0e0d1a;
+            padding: 1.5rem 0;
+        }
+        .site-footer .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #e8d5a3;
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding-top: 68px;
+            }
+            .chapter-content {
+                padding: 1.25rem 0 1.75rem;
+            }
+            .game-card {
+                padding: 18px 14px;
+                border-radius: 12px;
+            }
+            .question-text {
+                font-size: 1.35rem;
+                margin: 16px 0;
+                min-height: 56px;
+            }
+            .option-btn {
+                padding: 12px 14px;
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            .feedback-area {
+                min-height: 50px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .level-badge {
+                font-size: 0.78rem;
+                padding: 5px 12px;
+            }
+            .question-text {
+                font-size: 1.2rem;
+                margin: 12px 0;
+                min-height: 48px;
+            }
+            .option-btn {
+                padding: 11px 12px;
+                font-size: 0.95rem;
+            }
+            .row.g-4 {
+                --bs-gutter-y: 0.85rem;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .game-card {
+                padding: 14px 11px;
+            }
+            .feedback-area {
+                min-height: 46px;
+                font-size: 0.93rem;
+            }
+            .btn-level-select .level-desc {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .section-tag {
+                font-size: 0.68rem;
+                padding: 4px 12px;
+            }
+            .btn-level-select {
+                padding: 10px 12px;
+            }
+        }
+            #questionBox{display:block}
+        #questionBox svg{display:block;margin:0 auto 1rem}
+    
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-1px}.dr{background:#c9a959}.dn{background:#f0f0f0}
+.neck-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}#neck svg{min-width:820px;width:100%;display:block}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:12px}
+.vc{background:#14131f;border:1px solid rgba(201,169,89,.25);border-radius:12px;padding:8px 6px;color:#e4dfd7;cursor:pointer;text-align:center;transition:border-color .15s,transform .15s}
+.vc:hover{border-color:#c9a959;transform:translateY(-2px)}.vc.on{border-color:#e8d5a3;box-shadow:0 0 0 2px #c9a95966}
+.vc .vt{font-size:.72rem;min-height:1.1em;color:#e8d5a3}.vc .vf{font:600 .75rem ui-monospace,Menlo,monospace;color:#b5b0a8}.vc svg{width:100%;max-width:110px}
+
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8CMNEYXZ9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H8CMNEYXZ9');
+    </script>
+</head>
+<body>
+
+    <div id="site-navbar"></div>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <main class="chapter-content">
+<div class="container">
+<div class="row mb-4"><div class="col-12 text-center">
+<span class="section-tag"><i class="fas fa-map me-1"></i> Referência</span>
+<h1 class="display-5 fw-bold mt-2">Mapa do <span class="gold">braço</span></h1>
+<p class="text-muted">Escolha a nota e o tipo de acorde: o site mostra todas as formas possíveis no braço, das abertas às de pestana, com o dedilhado de cada uma.</p></div></div>
+<div class="game-card mb-3"><div class="row g-3">
+<div class="col-6 col-md-2"><label class="small text-muted" for="n">Nota</label><select id="n" class="form-select"></select></div>
+<div class="col-6 col-md-3"><label class="small text-muted" for="q">Tipo de acorde</label><select id="q" class="form-select"></select></div>
+<div class="col-6 col-md-2"><label class="small text-muted" for="min">Cordas tocadas</label><select id="min" class="form-select"><option value="3">3 ou mais</option><option value="4" selected>4 ou mais</option><option value="5">5 ou mais</option><option value="6">Todas (6)</option></select></div>
+<div class="col-6 col-md-2"><label class="small text-muted" for="f">Mostrar</label><select id="f" class="form-select"><option value="">Todas</option><option value="caged">Só formas CAGED</option><option value="bar">Com pestana</option><option value="free">Sem pestana</option><option value="open">Com corda solta</option></select></div>
+<div class="col-6 col-md-3"><label class="small text-muted" for="r">Região do braço</label><select id="r" class="form-select"><option value="">Braço todo</option><option value="0">Casas 0 a 4</option><option value="5">Casas 5 a 9</option><option value="10">Casas 10 a 15</option></select></div>
+<div class="col-12 d-flex flex-wrap gap-4"><div class="form-check"><input class="form-check-input" type="checkbox" id="m"><label class="form-check-label small text-muted" for="m">Mostrar graus (1, 3, 5...) em vez de notas</label></div><div class="form-check"><input class="form-check-input" type="checkbox" id="inv"><label class="form-check-label small text-muted" for="inv">Incluir inversões (baixo diferente da tônica)</label></div></div>
+</div></div>
+<div class="game-card mb-3" id="neckBox">
+<div class="d-flex justify-content-between flex-wrap gap-2 mb-2"><span class="level-badge" id="cnt"></span>
+<span class="small text-muted"><span class="dot dr"></span> tônica &nbsp; <span class="dot dn"></span> outras notas do acorde &nbsp; toque numa forma para ver e ouvir</span></div>
+<div class="neck-scroll"><div id="neck"></div></div>
+<div class="small mt-2" id="info" style="color:#b5b0a8"></div>
+</div>
+<div id="grid" class="vgrid"></div>
+</div>
+</main>
+
+    <div id="site-footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/js/layout.js"></script>
+    <script>
+
+const N=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],FL=['C','D♭','D','E♭','E','F','G♭','G','A♭','A','B♭','B'];
+const OPEN=[4,9,2,7,11,4],FREQ=[82.41,110,146.83,196,246.94,329.63],MAXF=15;
+const Q={
+ 'Maior':{iv:[0,4,7],req:[0,4]},
+ 'Menor':{iv:[0,3,7],req:[0,3]},
+ 'Power chord (5)':{iv:[0,7],req:[0,7],n:2},
+ 'Sétima (7)':{iv:[0,4,7,10],req:[0,4,10]},
+ 'Sétima Maior (7M)':{iv:[0,4,7,11],req:[0,4,11]},
+ 'Sétima Menor (m7)':{iv:[0,3,7,10],req:[0,3,10]},
+ 'Meio-diminuto (m7♭5)':{iv:[0,3,6,10],req:[0,3,6,10]},
+ 'Diminuto (dim7)':{iv:[0,3,6,9],req:[0,3,6,9],lab:{9:'♭♭7'}},
+ 'Aumentado (aug)':{iv:[0,4,8],req:[0,4,8]},
+ 'Suspenso 2 (sus2)':{iv:[0,2,7],req:[0,2]},
+ 'Suspenso 4 (sus4)':{iv:[0,5,7],req:[0,5]},
+ 'Sexta (6)':{iv:[0,4,7,9],req:[0,4,9]},
+ 'Sexta Menor (m6)':{iv:[0,3,7,9],req:[0,3,9]},
+ 'Add9':{iv:[0,2,4,7],req:[0,2,4],lab:{2:'9'}},
+ 'Nona (9)':{iv:[0,4,7,10,2],req:[0,4,10,2],lab:{2:'9'}},
+ 'Nona Menor (m9)':{iv:[0,3,7,10,2],req:[0,3,10,2],lab:{2:'9'}}
+};
+const GRAU={0:'1',1:'♭9',2:'2',3:'♭3',4:'3',5:'4',6:'♭5',7:'5',8:'♯5',9:'6',10:'♭7',11:'7'};
+// Formas abertas (corda grave -> aguda, -1 = calada). Levadas k casas acima viram as formas CAGED.
+const ABERTAS={
+ 'Maior':{C:[-1,3,2,0,1,0],A:[-1,0,2,2,2,0],G:[3,2,0,0,0,3],E:[0,2,2,1,0,0],D:[-1,-1,0,2,3,2]},
+ 'Menor':{A:[-1,0,2,2,1,0],E:[0,2,2,0,0,0],D:[-1,-1,0,2,3,1]},
+ 'Sétima (7)':{C:[-1,3,2,3,1,0],A:[-1,0,2,0,2,0],G:[3,2,0,0,0,1],E:[0,2,0,1,0,0],D:[-1,-1,0,2,1,2]},
+ 'Sétima Maior (7M)':{C:[-1,3,2,0,0,0],A:[-1,0,2,1,2,0],G:[3,2,0,0,0,2],E:[0,2,1,1,0,0],D:[-1,-1,0,2,2,2]},
+ 'Sétima Menor (m7)':{A:[-1,0,2,0,1,0],E:[0,2,0,0,0,0],D:[-1,-1,0,2,1,1]}
+};
+const $=id=>document.getElementById(id);
+
+// Dedos: null se for impossível de tocar (mais de 4 dedos, abertura > 4 casas, pestana sobre corda solta).
+function dedos(fr){
+  const fz=[];fr.forEach((f,s)=>{if(f>0)fz.push([s,f])});
+  if(!fz.length)return{bar:null,dots:[]};
+  const f0=Math.min(...fz.map(x=>x[1]));
+  if(Math.max(...fz.map(x=>x[1]))-f0>3)return null;
+  const s0=fz.filter(x=>x[1]===f0).map(x=>x[0]);
+  let bar=null,rest=fz;
+  if(fz.length>4){                       // só usa pestana quando faltam dedos
+    if(s0.length<2)return null;
+    const a=s0[0],b=s0[s0.length-1];
+    for(let s=a;s<=b;s++)if(fr[s]<f0)return null;
+    bar={f:f0,from:a,to:b};rest=fz.filter(x=>x[1]!==f0);
+  }
+  rest=rest.slice().sort((x,y)=>x[1]-y[1]||x[0]-y[0]);
+  const first=bar?2:1;
+  if(rest.length+first-1>4)return null;
+  return{bar,dots:rest.map((x,i)=>({s:x[0],f:x[1],d:first+i}))};
+}
+function caged(fr,root,qn){
+  const sh=ABERTAS[qn];if(!sh)return'';
+  for(const r in sh){const k0=(root-N.indexOf(r)+12)%12;
+    for(const k of[k0,k0+12])if(sh[r].every((x,i)=>x<0?fr[i]<0:fr[i]===x+k))
+      return k?`forma de ${r} · casa ${k}`:`forma de ${r} aberto`;}
+  return'';
+}
+function vozes(root,qn,min,inv){
+  const q=Q[qn],set=q.iv.map(i=>(root+i)%12),req=q.req.map(i=>(root+i)%12),need=Math.min(min,q.n||min),out=new Map();
+  for(let w=0;w<=MAXF-3;w++){
+    const opts=OPEN.map(p=>{const a=[-1];
+      for(const f of w<=2?[0]:[])if(set.includes((p+f)%12))a.push(f);
+      for(let f=Math.max(w,1);f<=w+3;f++)if(set.includes((p+f)%12))a.push(f);return a;});
+    const fr=[];
+    (function rec(s){
+      if(s===6){
+        const snd=[];fr.forEach((f,i)=>{if(f>=0)snd.push(i)});
+        if(snd.length<need||snd.length!==snd[snd.length-1]-snd[0]+1)return;
+        const pcs=snd.map(i=>(OPEN[i]+fr[i])%12);
+        if(!req.every(r=>pcs.includes(r))||(!inv&&pcs[0]!==root))return;
+        const k=fr.join(',');if(out.has(k))return;
+        const d=dedos(fr);if(!d)return;
+        const fz=fr.filter(f=>f>0);
+        out.set(k,{k,fr:fr.slice(),bar:d.bar,dots:d.dots,pos:fz.length?Math.min(...fz):0,cg:caged(fr,root,qn)});
+        return;}
+      for(const f of opts[s]){fr[s]=f;rec(s+1);}
+    })(0);
+  }
+  return[...out.values()].sort((a,b)=>a.pos-b.pos||(b.cg?1:0)-(a.cg?1:0)||b.fr.filter(f=>f>=0).length-a.fr.filter(f=>f>=0).length);
+}
+
+let all=[],view=[],sel=null,root=0,qn='Maior';
+const lab=pc=>{const q=Q[qn],i=(pc-root+12)%12;return $('m').checked?((q.lab&&q.lab[i])||GRAU[i]):N[pc];};
+function svgV(x){
+  const X=s=>20+s*14,base=x.pos>0&&Math.max(...x.fr)<=5?1:Math.max(x.pos,1),Y=f=>26+(f-base)*20+10;
+  let s=`<svg viewBox="0 0 110 134" aria-hidden="true">`;
+  if(base===1)s+=`<rect x="19" y="23" width="72" height="4" fill="#e8d5a3"/>`;
+  else s+=`<text x="4" y="${Y(x.pos)+4}" fill="#b5b0a8" font-size="10">${x.pos}ª</text>`;
+  for(let r=0;r<=5;r++)s+=`<line x1="20" x2="90" y1="${26+r*20}" y2="${26+r*20}" stroke="#6b6780"/>`;
+  for(let i=0;i<6;i++){s+=`<line x1="${X(i)}" x2="${X(i)}" y1="26" y2="126" stroke="#9c97b0"/>`;
+    if(x.fr[i]<0)s+=`<text x="${X(i)}" y="18" fill="#ff7b7b" font-size="12" text-anchor="middle">x</text>`;
+    else if(x.fr[i]===0)s+=`<circle cx="${X(i)}" cy="14" r="4" fill="none" stroke="#7ee08a"/>`;}
+  if(x.bar)s+=`<rect x="${X(x.bar.from)-6}" y="${Y(x.bar.f)-6}" width="${X(x.bar.to)-X(x.bar.from)+12}" height="12" rx="6" fill="#e8d5a3" opacity=".7"/><text x="${X(x.bar.from)}" y="${Y(x.bar.f)+3}" font-size="8" font-weight="700" fill="#0e0d1a" text-anchor="middle">1</text>`;
+  x.dots.forEach(d=>{const r=(OPEN[d.s]+d.f)%12===root;
+    s+=`<circle cx="${X(d.s)}" cy="${Y(d.f)}" r="7" fill="${r?'#c9a959':'#f0f0f0'}"/><text x="${X(d.s)}" y="${Y(d.f)+3.5}" font-size="9" font-weight="700" fill="#0e0d1a" text-anchor="middle">${d.d}</text>`;});
+  if(x.bar)for(let i=x.bar.from;i<=x.bar.to;i++)if((OPEN[i]+x.fr[i])%12===root&&x.fr[i]===x.bar.f&&i!==x.bar.from)s+=`<circle cx="${X(i)}" cy="${Y(x.bar.f)}" r="3" fill="#c9a959"/>`;
+  return s+'</svg>';
+}
+function neck(){
+  const L=44,W=52,T=22,H=30,sx=f=>f===0?L-16:L+(f-.5)*W,sy=s=>T+(5-s)*H;
+  let s=`<svg viewBox="0 0 ${L+MAXF*W+10} ${T+5*H+34}" role="img" aria-label="Braço do violão com as notas do acorde">`;
+  for(let f=1;f<=MAXF;f++){s+=`<line x1="${L+f*W}" x2="${L+f*W}" y1="${T}" y2="${sy(0)}" stroke="#4a4660"/><text x="${sx(f)}" y="${sy(0)+24}" fill="#8a8598" font-size="11" text-anchor="middle">${f}</text>`;
+    if([3,5,7,9,15].includes(f))s+=`<circle cx="${sx(f)}" cy="${sy(0)+11}" r="3" fill="#4a4660"/>`;
+    if(f===12)s+=`<circle cx="${sx(f)-8}" cy="${sy(0)+11}" r="3" fill="#4a4660"/><circle cx="${sx(f)+8}" cy="${sy(0)+11}" r="3" fill="#4a4660"/>`;}
+  s+=`<rect x="${L-3}" y="${T}" width="5" height="${5*H}" fill="#e8d5a3"/>`;
+  const sl=sel?all.find(v=>v.k===sel):null,set=Q[qn].iv.map(i=>(root+i)%12);
+  for(let i=0;i<6;i++){s+=`<line x1="${L}" x2="${L+MAXF*W}" y1="${sy(i)}" y2="${sy(i)}" stroke="#9c97b0" stroke-width="${1+(5-i)*.25}"/>`;
+    if(sl&&sl.fr[i]<0)s+=`<text x="${L-16}" y="${sy(i)+5}" fill="#ff7b7b" font-size="14" text-anchor="middle">x</text>`;
+    for(let f=0;f<=MAXF;f++){const pc=(OPEN[i]+f)%12;if(!set.includes(pc))continue;
+      const on=sl&&sl.fr[i]===f,r=pc===root,dim=sl&&!on;
+      s+=`<circle cx="${sx(f)}" cy="${sy(i)}" r="${on?12:dim?8:11}" fill="${r?'#c9a959':'#f0f0f0'}" opacity="${dim?.28:1}"${on?' stroke="#fff" stroke-width="2.5"':''}/>`;
+      if(!dim||on)s+=`<text x="${sx(f)}" y="${sy(i)+4}" font-size="${on?11:10}" font-weight="700" fill="#0e0d1a" text-anchor="middle">${lab(pc)}</text>`;}}
+  $('neck').innerHTML=s+'</svg>';
+  const nm=N[root]+' '+qn;
+  $('info').innerHTML=sl?`<b class="gold">${nm}</b> · ${sl.fr.map(f=>f<0?'x':f).join('-')}${sl.cg?' · '+sl.cg:''}${sl.bar?` · pestana na casa ${sl.bar.f}`:''} · notas (grave→agudo): ${sl.fr.map((f,i)=>f<0?'':N[(OPEN[i]+f)%12]).filter(Boolean).join(' ')}`
+    :`<b class="gold">${nm}</b>: todas as posições das notas ${set.map(p=>N[p]).join(' · ')} no braço.`;
+}
+function lista(){
+  const f=$('f').value,r=$('r').value;
+  view=all.filter(v=>(!f||(f==='caged'?v.cg:f==='bar'?v.bar:f==='free'?!v.bar:v.fr.includes(0)))&&(r===''||(v.pos>=+r&&v.pos<=(+r===0?4:+r+4))));
+  if(sel&&!view.some(v=>v.k===sel))sel=null;
+  $('cnt').textContent=view.length+(view.length===1?' forma':' formas')+(all.length!==view.length?' de '+all.length:'');
+  $('grid').innerHTML=view.length?view.map(v=>`<button class="vc${v.k===sel?' on':''}" data-k="${v.k}" aria-label="${N[root]} ${qn}: ${v.fr.map(x=>x<0?'x':x).join('-')}"><div class="vt">${v.cg||'&nbsp;'}</div>${svgV(v)}<div class="vf">${v.fr.map(x=>x<0?'x':x).join('-')}</div></button>`).join(''):'<p class="text-muted">Nenhuma forma com esses filtros. Afrouxe "Cordas tocadas" ou a região.</p>';
+  neck();
+}
+function gerar(){root=+$('n').value;qn=$('q').value;sel=null;all=vozes(root,qn,+$('min').value,$('inv').checked);lista();}
+let ac;
+function tocar(fr){ac=ac||new(window.AudioContext||window.webkitAudioContext)();const t0=ac.currentTime+.02;let i=0;
+  fr.forEach((f,s)=>{if(f<0)return;const o=ac.createOscillator(),g=ac.createGain(),t=t0+i++*.045;
+    o.type='triangle';o.frequency.value=FREQ[s]*Math.pow(2,f/12);
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.18,t+.01);g.gain.exponentialRampToValueAtTime(.0008,t+1.6);
+    o.connect(g).connect(ac.destination);o.start(t);o.stop(t+1.7);});}
+N.forEach((n,i)=>$('n').add(new Option(n===FL[i]?n:n+'/'+FL[i],i)));
+Object.keys(Q).forEach(k=>$('q').add(new Option(k,k)));
+['n','q','min','inv'].forEach(i=>$(i).onchange=gerar);
+['f','r'].forEach(i=>$(i).onchange=lista);
+$('m').onchange=neck;
+$('grid').onclick=e=>{const b=e.target.closest('.vc');if(!b)return;sel=b.dataset.k;
+  document.querySelectorAll('.vc.on').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  neck();tocar(sel.split(',').map(Number));
+  const nb=$('neckBox');if(nb.getBoundingClientRect().top<80)nb.scrollIntoView({behavior:'smooth',block:'center'});};
+gerar();
+
+</script>
+</body>
+</html>
