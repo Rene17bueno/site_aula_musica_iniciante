@@ -86,6 +86,14 @@
     var CATHOLIC_URL = "https://rene17bueno.github.io/musico-catolico/";
     var CATHOLIC_BTN = '<a class="btn btn-sm fw-semibold" style="background:#c9a959;color:#0e0d1a;border-radius:10px;white-space:nowrap" href="' + CATHOLIC_URL + '" target="_blank" rel="noopener"><i class="fas fa-cross me-1"></i> ' + t.catholic + '</a>';
 
+    var LINKEDIN_URL = ""; // cole aqui a URL do perfil, ex.: https://www.linkedin.com/in/seu-nome
+    var CONTACTS =
+        '<div class="mb-3 d-flex justify-content-center flex-wrap gap-3">' +
+        (LINKEDIN_URL ? '<a class="footer-contact" href="' + LINKEDIN_URL + '" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin me-1"></i> LinkedIn</a>' : '') +
+        '<a class="footer-contact" href="https://github.com/Rene17bueno" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github me-1"></i> GitHub</a>' +
+        '<a class="footer-contact" href="mailto:renebueno17@outlook.com" aria-label="E-mail"><i class="fas fa-envelope me-1"></i> renebueno17@outlook.com</a>' +
+        '</div>';
+
     var LANG_SWITCH =
         '<li class="nav-item d-flex align-items-center justify-content-center">' + CATHOLIC_BTN + '</li>' +
         '<li class="nav-item dropdown">' +
@@ -148,6 +156,7 @@
         '<footer class="site-footer py-4 mt-auto">' +
         '<div class="container text-center">' +
         '<div class="footer-brand mb-2">' + t.footBrand + '</div>' +
+        CONTACTS +
         '<div class="mb-3">' + CATHOLIC_BTN.replace("btn-sm", "") + '</div>' +
         '<div class="small" style="color: #b5b0a8;">' +
         '<i class="fas fa-copyright me-1" style="color:#c9a959;"></i> 2026 &middot; Renê Aparecido Bueno &middot; Maringá &middot; PR' +
@@ -179,7 +188,7 @@
         '.btn:hover{transform:translateY(-1px)}',
         '.form-select,.form-control{border-radius:10px;min-height:42px}',
         'table{max-width:100%}',
-        '.site-footer{border-top:1px solid rgba(201,169,89,.2)}',
+        '.site-footer{border-top:1px solid rgba(201,169,89,.2)}','.footer-contact{color:#e8d5a3;text-decoration:none;font-size:.9rem;padding:.3rem .6rem;border-radius:8px;transition:background .2s}','.footer-contact:hover{background:rgba(201,169,89,.14);color:#e8d5a3}',
         /* notebook/tablet estreito: menu cabe em uma linha */
         '@media (min-width:992px) and (max-width:1399.98px){.custom-navbar .nav-link{font-size:.8rem!important;padding:.45rem .5rem!important}.custom-navbar .navbar-nav{gap:.1rem!important}.custom-navbar .navbar-brand{font-size:1rem}.custom-navbar .container-md,.custom-navbar .container-fluid{max-width:100%}}',
         /* tablet/celular: menu recolhido rolável, alvos de toque grandes */
