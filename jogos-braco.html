@@ -479,7 +479,7 @@ function ask(){$('feedbackBox').className='feedback-area p-3 mb-2';cur=LEVELS[li
   $('optionsContainer').innerHTML='';cur.opts.forEach(o=>{const c=document.createElement('div');c.className='col';
     const b=document.createElement('button');b.className='option-btn';b.textContent=o;b.onclick=()=>answer(o);c.appendChild(b);$('optionsContainer').appendChild(c);});}
 function answer(o){document.querySelectorAll('#optionsContainer .option-btn').forEach(b=>b.disabled=true);
-  const ok=o===cur.c;combo=ok?combo+1:0;
+  const ok=o===cur.c;combo=ok?combo+1:0;Prog.count('braco-f'+(li+1),ok);Prog.max('braco-fase',li+1);
   $('feedbackBox').textContent=ok?`Certo, é ${cur.c}.`:`Não é essa. A resposta era ${cur.c}.`;
   $('feedbackBox').className='feedback-area p-3 mb-2 show '+(ok?'feedback-correct':'feedback-incorrect');progress();
   setTimeout(()=>{if(combo>=TARGET){if(li<LEVELS.length-1)load(li+1);else{combo=0;load(0);}}else ask();},1500);}

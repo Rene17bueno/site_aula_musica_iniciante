@@ -221,7 +221,7 @@
             r.setAttribute('x',fx(start)-15);r.setAttribute('y',sy(1)-15);r.setAttribute('width',30);r.setAttribute('height',5*DY+30);r.setAttribute('rx',15);r.setAttribute('class','barre');
             bar.appendChild(r);
         }
-        function loop(){step();timer=setTimeout(loop,60000/$('bpm').value)}
+        function loop(){step();Prog.max('exercicio-bpm',+$('bpm').value);timer=setTimeout(loop,60000/$('bpm').value)}
         function stop(){clearTimeout(timer);bar.textContent='';timer=null;$('go').innerHTML='<i class="fas fa-play me-1"></i> Iniciar'}
         function run(){start=+$('start').value;build();idx=0;dots.textContent='';drawBar();$('go').innerHTML='<i class="fas fa-stop me-1"></i> Parar';loop()}
 

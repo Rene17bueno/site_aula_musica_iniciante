@@ -34,7 +34,7 @@
             home: "Início", lessons: "Aulas", chapters: "Capítulos", chapter: "Capítulo",
             chords: "Acordes", exercises: "Exercícios", games: "Jogos",
             visualChallenge: "Desafio Visual", noteId: "Identificação de Notas", fretGames: "Jogos do Braço",
-            community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin",
+            trail: "Comece aqui", practice: "Praticar", changes: "Trocas de acordes", tuner: "Afinador", technique: "Técnica e saúde", community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin",
             navBrand: "<span>Violão</span> &middot; Iniciante",
             footBrand: "<span>Estudo de Violão</span> Iniciante", catholic: "Músico Católico", catholicSub: "Cifras e repertórios para a missa"
         },
@@ -42,7 +42,7 @@
             home: "Home", lessons: "Lessons (PT)", chapters: "Chapters", chapter: "Chapter",
             chords: "Chords", exercises: "Exercises (PT)", games: "Games",
             visualChallenge: "Visual Challenge", noteId: "Note Identification", fretGames: "Fretboard Games (PT)",
-            community: "Community", attendance: "Attendance", adminPanel: "Admin Panel",
+            trail: "Start here (PT)", practice: "Practice", changes: "Chord changes (PT)", tuner: "Tuner (PT)", technique: "Technique (PT)", community: "Community", attendance: "Attendance", adminPanel: "Admin Panel",
             navBrand: "<span>Guitar</span> &middot; Beginner",
             footBrand: "<span>Beginner</span> Guitar Study", catholic: "Catholic Musician", catholicSub: "Chord sheets for Mass (PT)"
         },
@@ -50,7 +50,7 @@
             home: "Inicio", lessons: "Clases (PT)", chapters: "Capítulos", chapter: "Capítulo",
             chords: "Acordes", exercises: "Ejercicios (PT)", games: "Juegos",
             visualChallenge: "Desafío Visual", noteId: "Identificación de Notas", fretGames: "Juegos del Brazo (PT)",
-            community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración",
+            trail: "Empieza aquí (PT)", practice: "Practicar", changes: "Cambios de acordes (PT)", tuner: "Afinador (PT)", technique: "Técnica (PT)", community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración",
             navBrand: "<span>Guitarra</span> &middot; Principiante",
             footBrand: "<span>Estudio de Guitarra</span> para Principiantes", catholic: "Músico Católico", catholicSub: "Cifras e repertórios para a missa"
         }
@@ -117,23 +117,33 @@
         '<div class="collapse navbar-collapse justify-content-end" id="navbarContent">' +
         '<ul class="navbar-nav mb-2 mb-lg-0 gap-2 text-center text-lg-start pt-3 pt-lg-0">' +
         '<li class="nav-item"><a class="nav-link" href="' + local("index.html") + '"><i class="fas fa-home me-1"></i> ' + t.home + '</a></li>' +
+        '<li class="nav-item"><a class="nav-link" href="' + shared("trilha.html") + '"><i class="fas fa-route me-1"></i> ' + t.trail + '</a></li>' +
         '<li class="nav-item"><a class="nav-link" href="' + shared("aulas.html") + '"><i class="fas fa-circle-play me-1"></i> ' + t.lessons + '</a></li>' +
         '<li class="nav-item dropdown">' +
         '<a class="nav-link dropdown-toggle" href="#" id="capitulosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-book me-1"></i> ' + t.chapters + '</a>' +
         '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capitulosDropdown">' + CH.join("") + '</ul>' +
         '</li>' +
         '<li class="nav-item"><a class="nav-link" href="' + shared("acordes.html") + '"><i class="fas fa-guitar me-1"></i> ' + t.chords + '</a></li>' +
-        '<li class="nav-item"><a class="nav-link" href="' + shared("exercicios.html") + '"><i class="fas fa-hand-pointer me-1"></i> ' + t.exercises + '</a></li>' +
         '<li class="nav-item dropdown">' +
-        '<a class="nav-link dropdown-toggle" href="#" id="jogosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-gamepad me-1"></i> ' + t.games + '</a>' +
-        '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="jogosDropdown">' +
+        '<a class="nav-link dropdown-toggle" href="#" id="praticarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-hand-pointer me-1"></i> ' + t.practice + '</a>' +
+        '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="praticarDropdown">' +
+        '<li><a class="dropdown-item" href="' + shared("exercicios.html") + '"><i class="fas fa-hand-pointer me-2"></i> ' + t.exercises + '</a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("trocas.html") + '"><i class="fas fa-stopwatch me-2"></i> ' + t.changes + '</a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("afinador.html") + '"><i class="fas fa-sliders me-2"></i> ' + t.tuner + '</a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("tecnica.html") + '"><i class="fas fa-hand me-2"></i> ' + t.technique + '</a></li>' +
+        '<li><hr class="dropdown-divider"></li>' +
         '<li><a class="dropdown-item" href="' + shared("jogo-imagem.html") + '"><i class="fas fa-eye me-2"></i> ' + t.visualChallenge + '</a></li>' +
         '<li><a class="dropdown-item" href="' + shared("jogos.html") + '"><i class="fas fa-music me-2"></i> ' + t.noteId + '</a></li>' +
         '<li><a class="dropdown-item" href="' + shared("jogos-braco.html") + '"><i class="fas fa-guitar me-2"></i> ' + t.fretGames + '</a></li>' +
         '</ul>' +
         '</li>' +
-        '<li class="nav-item"><a class="nav-link" href="' + shared("comunidade.html") + '"><i class="fas fa-comments me-1"></i> ' + t.community + '</a></li>' +
-        '<li class="nav-item"><a class="nav-link" href="' + shared("presenca.html") + '"><i class="fas fa-clipboard-check me-1"></i> ' + t.attendance + '</a></li>' +
+        '<li class="nav-item dropdown">' +
+        '<a class="nav-link dropdown-toggle" href="#" id="comunidadeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-comments me-1"></i> ' + t.community + '</a>' +
+        '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="comunidadeDropdown">' +
+        '<li><a class="dropdown-item" href="' + shared("comunidade.html") + '"><i class="fas fa-comments me-2"></i> ' + t.community + '</a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("presenca.html") + '"><i class="fas fa-clipboard-check me-2"></i> ' + t.attendance + '</a></li>' +
+        '</ul>' +
+        '</li>' +
         '<li class="nav-item d-none" id="nav-admin-item"><a class="nav-link" href="' + shared("comunidade-admin.html") + '"><i class="fas fa-user-shield me-1"></i> ' + t.adminPanel + '</a></li>' +
         LANG_SWITCH +
         '</ul>' +
@@ -214,6 +224,34 @@
         });
     }
 
+
+    // ===== Progresso do aluno (fica só neste navegador) =====
+    var PKEY = "progressoViolao";
+    var Prog = {
+        get: function () { try { return JSON.parse(localStorage.getItem(PKEY)) || {}; } catch (e) { return {}; } },
+        save: function (d) { try { localStorage.setItem(PKEY, JSON.stringify(d)); } catch (e) {} },
+        mark: function (k, v) { var d = this.get(); d[k] = v; this.save(d); },
+        add: function (k, v) { var d = this.get(); d[k] = d[k] || []; if (d[k].indexOf(v) < 0) d[k].push(v); this.save(d); },
+        max: function (k, v) { var d = this.get(); d.max = d.max || {}; if (!(d.max[k] >= v)) { d.max[k] = v; this.save(d); } },
+        count: function (k, ok) { var d = this.get(); d.cnt = d.cnt || {}; var c = d.cnt[k] = d.cnt[k] || [0, 0]; c[ok ? 0 : 1]++; this.save(d); }
+    };
+    window.Prog = Prog;
+    (function () { var m = /capitulo(\d+)\.html$/.exec(location.pathname); if (m) Prog.add("caps", +m[1]); })();
+
+    // Tela acesa nas páginas de prática (celular no apoio, violão no colo)
+    function keepAwake() {
+        if (!/(exercicios|trocas|afinador|tecnica|jogos|jogo-imagem)/.test(file) || !navigator.wakeLock) return;
+        var req = function () { navigator.wakeLock.request("screen").catch(function () {}); };
+        req(); document.addEventListener("visibilitychange", function () { if (!document.hidden) req(); });
+    }
+
+    // PWA: instalar no celular e abrir offline
+    if ("serviceWorker" in navigator && location.protocol.indexOf("http") === 0) {
+        var base = location.pathname.replace(/\/(en|es)\/[^\/]*$/, "/").replace(/[^\/]*$/, "");
+        var mf = document.createElement("link"); mf.rel = "manifest"; mf.href = base + "manifest.json"; document.head.appendChild(mf);
+        window.addEventListener("load", function () { navigator.serviceWorker.register(base + "sw.js").catch(function () {}); });
+    }
+
     function renderNavbar() {
         var placeholder = document.getElementById("site-navbar");
         if (placeholder) placeholder.outerHTML = NAVBAR_HTML;
@@ -251,6 +289,8 @@
 
     document.addEventListener("DOMContentLoaded", function () {
         injectSharedCss();
+        keepAwake();
+        document.querySelectorAll("img:not([loading])").forEach(function (im) { im.loading = "lazy"; });
         renderNavbar();
         renderFooter();
         syncAdminNavVisibility();

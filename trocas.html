@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trocas de acordes · Estudo de Violão Iniciante</title>
+    <meta name="description" content="Treino cronometrado de troca de acordes: quantas trocas limpas em 60 segundos, com recorde por par." />
+    <link rel="icon" type="image/png" href="favicon-32.png" />
+    <link rel="apple-touch-icon" href="favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Estudo de Violão Iniciante" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content="https://rene17bueno.github.io/site_aula_musica_iniciante/trocas.html" />
+    <meta property="og:title" content="Trocas de acordes · Estudo de Violão Iniciante" />
+    <meta property="og:description" content="Treino cronometrado de troca de acordes: quantas trocas limpas em 60 segundos, com recorde por par." />
+    <meta property="og:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Trocas de acordes · Estudo de Violão Iniciante" />
+    <meta name="twitter:description" content="Treino cronometrado de troca de acordes: quantas trocas limpas em 60 segundos, com recorde por par." />
+    <meta name="twitter:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <!-- Fonts & Bootstrap (cdn) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        /* ===== ESTILOS GERAIS INTEGRADOS ===== */
+        body {
+            background: #0e0d1a;
+            color: #e4dfd7;
+            font-family: 'Inter', sans-serif;
+            padding-top: 90px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .gold {
+            color: #e8d5a3;
+        }
+        .bg-dark-custom {
+            background: #14131f;
+        }
+        .border-gold {
+            border-color: rgba(201, 169, 89, 0.3) !important;
+        }
+        .text-gold {
+            color: #e8d5a3;
+        }
+        .text-muted {
+            color: #b5b0a8 !important;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar-custom {
+            background: #0e0d1aee;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(201, 169, 89, 0.15);
+        }
+        .navbar-custom .nav-link {
+            color: #d1cbdc !important;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #e8d5a3 !important;
+        }
+        .nav-brand-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #e8d5a3 !important;
+            text-decoration: none;
+        }
+
+        .chapter-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        .section-tag {
+            display: inline-block;
+            background: rgba(201, 169, 89, 0.12);
+            color: #e8d5a3;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            padding: 5px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            text-transform: uppercase;
+        }
+
+        /* ===== CONTAINER DO JOGO ===== */
+        .game-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            transition: 0.3s ease;
+        }
+        
+        .level-badge {
+            background: rgba(201, 169, 89, 0.2);
+            color: #ffffff;
+            border: 1px solid #e8d5a3;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 6px 18px;
+            border-radius: 50px;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(201, 169, 89, 0.2);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c9a959, #f7e7c4);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* ===== PERGUNTA ===== */
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: #ffffff;
+            margin: 25px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* ===== BOTÕES DE RESPOSTA ===== */
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 169, 89, 0.35);
+            color: #ffffff !important;
+            padding: 16px 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        .option-btn:hover {
+            background: rgba(201, 169, 89, 0.25);
+            border-color: #f7e7c4;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 89, 0.2);
+        }
+
+        /* ===== FEEDBACK ===== */
+        .feedback-area {
+            min-height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .feedback-area.show {
+            opacity: 1;
+        }
+        .feedback-correct {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+        .feedback-incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+        }
+
+        /* ===== SELETOR DE NÍVEIS LATERAL ===== */
+        .btn-level-select {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(201, 169, 89, 0.15);
+            color: #e4dfd7;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .btn-level-select .level-title {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-level-select .level-desc {
+            color: #b5b0a8;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .btn-level-select:hover, .btn-level-select.active {
+            background: rgba(201, 169, 89, 0.15);
+            border-color: #e8d5a3;
+        }
+        .btn-level-select.active .level-title {
+            color: #e8d5a3;
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            border-top: 1px solid rgba(201, 169, 89, 0.1);
+            background: #0e0d1a;
+            padding: 1.5rem 0;
+        }
+        .site-footer .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #e8d5a3;
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding-top: 68px;
+            }
+            .chapter-content {
+                padding: 1.25rem 0 1.75rem;
+            }
+            .game-card {
+                padding: 18px 14px;
+                border-radius: 12px;
+            }
+            .question-text {
+                font-size: 1.35rem;
+                margin: 16px 0;
+                min-height: 56px;
+            }
+            .option-btn {
+                padding: 12px 14px;
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            .feedback-area {
+                min-height: 50px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .level-badge {
+                font-size: 0.78rem;
+                padding: 5px 12px;
+            }
+            .question-text {
+                font-size: 1.2rem;
+                margin: 12px 0;
+                min-height: 48px;
+            }
+            .option-btn {
+                padding: 11px 12px;
+                font-size: 0.95rem;
+            }
+            .row.g-4 {
+                --bs-gutter-y: 0.85rem;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .game-card {
+                padding: 14px 11px;
+            }
+            .feedback-area {
+                min-height: 46px;
+                font-size: 0.93rem;
+            }
+            .btn-level-select .level-desc {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .section-tag {
+                font-size: 0.68rem;
+                padding: 4px 12px;
+            }
+            .btn-level-select {
+                padding: 10px 12px;
+            }
+        }
+            #questionBox{display:block}
+        #questionBox svg{display:block;margin:0 auto 1rem}
+    #go{border-radius:14px}
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8CMNEYXZ9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H8CMNEYXZ9');
+    </script>
+</head>
+<body>
+
+    <div id="site-navbar"></div>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <main class="chapter-content">
+<div class="container">
+<div class="row mb-4"><div class="col-12 text-center">
+<span class="section-tag"><i class="fas fa-stopwatch me-1"></i> Treino</span>
+<h1 class="display-5 fw-bold mt-2">Trocas de <span class="gold">acordes</span></h1>
+<p class="text-muted">Escolha dois acordes, toque por 60 segundos e conte quantas trocas limpas você faz. Bata seu recorde.</p></div></div>
+<div class="row g-4">
+<div class="col-lg-4"><div class="game-card">
+<label class="small text-muted">Acorde A</label><select id="a" class="form-select mb-3"></select>
+<label class="small text-muted">Acorde B</label><select id="b" class="form-select mb-3"></select>
+<label class="small text-muted">Duração</label><select id="dur" class="form-select mb-3"><option value="30">30 segundos</option><option value="60" selected>60 segundos</option></select>
+<div class="small text-muted">Recorde deste par: <b class="gold" id="rec">0</b> trocas</div>
+<hr class="border-gold"><div class="small text-muted">Como fazer: toque o acorde mostrado, <b class="text-white">troque de verdade</b> para o outro e toque o botão (ou a barra de espaço). Só conta se soou limpo.</div>
+</div></div>
+<div class="col-lg-8"><div class="game-card text-center">
+<div class="d-flex justify-content-between mb-3"><span class="level-badge" id="tempo">60 s</span><span class="fs-6 text-muted">Trocas: <b class="gold fs-4" id="n">0</b></span></div>
+<div id="dg"></div><div class="fs-2 gold fw-bold mb-3" id="nome">Pronto?</div>
+<button class="btn fw-bold px-5 py-3 fs-5" id="go" style="background:#c9a959;color:#0e0d1a;min-width:220px">Começar</button>
+<div class="small text-muted mt-3" id="msg"></div>
+</div></div></div>
+</div>
+</main>
+
+    <div id="site-footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/js/layout.js"></script>
+    <script>
+
+const C={C:[-1,3,2,0,1,0],D:[-1,-1,0,2,3,2],E:[0,2,2,1,0,0],G:[3,2,0,0,0,3],A:[-1,0,2,2,2,0],Am:[-1,0,2,2,1,0],Em:[0,2,2,0,0,0],Dm:[-1,-1,0,2,3,1],F:[1,3,3,2,1,1]};
+function dia(fr,bar){const x=i=>30+i*28,y=j=>34+j*30;let s='<svg viewBox="0 0 200 180" style="max-width:200px;width:100%" class="mb-2">';
+ s+=`<rect x="28" y="31" width="${x(5)-x(0)+4}" height="5" fill="#e8d5a3"/>`;
+ for(let j=0;j<=4;j++)s+=`<line x1="${x(0)}" x2="${x(5)}" y1="${y(j)}" y2="${y(j)}" stroke="#6b6780"/>`;
+ for(let i=0;i<6;i++){s+=`<line x1="${x(i)}" x2="${x(i)}" y1="${y(0)}" y2="${y(4)}" stroke="#9c97b0"/>`;
+  if(fr[i]<0)s+=`<text x="${x(i)}" y="24" fill="#b5b0a8" font-size="14" text-anchor="middle">x</text>`;else if(fr[i]===0)s+=`<circle cx="${x(i)}" cy="20" r="5" fill="none" stroke="#b5b0a8"/>`;}
+ if(bar)s+=`<rect x="${x(0)-8}" y="${y(0)+6}" width="${x(5)-x(0)+16}" height="18" rx="9" fill="#c9a959" opacity=".55"/>`;
+ fr.forEach((f,i)=>{if(f>0)s+=`<circle cx="${x(i)}" cy="${y(f-1)+15}" r="9" fill="#e8d5a3"/>`;});return s+'</svg>';}
+const $=id=>document.getElementById(id);
+Object.keys(C).forEach(k=>{[$('a'),$('b')].forEach((s,i)=>{const o=document.createElement('option');o.value=o.textContent=k;s.appendChild(o);});});
+$('a').value='Am';$('b').value='C';
+const key=()=>'troca-'+[$('a').value,$('b').value].sort().join('-');
+const rec=()=>((Prog.get().max||{})[key()])||0;
+let run=false,n=0,t0=0,tick,cur=0;
+function paint(){const c=cur?$('b').value:$('a').value;$('dg').innerHTML=dia(C[c],c==='F');$('nome').textContent=c;}
+function refresh(){$('rec').textContent=rec();if(!run){cur=0;paint();$('nome').textContent='Pronto?';}}
+['a','b','dur'].forEach(i=>$(i).onchange=refresh);refresh();
+function stop(){run=false;clearInterval(tick);$('go').textContent='Começar de novo';const old=rec();Prog.max(key(),n);
+ $('msg').textContent=n>old?('Novo recorde: '+n+' trocas. Antes: '+old+'.'):('Você fez '+n+' trocas. Recorde: '+old+'.');
+ if(n>0)Prog.count('trocas',true);}
+function hit(){if(!run)return;n++;cur^=1;$('n').textContent=n;paint();}
+$('go').onclick=()=>{if(run){hit();return;}
+ run=true;n=0;cur=0;$('n').textContent=0;$('msg').textContent='';$('go').textContent='Troquei!';paint();
+ const dur=+$('dur').value;t0=Date.now();tick=setInterval(()=>{const left=Math.max(0,dur-Math.floor((Date.now()-t0)/1000));$('tempo').textContent=left+' s';if(left<=0)stop();},200);};
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&e.target.tagName!=='SELECT'){e.preventDefault();$('go').click();}});
+</script>
+</body>
+</html>

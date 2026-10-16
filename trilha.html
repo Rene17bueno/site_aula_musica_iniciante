@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comece aqui: trilha de 12 semanas · Estudo de Violão Iniciante</title>
+    <meta name="description" content="Roteiro de 12 semanas para aprender violão do zero, com metas semanais e progresso salvo." />
+    <link rel="icon" type="image/png" href="favicon-32.png" />
+    <link rel="apple-touch-icon" href="favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Estudo de Violão Iniciante" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content="https://rene17bueno.github.io/site_aula_musica_iniciante/trilha.html" />
+    <meta property="og:title" content="Comece aqui: trilha de 12 semanas · Estudo de Violão Iniciante" />
+    <meta property="og:description" content="Roteiro de 12 semanas para aprender violão do zero, com metas semanais e progresso salvo." />
+    <meta property="og:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Comece aqui: trilha de 12 semanas · Estudo de Violão Iniciante" />
+    <meta name="twitter:description" content="Roteiro de 12 semanas para aprender violão do zero, com metas semanais e progresso salvo." />
+    <meta name="twitter:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <!-- Fonts & Bootstrap (cdn) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        /* ===== ESTILOS GERAIS INTEGRADOS ===== */
+        body {
+            background: #0e0d1a;
+            color: #e4dfd7;
+            font-family: 'Inter', sans-serif;
+            padding-top: 90px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .gold {
+            color: #e8d5a3;
+        }
+        .bg-dark-custom {
+            background: #14131f;
+        }
+        .border-gold {
+            border-color: rgba(201, 169, 89, 0.3) !important;
+        }
+        .text-gold {
+            color: #e8d5a3;
+        }
+        .text-muted {
+            color: #b5b0a8 !important;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar-custom {
+            background: #0e0d1aee;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(201, 169, 89, 0.15);
+        }
+        .navbar-custom .nav-link {
+            color: #d1cbdc !important;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #e8d5a3 !important;
+        }
+        .nav-brand-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #e8d5a3 !important;
+            text-decoration: none;
+        }
+
+        .chapter-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        .section-tag {
+            display: inline-block;
+            background: rgba(201, 169, 89, 0.12);
+            color: #e8d5a3;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            padding: 5px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            text-transform: uppercase;
+        }
+
+        /* ===== CONTAINER DO JOGO ===== */
+        .game-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            transition: 0.3s ease;
+        }
+        
+        .level-badge {
+            background: rgba(201, 169, 89, 0.2);
+            color: #ffffff;
+            border: 1px solid #e8d5a3;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 6px 18px;
+            border-radius: 50px;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(201, 169, 89, 0.2);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c9a959, #f7e7c4);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* ===== PERGUNTA ===== */
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: #ffffff;
+            margin: 25px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* ===== BOTÕES DE RESPOSTA ===== */
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 169, 89, 0.35);
+            color: #ffffff !important;
+            padding: 16px 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        .option-btn:hover {
+            background: rgba(201, 169, 89, 0.25);
+            border-color: #f7e7c4;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 89, 0.2);
+        }
+
+        /* ===== FEEDBACK ===== */
+        .feedback-area {
+            min-height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .feedback-area.show {
+            opacity: 1;
+        }
+        .feedback-correct {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+        .feedback-incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+        }
+
+        /* ===== SELETOR DE NÍVEIS LATERAL ===== */
+        .btn-level-select {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(201, 169, 89, 0.15);
+            color: #e4dfd7;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .btn-level-select .level-title {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-level-select .level-desc {
+            color: #b5b0a8;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .btn-level-select:hover, .btn-level-select.active {
+            background: rgba(201, 169, 89, 0.15);
+            border-color: #e8d5a3;
+        }
+        .btn-level-select.active .level-title {
+            color: #e8d5a3;
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            border-top: 1px solid rgba(201, 169, 89, 0.1);
+            background: #0e0d1a;
+            padding: 1.5rem 0;
+        }
+        .site-footer .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #e8d5a3;
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding-top: 68px;
+            }
+            .chapter-content {
+                padding: 1.25rem 0 1.75rem;
+            }
+            .game-card {
+                padding: 18px 14px;
+                border-radius: 12px;
+            }
+            .question-text {
+                font-size: 1.35rem;
+                margin: 16px 0;
+                min-height: 56px;
+            }
+            .option-btn {
+                padding: 12px 14px;
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            .feedback-area {
+                min-height: 50px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .level-badge {
+                font-size: 0.78rem;
+                padding: 5px 12px;
+            }
+            .question-text {
+                font-size: 1.2rem;
+                margin: 12px 0;
+                min-height: 48px;
+            }
+            .option-btn {
+                padding: 11px 12px;
+                font-size: 0.95rem;
+            }
+            .row.g-4 {
+                --bs-gutter-y: 0.85rem;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .game-card {
+                padding: 14px 11px;
+            }
+            .feedback-area {
+                min-height: 46px;
+                font-size: 0.93rem;
+            }
+            .btn-level-select .level-desc {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .section-tag {
+                font-size: 0.68rem;
+                padding: 4px 12px;
+            }
+            .btn-level-select {
+                padding: 10px 12px;
+            }
+        }
+            #questionBox{display:block}
+        #questionBox svg{display:block;margin:0 auto 1rem}
+    .trilha-item{display:flex;align-items:center;gap:.6rem;padding:.55rem .7rem;border:1px solid rgba(201,169,89,.2);border-radius:10px;margin-bottom:.45rem;cursor:pointer;min-height:44px}
+.trilha-item input{width:20px;height:20px;accent-color:#c9a959;flex:none}.trilha-item span{flex:1;font-size:.92rem}
+.trilha-item:has(input:checked) span{opacity:.55;text-decoration:line-through}.trilha-go{color:#e8d5a3;padding:.3rem .5rem}
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8CMNEYXZ9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H8CMNEYXZ9');
+    </script>
+</head>
+<body>
+
+    <div id="site-navbar"></div>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <main class="chapter-content">
+<div class="container">
+<div class="row mb-4"><div class="col-12 text-center">
+<span class="section-tag"><i class="fas fa-route me-1"></i> Roteiro</span>
+<h1 class="display-5 fw-bold mt-2">Comece <span class="gold">aqui</span></h1>
+<p class="text-muted">Doze semanas, uma meta por semana, uns 20 minutos por dia. Marque o que já fez; o progresso fica salvo neste navegador.</p></div></div>
+<div class="game-card mb-4"><div class="d-flex justify-content-between flex-wrap gap-2 mb-2"><span class="fw-bold">Seu progresso</span><span class="gold fw-bold" id="tot">0%</span></div><div class="progress-container"><div class="progress-bar-fill" id="bar"></div></div><div class="small text-muted mt-2" id="resumo"></div></div>
+<div class="row g-3"><div class="col-md-6"><div class="game-card h-100" data-w="1"><div class="d-flex align-items-center gap-2 mb-2"><span class="level-badge">Semana 1</span><span class="small text-muted wk-count"></span></div><h5 class="fw-bold gold mb-1">Postura, afinação e partes do violão</h5><p class="text-muted small mb-3">Sentar certo, afinar sozinho e saber o nome de cada corda.</p><label class="trilha-item"><input type="checkbox" data-k="s1-0"><span>Afinar o violão sem ajuda</span><a href="afinador.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s1-1"><span>Ler o Capítulo 1</span><a href="capitulo1.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s1-2"><span>Ler a página de técnica e saúde</span><a href="tecnica.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s1-3"><span>Assistir a Aula 1</span><a href="aulas.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label></div></div><div class="col-md-6"><div class="game-card h-100" data-w="2"><div class="d-flex align-items-center gap-2 mb-2"><span class="level-badge">Semana 2</span><span class="small text-muted wk-count"></span></div><h5 class="fw-bold gold mb-1">Primeiros acordes: Em e Am</h5><p class="text-muted small mb-3">Dois acordes de poucos dedos, limpos corda por corda.</p><label class="trilha-item"><input type="checkbox" data-k="s2-0"><span>Assistir a Aula 2</span><a href="aulas.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s2-1"><span>Montar Em e Am olhando o diagrama</span><a href="acordes.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s2-2"><span>Trocar Em ↔ Am por 1 minuto</span><a href="trocas.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label></div></div><div class="col-md-6"><div class="game-card h-100" data-w="3"><div class="d-flex align-items-center gap-2 mb-2"><span class="level-badge">Semana 3</span><span class="small text-muted wk-count"></span></div><h5 class="fw-bold gold mb-1">C e G: a troca que trava todo mundo</h5><p class="text-muted small mb-3">Troca de acordes sem parar o ritmo.</p><label class="trilha-item"><input type="checkbox" data-k="s3-0"><span>Trocar Am ↔ C por 1 minuto</span><a href="trocas.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s3-1"><span>Trocar C ↔ G por 1 minuto</span><a href="trocas.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s3-2"><span>Ler o Capítulo 2</span><a href="capitulo2.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label></div></div><div class="col-md-6"><div class="game-card h-100" data-w="4"><div class="d-flex align-items-center gap-2 mb-2"><span class="level-badge">Semana 4</span><span class="small text-muted wk-count"></span></div><h5 class="fw-bold gold mb-1">Sua primeira música</h5><p class="text-muted small mb-3">Três acordes e uma batida simples: música de verdade.</p><label class="trilha-item"><input type="checkbox" data-k="s4-0"><span>Assistir a Aula 3 (ritmo e batidas)</span><a href="aulas.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s4-1"><span>Tocar uma música com C, G e Am</span><a href="acordes.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s4-2"><span>Ler o Capítulo 3</span><a href="capitulo3.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label></div></div><div class="col-md-6"><div class="game-card h-100" data-w="5"><div class="d-flex align-items-center gap-2 mb-2"><span class="level-badge">Semana 5</span><span class="small text-muted wk-count"></span></div><h5 class="fw-bold gold mb-1">Pulso e metrônomo</h5><p class="text-muted small mb-3">Tocar certo vale menos que tocar no tempo.</p><label class="trilha-item"><input type="checkbox" data-k="s5-0"><span>Metrônomo a 60 bpm com 3 repetições limpas</span><a href="tecnica.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s5-1"><span>Exercício das aranhas a 60 bpm</span><a href="exercicios.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label></div></div><div class="col-md-6"><div class="game-card h-100" data-w="6"><div class="d-flex align-items-center gap-2 mb-2"><span class="level-badge">Semana 6</span><span class="small text-muted wk-count"></span></div><h5 class="fw-bold gold mb-1">Pestana e acordes maiores/menores móveis</h5><p class="text-muted small mb-3">O F e todos os acordes com pestana.</p><label class="trilha-item"><input type="checkbox" data-k="s6-0"><span>Ler a seção de pestana</span><a href="tecnica.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s6-1"><span>Fazer 'Casa da nota base' (formato E)</span><a href="exercicios-escalas-acordes.html#acordes" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s6-2"><span>Jogo 'Acorde com pestana' (Fase 3)</span><a href="jogos-braco.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label></div></div><div class="col-md-6"><div class="game-card h-100" data-w="7"><div class="d-flex align-items-center gap-2 mb-2"><span class="level-badge">Semana 7</span><span class="small text-muted wk-count"></span></div><h5 class="fw-bold gold mb-1">Notas no braço</h5><p class="text-muted small mb-3">Saber onde está cada nota nas cordas 6, 5 e 1.</p><label class="trilha-item"><input type="checkbox" data-k="s7-0"><span>Jogos do Braço: Fase 1</span><a href="jogos-braco.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s7-1"><span>Jogos do Braço: Fase 4 (casa da nota base)</span><a href="jogos-braco.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s7-2"><span>Identificação de Notas</span><a href="jogos.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label></div></div><div class="col-md-6"><div class="game-card h-100" data-w="8"><div class="d-flex align-items-center gap-2 mb-2"><span class="level-badge">Semana 8</span><span class="small text-muted wk-count"></span></div><h5 class="fw-bold gold mb-1">Escalas maior e pentatônica</h5><p class="text-muted small mb-3">Começar sempre pela tônica mais grave.</p><label class="trilha-item"><input type="checkbox" data-k="s8-0"><span>Escala maior em Dó e Sol</span><a href="exercicios-escalas-acordes.html#escalas" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s8-1"><span>Pentatônica menor em Lá</span><a href="exercicios-escalas-acordes.html#escalas" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s8-2"><span>Jogos do Braço: Fases 8 e 9</span><a href="jogos-braco.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label></div></div><div class="col-md-6"><div class="game-card h-100" data-w="9"><div class="d-flex align-items-center gap-2 mb-2"><span class="level-badge">Semana 9</span><span class="small text-muted wk-count"></span></div><h5 class="fw-bold gold mb-1">Campo harmônico</h5><p class="text-muted small mb-3">Quais acordes combinam entre si em qualquer tom.</p><label class="trilha-item"><input type="checkbox" data-k="s9-0"><span>Campo harmônico em Dó maior</span><a href="exercicios-escalas-acordes.html#campo" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s9-1"><span>Transpor para Sol e Ré</span><a href="exercicios-escalas-acordes.html#campo" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s9-2"><span>Jogos do Braço: Fases 5 a 7</span><a href="jogos-braco.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s9-3"><span>Ler o Capítulo 7</span><a href="capitulo7.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label></div></div><div class="col-md-6"><div class="game-card h-100" data-w="10"><div class="d-flex align-items-center gap-2 mb-2"><span class="level-badge">Semana 10</span><span class="small text-muted wk-count"></span></div><h5 class="fw-bold gold mb-1">Mão direita: arpejos</h5><p class="text-muted small mb-3">Dedos p-i-m-a e padrões de arpejo.</p><label class="trilha-item"><input type="checkbox" data-k="s10-0"><span>Padrões de arpejo em Am</span><a href="tecnica.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s10-1"><span>Arpejo em C e G a 60 bpm</span><a href="tecnica.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label></div></div><div class="col-md-6"><div class="game-card h-100" data-w="11"><div class="d-flex align-items-center gap-2 mb-2"><span class="level-badge">Semana 11</span><span class="small text-muted wk-count"></span></div><h5 class="fw-bold gold mb-1">Acordes por todo o braço</h5><p class="text-muted small mb-3">Um mesmo acorde em várias posições (CAGED).</p><label class="trilha-item"><input type="checkbox" data-k="s11-0"><span>Ler o Capítulo 9</span><a href="capitulo9.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s11-1"><span>Escolher a casa de início no exercício de acordes</span><a href="exercicios-escalas-acordes.html#acordes" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label></div></div><div class="col-md-6"><div class="game-card h-100" data-w="12"><div class="d-flex align-items-center gap-2 mb-2"><span class="level-badge">Semana 12</span><span class="small text-muted wk-count"></span></div><h5 class="fw-bold gold mb-1">Música completa e gravação</h5><p class="text-muted small mb-3">Tocar uma música do início ao fim e gravar para se ouvir.</p><label class="trilha-item"><input type="checkbox" data-k="s12-0"><span>Escolher uma música com 4 acordes e tocar inteira</span><a href="acordes.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label><label class="trilha-item"><input type="checkbox" data-k="s12-1"><span>Postar sua gravação na comunidade</span><a href="comunidade.html" class="trilha-go" title="Abrir"><i class="fas fa-arrow-up-right-from-square"></i></a></label></div></div></div>
+<div class="game-card mt-4"><h5 class="fw-bold gold">Seus números</h5><div id="nums" class="text-muted" style="line-height:1.8">Ainda sem dados. Jogue, treine trocas ou use o metrônomo e eles aparecem aqui.</div></div>
+<div class="game-card mt-4"><h5 class="fw-bold gold">Regras do jogo</h5><ul class="text-muted mb-0" style="line-height:1.7"><li>20 minutos por dia rendem mais que 2 horas no domingo.</li><li>Só avance de semana quando a meta estiver limpa, sem corda abafada nem parar para pensar.</li><li>Dedo doendo? Pare. Leia a página de técnica e saúde.</li></ul></div>
+</div>
+</main>
+
+    <div id="site-footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/js/layout.js"></script>
+    <script>
+
+const D=()=>Prog.get().trilha||{};
+function save(k,v){const d=Prog.get();d.trilha=d.trilha||{};if(v)d.trilha[k]=1;else delete d.trilha[k];Prog.save(d);paint();}
+function paint(){const d=D();let tot=0,done=0,first=null;
+ document.querySelectorAll('[data-w]').forEach(c=>{const cb=[...c.querySelectorAll('input')];const n=cb.filter(x=>d[x.dataset.k]).length;
+  c.querySelector('.wk-count').textContent=n+'/'+cb.length;tot+=cb.length;done+=n;if(first===null&&n<cb.length)first=c.dataset.w;});
+ const p=Math.round(done/tot*100);document.getElementById('tot').textContent=p+'%';document.getElementById('bar').style.width=p+'%';
+ document.getElementById('resumo').textContent=first?('Você está na semana '+first+'.'):'Trilha completa. Escolha uma música nova e siga em frente.';}
+document.querySelectorAll('.trilha-item input').forEach(i=>{i.checked=!!D()[i.dataset.k];i.onchange=()=>save(i.dataset.k,i.checked);});
+document.querySelectorAll('.trilha-go').forEach(a=>a.onclick=e=>e.stopPropagation());
+paint();
+(function(){const d=Prog.get(),m=d.max||{},c=d.cnt||{},L=[];
+ if(m['braco-fase'])L.push('Jogos do Braço: fase mais alta, '+m['braco-fase']);
+ Object.keys(c).filter(k=>k.startsWith('braco-f')).sort().forEach(k=>{const [a,e]=c[k],t=a+e;L.push('Fase '+k.slice(7)+': '+Math.round(a/t*100)+'% de acerto em '+t+' respostas');});
+ const pior=Object.keys(c).filter(k=>k.startsWith('braco-f')&&c[k][0]+c[k][1]>=10).sort((x,y)=>c[x][0]/(c[x][0]+c[x][1])-c[y][0]/(c[y][0]+c[y][1]))[0];
+ if(pior)L.push('Onde você mais erra: fase '+pior.slice(7));
+ if(m['exercicio-bpm'])L.push('Exercícios: maior andamento, '+m['exercicio-bpm']+' bpm');
+ if(m['tecnica-bpm'])L.push('Metrônomo limpo: '+m['tecnica-bpm']+' bpm');
+ Object.keys(m).filter(k=>k.startsWith('troca-')).forEach(k=>L.push('Trocas '+k.slice(6).replace('-',' ↔ ')+': recorde '+m[k]));
+ if((d.caps||[]).length)L.push('Capítulos lidos: '+d.caps.length+' de 13');
+ if(L.length)document.getElementById('nums').innerHTML=L.map(x=>'<div>'+x+'</div>').join('');})();
+</script>
+</body>
+</html>

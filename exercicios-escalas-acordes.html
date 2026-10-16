@@ -489,7 +489,7 @@
             if(mode==='E')stepScale();
             else if(mode==='A'){$('practice').value==='form'?stepForm():stepList(listA())}
             else stepList(listC());
-            timer=setTimeout(loop,60000/$('bpm').value);
+            Prog.max('exercicio-bpm',+$('bpm').value);timer=setTimeout(loop,60000/$('bpm').value);
         }
         function stop(){clearTimeout(timer);timer=null;$('go').innerHTML='<i class="fas fa-play me-1"></i> Iniciar'}
         function run(){idx=0;$('go').innerHTML='<i class="fas fa-stop me-1"></i> Parar';loop()}
