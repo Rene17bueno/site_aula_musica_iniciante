@@ -36,7 +36,7 @@
             visualChallenge: "Desafio Visual", noteId: "Identificação de Notas", fretGames: "Jogos do Braço",
             community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin",
             navBrand: "<span>Violão</span> &middot; Iniciante",
-            footBrand: "<span>Estudo de Violão</span> Iniciante"
+            footBrand: "<span>Estudo de Violão</span> Iniciante", catholic: "Músico Católico"
         },
         en: {
             home: "Home", lessons: "Lessons (PT)", chapters: "Chapters", chapter: "Chapter",
@@ -44,7 +44,7 @@
             visualChallenge: "Visual Challenge", noteId: "Note Identification", fretGames: "Fretboard Games (PT)",
             community: "Community", attendance: "Attendance", adminPanel: "Admin Panel",
             navBrand: "<span>Guitar</span> &middot; Beginner",
-            footBrand: "<span>Beginner</span> Guitar Study"
+            footBrand: "<span>Beginner</span> Guitar Study", catholic: "Catholic Musician"
         },
         es: {
             home: "Inicio", lessons: "Clases (PT)", chapters: "Capítulos", chapter: "Capítulo",
@@ -52,7 +52,7 @@
             visualChallenge: "Desafío Visual", noteId: "Identificación de Notas", fretGames: "Juegos del Brazo (PT)",
             community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración",
             navBrand: "<span>Guitarra</span> &middot; Principiante",
-            footBrand: "<span>Estudio de Guitarra</span> para Principiantes"
+            footBrand: "<span>Estudio de Guitarra</span> para Principiantes", catholic: "Músico Católico"
         }
     };
     var t = T[LANG];
@@ -83,7 +83,11 @@
     // Grava a escolha manual para que a autodetecção não a sobreponha depois.
     var SET = function (l) { return "try{localStorage.setItem('preferredLang','" + l + "')}catch(e){}"; };
 
+    var CATHOLIC_URL = "https://rene17bueno.github.io/musico-catolico/";
+    var CATHOLIC_BTN = '<a class="btn btn-sm fw-semibold" style="background:#c9a959;color:#0e0d1a;border-radius:10px;white-space:nowrap" href="' + CATHOLIC_URL + '" target="_blank" rel="noopener"><i class="fas fa-cross me-1"></i> ' + t.catholic + '</a>';
+
     var LANG_SWITCH =
+        '<li class="nav-item d-flex align-items-center justify-content-center">' + CATHOLIC_BTN + '</li>' +
         '<li class="nav-item dropdown">' +
         '<a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">' +
         '<i class="fas fa-globe me-1"></i> ' + LANG.toUpperCase() +
@@ -144,6 +148,7 @@
         '<footer class="site-footer py-4 mt-auto">' +
         '<div class="container text-center">' +
         '<div class="footer-brand mb-2">' + t.footBrand + '</div>' +
+        '<div class="mb-3">' + CATHOLIC_BTN.replace("btn-sm", "") + '</div>' +
         '<div class="small" style="color: #b5b0a8;">' +
         '<i class="fas fa-copyright me-1" style="color:#c9a959;"></i> 2026 &middot; Renê Aparecido Bueno &middot; Maringá &middot; PR' +
         '</div>' +
@@ -160,7 +165,7 @@
         ':focus-visible{outline:2px solid #c9a959;outline-offset:2px;border-radius:4px}',
         /* navbar sólida */
         '.custom-navbar{background:#0e0d1a!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border-bottom:1px solid rgba(201,169,89,.28)!important;box-shadow:0 4px 18px rgba(0,0,0,.45);padding-top:.55rem;padding-bottom:.55rem;z-index:1040}',
-        '.custom-navbar .navbar-brand{white-space:normal;line-height:1.15;max-width:75%}',
+        '@media (min-width:992px){.custom-navbar .navbar-brand{white-space:nowrap}}','.custom-navbar .navbar-brand{white-space:normal;line-height:1.15;max-width:75%}',
         '.custom-navbar .nav-link{white-space:nowrap;border-radius:8px;padding:.5rem .7rem!important;transition:color .2s,background .2s}',
         '.custom-navbar .nav-link:hover,.custom-navbar .nav-link.active{background:rgba(201,169,89,.12)}',
         '.custom-navbar .navbar-toggler{padding:.45rem .6rem;border-radius:8px;background:rgba(201,169,89,.1)}',
@@ -176,7 +181,7 @@
         'table{max-width:100%}',
         '.site-footer{border-top:1px solid rgba(201,169,89,.2)}',
         /* notebook/tablet estreito: menu cabe em uma linha */
-        '@media (min-width:992px) and (max-width:1199.98px){.custom-navbar .nav-link{font-size:.78rem!important;padding:.45rem .45rem!important}.custom-navbar .navbar-nav{gap:.1rem!important}.custom-navbar .navbar-brand{font-size:1rem}}',
+        '@media (min-width:992px) and (max-width:1399.98px){.custom-navbar .nav-link{font-size:.8rem!important;padding:.45rem .5rem!important}.custom-navbar .navbar-nav{gap:.1rem!important}.custom-navbar .navbar-brand{font-size:1rem}.custom-navbar .container-md,.custom-navbar .container-fluid{max-width:100%}}',
         /* tablet/celular: menu recolhido rolável, alvos de toque grandes */
         '@media (max-width:991.98px){.custom-navbar .navbar-collapse{max-height:calc(100vh - 84px);max-height:calc(100dvh - 84px);overflow-y:auto;-webkit-overflow-scrolling:touch}.custom-navbar .nav-link{padding:.7rem .9rem!important;font-size:.95rem!important}.custom-navbar .dropdown-menu{max-height:none;box-shadow:none;margin:.2rem 0 .4rem}.custom-navbar .dropdown-item{padding:.65rem .9rem}}',
         '@media (max-width:575.98px){body{padding-top:76px!important}.container,.container-fluid{padding-left:16px;padding-right:16px}.display-5{font-size:2rem}.btn{min-height:44px}}',
