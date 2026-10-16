@@ -78,6 +78,7 @@
                     <svg id="board" viewBox="0 0 960 270" role="img" aria-label="Braço do violão"></svg>
                 </div>
                 <div class="now text-center mt-2" id="now">Pressione Iniciar.</div>
+                <div class="text-center small text-muted mt-1" id="info"></div>
             </div>
 
             <div class="game-card">
@@ -216,20 +217,36 @@
         }
 
         // ---------- ESCALAS ----------
-        function buildScale(){
-            var root=+$('root').value,iv=SC[$('type').value],p=+$('pos').value,cand=[];
+        // notas da escala dentro da posição (casa do dedo 1 = p), da mais grave à mais aguda
+        function cands(root,iv,p){
+            var c=[];
             for(var s=6;s>=1;s--)for(var f=0;f<=p+3;f++){
                 if(f===0?p>3:f<p)continue;
                 var m=OPEN[s]+f;
-                if(iv.indexOf(((m-root)%12+12)%12)>=0)cand.push({s:s,f:f,m:m,fg:f?f-p+1:0,root:(m-root)%12===0});
+                if(iv.indexOf(((m-root)%12+12)%12)>=0)c.push({s:s,f:f,m:m,fg:f?f-p+1:0,root:(m-root)%12===0});
             }
             // mesma nota em duas cordas: fica a da corda mais fina (menos esticada)
-            var by={};cand.forEach(function(n){if(!by[n.m]||n.s<by[n.m].s)by[n.m]=n});
-            var up=Object.keys(by).map(Number).sort(function(a,b){return a-b}).map(function(m){return by[m]});
+            var by={};c.forEach(function(n){if(!by[n.m]||n.s<by[n.m].s)by[n.m]=n});
+            return Object.keys(by).map(Number).sort(function(a,b){return a-b}).map(function(m){return by[m]});
+        }
+        // só oferece posições que contêm a tônica
+        function fillPos(){
+            var root=+$('root').value,iv=SC[$('type').value],prev=$('pos').value;
+            $('pos').textContent='';
+            for(var p=1;p<=9;p++)if(cands(root,iv,p).some(function(n){return n.root}))$('pos').add(new Option('Casa '+p,p));
+            $('pos').value=prev;if(!$('pos').value)$('pos').selectedIndex=0;
+        }
+        function buildScale(){
+            fillPos();
+            var root=+$('root').value,iv=SC[$('type').value],p=+$('pos').value,all=cands(root,iv,p);
+            // sempre começa na tônica mais grave da posição
+            var up=all.slice(all.findIndex(function(n){return n.root}));
             var d=$('dir').value;
             seq=d==='up'?up:d==='down'?up.slice().reverse():up.concat(up.slice(0,-1).reverse());
             drawBoard(12);els={};
             up.forEach(function(n){els[n.s+'-'+n.f]=dot(n.f,n.s,n.fg||'0',n.root?'root':'')});
+            var nm=function(m){return NAMES[m%12]};
+            $('info').innerHTML='<b class="gold">'+nm(root)+' '+$('type').selectedOptions[0].text.toLowerCase()+'</b>: '+iv.map(function(i){return NAMES[(root+i)%12]}).join(' – ')+' · começa na tônica <b class="gold">'+nm(up[0].m)+'</b> (corda '+up[0].s+', '+(up[0].f?'casa '+up[0].f:'solta')+') e vai até <b class="gold">'+nm(up[up.length-1].m)+'</b> (corda '+up[up.length-1].s+', casa '+up[up.length-1].f+')';
         }
         function stepScale(){
             var n=seq[idx%seq.length];
@@ -301,7 +318,7 @@
             }else{
                 $('h1').innerHTML='Exercício <span class="gold">Acordes</span>';
                 $('sub').textContent='Aprenda a formar o acorde dedo a dedo e treine a troca em 4 batidas: toque na 1ª, mantenha na 2ª e 3ª e prepare o próximo na 4ª. × = não tocar a corda · o = corda solta.';
-                previewChord();
+                $('info').textContent='';previewChord();
             }
         }
         function loop(){(mode==='E'?stepScale:$('practice').value==='form'?stepForm:stepTroca)();timer=setTimeout(loop,60000/$('bpm').value)}
@@ -310,7 +327,6 @@
         function setMode(m){stop();mode=m;history.replaceState(null,'',m==='E'?'#escalas':'#acordes');setup()}
 
         NAMES.forEach(function(n,i){$('root').add(new Option(n,i))});
-        for(var p=1;p<=9;p++)$('pos').add(new Option('Casa '+p,p));
         Object.keys(CH).forEach(function(c){$('chord').add(new Option(c,c))});
         Object.keys(PROGS).forEach(function(k){$('prog').add(new Option(PROGS[k],k))});
         $('go').onclick=function(){timer?stop():run()};
