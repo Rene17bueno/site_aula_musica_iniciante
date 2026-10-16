@@ -736,6 +736,29 @@
             return opcoes[0];
         }
 
+        // Forma "de aberto" levada para outra casa (sistema CAGED): o mesmo
+        // desenho de um acorde aberto (C, A, G, E, D) sobe k casas, o dedo 1
+        // vira pestana e os dedos 1-2-3 do desenho passam a ser 2-3-4.
+        // Ex.: C aberto + 1 casa = C#. Vale para qualquer tom e qualidade
+        // que tenha forma aberta na biblioteca. Descarta o que fisicamente
+        // não cabe (precisaria de um 5º dedo, corda calada no meio da
+        // pestana ou casa 0 no desenho).
+        function formaDeAberto(tonica, qualidade, raiz, base) {
+            const k = (NOTAS.indexOf(tonica) - NOTAS.indexOf(raiz) + 12) % 12;
+            if (k < 1 || k > 9) return null;
+            const st = base.status;
+            const primeira = st.indexOf('o');
+            if (primeira < 0 || st.slice(primeira).includes('x')) return null;
+            if (base.dots.some(d => d[1] < 1 || d[2] < 1 || d[2] + 1 > 4)) return null;
+            const dots = base.dots.map(d => [d[0], d[1] + 1, d[2] + 1, NOTAS[(NOTAS.indexOf(d[3]) + k) % 12]]);
+            const chord = {
+                baseFret: k, dots,
+                status: st.map(x => x === 'x' ? 'x' : 'o'),
+                barre: { fret: 1, from: primeira + 1, to: 6 }
+            };
+            return { baseFret: k, chord, rotulo: `forma do ${raiz} aberto` };
+        }
+
         // Gera todas as posições de um acorde: a forma padrão já existente na
         // biblioteca (quando houver) + as pestanas móveis E-shape/A-shape
         // (quando cadastradas pra essa qualidade), ordenadas do braço do
@@ -745,6 +768,15 @@
             if (formaDefault) candidatas.push({ baseFret: formaDefault.baseFret, chord: formaDefault });
             ['E', 'A'].forEach(shapeLetra => {
                 const r = formaMovel(tonica, qualidade, shapeLetra);
+                if (r) candidatas.push(r);
+            });
+
+            const lib = ACORDES_BIBLIOTECA[qualidade] || {};
+            Object.keys(lib).forEach(raiz => {
+                const base = lib[raiz][0];
+                if (!base || base.barre || base.baseFret !== 1) return;
+                if (['E', 'A'].includes(raiz) && (FORMAS_MOVEIS[qualidade] || {})[raiz]) return; // já coberto pela pestana E/A
+                const r = formaDeAberto(tonica, qualidade, raiz, base);
                 if (r) candidatas.push(r);
             });
 
@@ -761,6 +793,7 @@
                 posicao: i + 1,
                 total: ordenadas.length,
                 baseFret: p.baseFret,
+                rotulo: p.rotulo || '',
                 svg: gerarSvgAcorde(tonica, p.chord)
             }));
         }
@@ -1064,7 +1097,7 @@
             const casa = p.baseFret === 0 ? 'aberta' : `${p.baseFret}ª casa`;
             modalPosicaoInfo.textContent = (item.tipo === 'escala')
                 ? `Posição ${p.posicao} de ${p.total} — começa em ${p.notaGrau} (${casa})`
-                : `Posição ${p.posicao} de ${p.total} — ${casa}`;
+                : `Posição ${p.posicao} de ${p.total} — ${casa}${p.rotulo ? ' · ' + p.rotulo + ', dedo 1 de pestana' : ''}`;
         }
 
         modal.addEventListener('show.bs.modal', function(e) {
