@@ -130,6 +130,10 @@
                             <label class="form-label small text-muted">Acorde</label>
                             <select id="chord" class="form-select"></select>
                         </div>
+                        <div class="col-12 col-md-6" id="gApos">
+                            <label class="form-label small text-muted">Onde começar (casa da nota base mais grave)</label>
+                            <select id="apos" class="form-select"></select>
+                        </div>
                         <div class="col-6 col-md-4" id="gProg">
                             <label class="form-label small text-muted">Sequência (4 batidas por acorde)</label>
                             <select id="prog" class="form-select"></select>
@@ -170,8 +174,12 @@
                             <label class="form-label small text-muted">Progressão</label>
                             <select id="kprog" class="form-select"></select>
                         </div>
-                        <div class="col-12">
-                            <div class="form-check">
+                        <div class="col-12 col-md-8">
+                            <label class="form-label small text-muted">Onde começar (casa da tônica = nota base mais grave)</label>
+                            <select id="kpos" class="form-select"></select>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="form-check mt-md-4">
                                 <input class="form-check-input" type="checkbox" id="k7">
                                 <label class="form-check-label small" for="k7">Tétrades (acordes com 7ª)</label>
                             </div>
@@ -347,14 +355,14 @@
         function strum(c){
             parse(c).filter(function(n){return !n.x}).forEach(function(n,i){setTimeout(function(){pluck(n.s,n.f)},i*55)});
         }
-        function posTxt(c){return c.open?'acorde aberto':c.r?'pestana na casa '+c.r+' · forma de '+(c.form==='E'?'Mi':'Lá'):''}
+        function posTxt(c){return c.open?'acorde aberto':c.r?'pestana na casa '+c.r+' · nota base na corda '+(c.form==='E'?6:5)+' (forma de '+(c.form==='E'?'Mi':'Lá')+')':''}
         function stepForm(){
-            var c=fromCH($('chord').value),g=groups(c),i=idx%(g.length+2);
-            if(i===0){drawBoard(5,0);marks(c)}
+            var c=chordA(),g=groups(c),i=idx%(g.length+2),off=c.w-1;
+            if(i===0){drawBoard(5,off);marks(c)}
             Array.prototype.forEach.call(dots.querySelectorAll('.on'),function(e){e.classList.remove('on')});
             Array.prototype.forEach.call(dots.querySelectorAll('.dot-t'),function(e){e.classList.add('dim')});
             if(i<g.length){
-                place(g[i],'on',0);click();
+                place(g[i],'on',off);click();
                 Array.prototype.forEach.call(dots.querySelectorAll('.dot.on + .dot-t'),function(e){e.classList.remove('dim')});
                 var gs=g[i];
                 $('now').innerHTML='<span class="chord-name">'+c.name+'</span> · dedo <b class="gold">'+gs[0].fg+'</b> na casa <b class="gold">'+gs[0].f+'</b> · corda'+(gs.length>1?'s':'')+' <b class="gold">'+gs.map(function(n){return n.s}).join(', ')+'</b>';
@@ -381,28 +389,75 @@
         function listA(){return $('prog').value.split(',').map(fromCH)}
         function previewChord(){
             if($('practice').value==='form'){
-                show(fromCH($('chord').value));
-                $('now').innerHTML='<span class="chord-name">'+$('chord').value+'</span> · pressione Iniciar para ver a formação dedo a dedo.';
+                var c=chordA();show(c);
+                $('now').innerHTML='<span class="chord-name">'+c.name+'</span>'+(posTxt(c)?' · '+posTxt(c):'')+' · pressione Iniciar para ver a formação dedo a dedo.';
             }else{drawBoard(5,0);$('now').innerHTML='Sequência <b class="gold">'+PROGS[$('prog').value]+'</b> · pressione Iniciar.'}
         }
 
         // ---------- CAMPO HARMÔNICO (formas móveis: transpõe mudando a casa da pestana) ----------
-        function movable(pc,q,form){
-            var name=LET[pc]+q;
-            if(form==='auto'&&CH[name]){var o=fromCH(name);return o}
-            var rE=(pc-4+12)%12,rA=(pc-9+12)%12;
-            var useE=!!SHAPES.E[q]&&(form==='E'||(form==='auto'&&rE<rA)),sh=(useE?SHAPES.E:SHAPES.A)[q],r=useE?rE:rA;
-            var f=sh[0].map(function(x){return x===null?-1:x+r}),g=sh[1].slice();
+        function build(pc,q,fm,r){ // fm 'E' (nota base na corda 6) ou 'A' (corda 5); r = casa da nota base
+            var sh=SHAPES[fm][q],f=sh[0].map(function(x){return x===null?-1:x+r}),g=sh[1].slice();
             if(r===0){ // sem pestana: dedos em ordem crescente de casa
                 var k=1;g=g.map(function(){return 0});
                 f.map(function(x,i){return {x:x,i:i}}).filter(function(o){return o.x>0}).sort(function(a,b){return a.x-b.x||a.i-b.i}).forEach(function(o){g[o.i]=k++});
             }
-            return {name:name,w:r>1?r:1,f:f,g:g,open:r===0,r:r,form:useE?'E':'A'};
+            return {name:LET[pc]+q,w:r>1?r:1,f:f,g:g,open:r===0,r:r,form:fm};
+        }
+        function split(name){var m=/^([A-G]#?)(.*)$/.exec(name);return {pc:LET.indexOf(m[1]),q:m[2]}}
+        // todas as posições do acorde no braço, pela casa da nota base mais grave
+        function options(pc,q){
+            var name=LET[pc]+q,hasOpen=CH[name]&&name!=='F',o=[];
+            if(hasOpen)o.push({k:'open',r:0,fm:'O',label:'Aberto (casa 0)'});
+            ['E','A'].forEach(function(fm){
+                if(!SHAPES[fm][q])return;
+                var r=(pc-(fm==='E'?4:9)+12)%12;
+                [r,r+12].forEach(function(x){
+                    if(x>12||(x===0&&hasOpen))return;
+                    o.push({k:fm+':'+x,r:x,fm:fm,label:(x?'Casa '+x:'Aberto (casa 0)')+' · nota base na corda '+(fm==='E'?6:5)+' · forma de '+(fm==='E'?'Mi':'Lá')});
+                });
+            });
+            return o.sort(function(a,b){return a.r-b.r});
+        }
+        function make(pc,q,k){
+            if(k==='open')return fromCH(LET[pc]+q);
+            return build(pc,q,k.charAt(0),+k.slice(2));
+        }
+        // escolhe a posição mais próxima da casa "anchor" (0 = automática: a mais baixa)
+        function movable(pc,q,form,anchor,openOk){
+            anchor=anchor||0;
+            var o=options(pc,q).filter(function(x){return x.fm!=='O'||(form==='auto'&&openOk)});
+            var by=o.filter(function(x){return x.fm==='O'||form==='auto'||x.fm===form});
+            if(!by.length)by=o;
+            by.sort(function(a,b){return Math.abs(a.r-anchor)-Math.abs(b.r-anchor)||a.r-b.r});
+            return make(pc,q,by[0].k);
         }
         function field(){
-            var t=+$('kroot').value,m=$('kmode').value,s7=$('k7').checked,form=$('kform').value;
-            return DEG[m].map(function(iv,i){var c=movable((t+iv)%12,(s7?Q7:QT)[m][i],form);c.rom=ROM[m][i];c.deg=i;return c});
+            var t=+$('kroot').value,m=$('kmode').value,s7=$('k7').checked,form=$('kform').value,pos=$('kpos').value,qs=(s7?Q7:QT)[m];
+            var anchor=pos==='auto'||pos==='open'?0:+pos.slice(2);
+            return DEG[m].map(function(iv,i){
+                var pc=(t+iv)%12,c=i===0&&pos!=='auto'?make(pc,qs[0],pos):movable(pc,qs[i],form,anchor,pos==='auto'||pos==='open');
+                c.rom=ROM[m][i];c.deg=i;return c;
+            });
         }
+        // posições possíveis da tônica (I); mantém a mesma forma ao transpor
+        function fillKPos(){
+            var t=+$('kroot').value,m=$('kmode').value,q=($('k7').checked?Q7:QT)[m][0],prev=$('kpos').value||'auto',o=options(t,q);
+            $('kpos').textContent='';
+            $('kpos').add(new Option('Automática (acordes mais baixos no braço)','auto'));
+            o.forEach(function(x){$('kpos').add(new Option(x.label,x.k))});
+            if(prev!=='auto'&&!o.some(function(x){return x.k===prev})){
+                var fm=prev==='open'?'O':prev.charAt(0),n=o.filter(function(x){return x.fm===fm})[0];
+                prev=n?n.k:'auto';
+            }
+            $('kpos').value=prev;
+        }
+        function fillApos(){
+            var sp=split($('chord').value),o=options(sp.pc,sp.q),prev=$('apos').value,keys=o.map(function(x){return x.k});
+            $('apos').textContent='';
+            o.forEach(function(x){$('apos').add(new Option(x.label,x.k))});
+            $('apos').value=keys.indexOf(prev)>=0?prev:keys.indexOf('open')>=0?'open':keys[0];
+        }
+        function chordA(){var sp=split($('chord').value);return make(sp.pc,sp.q,$('apos').value)}
         function fillKProg(){
             var m=$('kmode').value,prev=$('kprog').value||0;
             $('kprog').textContent='';
@@ -422,13 +477,13 @@
         };
         function setup(){
             ['E','A','C'].forEach(function(k){$('ctl'+k).hidden=mode!==k;$('tab'+k).classList.toggle('active',mode===k)});
-            $('gChord').hidden=$('practice').value!=='form';$('gProg').hidden=$('practice').value!=='troca';
+            $('gChord').hidden=$('gApos').hidden=$('practice').value!=='form';$('gProg').hidden=$('practice').value!=='troca';
             $('gKprog').hidden=$('ktrain').value!=='prog';
             $('colB').className=mode==='E'?'col-12':'col-12 col-lg-5';$('colC').className=mode==='E'?'col-12':'col-12 col-lg-7';
             $('h1').innerHTML=TXT[mode][0];$('sub').textContent=TXT[mode][1];
             if(mode==='E'){buildScale();$('now').textContent='Pressione Iniciar.'}
-            else if(mode==='A'){$('info').textContent='';previewChord()}
-            else{fillKProg();fld=field();show(fld[0]);chips(0);$('now').innerHTML='<span class="chord-name">'+fld[0].name+'</span> · '+(posTxt(fld[0])||'')+' · pressione Iniciar ou clique num grau.'}
+            else if(mode==='A'){$('info').textContent='';fillApos();previewChord()}
+            else{fillKProg();fillKPos();fld=field();show(fld[0]);chips(0);$('now').innerHTML='<span class="chord-name">'+fld[0].name+'</span> · '+(posTxt(fld[0])||'')+' · pressione Iniciar ou clique num grau.'}
         }
         function loop(){
             if(mode==='E')stepScale();
@@ -451,7 +506,7 @@
         $('tabA').onclick=function(){setMode('A')};
         $('tabC').onclick=function(){setMode('C')};
         function redo(){var r=!!timer;stop();setup();if(r)run()}
-        ['root','type','pos','dir','practice','chord','prog','kroot','kmode','kform','ktrain','kprog','k7'].forEach(function(i){$(i).onchange=redo});
+        ['root','type','pos','dir','practice','chord','apos','prog','kroot','kmode','kform','kpos','ktrain','kprog','k7'].forEach(function(i){$(i).onchange=redo});
         $('kdown').onclick=function(){$('kroot').value=(+$('kroot').value+11)%12;redo()};
         $('kup').onclick=function(){$('kroot').value=(+$('kroot').value+1)%12;redo()};
         $('info').onclick=function(e){
