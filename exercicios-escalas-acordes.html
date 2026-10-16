@@ -355,7 +355,7 @@
         function strum(c){
             parse(c).filter(function(n){return !n.x}).forEach(function(n,i){setTimeout(function(){pluck(n.s,n.f)},i*55)});
         }
-        function posTxt(c){return c.open?'acorde aberto':c.r?'pestana na casa '+c.r+' · nota base na corda '+(c.form==='E'?6:5)+' (forma de '+(c.form==='E'?'Mi':'Lá')+')':''}
+        function posTxt(c){return c.open?'acorde aberto':c.form==='S'?'pestana na casa '+c.r+' · dedo 1 de pestana · forma de '+c.src+' aberto':c.r?'pestana na casa '+c.r+' · nota base na corda '+(c.form==='E'?6:5)+' (forma de '+(c.form==='E'?'Mi':'Lá')+')':''}
         function stepForm(){
             var c=chordA(),g=groups(c),i=idx%(g.length+2),off=c.w-1;
             if(i===0){drawBoard(5,off);marks(c)}
@@ -404,8 +404,25 @@
             return {name:LET[pc]+q,w:r>1?r:1,f:f,g:g,open:r===0,r:r,form:fm};
         }
         function split(name){var m=/^([A-G]#?)(.*)$/.exec(name);return {pc:LET.indexOf(m[1]),q:m[2]}}
+        // CAGED: um acorde aberto levado k casas acima; o dedo 1 vira pestana e os dedos 1-2-3 do desenho viram 2-3-4
+        function caged(open,k,name){
+            var d=CH[open],f=d.f.split('').map(function(x){return x==='x'?-1:+x}),g=d.g.split('').map(Number),first=f.findIndex(function(x){return x>=0});
+            if(k<1||k>9||first<0||f.slice(first).some(function(x){return x<0}))return null;
+            if(f.some(function(x,i){return x>0&&(g[i]<1||g[i]+1>4)}))return null;
+            return {name:name,w:k,f:f.map(function(x){return x<0?-1:x+k}),g:f.map(function(x,i){return x<0?0:x===0?1:g[i]+1}),open:false,r:k,form:'S',src:open};
+        }
+        // opções de forma aberta transportada para o acorde (pc, q)
+        function cagedOptions(pc,q){
+            var o=[];
+            Object.keys(CH).forEach(function(n){
+                var sp=split(n);if(sp.q!==q||n==='F'||(sp.pc===4||sp.pc===9)&&SHAPES[sp.pc===4?'E':'A'][q])return;
+                var k=(pc-sp.pc+12)%12;
+                if(caged(n,k,LET[pc]+q))o.push({k:'S:'+n+':'+k,r:k,fm:'S',label:'Casa '+k+' · pestana · forma de '+n+' aberto'});
+            });
+            return o;
+        }
         // todas as posições do acorde no braço, pela casa da nota base mais grave
-        function options(pc,q){
+        function options(pc,q,withCaged){
             var name=LET[pc]+q,hasOpen=CH[name]&&name!=='F',o=[];
             if(hasOpen)o.push({k:'open',r:0,fm:'O',label:'Aberto (casa 0)'});
             ['E','A'].forEach(function(fm){
@@ -416,10 +433,12 @@
                     o.push({k:fm+':'+x,r:x,fm:fm,label:(x?'Casa '+x:'Aberto (casa 0)')+' · nota base na corda '+(fm==='E'?6:5)+' · forma de '+(fm==='E'?'Mi':'Lá')});
                 });
             });
+            if(withCaged)o=o.concat(cagedOptions(pc,q));
             return o.sort(function(a,b){return a.r-b.r});
         }
         function make(pc,q,k){
             if(k==='open')return fromCH(LET[pc]+q);
+            if(k.charAt(0)==='S'){var p=k.split(':');return caged(p[1],+p[2],LET[pc]+q)}
             return build(pc,q,k.charAt(0),+k.slice(2));
         }
         // escolhe a posição mais próxima da casa "anchor" (0 = automática: a mais baixa)
@@ -452,7 +471,7 @@
             $('kpos').value=prev;
         }
         function fillApos(){
-            var sp=split($('chord').value),o=options(sp.pc,sp.q),prev=$('apos').value,keys=o.map(function(x){return x.k});
+            var sp=split($('chord').value),o=options(sp.pc,sp.q,true),prev=$('apos').value,keys=o.map(function(x){return x.k});
             $('apos').textContent='';
             o.forEach(function(x){$('apos').add(new Option(x.label,x.k))});
             $('apos').value=keys.indexOf(prev)>=0?prev:keys.indexOf('open')>=0?'open':keys[0];
