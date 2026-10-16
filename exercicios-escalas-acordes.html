@@ -53,6 +53,7 @@
         .dot.root{fill:rgba(232,213,163,.55)}
         .dot.ghost{fill:none;stroke-dasharray:4 3;opacity:.8}
         .mark{fill:#e8d5a3;font-size:18px;font-weight:700;text-anchor:middle;dominant-baseline:central}
+        .pill.sm{padding:2px 11px;font-size:.78rem;margin:2px}
         .chord-name{font-family:'Playfair Display',serif;font-size:1.6rem;color:#e8d5a3}
     </style>
 </head>
@@ -71,6 +72,7 @@
                 <a class="pill" href="exercicios.html">Aranha (dedilhado)</a>
                 <button class="pill" id="tabE" type="button">Escalas</button>
                 <button class="pill" id="tabA" type="button">Acordes</button>
+                <button class="pill" id="tabC" type="button">Campo harmônico</button>
             </div>
 
             <div class="game-card mb-4">
@@ -128,6 +130,48 @@
                             <select id="prog" class="form-select"></select>
                         </div>
                     </div></div>
+                    <div id="ctlC" class="col-12"><div class="row g-3">
+                        <div class="col-12 col-md-4">
+                            <label class="form-label small text-muted">Tônica (transposição)</label>
+                            <div class="input-group">
+                                <button class="btn btn-gold" type="button" id="kdown" title="Descer meio tom">−½</button>
+                                <select id="kroot" class="form-select"></select>
+                                <button class="btn btn-gold" type="button" id="kup" title="Subir meio tom">+½</button>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <label class="form-label small text-muted">Modo</label>
+                            <select id="kmode" class="form-select">
+                                <option value="maior">Maior</option>
+                                <option value="menor">Menor natural</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <label class="form-label small text-muted">Forma do acorde</label>
+                            <select id="kform" class="form-select">
+                                <option value="auto">Automática</option>
+                                <option value="E">Pestana forma de Mi</option>
+                                <option value="A">Pestana forma de Lá</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-2">
+                            <label class="form-label small text-muted">Treino</label>
+                            <select id="ktrain" class="form-select">
+                                <option value="escada">Escada (I → VII)</option>
+                                <option value="prog">Progressão</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-2" id="gKprog">
+                            <label class="form-label small text-muted">Progressão</label>
+                            <select id="kprog" class="form-select"></select>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="k7">
+                                <label class="form-check-label small" for="k7">Tétrades (acordes com 7ª)</label>
+                            </div>
+                        </div>
+                    </div></div>
                     <div class="col-12 col-md-6">
                         <label class="form-label small text-muted">Velocidade: <b id="bpmv" class="gold">70</b> por minuto</label>
                         <input type="range" id="bpm" class="form-range" min="30" max="160" value="70">
@@ -154,8 +198,9 @@
         var X0=60, W=72, Y0=40, DY=36;
         var OPEN={6:40,5:45,4:50,3:55,2:59,1:64};
         var NAMES=['Dó','Dó#','Ré','Ré#','Mi','Fá','Fá#','Sol','Sol#','Lá','Lá#','Si'];
+        var LET=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
         var SC={maior:[0,2,4,5,7,9,11],menor:[0,2,3,5,7,8,10],pentmaior:[0,2,4,7,9],pentmenor:[0,3,5,7,10],blues:[0,3,5,6,7,10]};
-        // f = casas das cordas 6..1 (x = abafada, 0 = solta); g = dedos
+        // acordes abertos: f = casas das cordas 6..1 (x = abafada, 0 = solta); g = dedos
         var CH={
             C:{f:'x32010',g:'032010'}, D:{f:'xx0232',g:'000132'}, E:{f:'022100',g:'023100'},
             G:{f:'320003',g:'210003'}, A:{f:'x02220',g:'001230'}, Am:{f:'x02210',g:'002310'},
@@ -164,23 +209,37 @@
             A7:{f:'x02020',g:'001020'}, B7:{f:'x21202',g:'021304'}
         };
         var PROGS={'C,G,Am,F':'C – G – Am – F','G,D,Em,C':'G – D – Em – C','C,F,G,C':'C – F – G – C','Am,Dm,E,Am':'Am – Dm – E – Am','C,Am,Dm,G7':'C – Am – Dm – G7','E,A,B7,E':'E – A – B7 – E'};
+        // formas móveis (cordas 6..1): [casas relativas à pestana (null = abafada), dedos]
+        var N=null;
+        var SHAPES={
+            E:{'':[[0,2,2,1,0,0],[1,3,4,2,1,1]],'m':[[0,2,2,0,0,0],[1,3,4,1,1,1]],'7':[[0,2,0,1,0,0],[1,3,1,2,1,1]],'m7':[[0,2,0,0,0,0],[1,3,1,1,1,1]],'maj7':[[0,2,1,1,0,0],[1,4,2,3,1,1]]},
+            A:{'':[[N,0,2,2,2,0],[0,1,3,3,3,1]],'m':[[N,0,2,2,1,0],[0,1,3,4,2,1]],'7':[[N,0,2,0,2,0],[0,1,3,1,4,1]],'m7':[[N,0,2,0,1,0],[0,1,3,1,2,1]],'maj7':[[N,0,2,1,2,0],[0,1,4,2,3,1]],'dim':[[N,0,1,2,1,N],[0,1,2,4,3,0]],'m7(b5)':[[N,0,1,0,1,N],[0,1,3,2,4,0]]}
+        };
+        var DEG={maior:[0,2,4,5,7,9,11],menor:[0,2,3,5,7,8,10]};
+        var QT={maior:['','m','m','','','m','dim'],menor:['m','dim','','m','m','','']};
+        var Q7={maior:['maj7','m7','m7','maj7','7','m7','m7(b5)'],menor:['m7','m7(b5)','maj7','m7','m7','maj7','7']};
+        var ROM={maior:['I','ii','iii','IV','V','vi','vii°'],menor:['i','ii°','III','iv','v','VI','VII']};
+        var KP={maior:[[0,4,5,3],[0,3,4,0],[1,4,0,0],[0,5,3,4],[5,3,0,4],[0,2,3,4]],menor:[[0,5,2,6],[0,3,4,0],[0,6,5,6],[0,3,6,2],[1,4,0,0],[0,5,6,0]]};
         var $=function(i){return document.getElementById(i)};
         var NS_='http://www.w3.org/2000/svg';
-        var board=$('board'), bar, dots, mode='E', timer=null, idx=0, ac=null, seq=[], els={}, steps=[];
+        var board=$('board'), bar, dots, mode='E', timer=null, idx=0, ac=null, seq=[], els={}, fld=[];
         var sy=function(s){return Y0+(s-1)*DY};
         var fx=function(f){return X0+(f-.5)*W};
         var ox=function(f){return f===0?40:fx(f)};
 
         function el(tag,a,txt,par){var e=document.createElementNS(NS_,tag);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;(par||board).appendChild(e);return e}
 
-        function drawBoard(fr){
+        // fr casas desenhadas; off = deslocamento dos números (braço mostrado a partir da casa off+1)
+        function drawBoard(fr,off){
+            off=off||0;
             board.textContent='';
             board.setAttribute('viewBox','0 0 '+(X0+fr*W+40)+' 270');
-            [3,5,7,9].forEach(function(f){if(f<=fr)el('circle',{cx:fx(f),cy:(sy(1)+sy(6))/2,r:9,class:'inlay'})});
-            if(fr>=12){el('circle',{cx:fx(12),cy:sy(2)+DY/2,r:9,class:'inlay'});el('circle',{cx:fx(12),cy:sy(5)-DY/2,r:9,class:'inlay'})}
+            [3,5,7,9].forEach(function(a){var f=a-off;if(f>=1&&f<=fr)el('circle',{cx:fx(f),cy:(sy(1)+sy(6))/2,r:9,class:'inlay'})});
+            var f12=12-off;
+            if(f12>=1&&f12<=fr){el('circle',{cx:fx(f12),cy:sy(2)+DY/2,r:9,class:'inlay'});el('circle',{cx:fx(f12),cy:sy(5)-DY/2,r:9,class:'inlay'})}
             for(var f=0;f<=fr;f++){
-                el('line',{x1:X0+f*W,x2:X0+f*W,y1:sy(1),y2:sy(6),class:f?'fret-line':'nut'});
-                if(f)el('text',{x:fx(f),y:sy(6)+34,class:'fret-num'},f);
+                el('line',{x1:X0+f*W,x2:X0+f*W,y1:sy(1),y2:sy(6),class:f||off?'fret-line':'nut'});
+                if(f)el('text',{x:fx(f),y:sy(6)+34,class:'fret-num'},f+off);
             }
             for(var s=1;s<=6;s++){
                 el('line',{x1:X0,x2:X0+fr*W,y1:sy(s),y2:sy(s),class:'string-line','stroke-width':1+(s-1)*.55});
@@ -257,84 +316,142 @@
             idx++;
         }
 
-        // ---------- ACORDES ----------
-        function parse(c){var o=[];for(var i=0;i<6;i++){var ch=CH[c].f[i];o.push({s:6-i,x:ch==='x',f:ch==='x'?-1:+ch,fg:+CH[c].g[i]})}return o}
-        function marks(c){parse(c).forEach(function(n){if(n.x)el('text',{x:40,y:sy(n.s),class:'mark'},'×',dots);else if(n.f===0)el('text',{x:40,y:sy(n.s),class:'mark'},'o',dots)})}
-        function place(list,cls){
-            list.forEach(function(n){dot(n.f,n.s,n.fg,cls)});
-            var one=list.filter(function(n){return n.fg===1});
-            if(cls==='on'&&one.length>1&&one.every(function(n){return n.f===one[0].f}))barre(one,one[0].f);
+        // ---------- ACORDES (objeto: {name,w,f[6],g[6],r,form,open}; f<0 = abafada; w = 1ª casa mostrada) ----------
+        function fromCH(name){
+            var d=CH[name];
+            return {name:name,w:1,f:d.f.split('').map(function(x){return x==='x'?-1:+x}),g:d.g.split('').map(Number),open:name!=='F',r:name==='F'?1:0,form:'E'};
         }
+        function parse(c){return c.f.map(function(f,i){return {s:6-i,x:f<0,f:f,fg:c.g[i]}})}
+        function fretted(c){return parse(c).filter(function(n){return n.f>0})}
+        function marks(c){parse(c).forEach(function(n){if(n.x)el('text',{x:40,y:sy(n.s),class:'mark'},'×',dots);else if(n.f===0)el('text',{x:40,y:sy(n.s),class:'mark'},'o',dots)})}
+        function place(list,cls,off){
+            off=off||0;
+            list.forEach(function(n){dot(n.f-off,n.s,n.fg,cls)});
+            var one=list.filter(function(n){return n.fg===1});
+            if(cls==='on'&&one.length>1&&one.every(function(n){return n.f===one[0].f}))barre(one,one[0].f-off);
+        }
+        function show(c){drawBoard(5,c.w-1);marks(c);place(fretted(c),'on',c.w-1)}
         function groups(c){
-            var g={};parse(c).filter(function(n){return n.f>0}).forEach(function(n){(g[n.fg]=g[n.fg]||[]).push(n)});
+            var g={};fretted(c).forEach(function(n){(g[n.fg]=g[n.fg]||[]).push(n)});
             return Object.keys(g).map(Number).sort().map(function(k){return g[k]});
         }
         function strum(c){
             parse(c).filter(function(n){return !n.x}).forEach(function(n,i){setTimeout(function(){pluck(n.s,n.f)},i*55)});
         }
+        function posTxt(c){return c.open?'acorde aberto':c.r?'pestana na casa '+c.r+' · forma de '+(c.form==='E'?'Mi':'Lá'):''}
         function stepForm(){
-            var c=$('chord').value,g=groups(c),i=idx%(g.length+2);
-            if(i===0){dots.textContent='';bar.textContent='';marks(c)}
+            var c=fromCH($('chord').value),g=groups(c),i=idx%(g.length+2);
+            if(i===0){drawBoard(5,0);marks(c)}
             Array.prototype.forEach.call(dots.querySelectorAll('.on'),function(e){e.classList.remove('on')});
             Array.prototype.forEach.call(dots.querySelectorAll('.dot-t'),function(e){e.classList.add('dim')});
             if(i<g.length){
-                place(g[i],'on');click();
+                place(g[i],'on',0);click();
                 Array.prototype.forEach.call(dots.querySelectorAll('.dot.on + .dot-t'),function(e){e.classList.remove('dim')});
                 var gs=g[i];
-                $('now').innerHTML='<span class="chord-name">'+c+'</span> · dedo <b class="gold">'+gs[0].fg+'</b> na casa <b class="gold">'+gs[0].f+'</b> · corda'+(gs.length>1?'s':'')+' <b class="gold">'+gs.map(function(n){return n.s}).join(', ')+'</b>';
+                $('now').innerHTML='<span class="chord-name">'+c.name+'</span> · dedo <b class="gold">'+gs[0].fg+'</b> na casa <b class="gold">'+gs[0].f+'</b> · corda'+(gs.length>1?'s':'')+' <b class="gold">'+gs.map(function(n){return n.s}).join(', ')+'</b>';
             }else if(i===g.length){
                 strum(c);
-                $('now').innerHTML='<span class="chord-name">'+c+'</span> · toque as cordas de <b class="gold">6 → 1</b> (menos as marcadas com ×)';
+                $('now').innerHTML='<span class="chord-name">'+c.name+'</span> · toque as cordas de <b class="gold">6 → 1</b> (menos as marcadas com ×)';
             }else{
-                $('now').innerHTML='<span class="chord-name">'+c+'</span> · solte e recomece';
+                $('now').innerHTML='<span class="chord-name">'+c.name+'</span> · solte e recomece';
             }
             idx++;
         }
-        function stepTroca(){
-            var p=$('prog').value.split(','),ci=Math.floor(idx/4)%p.length,b=idx%4,c=p[ci],nx=p[(ci+1)%p.length];
-            if(b===0){dots.textContent='';bar.textContent='';marks(c);place(parse(c).filter(function(n){return n.f>0}),'on');strum(c)}
-            else click();
-            if(b===3){place(parse(nx).filter(function(n){return n.f>0}),'ghost');
-                $('now').innerHTML='<span class="chord-name">'+c+'</span> · batida 4 · <b class="gold">prepare '+nx+'</b> (pontilhado)'}
-            else $('now').innerHTML='<span class="chord-name">'+c+'</span> · batida '+(b+1)+(b===0?' · toque':' · mantenha')+' · próximo: <b class="gold">'+nx+'</b>';
+        // 4 batidas por acorde: toca na 1ª, mantém na 2ª e 3ª, prepara o próximo na 4ª
+        function stepList(list){
+            var ci=Math.floor(idx/4)%list.length,b=idx%4,c=list[ci],nx=list[(ci+1)%list.length],pt=posTxt(c),nm='<span class="chord-name">'+c.name+'</span>'+(c.rom?' <small class="text-muted">('+c.rom+')</small>':'');
+            if(b===0){show(c);strum(c)}else click();
+            if(b===3){
+                var same=nx.w===c.w;
+                if(same)place(fretted(nx),'ghost',c.w-1);
+                $('now').innerHTML=nm+' · batida 4 · <b class="gold">prepare '+nx.name+'</b>'+(same?' (pontilhado)':' · '+posTxt(nx));
+            }else $('now').innerHTML=nm+' · batida '+(b+1)+(b===0?' · toque':' · mantenha')+(pt?' · '+pt:'')+' · próximo: <b class="gold">'+nx.name+'</b>';
+            if(mode==='C')chips(c.deg);
             idx++;
         }
+        function listA(){return $('prog').value.split(',').map(fromCH)}
         function previewChord(){
-            drawBoard(5);dots.textContent='';
-            if($('practice').value==='form'){marks($('chord').value);place(parse($('chord').value).filter(function(n){return n.f>0}),'on');
-                $('now').innerHTML='<span class="chord-name">'+$('chord').value+'</span> · pressione Iniciar para ver a formação dedo a dedo.'}
-            else $('now').innerHTML='Sequência <b class="gold">'+PROGS[$('prog').value]+'</b> · pressione Iniciar.';
+            if($('practice').value==='form'){
+                show(fromCH($('chord').value));
+                $('now').innerHTML='<span class="chord-name">'+$('chord').value+'</span> · pressione Iniciar para ver a formação dedo a dedo.';
+            }else{drawBoard(5,0);$('now').innerHTML='Sequência <b class="gold">'+PROGS[$('prog').value]+'</b> · pressione Iniciar.'}
+        }
+
+        // ---------- CAMPO HARMÔNICO (formas móveis: transpõe mudando a casa da pestana) ----------
+        function movable(pc,q,form){
+            var name=LET[pc]+q;
+            if(form==='auto'&&CH[name]){var o=fromCH(name);return o}
+            var rE=(pc-4+12)%12,rA=(pc-9+12)%12;
+            var useE=!!SHAPES.E[q]&&(form==='E'||(form==='auto'&&rE<rA)),sh=(useE?SHAPES.E:SHAPES.A)[q],r=useE?rE:rA;
+            var f=sh[0].map(function(x){return x===null?-1:x+r}),g=sh[1].slice();
+            if(r===0){ // sem pestana: dedos em ordem crescente de casa
+                var k=1;g=g.map(function(){return 0});
+                f.map(function(x,i){return {x:x,i:i}}).filter(function(o){return o.x>0}).sort(function(a,b){return a.x-b.x||a.i-b.i}).forEach(function(o){g[o.i]=k++});
+            }
+            return {name:name,w:r>1?r:1,f:f,g:g,open:r===0,r:r,form:useE?'E':'A'};
+        }
+        function field(){
+            var t=+$('kroot').value,m=$('kmode').value,s7=$('k7').checked,form=$('kform').value;
+            return DEG[m].map(function(iv,i){var c=movable((t+iv)%12,(s7?Q7:QT)[m][i],form);c.rom=ROM[m][i];c.deg=i;return c});
+        }
+        function fillKProg(){
+            var m=$('kmode').value,prev=$('kprog').value||0;
+            $('kprog').textContent='';
+            KP[m].forEach(function(p,i){$('kprog').add(new Option(p.map(function(d){return ROM[m][d]}).join(' – '),i))});
+            $('kprog').value=prev;if(!$('kprog').value)$('kprog').selectedIndex=0;
+        }
+        function listC(){return $('ktrain').value==='escada'?fld:KP[$('kmode').value][+$('kprog').value].map(function(d){return fld[d]})}
+        function chips(cur){
+            $('info').innerHTML='Campo harmônico de <b class="gold">'+LET[+$('kroot').value]+' '+$('kmode').selectedOptions[0].text.toLowerCase()+'</b>: '+fld.map(function(x,i){return '<button type="button" class="pill sm'+(i===cur?' active':'')+'" data-i="'+i+'">'+x.rom+' '+x.name+'</button>'}).join(' ');
         }
 
         // ---------- CONTROLE ----------
+        var TXT={
+            E:['Exercício <span class="gold">Escalas</span>','Escolha a tônica, o tipo de escala e a casa do dedo 1: cada dedo toca uma casa (dedo 1 na casa inicial, dedo 4 três casas adiante). Notas soltas aparecem ao lado da pestana. Na mão direita, alterne indicador (i) e médio (m).'],
+            A:['Exercício <span class="gold">Acordes</span>','Aprenda a formar o acorde dedo a dedo e treine a troca em 4 batidas: toque na 1ª, mantenha na 2ª e 3ª e prepare o próximo na 4ª. × = não tocar a corda · o = corda solta.'],
+            C:['Exercício <span class="gold">Campo Harmônico</span>','Escolha a tônica e o modo: os acordes de cada grau (I a VII) aparecem no braço e mudam de casa quando você transpõe (use −½ / +½ para subir ou descer meio tom). Clique num grau para ver o acorde ou treine a escada e as progressões em 4 batidas por acorde.']
+        };
         function setup(){
-            $('ctlE').hidden=mode!=='E';$('ctlA').hidden=mode!=='A';
-            $('tabE').classList.toggle('active',mode==='E');$('tabA').classList.toggle('active',mode==='A');
+            ['E','A','C'].forEach(function(k){$('ctl'+k).hidden=mode!==k;$('tab'+k).classList.toggle('active',mode===k)});
             $('gChord').hidden=$('practice').value!=='form';$('gProg').hidden=$('practice').value!=='troca';
-            if(mode==='E'){
-                $('h1').innerHTML='Exercício <span class="gold">Escalas</span>';
-                $('sub').textContent='Escolha a tônica, o tipo de escala e a casa do dedo 1: cada dedo toca uma casa (dedo 1 na casa inicial, dedo 4 três casas adiante). Notas soltas aparecem ao lado da pestana. Na mão direita, alterne indicador (i) e médio (m).';
-                buildScale();$('now').textContent='Pressione Iniciar.';
-            }else{
-                $('h1').innerHTML='Exercício <span class="gold">Acordes</span>';
-                $('sub').textContent='Aprenda a formar o acorde dedo a dedo e treine a troca em 4 batidas: toque na 1ª, mantenha na 2ª e 3ª e prepare o próximo na 4ª. × = não tocar a corda · o = corda solta.';
-                $('info').textContent='';previewChord();
-            }
+            $('gKprog').hidden=$('ktrain').value!=='prog';
+            $('h1').innerHTML=TXT[mode][0];$('sub').textContent=TXT[mode][1];
+            if(mode==='E'){buildScale();$('now').textContent='Pressione Iniciar.'}
+            else if(mode==='A'){$('info').textContent='';previewChord()}
+            else{fillKProg();fld=field();show(fld[0]);chips(0);$('now').innerHTML='<span class="chord-name">'+fld[0].name+'</span> · '+(posTxt(fld[0])||'')+' · pressione Iniciar ou clique num grau.'}
         }
-        function loop(){(mode==='E'?stepScale:$('practice').value==='form'?stepForm:stepTroca)();timer=setTimeout(loop,60000/$('bpm').value)}
+        function loop(){
+            if(mode==='E')stepScale();
+            else if(mode==='A'){$('practice').value==='form'?stepForm():stepList(listA())}
+            else stepList(listC());
+            timer=setTimeout(loop,60000/$('bpm').value);
+        }
         function stop(){clearTimeout(timer);timer=null;$('go').innerHTML='<i class="fas fa-play me-1"></i> Iniciar'}
-        function run(){idx=0;if(mode==='A')dots.textContent='',bar.textContent='';$('go').innerHTML='<i class="fas fa-stop me-1"></i> Parar';loop()}
-        function setMode(m){stop();mode=m;history.replaceState(null,'',m==='E'?'#escalas':'#acordes');setup()}
+        function run(){idx=0;$('go').innerHTML='<i class="fas fa-stop me-1"></i> Parar';loop()}
+        var HASH={E:'#escalas',A:'#acordes',C:'#campo'};
+        function setMode(m){stop();mode=m;history.replaceState(null,'',HASH[m]);setup()}
 
         NAMES.forEach(function(n,i){$('root').add(new Option(n,i))});
+        LET.forEach(function(l,i){$('kroot').add(new Option(l+' – '+NAMES[i],i))});
         Object.keys(CH).forEach(function(c){$('chord').add(new Option(c,c))});
         Object.keys(PROGS).forEach(function(k){$('prog').add(new Option(PROGS[k],k))});
         $('go').onclick=function(){timer?stop():run()};
         $('bpm').oninput=function(){$('bpmv').textContent=this.value};
         $('tabE').onclick=function(){setMode('E')};
         $('tabA').onclick=function(){setMode('A')};
-        ['root','type','pos','dir','practice','chord','prog'].forEach(function(i){$(i).onchange=function(){var r=!!timer;stop();setup();if(r)run()}});
-        mode=location.hash==='#acordes'?'A':'E';
+        $('tabC').onclick=function(){setMode('C')};
+        function redo(){var r=!!timer;stop();setup();if(r)run()}
+        ['root','type','pos','dir','practice','chord','prog','kroot','kmode','kform','ktrain','kprog','k7'].forEach(function(i){$(i).onchange=redo});
+        $('kdown').onclick=function(){$('kroot').value=(+$('kroot').value+11)%12;redo()};
+        $('kup').onclick=function(){$('kroot').value=(+$('kroot').value+1)%12;redo()};
+        $('info').onclick=function(e){
+            var b=e.target.closest&&e.target.closest('[data-i]');
+            if(!b||mode!=='C'||timer)return;
+            var c=fld[+b.dataset.i];show(c);chips(c.deg);
+            strum(c);
+            $('now').innerHTML='<span class="chord-name">'+c.name+'</span> <small class="text-muted">('+c.rom+')</small>'+(posTxt(c)?' · '+posTxt(c):'');
+        };
+        mode=location.hash==='#acordes'?'A':location.hash==='#campo'?'C':'E';
         setup();
     })();
     </script>
