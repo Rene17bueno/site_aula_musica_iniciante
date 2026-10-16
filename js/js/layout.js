@@ -150,6 +150,55 @@
         '</div>' +
         '</footer>';
 
+
+    // ===== Visual compartilhado (todas as páginas): navbar sólida, polimento e responsividade =====
+    var SHARED_CSS = [
+        'html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}',
+        'html,body{max-width:100%;overflow-x:hidden}',
+        'img,svg,video,iframe{max-width:100%}',
+        '::selection{background:rgba(201,169,89,.35);color:#fff}',
+        ':focus-visible{outline:2px solid #c9a959;outline-offset:2px;border-radius:4px}',
+        /* navbar sólida */
+        '.custom-navbar{background:#0e0d1a!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border-bottom:1px solid rgba(201,169,89,.28)!important;box-shadow:0 4px 18px rgba(0,0,0,.45);padding-top:.55rem;padding-bottom:.55rem;z-index:1040}',
+        '.custom-navbar .navbar-brand{white-space:normal;line-height:1.15;max-width:75%}',
+        '.custom-navbar .nav-link{white-space:nowrap;border-radius:8px;padding:.5rem .7rem!important;transition:color .2s,background .2s}',
+        '.custom-navbar .nav-link:hover,.custom-navbar .nav-link.active{background:rgba(201,169,89,.12)}',
+        '.custom-navbar .navbar-toggler{padding:.45rem .6rem;border-radius:8px;background:rgba(201,169,89,.1)}',
+        '.custom-navbar .navbar-toggler:focus{box-shadow:0 0 0 2px rgba(201,169,89,.5)}',
+        '.custom-navbar .dropdown-menu{background:#14131f;border:1px solid rgba(201,169,89,.28);border-radius:12px;padding:.4rem;box-shadow:0 14px 34px rgba(0,0,0,.55);max-height:70vh;overflow-y:auto}',
+        '.custom-navbar .dropdown-item{border-radius:8px;padding:.5rem .8rem;white-space:normal;transition:background .2s,color .2s}',
+        '.custom-navbar .dropdown-item:hover,.custom-navbar .dropdown-item.active{background:rgba(201,169,89,.16);color:#e8d5a3}',
+        /* cartões e botões */
+        '.game-card,.card,.accordion-item{border-radius:16px}',
+        '.btn{border-radius:10px;transition:transform .15s,box-shadow .2s,background .2s,color .2s}',
+        '.btn:hover{transform:translateY(-1px)}',
+        '.form-select,.form-control{border-radius:10px;min-height:42px}',
+        'table{max-width:100%}',
+        '.site-footer{border-top:1px solid rgba(201,169,89,.2)}',
+        /* notebook/tablet estreito: menu cabe em uma linha */
+        '@media (min-width:992px) and (max-width:1199.98px){.custom-navbar .nav-link{font-size:.78rem!important;padding:.45rem .45rem!important}.custom-navbar .navbar-nav{gap:.1rem!important}.custom-navbar .navbar-brand{font-size:1rem}}',
+        /* tablet/celular: menu recolhido rolável, alvos de toque grandes */
+        '@media (max-width:991.98px){.custom-navbar .navbar-collapse{max-height:calc(100vh - 84px);max-height:calc(100dvh - 84px);overflow-y:auto;-webkit-overflow-scrolling:touch}.custom-navbar .nav-link{padding:.7rem .9rem!important;font-size:.95rem!important}.custom-navbar .dropdown-menu{max-height:none;box-shadow:none;margin:.2rem 0 .4rem}.custom-navbar .dropdown-item{padding:.65rem .9rem}}',
+        '@media (max-width:575.98px){body{padding-top:76px!important}.container,.container-fluid{padding-left:16px;padding-right:16px}.display-5{font-size:2rem}.btn{min-height:44px}}',
+        '@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}'
+    ].join('\n');
+
+    function injectSharedCss() {
+        var st = document.createElement("style");
+        st.id = "shared-visual";
+        st.textContent = SHARED_CSS;
+        document.head.appendChild(st);
+        // tabelas largas rolam dentro de um wrapper em vez de estourar a página
+        document.querySelectorAll("table").forEach(function (tb) {
+            if (tb.closest(".table-responsive,.table-scroll")) return;
+            var w = document.createElement("div");
+            w.className = "table-scroll";
+            w.style.cssText = "overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%";
+            tb.parentNode.insertBefore(w, tb);
+            w.appendChild(tb);
+        });
+    }
+
     function renderNavbar() {
         var placeholder = document.getElementById("site-navbar");
         if (placeholder) placeholder.outerHTML = NAVBAR_HTML;
@@ -186,6 +235,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
+        injectSharedCss();
         renderNavbar();
         renderFooter();
         syncAdminNavVisibility();
