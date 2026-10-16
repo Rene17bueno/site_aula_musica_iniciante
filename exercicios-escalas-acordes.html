@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercícios de Escalas e Acordes · Estudo de Violão Iniciante</title>
+    <meta name="description" content="Exercícios de escalas e acordes para violão: animação no braço, dedilhado, troca de acordes e metrônomo.">
+    <link rel="icon" type="image/png" href="favicon-32.png">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body{background:#0e0d1a;color:#e4dfd7;font-family:'Inter',sans-serif;padding-top:90px;min-height:100vh;display:flex;flex-direction:column}
+        .gold{color:#e8d5a3}
+        .text-muted{color:#b5b0a8!important}
+        .navbar-custom{background:#0e0d1aee;backdrop-filter:blur(6px);border-bottom:1px solid rgba(201,169,89,.15)}
+        .navbar-custom .nav-link{color:#d1cbdc!important;font-weight:500;letter-spacing:.3px}
+        .navbar-custom .nav-link:hover,.navbar-custom .nav-link.active{color:#e8d5a3!important}
+        .nav-brand-title{font-family:'Playfair Display',serif;font-weight:700;letter-spacing:.5px;color:#e8d5a3!important;text-decoration:none}
+        .chapter-content{flex:1;padding:2rem 0}
+        .section-tag{display:inline-block;background:rgba(201,169,89,.12);color:#e8d5a3;font-size:.75rem;font-weight:600;letter-spacing:.8px;padding:5px 16px;border-radius:30px;border:1px solid rgba(201,169,89,.25);text-transform:uppercase}
+        .game-card{background:rgba(255,255,255,.03);border:1px solid rgba(201,169,89,.25);border-radius:16px;padding:24px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+        .site-footer{border-top:1px solid rgba(201,169,89,.1);background:#0e0d1a;padding:1.5rem 0}
+
+        /* Exercício */
+        .board-wrap{overflow-x:auto}
+        #board{min-width:640px;width:100%;height:auto;display:block}
+        .fret-line{stroke:#6b6577;stroke-width:2}
+        .nut{stroke:#e8d5a3;stroke-width:6}
+        .string-line{stroke:#b9b2a5}
+        .inlay{fill:rgba(232,213,163,.18)}
+        .fret-num{fill:#8d879a;font-size:13px;text-anchor:middle}
+        .str-num{fill:#e8d5a3;font-size:14px;font-weight:600;text-anchor:middle}
+        .barre{fill:rgba(232,213,163,.22);stroke:#e8d5a3;stroke-width:1.5}
+        .dot{fill:rgba(232,213,163,.28);stroke:#e8d5a3;stroke-width:1.5}
+        .dot.on{fill:#e8d5a3;stroke:#fff;stroke-width:2;filter:drop-shadow(0 0 8px #e8d5a3)}
+        .dot-t{font-size:15px;font-weight:700;text-anchor:middle;dominant-baseline:central;fill:#0e0d1a}
+        .dot-t.dim{fill:#e8d5a3}
+        .finger{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;border:2px solid rgba(201,169,89,.4);color:#e8d5a3;font-weight:700;font-size:1.2rem;transition:.08s}
+        .finger.on{background:#e8d5a3;color:#0e0d1a;box-shadow:0 0 14px #e8d5a3}
+        .thumb{display:inline-block;padding:4px 14px;border-radius:30px;border:1px solid rgba(201,169,89,.4);font-size:.85rem;transition:.08s}
+        .thumb.on{background:#e8d5a3;color:#0e0d1a}
+        .form-select,.form-control{background-color:#14131f;color:#e4dfd7;border-color:rgba(201,169,89,.3)}
+        .form-select:focus{background-color:#14131f;color:#e4dfd7}
+        .btn-gold{background:#e8d5a3;color:#0e0d1a;font-weight:600;border:0}
+        .btn-gold:hover{background:#fff;color:#0e0d1a}
+        input[type=range]{accent-color:#e8d5a3}
+        .now{font-size:1.05rem;min-height:1.6em}
+    
+        .pill{display:inline-block;padding:6px 18px;border-radius:30px;border:1px solid rgba(201,169,89,.35);color:#e8d5a3;background:none;text-decoration:none;font-weight:600;font-size:.9rem;cursor:pointer}
+        .pill:hover{color:#fff}
+        .pill.active{background:#e8d5a3;color:#0e0d1a}
+        .dot.root{fill:rgba(232,213,163,.55)}
+        .dot.ghost{fill:none;stroke-dasharray:4 3;opacity:.8}
+        .mark{fill:#e8d5a3;font-size:18px;font-weight:700;text-anchor:middle;dominant-baseline:central}
+        .chord-name{font-family:'Playfair Display',serif;font-size:1.6rem;color:#e8d5a3}
+    </style>
+</head>
+<body>
+    <div id="site-navbar"></div>
+
+    <main class="chapter-content">
+        <div class="container">
+            <div class="text-center mb-3">
+                <span class="section-tag"><i class="fas fa-hand-pointer me-1"></i> Exercícios de Técnica</span>
+                <h1 class="display-5 fw-bold mt-2" id="h1"></h1>
+                <p class="text-muted mb-0" id="sub"></p>
+            </div>
+
+            <div class="d-flex flex-wrap justify-content-center gap-2 mb-4">
+                <a class="pill" href="exercicios.html">Aranha (dedilhado)</a>
+                <button class="pill" id="tabE" type="button">Escalas</button>
+                <button class="pill" id="tabA" type="button">Acordes</button>
+            </div>
+
+            <div class="game-card mb-4">
+                <div class="board-wrap">
+                    <svg id="board" viewBox="0 0 960 270" role="img" aria-label="Braço do violão"></svg>
+                </div>
+                <div class="now text-center mt-2" id="now">Pressione Iniciar.</div>
+            </div>
+
+            <div class="game-card">
+                <div class="row g-3 align-items-end">
+                    <div id="ctlE" class="col-12"><div class="row g-3">
+                        <div class="col-6 col-md-3">
+                            <label class="form-label small text-muted">Tônica</label>
+                            <select id="root" class="form-select"></select>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <label class="form-label small text-muted">Escala</label>
+                            <select id="type" class="form-select">
+                                <option value="maior">Maior</option>
+                                <option value="menor">Menor natural</option>
+                                <option value="pentmaior">Pentatônica maior</option>
+                                <option value="pentmenor">Pentatônica menor</option>
+                                <option value="blues">Blues</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <label class="form-label small text-muted">Posição (casa do dedo 1)</label>
+                            <select id="pos" class="form-select"></select>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <label class="form-label small text-muted">Direção</label>
+                            <select id="dir" class="form-select">
+                                <option value="both">Sobe e desce</option>
+                                <option value="up">Só sobe</option>
+                                <option value="down">Só desce</option>
+                            </select>
+                        </div>
+                    </div></div>
+                    <div id="ctlA" class="col-12"><div class="row g-3">
+                        <div class="col-6 col-md-4">
+                            <label class="form-label small text-muted">Treino</label>
+                            <select id="practice" class="form-select">
+                                <option value="form">Formar o acorde (dedo a dedo)</option>
+                                <option value="troca">Troca de acordes</option>
+                            </select>
+                        </div>
+                        <div class="col-6 col-md-4" id="gChord">
+                            <label class="form-label small text-muted">Acorde</label>
+                            <select id="chord" class="form-select"></select>
+                        </div>
+                        <div class="col-6 col-md-4" id="gProg">
+                            <label class="form-label small text-muted">Sequência (4 batidas por acorde)</label>
+                            <select id="prog" class="form-select"></select>
+                        </div>
+                    </div></div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label small text-muted">Velocidade: <b id="bpmv" class="gold">70</b> por minuto</label>
+                        <input type="range" id="bpm" class="form-range" min="30" max="160" value="70">
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="form-check form-switch mt-4">
+                            <input class="form-check-input" type="checkbox" id="snd" checked>
+                            <label class="form-check-label small" for="snd">Som</label>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 text-end">
+                        <button class="btn btn-gold px-4" id="go"><i class="fas fa-play me-1"></i> Iniciar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    (function(){
+        var X0=60, W=72, Y0=40, DY=36;
+        var OPEN={6:40,5:45,4:50,3:55,2:59,1:64};
+        var NAMES=['Dó','Dó#','Ré','Ré#','Mi','Fá','Fá#','Sol','Sol#','Lá','Lá#','Si'];
+        var SC={maior:[0,2,4,5,7,9,11],menor:[0,2,3,5,7,8,10],pentmaior:[0,2,4,7,9],pentmenor:[0,3,5,7,10],blues:[0,3,5,6,7,10]};
+        // f = casas das cordas 6..1 (x = abafada, 0 = solta); g = dedos
+        var CH={
+            C:{f:'x32010',g:'032010'}, D:{f:'xx0232',g:'000132'}, E:{f:'022100',g:'023100'},
+            G:{f:'320003',g:'210003'}, A:{f:'x02220',g:'001230'}, Am:{f:'x02210',g:'002310'},
+            Dm:{f:'xx0231',g:'000231'}, Em:{f:'022000',g:'023000'}, F:{f:'133211',g:'134211'},
+            G7:{f:'320001',g:'320001'}, C7:{f:'x32310',g:'032410'}, E7:{f:'020100',g:'020100'},
+            A7:{f:'x02020',g:'001020'}, B7:{f:'x21202',g:'021304'}
+        };
+        var PROGS={'C,G,Am,F':'C – G – Am – F','G,D,Em,C':'G – D – Em – C','C,F,G,C':'C – F – G – C','Am,Dm,E,Am':'Am – Dm – E – Am','C,Am,Dm,G7':'C – Am – Dm – G7','E,A,B7,E':'E – A – B7 – E'};
+        var $=function(i){return document.getElementById(i)};
+        var NS_='http://www.w3.org/2000/svg';
+        var board=$('board'), bar, dots, mode='E', timer=null, idx=0, ac=null, seq=[], els={}, steps=[];
+        var sy=function(s){return Y0+(s-1)*DY};
+        var fx=function(f){return X0+(f-.5)*W};
+        var ox=function(f){return f===0?40:fx(f)};
+
+        function el(tag,a,txt,par){var e=document.createElementNS(NS_,tag);for(var k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;(par||board).appendChild(e);return e}
+
+        function drawBoard(fr){
+            board.textContent='';
+            board.setAttribute('viewBox','0 0 '+(X0+fr*W+40)+' 270');
+            [3,5,7,9].forEach(function(f){if(f<=fr)el('circle',{cx:fx(f),cy:(sy(1)+sy(6))/2,r:9,class:'inlay'})});
+            if(fr>=12){el('circle',{cx:fx(12),cy:sy(2)+DY/2,r:9,class:'inlay'});el('circle',{cx:fx(12),cy:sy(5)-DY/2,r:9,class:'inlay'})}
+            for(var f=0;f<=fr;f++){
+                el('line',{x1:X0+f*W,x2:X0+f*W,y1:sy(1),y2:sy(6),class:f?'fret-line':'nut'});
+                if(f)el('text',{x:fx(f),y:sy(6)+34,class:'fret-num'},f);
+            }
+            for(var s=1;s<=6;s++){
+                el('line',{x1:X0,x2:X0+fr*W,y1:sy(s),y2:sy(s),class:'string-line','stroke-width':1+(s-1)*.55});
+                el('text',{x:12,y:sy(s)+5,class:'str-num'},s);
+            }
+            bar=el('g',{});dots=el('g',{});
+        }
+        function dot(f,s,label,cls){
+            var c=el('circle',{cx:ox(f),cy:sy(s),r:f===0?10:13,class:'dot '+(cls||'')},null,dots);
+            var t=el('text',{x:ox(f),y:sy(s),class:'dot-t'+(cls==='on'?'':' dim')},label,dots);
+            return {c:c,t:t};
+        }
+        function barre(list,f){
+            var ss=list.map(function(n){return n.s});
+            var a=sy(Math.min.apply(0,ss)),b=sy(Math.max.apply(0,ss));
+            el('rect',{x:fx(f)-15,y:a-15,width:30,height:b-a+30,rx:15,class:'barre'},null,bar);
+        }
+
+        function pluck(s,f){
+            if(!$('snd').checked)return;
+            ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+            var o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;
+            o.type='triangle';o.frequency.value=440*Math.pow(2,(OPEN[s]+f-69)/12);
+            g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.4,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+.9);
+            o.connect(g).connect(ac.destination);o.start(t);o.stop(t+.95);
+        }
+        function click(){
+            if(!$('snd').checked)return;
+            ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+            var o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;
+            o.type='square';o.frequency.value=1000;
+            g.gain.setValueAtTime(.08,t);g.gain.exponentialRampToValueAtTime(.0001,t+.04);
+            o.connect(g).connect(ac.destination);o.start(t);o.stop(t+.05);
+        }
+
+        // ---------- ESCALAS ----------
+        function buildScale(){
+            var root=+$('root').value,iv=SC[$('type').value],p=+$('pos').value,cand=[];
+            for(var s=6;s>=1;s--)for(var f=0;f<=p+3;f++){
+                if(f===0?p>3:f<p)continue;
+                var m=OPEN[s]+f;
+                if(iv.indexOf(((m-root)%12+12)%12)>=0)cand.push({s:s,f:f,m:m,fg:f?f-p+1:0,root:(m-root)%12===0});
+            }
+            // mesma nota em duas cordas: fica a da corda mais fina (menos esticada)
+            var by={};cand.forEach(function(n){if(!by[n.m]||n.s<by[n.m].s)by[n.m]=n});
+            var up=Object.keys(by).map(Number).sort(function(a,b){return a-b}).map(function(m){return by[m]});
+            var d=$('dir').value;
+            seq=d==='up'?up:d==='down'?up.slice().reverse():up.concat(up.slice(0,-1).reverse());
+            drawBoard(12);els={};
+            up.forEach(function(n){els[n.s+'-'+n.f]=dot(n.f,n.s,n.fg||'0',n.root?'root':'')});
+        }
+        function stepScale(){
+            var n=seq[idx%seq.length];
+            Object.keys(els).forEach(function(k){els[k].c.classList.remove('on');els[k].t.classList.add('dim')});
+            var e=els[n.s+'-'+n.f];e.c.classList.add('on');e.t.classList.remove('dim');
+            pluck(n.s,n.f);
+            $('now').innerHTML='Nota <b class="gold">'+NAMES[n.m%12]+'</b> · '+(n.f?'dedo <b class="gold">'+n.fg+'</b> · casa <b class="gold">'+n.f+'</b>':'<b class="gold">corda solta</b>')+' · corda <b class="gold">'+n.s+'</b> · mão direita <b class="gold">'+(idx%2?'médio (m)':'indicador (i)')+'</b>'+(n.root?' · <b class="gold">tônica</b>':'');
+            idx++;
+        }
+
+        // ---------- ACORDES ----------
+        function parse(c){var o=[];for(var i=0;i<6;i++){var ch=CH[c].f[i];o.push({s:6-i,x:ch==='x',f:ch==='x'?-1:+ch,fg:+CH[c].g[i]})}return o}
+        function marks(c){parse(c).forEach(function(n){if(n.x)el('text',{x:40,y:sy(n.s),class:'mark'},'×',dots);else if(n.f===0)el('text',{x:40,y:sy(n.s),class:'mark'},'o',dots)})}
+        function place(list,cls){
+            list.forEach(function(n){dot(n.f,n.s,n.fg,cls)});
+            var one=list.filter(function(n){return n.fg===1});
+            if(cls==='on'&&one.length>1&&one.every(function(n){return n.f===one[0].f}))barre(one,one[0].f);
+        }
+        function groups(c){
+            var g={};parse(c).filter(function(n){return n.f>0}).forEach(function(n){(g[n.fg]=g[n.fg]||[]).push(n)});
+            return Object.keys(g).map(Number).sort().map(function(k){return g[k]});
+        }
+        function strum(c){
+            parse(c).filter(function(n){return !n.x}).forEach(function(n,i){setTimeout(function(){pluck(n.s,n.f)},i*55)});
+        }
+        function stepForm(){
+            var c=$('chord').value,g=groups(c),i=idx%(g.length+2);
+            if(i===0){dots.textContent='';bar.textContent='';marks(c)}
+            Array.prototype.forEach.call(dots.querySelectorAll('.on'),function(e){e.classList.remove('on')});
+            Array.prototype.forEach.call(dots.querySelectorAll('.dot-t'),function(e){e.classList.add('dim')});
+            if(i<g.length){
+                place(g[i],'on');click();
+                Array.prototype.forEach.call(dots.querySelectorAll('.dot.on + .dot-t'),function(e){e.classList.remove('dim')});
+                var gs=g[i];
+                $('now').innerHTML='<span class="chord-name">'+c+'</span> · dedo <b class="gold">'+gs[0].fg+'</b> na casa <b class="gold">'+gs[0].f+'</b> · corda'+(gs.length>1?'s':'')+' <b class="gold">'+gs.map(function(n){return n.s}).join(', ')+'</b>';
+            }else if(i===g.length){
+                strum(c);
+                $('now').innerHTML='<span class="chord-name">'+c+'</span> · toque as cordas de <b class="gold">6 → 1</b> (menos as marcadas com ×)';
+            }else{
+                $('now').innerHTML='<span class="chord-name">'+c+'</span> · solte e recomece';
+            }
+            idx++;
+        }
+        function stepTroca(){
+            var p=$('prog').value.split(','),ci=Math.floor(idx/4)%p.length,b=idx%4,c=p[ci],nx=p[(ci+1)%p.length];
+            if(b===0){dots.textContent='';bar.textContent='';marks(c);place(parse(c).filter(function(n){return n.f>0}),'on');strum(c)}
+            else click();
+            if(b===3){place(parse(nx).filter(function(n){return n.f>0}),'ghost');
+                $('now').innerHTML='<span class="chord-name">'+c+'</span> · batida 4 · <b class="gold">prepare '+nx+'</b> (pontilhado)'}
+            else $('now').innerHTML='<span class="chord-name">'+c+'</span> · batida '+(b+1)+(b===0?' · toque':' · mantenha')+' · próximo: <b class="gold">'+nx+'</b>';
+            idx++;
+        }
+        function previewChord(){
+            drawBoard(5);dots.textContent='';
+            if($('practice').value==='form'){marks($('chord').value);place(parse($('chord').value).filter(function(n){return n.f>0}),'on');
+                $('now').innerHTML='<span class="chord-name">'+$('chord').value+'</span> · pressione Iniciar para ver a formação dedo a dedo.'}
+            else $('now').innerHTML='Sequência <b class="gold">'+PROGS[$('prog').value]+'</b> · pressione Iniciar.';
+        }
+
+        // ---------- CONTROLE ----------
+        function setup(){
+            $('ctlE').hidden=mode!=='E';$('ctlA').hidden=mode!=='A';
+            $('tabE').classList.toggle('active',mode==='E');$('tabA').classList.toggle('active',mode==='A');
+            $('gChord').hidden=$('practice').value!=='form';$('gProg').hidden=$('practice').value!=='troca';
+            if(mode==='E'){
+                $('h1').innerHTML='Exercício <span class="gold">Escalas</span>';
+                $('sub').textContent='Escolha a tônica, o tipo de escala e a casa do dedo 1: cada dedo toca uma casa (dedo 1 na casa inicial, dedo 4 três casas adiante). Notas soltas aparecem ao lado da pestana. Na mão direita, alterne indicador (i) e médio (m).';
+                buildScale();$('now').textContent='Pressione Iniciar.';
+            }else{
+                $('h1').innerHTML='Exercício <span class="gold">Acordes</span>';
+                $('sub').textContent='Aprenda a formar o acorde dedo a dedo e treine a troca em 4 batidas: toque na 1ª, mantenha na 2ª e 3ª e prepare o próximo na 4ª. × = não tocar a corda · o = corda solta.';
+                previewChord();
+            }
+        }
+        function loop(){(mode==='E'?stepScale:$('practice').value==='form'?stepForm:stepTroca)();timer=setTimeout(loop,60000/$('bpm').value)}
+        function stop(){clearTimeout(timer);timer=null;$('go').innerHTML='<i class="fas fa-play me-1"></i> Iniciar'}
+        function run(){idx=0;if(mode==='A')dots.textContent='',bar.textContent='';$('go').innerHTML='<i class="fas fa-stop me-1"></i> Parar';loop()}
+        function setMode(m){stop();mode=m;history.replaceState(null,'',m==='E'?'#escalas':'#acordes');setup()}
+
+        NAMES.forEach(function(n,i){$('root').add(new Option(n,i))});
+        for(var p=1;p<=9;p++)$('pos').add(new Option('Casa '+p,p));
+        Object.keys(CH).forEach(function(c){$('chord').add(new Option(c,c))});
+        Object.keys(PROGS).forEach(function(k){$('prog').add(new Option(PROGS[k],k))});
+        $('go').onclick=function(){timer?stop():run()};
+        $('bpm').oninput=function(){$('bpmv').textContent=this.value};
+        $('tabE').onclick=function(){setMode('E')};
+        $('tabA').onclick=function(){setMode('A')};
+        ['root','type','pos','dir','practice','chord','prog'].forEach(function(i){$(i).onchange=function(){var r=!!timer;stop();setup();if(r)run()}});
+        mode=location.hash==='#acordes'?'A':'E';
+        setup();
+    })();
+    </script>
+    <script src="js/js/layout.js"></script>
+</body>
+</html>
