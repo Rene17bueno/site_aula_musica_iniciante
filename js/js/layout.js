@@ -36,7 +36,7 @@
             visualChallenge: "Desafio Visual", noteId: "Identificação de Notas", fretGames: "Jogos do Braço",
             community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin",
             navBrand: "<span>Violão</span> &middot; Iniciante",
-            footBrand: "<span>Estudo de Violão</span> Iniciante", catholic: "Músico Católico"
+            footBrand: "<span>Estudo de Violão</span> Iniciante", catholic: "Músico Católico", catholicSub: "Cifras e repertórios para a missa"
         },
         en: {
             home: "Home", lessons: "Lessons (PT)", chapters: "Chapters", chapter: "Chapter",
@@ -44,7 +44,7 @@
             visualChallenge: "Visual Challenge", noteId: "Note Identification", fretGames: "Fretboard Games (PT)",
             community: "Community", attendance: "Attendance", adminPanel: "Admin Panel",
             navBrand: "<span>Guitar</span> &middot; Beginner",
-            footBrand: "<span>Beginner</span> Guitar Study", catholic: "Catholic Musician"
+            footBrand: "<span>Beginner</span> Guitar Study", catholic: "Catholic Musician", catholicSub: "Chord sheets for Mass (PT)"
         },
         es: {
             home: "Inicio", lessons: "Clases (PT)", chapters: "Capítulos", chapter: "Capítulo",
@@ -52,7 +52,7 @@
             visualChallenge: "Desafío Visual", noteId: "Identificación de Notas", fretGames: "Juegos del Brazo (PT)",
             community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración",
             navBrand: "<span>Guitarra</span> &middot; Principiante",
-            footBrand: "<span>Estudio de Guitarra</span> para Principiantes", catholic: "Músico Católico"
+            footBrand: "<span>Estudio de Guitarra</span> para Principiantes", catholic: "Músico Católico", catholicSub: "Cifras e repertórios para a missa"
         }
     };
     var t = T[LANG];
@@ -84,7 +84,7 @@
     var SET = function (l) { return "try{localStorage.setItem('preferredLang','" + l + "')}catch(e){}"; };
 
     var CATHOLIC_URL = "https://rene17bueno.github.io/musico-catolico/";
-    var CATHOLIC_BTN = '<a class="btn btn-sm fw-semibold" style="background:#c9a959;color:#0e0d1a;border-radius:10px;white-space:nowrap" href="' + CATHOLIC_URL + '" target="_blank" rel="noopener"><i class="fas fa-cross me-1"></i> ' + t.catholic + '</a>';
+    var CATHOLIC_BTN = '<a class="catholic-btn" href="' + CATHOLIC_URL + '" target="_blank" rel="noopener"><span class="catholic-ico"><i class="fas fa-cross"></i></span><span class="catholic-txt">' + t.catholic + '<small>' + t.catholicSub + '</small></span><i class="fas fa-arrow-up-right-from-square catholic-ext"></i></a>';
 
     var LINKEDIN_URL = "https://www.linkedin.com/in/rene-aparecido-bueno-34030566";
     var CONTACTS =
@@ -158,7 +158,7 @@
         '<div class="container text-center">' +
         '<div class="footer-brand mb-2">' + t.footBrand + '</div>' +
         CONTACTS +
-        '<div class="mb-3">' + CATHOLIC_BTN.replace("btn-sm", "") + '</div>' +
+        '<div class="mb-3">' + CATHOLIC_BTN + '</div>' +
         '<div class="small" style="color: #b5b0a8;">' +
         '<i class="fas fa-copyright me-1" style="color:#c9a959;"></i> 2026 &middot; Renê Aparecido Bueno &middot; Maringá &middot; PR' +
         '</div>' +
@@ -189,7 +189,7 @@
         '.btn:hover{transform:translateY(-1px)}',
         '.form-select,.form-control{border-radius:10px;min-height:42px}',
         'table{max-width:100%}',
-        '.site-footer{border-top:1px solid rgba(201,169,89,.2)}','.footer-contact{color:#e8d5a3;text-decoration:none;font-size:.9rem;padding:.3rem .6rem;border-radius:8px;transition:background .2s}','.footer-contact:hover{background:rgba(201,169,89,.14);color:#e8d5a3}',
+        '.site-footer{border-top:1px solid rgba(201,169,89,.2)}','.footer-contact{color:#e8d5a3;text-decoration:none;font-size:.9rem;padding:.3rem .6rem;border-radius:8px;transition:background .2s}','.footer-contact:hover{background:rgba(201,169,89,.14);color:#e8d5a3}','.catholic-btn{display:inline-flex;align-items:center;gap:.6rem;padding:.3rem .85rem .3rem .3rem;border-radius:999px;background:linear-gradient(135deg,#e8d5a3 0%,#c9a959 100%);color:#0e0d1a!important;text-decoration:none!important;font-weight:600;line-height:1.1;white-space:nowrap;box-shadow:0 0 0 1px rgba(232,213,163,.5),0 6px 18px rgba(201,169,89,.28);transition:transform .2s,box-shadow .2s}','.catholic-btn:hover{transform:translateY(-2px);box-shadow:0 0 0 1px #e8d5a3,0 10px 26px rgba(201,169,89,.45)}','.catholic-ico{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0e0d1a;color:#e8d5a3;font-size:.8rem;flex:none}','.catholic-txt{display:flex;flex-direction:column;font-size:.85rem}','.catholic-txt small{font-weight:500;font-size:.66rem;opacity:.75;letter-spacing:.2px}','.catholic-ext{font-size:.65rem;opacity:.6}','@media (min-width:992px) and (max-width:1399.98px){.catholic-txt small{display:none}.catholic-btn{padding-right:.7rem}}','.site-footer .catholic-btn{padding:.45rem 1.2rem .45rem .45rem;gap:.8rem}','.site-footer .catholic-ico{width:42px;height:42px;font-size:1rem}','.site-footer .catholic-txt{font-size:1rem}','.site-footer .catholic-txt small{font-size:.74rem}',
         /* notebook/tablet estreito: menu cabe em uma linha */
         '@media (min-width:992px) and (max-width:1399.98px){.custom-navbar .nav-link{font-size:.8rem!important;padding:.45rem .5rem!important}.custom-navbar .navbar-nav{gap:.1rem!important}.custom-navbar .navbar-brand{font-size:1rem}.custom-navbar .container-md,.custom-navbar .container-fluid{max-width:100%}}',
         /* tablet/celular: menu recolhido rolável, alvos de toque grandes */
