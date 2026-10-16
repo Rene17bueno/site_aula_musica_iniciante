@@ -1,27 +1,18 @@
 // Página de aulas em vídeo: carrega aulas/aulas.json, controla player, progresso,
-// bloqueio da Aula 3 (mesma chave de acesso do paywall.js) e transcrição.
+// e transcrição.
 (function () {
     "use strict";
-    var KEY_ACCESS = "acesso_premium", KEY_SEEN = "aulas_vistas";
+    var KEY_SEEN = "aulas_vistas";
     var $ = function (id) { return document.getElementById(id); };
     var data, cur = { a: 1, p: 1 }, seen = {};
 
     function load(k, d) { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } }
     function save(k, v) { try { localStorage.setItem(k, typeof v === "string" ? v : JSON.stringify(v)); } catch (e) {} }
-    function unlocked() { try { return localStorage.getItem(KEY_ACCESS) === "true"; } catch (e) { return false; } }
     function fmt(s) { return Math.floor(s / 60) + ":" + ("0" + (s % 60)).slice(-2); }
     function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
     function aula(n) { return data.aulas[n - 1]; }
-    function canWatch(a) { return aula(a).livre || unlocked(); }
+    function canWatch() { return true; }
     function total() { return data.aulas.reduce(function (n, a) { return n + a.partes.length; }, 0); }
-
-    // Retorno do Mercado Pago (?payment_id=...&status=approved) -> confirma no servidor
-    function checkReturn() {
-        var q = new URLSearchParams(location.search), id = q.get("payment_id") || q.get("collection_id"), st = q.get("status") || q.get("collection_status");
-        if (!id || st !== "approved") return Promise.resolve();
-        return fetch("/api/verify-payment?payment_id=" + encodeURIComponent(id)).then(function (r) { return r.json(); })
-            .then(function (d) { if (d && d.ok && d.approved) save(KEY_ACCESS, "true"); }).catch(function () {});
-    }
 
     function renderTabs() {
         $("tabs").innerHTML = data.aulas.map(function (a) {
@@ -115,6 +106,6 @@
             setTimeout(function () { if (v.ended && $("nextBox").style.display === "block") { var x = next(); if (x) play(x[0], x[1], true); } }, 3500);
         });
     }
-    checkReturn().then(function () { return fetch("aulas/aulas.json").then(function (r) { return r.json(); }); }).then(start)
+    fetch("aulas/aulas.json").then(function (r) { return r.json(); }).then(start)
         .catch(function () { $("ptitle").textContent = "Não foi possível carregar as aulas. Atualize a página."; });
 })();

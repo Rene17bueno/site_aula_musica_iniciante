@@ -118,7 +118,7 @@
    "n": 3,
    "titulo": "Ritmo e batidas",
    "desc": "Pulso, compasso, dedilhado P-I-M-A e a batida popular nos quatro acordes.",
-   "livre": false,
+   "livre": true,
    "partes": [
     {
      "id": "a3p1",

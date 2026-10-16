@@ -161,6 +161,6 @@ O link de termos foi adicionado na pagina de comunidade apontando para:
 
 - `aulas/aulas.json`: catálogo (3 aulas, 21 partes, `livre: true/false`).
 - `aulas/video/aXpY.mp4` + `.vtt` (legenda PT) e `aulas/poster/aXpY.jpg`.
-- `js/js/aulas.js`: player, progresso (localStorage `aulas_vistas`), velocidade, transcrição clicável e bloqueio da Aula 3 com a mesma chave `acesso_premium` do paywall.
+- `js/js/aulas.js`: player, progresso (localStorage `aulas_vistas`), velocidade e transcrição clicável.
 - Para adicionar uma aula: copie mp4/vtt/jpg com o padrão `aXpY` e inclua a entrada no JSON.
 - Atenção: o bloqueio é no navegador (como o dos capítulos); o arquivo .mp4 da Aula 3 continua acessível por URL direta.
