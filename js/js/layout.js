@@ -35,27 +35,131 @@
             chords: "Acordes", exercises: "Exercícios", games: "Jogos",
             visualChallenge: "Desafio Visual", noteId: "Identificação de Notas", fretGames: "Jogos do Braço",
             trail: "Comece aqui", practice: "Praticar", changes: "Trocas de acordes", tuner: "Afinador", technique: "Técnica e saúde", map: "Mapa do braço", metro: "Metrônomo", inst: "Instrumentos", community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin",
-            navBrand: "<span>Violão</span> &middot; Iniciante",
-            footBrand: "<span>Estudo de Violão</span> Iniciante", catholic: "Músico Católico", catholicSub: "Cifras e repertórios para a missa"
+            navBrand: "<span>Música</span> &middot; Iniciante",
+            footBrand: "<span>Aula de Música</span> Iniciante", catholic: "Músico Católico", catholicSub: "Cifras e repertórios para a missa"
         },
         en: {
             home: "Home", lessons: "Lessons (PT)", chapters: "Chapters", chapter: "Chapter",
             chords: "Chords", exercises: "Exercises (PT)", games: "Games",
             visualChallenge: "Visual Challenge", noteId: "Note Identification", fretGames: "Fretboard Games (PT)",
             trail: "Start here (PT)", practice: "Practice", changes: "Chord changes (PT)", tuner: "Tuner (PT)", technique: "Technique (PT)", map: "Fretboard map (PT)", metro: "Metronome (PT)", inst: "Instruments (PT)", community: "Community", attendance: "Attendance", adminPanel: "Admin Panel",
-            navBrand: "<span>Guitar</span> &middot; Beginner",
-            footBrand: "<span>Beginner</span> Guitar Study", catholic: "Catholic Musician", catholicSub: "Chord sheets for Mass (PT)"
+            navBrand: "<span>Music</span> &middot; Beginner",
+            footBrand: "<span>Beginner</span> Music Lessons", catholic: "Catholic Musician", catholicSub: "Chord sheets for Mass (PT)"
         },
         es: {
             home: "Inicio", lessons: "Clases (PT)", chapters: "Capítulos", chapter: "Capítulo",
             chords: "Acordes", exercises: "Ejercicios (PT)", games: "Juegos",
             visualChallenge: "Desafío Visual", noteId: "Identificación de Notas", fretGames: "Juegos del Brazo (PT)",
             trail: "Empieza aquí (PT)", practice: "Practicar", changes: "Cambios de acordes (PT)", tuner: "Afinador (PT)", technique: "Técnica (PT)", map: "Mapa del mástil (PT)", metro: "Metrónomo (PT)", inst: "Instrumentos (PT)", community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración",
-            navBrand: "<span>Guitarra</span> &middot; Principiante",
-            footBrand: "<span>Estudio de Guitarra</span> para Principiantes", catholic: "Músico Católico", catholicSub: "Cifras e repertórios para a missa"
+            navBrand: "<span>Música</span> &middot; Principiante",
+            footBrand: "<span>Clases de Música</span> para Principiantes", catholic: "Músico Católico", catholicSub: "Cifras e repertórios para a missa"
         }
     };
     var t = T[LANG];
+
+    // ---- Instrumento escolhido (vale para o site inteiro) ---
+    var INSTS = [
+        { id: "violao",   i: "fa-guitar",      home: "index.html",    n: { pt: "Violão", en: "Acoustic guitar", es: "Guitarra acústica" } },
+        { id: "teclado",  i: "fa-keyboard",    home: "teclado.html",  n: { pt: "Teclado", en: "Keyboard", es: "Teclado" } },
+        { id: "guitarra", i: "fa-bolt",        home: "guitarra.html", n: { pt: "Guitarra", en: "Electric guitar", es: "Guitarra eléctrica" } },
+        { id: "baixo",    i: "fa-wave-square", home: "baixo.html",    n: { pt: "Baixo elétrico", en: "Electric bass", es: "Bajo eléctrico" } }
+    ];
+    var SOON = [
+        { id: "violino",    page: "violino.html",    n: { pt: "Violino", en: "Violin", es: "Violín" } },
+        { id: "violoncelo", page: "violoncelo.html", n: { pt: "Violoncelo", en: "Cello", es: "Violonchelo" } }
+    ];
+    var INST_DESC = {
+        violao: "12 semanas, acordes, levadas, jogos de braço e as aulas em vídeo.",
+        teclado: "Piano, órgão e cordas. Acordes e escalas acesos nas teclas, jogo das teclas e MIDI.",
+        guitarra: "Sons limpo, crunch e distorcido. Power chords, pentatônicas e caixas no braço.",
+        baixo: "Braço de 4 cordas, escalas e linhas de baixo sobre o campo harmônico."
+    };
+    var INST_KEY = "instrumento";
+    function instStored() { try { var v = localStorage.getItem(INST_KEY); return INSTS.some(function (x) { return x.id === v; }) ? v : null; } catch (e) { return null; } }
+    var INST_ID = instStored() || "violao";
+    function instById(id) { return INSTS.filter(function (x) { return x.id === id; })[0]; }
+    function instName(x) { return x.n[LANG] || x.n.pt; }
+    var CUR = instById(INST_ID);
+    // Quais instrumentos a página aceita: <body data-inst="violao,guitarra">
+    function pageInsts() { var d = document.body && document.body.getAttribute("data-inst"); return d ? d.split(",") : null; }
+    function pageOk(id) { var l = pageInsts(); return !l || l.indexOf(id) >= 0; }
+    window.Inst = {
+        lista: INSTS, atual: function () { return INST_ID; }, definido: function () { return !!instStored(); },
+        nome: function (id) { return instName(instById(id || INST_ID)); },
+        set: function (id) { if (!instById(id)) return; try { localStorage.setItem(INST_KEY, id); } catch (e) {} INST_ID = id; CUR = instById(id); },
+        // escolhe e vai para onde faz sentido: recarrega a página, ou volta ao início se ela não serve ao novo instrumento
+        escolher: function (id, destino) {
+            this.set(id);
+            if (destino) { location.href = (LANG === "pt" ? "" : "../") + destino; return; }
+            if (pageOk(id)) location.reload(); else location.href = (LANG === "pt" ? "" : "../") + "index.html";
+        },
+        cartoes: function (el, opt) {
+            opt = opt || {};
+            var h = INSTS.map(function (x) {
+                return '<div class="col-md-6 col-lg-4"><a href="#" class="game-card inst-card' + (x.id === INST_ID && Inst.definido() ? " sel" : "") + '" data-set="' + x.id + '"><div class="d-flex justify-content-between align-items-start mb-2"><i class="fas ' + x.i + ' gold inst-ico"></i>' +
+                    (x.id === INST_ID && Inst.definido() ? '<span class="inst-tag ok">Seu instrumento</span>' : '<span class="inst-tag">Escolher</span>') + '</div><h5 class="fw-bold gold mb-1">' + x.n.pt + '</h5><p class="text-muted small mb-0">' + INST_DESC[x.id] + '</p></a></div>';
+            }).join("") + SOON.map(function (x) {
+                return '<div class="col-md-6 col-lg-4"><a href="' + x.page + '" class="game-card inst-card soon"><div class="d-flex justify-content-between align-items-start mb-2"><i class="fas fa-music gold inst-ico"></i><span class="inst-tag">Em breve</span></div><h5 class="fw-bold gold mb-1">' + x.n.pt + '</h5><p class="text-muted small mb-0">Afinador, escalas e exercícios, em preparação.</p></a></div>';
+            }).join("");
+            el.innerHTML = '<div class="row g-3">' + h + '</div>';
+            el.querySelectorAll("[data-set]").forEach(function (a) {
+                a.onclick = function (e) { e.preventDefault(); Inst.escolher(a.dataset.set, opt.ir ? instById(a.dataset.set).home : (opt.destino || null)); };
+            });
+        }
+    };
+
+    // Entradas do menu que mudam com o instrumento
+    function tx(pt, en, es) { return LANG === "en" ? en : LANG === "es" ? es : pt; }
+    var CHORDS_LINK = {
+        violao:   ["acordes.html", t.chords, "fa-guitar"], guitarra: ["acordes.html", t.chords, "fa-guitar"],
+        teclado:  ["teclado.html#acorde", t.chords, "fa-keyboard"],
+        baixo:    ["baixo.html#linhas", tx("Linhas de baixo", "Bass lines (PT)", "Líneas de bajo (PT)"), "fa-wave-square"]
+    };
+    function itemChords() {
+        var c = CHORDS_LINK[INST_ID];
+        return '<li class="nav-item"><a class="nav-link" href="' + shared(c[0]) + '"><i class="fas ' + c[2] + ' me-1"></i> ' + c[1] + '</a></li>';
+    }
+    function itemTuner() {
+        if (INST_ID === "teclado") return "";
+        return '<li class="nav-item"><a class="nav-link" href="' + shared("afinador.html") + '"><i class="fas fa-sliders me-1"></i> ' + t.tuner + '</a></li>';
+    }
+    function itemInst() {
+        var h = '<li class="nav-item dropdown"><a class="nav-link dropdown-toggle inst-toggle" href="#" id="instDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas ' + CUR.i + ' me-1"></i> ' + instName(CUR) + '</a>' +
+            '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="instDropdown"><li><h6 class="dropdown-header">' + tx("Estou aprendendo", "I am learning", "Estoy aprendiendo") + '</h6></li>';
+        INSTS.forEach(function (x) {
+            h += '<li><a class="dropdown-item' + (x.id === INST_ID ? " fw-bold" : "") + '" href="#" data-set-inst="' + x.id + '"><i class="fas ' + x.i + ' me-2"></i> ' + instName(x) + (x.id === INST_ID ? ' <i class="fas fa-check ms-1 gold"></i>' : "") + '</a></li>';
+        });
+        h += '<li><hr class="dropdown-divider"></li>';
+        SOON.forEach(function (x) { h += '<li><a class="dropdown-item" href="' + shared(x.page) + '"><i class="fas fa-music me-2"></i> ' + instName(x) + ' <small class="text-muted">· ' + tx("em breve", "soon", "pronto") + '</small></a></li>'; });
+        if (INST_ID !== "violao") h += '<li><hr class="dropdown-divider"></li><li><a class="dropdown-item" href="' + shared(CUR.home) + '"><i class="fas ' + CUR.i + ' me-2"></i> ' + tx("Abrir ", "Open ", "Abrir ") + instName(CUR) + '</a></li>';
+        return h + '</ul></li>';
+    }
+    // Menu Praticar: cada item diz para quais instrumentos serve
+    var PRACTICE = [
+        ["exercicios.html", "fa-hand-pointer", t.exercises, "violao,guitarra"],
+        ["trocas.html", "fa-stopwatch", t.changes, "violao,guitarra"],
+        ["mapa-braco.html", "fa-map", t.map, "violao,guitarra"],
+        ["tecnica.html", "fa-hand", t.technique, "violao,guitarra"],
+        ["teclado.html#jogo", "fa-keyboard", tx("Jogo das teclas", "Key game (PT)", "Juego de teclas (PT)"), "teclado"],
+        ["teclado.html#escala", "fa-keyboard", tx("Escalas no teclado", "Keyboard scales (PT)", "Escalas en el teclado (PT)"), "teclado"],
+        ["guitarra.html#escalas", "fa-bolt", tx("Escalas e caixas", "Scales and boxes (PT)", "Escalas y cajas (PT)"), "guitarra"],
+        ["baixo.html#notas", "fa-wave-square", tx("Notas no braço", "Notes on the neck (PT)", "Notas en el mástil (PT)"), "baixo"],
+        ["-"],
+        ["jogo-imagem.html", "fa-eye", t.visualChallenge, "violao,guitarra"],
+        ["jogos.html", "fa-music", t.noteId, "violao,guitarra,teclado,baixo"],
+        ["jogos-braco.html", "fa-guitar", t.fretGames, "violao,guitarra"]
+    ];
+    function itemPractice() {
+        var h = "", last = "";
+        PRACTICE.forEach(function (x) {
+            if (x[0] === "-") { if (last && last !== "-") { h += '<li><hr class="dropdown-divider"></li>'; last = "-"; } return; }
+            if (x[3].split(",").indexOf(INST_ID) < 0) return;
+            h += '<li><a class="dropdown-item" href="' + shared(x[0]) + '"><i class="fas ' + x[1] + ' me-2"></i> ' + x[2] + '</a></li>'; last = x[0];
+        });
+        h = h.replace(/<li><hr class="dropdown-divider"><\/li>$/, "");
+        return '<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="praticarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-hand-pointer me-1"></i> ' + t.practice + '</a>' +
+            '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="praticarDropdown">' + h + '</ul></li>';
+    }
 
     // Páginas ainda não traduzidas: no /en/ e /es/ apontam para a raiz (PT).
     function shared(f) {
@@ -138,36 +242,11 @@
         '<a class="nav-link dropdown-toggle" href="#" id="capitulosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-book me-1"></i> ' + t.chapters + '</a>' +
         '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="capitulosDropdown">' + CH.join("") + '</ul>' +
         '</li>' +
-        '<li class="nav-item"><a class="nav-link" href="' + shared("acordes.html") + '"><i class="fas fa-guitar me-1"></i> ' + t.chords + '</a></li>' +
-        '<li class="nav-item"><a class="nav-link" href="' + shared("afinador.html") + '"><i class="fas fa-sliders me-1"></i> ' + t.tuner + '</a></li>' +
+        itemChords() +
+        itemTuner() +
         '<li class="nav-item"><a class="nav-link" href="' + shared("metronomo.html") + '"><i class="fas fa-gauge-high me-1"></i> ' + t.metro + '</a></li>' +
-        '<li class="nav-item dropdown">' +
-        '<a class="nav-link dropdown-toggle" href="#" id="instDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-music me-1"></i> ' + t.inst + '</a>' +
-        '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="instDropdown">' +
-        '<li><a class="dropdown-item" href="' + local("index.html") + '"><i class="fas fa-guitar me-2"></i> Violão</a></li>' +
-        '<li><a class="dropdown-item" href="' + shared("teclado.html") + '"><i class="fas fa-keyboard me-2"></i> Teclado</a></li>' +
-        '<li><a class="dropdown-item" href="' + shared("guitarra.html") + '"><i class="fas fa-bolt me-2"></i> Guitarra</a></li>' +
-        '<li><a class="dropdown-item" href="' + shared("baixo.html") + '"><i class="fas fa-wave-square me-2"></i> Baixo elétrico</a></li>' +
-        '<li><hr class="dropdown-divider"></li>' +
-        '<li><a class="dropdown-item" href="' + shared("violino.html") + '"><i class="fas fa-music me-2"></i> Violino <small class="text-muted">· em breve</small></a></li>' +
-        '<li><a class="dropdown-item" href="' + shared("violoncelo.html") + '"><i class="fas fa-music me-2"></i> Violoncelo <small class="text-muted">· em breve</small></a></li>' +
-        '<li><hr class="dropdown-divider"></li>' +
-        '<li><a class="dropdown-item" href="' + shared("instrumentos.html") + '"><i class="fas fa-table-cells-large me-2"></i> Todos os instrumentos</a></li>' +
-        '</ul>' +
-        '</li>' +
-        '<li class="nav-item dropdown">' +
-        '<a class="nav-link dropdown-toggle" href="#" id="praticarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-hand-pointer me-1"></i> ' + t.practice + '</a>' +
-        '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="praticarDropdown">' +
-        '<li><a class="dropdown-item" href="' + shared("exercicios.html") + '"><i class="fas fa-hand-pointer me-2"></i> ' + t.exercises + '</a></li>' +
-        '<li><a class="dropdown-item" href="' + shared("trocas.html") + '"><i class="fas fa-stopwatch me-2"></i> ' + t.changes + '</a></li>' +
-        '<li><a class="dropdown-item" href="' + shared("mapa-braco.html") + '"><i class="fas fa-map me-2"></i> ' + t.map + '</a></li>' +
-        '<li><a class="dropdown-item" href="' + shared("tecnica.html") + '"><i class="fas fa-hand me-2"></i> ' + t.technique + '</a></li>' +
-        '<li><hr class="dropdown-divider"></li>' +
-        '<li><a class="dropdown-item" href="' + shared("jogo-imagem.html") + '"><i class="fas fa-eye me-2"></i> ' + t.visualChallenge + '</a></li>' +
-        '<li><a class="dropdown-item" href="' + shared("jogos.html") + '"><i class="fas fa-music me-2"></i> ' + t.noteId + '</a></li>' +
-        '<li><a class="dropdown-item" href="' + shared("jogos-braco.html") + '"><i class="fas fa-guitar me-2"></i> ' + t.fretGames + '</a></li>' +
-        '</ul>' +
-        '</li>' +
+        itemInst() +
+        itemPractice() +
         '<li class="nav-item dropdown">' +
         '<a class="nav-link dropdown-toggle" href="#" id="comunidadeDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-comments me-1"></i> ' + t.community + '</a>' +
         '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="comunidadeDropdown">' +
@@ -220,6 +299,10 @@
         '.custom-navbar{background:#0e0d1a!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border-bottom:1px solid rgba(201,169,89,.28)!important;box-shadow:0 4px 18px rgba(0,0,0,.45);padding-top:.55rem;padding-bottom:.55rem;z-index:1040}',
         '@media (min-width:1200px){.custom-navbar .navbar-brand{white-space:nowrap}}','.custom-navbar .navbar-brand{white-space:normal;line-height:1.15;max-width:75%}',
         '.custom-navbar .nav-link{white-space:nowrap;border-radius:8px;padding:.5rem .7rem!important;transition:color .2s,background .2s}',
+        '.inst-card{display:block;height:100%;text-decoration:none!important;color:inherit;transition:transform .15s,border-color .15s}.inst-card:hover{transform:translateY(-3px);border-color:#c9a959;color:inherit}.inst-card.sel{border-color:#c9a959;box-shadow:0 0 0 1px #c9a959 inset}.inst-card.soon{opacity:.75}.inst-ico{font-size:2.2rem}',
+        '.inst-tag{display:inline-block;font-size:.72rem;font-weight:700;border-radius:999px;padding:2px 10px;background:#26233b;border:1px solid #3a3750;color:#e8d5a3}.inst-tag.ok{background:#1f3a2a;border-color:#2f6a46;color:#8fd18f}',
+        '.inst-banner{background:#241f35;border:1px solid #c9a959;border-radius:14px;padding:.8rem 1rem;margin:0 0 1.2rem;color:#e8d5a3;font-size:.95rem}.inst-banner a{color:#e8d5a3;font-weight:700;margin-left:.8rem;white-space:nowrap}',
+        '.custom-navbar .inst-toggle{color:#e8d5a3!important;font-weight:600}',
         '.form-range,.form-check-input{accent-color:#c9a959}.form-check-input:checked{background-color:#c9a959;border-color:#c9a959}',
         '.custom-navbar .nav-link:hover,.custom-navbar .nav-link.active{background:rgba(201,169,89,.12)}',
         '.custom-navbar .navbar-toggler{padding:.45rem .6rem;border-radius:8px;background:rgba(201,169,89,.1)}',
@@ -345,6 +428,25 @@
         }
     }
 
+    function bindInst() {
+        document.querySelectorAll("[data-set-inst]").forEach(function (a) {
+            a.addEventListener("click", function (e) { e.preventDefault(); Inst.escolher(a.getAttribute("data-set-inst")); });
+        });
+    }
+    // Aviso quando a página não serve ao instrumento escolhido
+    function renderInstBanner() {
+        if (pageOk(INST_ID) || LANG !== "pt") return;
+        var nomes = pageInsts().map(function (id) { return instName(instById(id)); }).join(" e ");
+        var host = document.querySelector("main .container") || document.querySelector("main");
+        if (!host) return;
+        var d = document.createElement("div");
+        d.className = "inst-banner";
+        d.innerHTML = '<i class="fas fa-circle-info me-2"></i>Esta página é para <b>' + nomes + '</b>. Você escolheu <b>' + instName(CUR) + '</b>.' +
+            '<a href="' + CUR.home + '">Ir para ' + instName(CUR) + '</a><a href="#" data-close>Ver mesmo assim</a>';
+        d.querySelector("[data-close]").onclick = function (e) { e.preventDefault(); d.remove(); };
+        host.insertBefore(d, host.firstChild);
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
         injectSharedCss();
         keepAwake();
@@ -354,5 +456,7 @@
         renderFooter();
         syncAdminNavVisibility();
         activateNavLinks();
+        bindInst();
+        renderInstBanner();
     });
 })();

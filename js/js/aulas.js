@@ -53,7 +53,7 @@
         $("box").classList.toggle("locked", !ok);
         $("kicker").textContent = "Aula " + a + " · " + A.titulo + " · parte " + p + " de " + A.partes.length;
         $("ptitle").textContent = P.titulo; $("pdesc").textContent = P.desc; $("nextBox").style.display = "none";
-        document.title = P.titulo + " — Aula " + a + " | Estudo de Violão Iniciante";
+        document.title = P.titulo + " — Aula " + a + " | Aula de Música Iniciante";
         v.poster = "aulas/poster/" + P.id + ".jpg";
         if (ok) { v.src = "aulas/video/" + P.id + ".mp4"; $("trk").src = "aulas/video/" + P.id + ".vtt"; v.playbackRate = cur.rate || 1; if (autoplay) v.play().catch(function () {}); transcript(P.id); }
         else { v.removeAttribute("src"); v.load(); $("tr").textContent = ""; }

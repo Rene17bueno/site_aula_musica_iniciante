@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teclado online · Estudo de Violão Iniciante</title>
+    <title>Teclado online · Aula de Música Iniciante</title>
     <meta name="description" content="Teclado musical online com acordes, escalas, campo harmônico e jogo de notas. Toque com mouse, celular ou teclado MIDI." />
     <link rel="icon" type="image/png" href="favicon-32.png" />
     <link rel="apple-touch-icon" href="favicon.png" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Estudo de Violão Iniciante" />
+    <meta property="og:site_name" content="Aula de Música Iniciante" />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:url" content="https://rene17bueno.github.io/site_aula_musica_iniciante/teclado.html" />
-    <meta property="og:title" content="Teclado online · Estudo de Violão Iniciante" />
+    <meta property="og:title" content="Teclado online · Aula de Música Iniciante" />
     <meta property="og:description" content="Teclado musical online com acordes, escalas, campo harmônico e jogo de notas. Toque com mouse, celular ou teclado MIDI." />
     <meta property="og:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Teclado online · Estudo de Violão Iniciante" />
+    <meta name="twitter:title" content="Teclado online · Aula de Música Iniciante" />
     <meta name="twitter:description" content="Teclado musical online com acordes, escalas, campo harmônico e jogo de notas. Toque com mouse, celular ou teclado MIDI." />
     <meta name="twitter:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
     <!-- Fonts & Bootstrap (cdn) -->
@@ -329,7 +329,7 @@
       gtag('config', 'G-H8CMNEYXZ9');
     </script>
 </head>
-<body>
+<body data-inst="teclado">
 
     <div id="site-navbar"></div>
 
@@ -515,7 +515,8 @@ function modo(m){mode=m;document.querySelectorAll('#modos .btn').forEach(b=>b.cl
  realca([]);if(m==='acorde')acAtual();if(m==='campo'){campo();acAtual();realca([]);}if(m==='escala')esc();}
 document.querySelectorAll('#modos .btn').forEach(b=>b.onclick=()=>modo(b.dataset.m));
 $('nota').onchange=()=>{rotulos();if(mode==='acorde')mostraAc();if(mode==='escala')esc();campo();};$('lab').onchange=rotulos;
-rotulos();campo();acAtual();realca([]);$('wrap').scrollLeft=K[48].offsetLeft-20;
+rotulos();campo();acAtual();realca([]);
+const hh=location.hash.slice(1);if(['acorde','campo','escala','jogo'].includes(hh))modo(hh);$('wrap').scrollLeft=K[48].offsetLeft-20;
 
 </script>
 </body>

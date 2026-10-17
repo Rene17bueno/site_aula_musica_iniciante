@@ -76,7 +76,8 @@
   function picker(sel, ids, key) {
     var saved; try { saved = localStorage.getItem(key); } catch (e) {}
     sel.innerHTML = ids.map(function (i) { return '<option value="' + i + '">' + INST[i].n + '</option>'; }).join('');
-    sel.value = ids.indexOf(saved) >= 0 ? saved : ids[0];
+    var pad = { violao: 'nylon', guitarra: 'guitarra', teclado: 'piano', baixo: 'baixo' }, ins; try { ins = localStorage.getItem('instrumento'); } catch (e) {}
+    sel.value = ids.indexOf(saved) >= 0 ? saved : (ids.indexOf(pad[ins]) >= 0 ? pad[ins] : ids[0]);   // sem escolha guardada: som do instrumento que a pessoa estuda
     use(sel.value);
     sel.addEventListener('change', function () { use(sel.value); try { localStorage.setItem(key, sel.value); } catch (e) {} if (sel.onuse) sel.onuse(sel.value); });
     return sel;

@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guitarra elétrica · Estudo de Violão Iniciante</title>
+    <title>Guitarra elétrica · Aula de Música Iniciante</title>
     <meta name="description" content="Guitarra elétrica online: sons limpo, crunch e distorcido, power chords, escalas pentatônicas e caixas no braço." />
     <link rel="icon" type="image/png" href="favicon-32.png" />
     <link rel="apple-touch-icon" href="favicon.png" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Estudo de Violão Iniciante" />
+    <meta property="og:site_name" content="Aula de Música Iniciante" />
     <meta property="og:locale" content="pt_BR" />
     <meta property="og:url" content="https://rene17bueno.github.io/site_aula_musica_iniciante/guitarra.html" />
-    <meta property="og:title" content="Guitarra elétrica · Estudo de Violão Iniciante" />
+    <meta property="og:title" content="Guitarra elétrica · Aula de Música Iniciante" />
     <meta property="og:description" content="Guitarra elétrica online: sons limpo, crunch e distorcido, power chords, escalas pentatônicas e caixas no braço." />
     <meta property="og:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Guitarra elétrica · Estudo de Violão Iniciante" />
+    <meta name="twitter:title" content="Guitarra elétrica · Aula de Música Iniciante" />
     <meta name="twitter:description" content="Guitarra elétrica online: sons limpo, crunch e distorcido, power chords, escalas pentatônicas e caixas no braço." />
     <meta name="twitter:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
     <!-- Fonts & Bootstrap (cdn) -->
@@ -323,7 +323,7 @@
       gtag('config', 'G-H8CMNEYXZ9');
     </script>
 </head>
-<body>
+<body data-inst="guitarra">
 
     <div id="site-navbar"></div>
 
@@ -338,7 +338,7 @@
  <div class="col-12 col-md-4"><label class="small text-muted" for="som">Som da guitarra</label><select id="som" class="form-select"></select></div>
  <div class="col-12 col-md-8 small text-muted" id="somDica"></div>
 </div></div>
-<div class="game-card mb-4">
+<div class="game-card mb-4" id="power">
  <h5 class="fw-bold gold">Power chords</h5>
  <p class="text-muted small">Só duas notas (fundamental e quinta), por isso soam firmes com distorção. Escolha a nota e toque: a mesma forma anda pelo braço.</p>
  <div class="row g-2 mb-3"><div class="col-6 col-md-3"><label class="small text-muted" for="pr">Nota</label><select id="pr" class="form-select"></select></div>
@@ -346,7 +346,7 @@
  <div class="pw" id="pw"></div>
  <div class="small text-muted mt-2">Dica: abafe as cordas soltas com a palma da mão direita (palm mute) para um som seco, e solte a mão nos tempos fortes.</div>
 </div>
-<div class="game-card mb-4">
+<div class="game-card mb-4" id="escalas">
  <h5 class="fw-bold gold">Escalas e caixas no braço</h5>
  <div class="row g-2 mb-3">
   <div class="col-4 col-md-2"><label class="small text-muted" for="er">Nota</label><select id="er" class="form-select"></select></div>
