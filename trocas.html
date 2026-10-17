@@ -305,7 +305,7 @@
             #questionBox{display:block}
         #questionBox svg{display:block;margin:0 auto 1rem}
     #go{border-radius:14px}
-    </style>
+    #beats i{width:12px;height:12px;border-radius:50%;background:#3a3750;display:inline-block;transition:background .08s}#beats i.on{background:#e8d5a3}#beats i.on.a{background:#c9a959;box-shadow:0 0 8px #c9a959}.form-range,.form-check-input{accent-color:#c9a959}.form-check-input:checked{background-color:#c9a959;border-color:#c9a959}</style>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8CMNEYXZ9"></script>
     <script>
@@ -325,17 +325,20 @@
 <div class="row mb-4"><div class="col-12 text-center">
 <span class="section-tag"><i class="fas fa-stopwatch me-1"></i> Treino</span>
 <h1 class="display-5 fw-bold mt-2">Trocas de <span class="gold">acordes</span></h1>
-<p class="text-muted">Escolha dois acordes, toque por 60 segundos e conte quantas trocas limpas você faz. Bata seu recorde.</p></div></div>
+<p class="text-muted">Escolha dois acordes, toque pelo tempo escolhido (5 a 60 segundos), com metrônomo se quiser, e conte quantas trocas limpas você faz. Bata seu recorde.</p></div></div>
 <div class="row g-4">
 <div class="col-lg-4"><div class="game-card">
 <label class="small text-muted">Acorde A</label><select id="a" class="form-select mb-3"></select>
 <label class="small text-muted">Acorde B</label><select id="b" class="form-select mb-3"></select>
-<label class="small text-muted">Duração</label><select id="dur" class="form-select mb-3"><option value="30">30 segundos</option><option value="60" selected>60 segundos</option></select>
+<label class="small text-muted d-flex justify-content-between"><span>Duração</span><b class="gold"><span id="durv">60</span> s</b></label><input id="dur" type="range" class="form-range mb-3" min="5" max="60" step="5" value="60">
+<div class="form-check form-switch mb-2"><input class="form-check-input" type="checkbox" id="mOn" checked><label class="form-check-label" for="mOn">Metrônomo durante o treino</label></div>
+<label class="small text-muted d-flex justify-content-between"><span>Andamento</span><b class="gold"><span id="bpmv">60</span> BPM</b></label><input id="bpm" type="range" class="form-range mb-1" min="40" max="160" step="2" value="60">
+<div class="small text-muted mb-3" id="meta"></div>
 <div class="small text-muted">Recorde deste par: <b class="gold" id="rec">0</b> trocas</div>
 <hr class="border-gold"><div class="small text-muted">Como fazer: toque o acorde mostrado, <b class="text-white">troque de verdade</b> para o outro e toque o botão (ou a barra de espaço). Só conta se soou limpo.</div>
 </div></div>
 <div class="col-lg-8"><div class="game-card text-center">
-<div class="d-flex justify-content-between mb-3"><span class="level-badge" id="tempo">60 s</span><span class="fs-6 text-muted">Trocas: <b class="gold fs-4" id="n">0</b></span></div>
+<div class="d-flex justify-content-between mb-3"><span class="level-badge" id="tempo">60 s</span><span id="beats" class="d-flex align-items-center gap-2"><i></i><i></i><i></i><i></i></span><span class="fs-6 text-muted">Trocas: <b class="gold fs-4" id="n">0</b></span></div>
 <div id="dg"></div><div class="fs-2 gold fw-bold mb-3" id="nome">Pronto?</div>
 <button class="btn fw-bold px-5 py-3 fs-5" id="go" style="background:#c9a959;color:#0e0d1a;min-width:220px">Começar</button>
 <div class="small text-muted mt-3" id="msg"></div>
@@ -359,18 +362,25 @@ function dia(fr,bar){const x=i=>30+i*28,y=j=>34+j*30;let s='<svg viewBox="0 0 20
 const $=id=>document.getElementById(id);
 Object.keys(C).forEach(k=>{[$('a'),$('b')].forEach((s,i)=>{const o=document.createElement('option');o.value=o.textContent=k;s.appendChild(o);});});
 $('a').value='Am';$('b').value='C';
-const key=()=>'troca-'+[$('a').value,$('b').value].sort().join('-');
+const key=()=>'troca-'+[$('a').value,$('b').value].sort().join('-')+(+$('dur').value===60?'':'-'+$('dur').value+'s');
 const rec=()=>((Prog.get().max||{})[key()])||0;
 let run=false,n=0,t0=0,tick,cur=0;
 function paint(){const c=cur?$('b').value:$('a').value;$('dg').innerHTML=dia(C[c],c==='F');$('nome').textContent=c;}
 function refresh(){$('rec').textContent=rec();if(!run){cur=0;paint();$('nome').textContent='Pronto?';}}
-['a','b','dur'].forEach(i=>$(i).onchange=refresh);refresh();
-function stop(){run=false;clearInterval(tick);$('go').textContent='Começar de novo';const old=rec();Prog.max(key(),n);
+function meta(){const d=+$('dur').value,b=+$('bpm').value;$('durv').textContent=d;$('bpmv').textContent=b;$('tempo').textContent=run?$('tempo').textContent:d+' s';
+ $('meta').textContent='1 troca por compasso (4 tempos) = '+Math.floor(d*b/240)+' trocas em '+d+' s.';}
+['a','b','dur'].forEach(i=>$(i).onchange=()=>{refresh();meta();});['dur','bpm'].forEach(i=>$(i).oninput=meta);refresh();meta();
+let ctx,mt,nx=0,bi=0;const dots=document.querySelectorAll('#beats i');
+function click(t,acc){const o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=acc?1500:1000;g.gain.setValueAtTime(.3,t);g.gain.exponentialRampToValueAtTime(.001,t+.05);o.connect(g).connect(ctx.destination);o.start(t);o.stop(t+.06);}
+function mStart(){if(!$('mOn').checked)return;ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();ctx.resume();nx=ctx.currentTime+.1;bi=0;
+ mt=setInterval(()=>{while(nx<ctx.currentTime+.14){const k=bi%4,t=nx;click(t,!k);setTimeout(()=>{dots.forEach((d,j)=>d.className=j===k?'on'+(k?'':' a'):'');},Math.max(0,(t-ctx.currentTime)*1000));nx+=60/+$('bpm').value;bi++;}},25);}
+function mStop(){clearInterval(mt);dots.forEach(d=>d.className='');}
+function stop(){run=false;clearInterval(tick);mStop();$('go').textContent='Começar de novo';const old=rec();Prog.max(key(),n);
  $('msg').textContent=n>old?('Novo recorde: '+n+' trocas. Antes: '+old+'.'):('Você fez '+n+' trocas. Recorde: '+old+'.');
  if(n>0)Prog.count('trocas',true);}
 function hit(){if(!run)return;n++;cur^=1;$('n').textContent=n;paint();}
 $('go').onclick=()=>{if(run){hit();return;}
- run=true;n=0;cur=0;$('n').textContent=0;$('msg').textContent='';$('go').textContent='Troquei!';paint();
+ run=true;n=0;cur=0;$('n').textContent=0;$('msg').textContent='';$('go').textContent='Troquei!';paint();mStart();
  const dur=+$('dur').value;t0=Date.now();tick=setInterval(()=>{const left=Math.max(0,dur-Math.floor((Date.now()-t0)/1000));$('tempo').textContent=left+' s';if(left<=0)stop();},200);};
 document.addEventListener('keydown',e=>{if(e.code==='Space'&&e.target.tagName!=='SELECT'){e.preventDefault();$('go').click();}});
 </script>

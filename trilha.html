@@ -363,7 +363,7 @@ paint();
  if(m['exercicio-bpm'])L.push('Exercícios: maior andamento, '+m['exercicio-bpm']+' bpm');
  if(m['metronomo-bpm'])L.push('Metrônomo: maior andamento praticado, '+m['metronomo-bpm']+' bpm'+(c.metronomo?', '+c.metronomo[0]+' sessões de 1 min ou mais':''));
  if(m['tecnica-bpm'])L.push('Metrônomo limpo: '+m['tecnica-bpm']+' bpm');
- Object.keys(m).filter(k=>k.startsWith('troca-')).forEach(k=>L.push('Trocas '+k.slice(6).replace('-',' ↔ ')+': recorde '+m[k]));
+ Object.keys(m).filter(k=>k.startsWith('troca-')).forEach(k=>{const q=k.slice(6).split('-');L.push('Trocas '+q[0]+' ↔ '+q[1]+(q[2]?' ('+q[2]+')':'')+': recorde '+m[k]);});
  if((d.caps||[]).length)L.push('Capítulos lidos: '+d.caps.length+' de 13');
  if(L.length)document.getElementById('nums').innerHTML=L.map(x=>'<div>'+x+'</div>').join('');})();
 </script>
