@@ -343,14 +343,17 @@
     <div id="site-footer"></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/js/layout.js"></script>
+    <script src="js/js/violao.js"></script>
     <script>
 
 const S=[['6ª E',82.41],['5ª A',110.0],['4ª D',146.83],['3ª G',196.0],['2ª B',246.94],['1ª E',329.63]];
 const N=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
-const $=id=>document.getElementById(id);let ctx,osc;
-S.forEach(([n,f])=>{const b=document.createElement('button');b.className='btn btn-outline-light corda';b.textContent=n;b.onclick=()=>{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();
- if(osc){osc.stop();osc=null;document.querySelectorAll('.corda').forEach(x=>x.classList.remove('on'));if(b.dataset.on){b.dataset.on='';return;}}
- osc=ctx.createOscillator();const g=ctx.createGain();g.gain.value=.15;osc.type='triangle';osc.frequency.value=f;osc.connect(g).connect(ctx.destination);osc.start();document.querySelectorAll('.corda').forEach(x=>x.dataset.on='');b.dataset.on='1';b.classList.add('on');};$('cordas').appendChild(b);});
+const $=id=>document.getElementById(id);let ctx,tim;
+// referência: o som do próprio violão, repetido até tocar de novo no botão
+function para(){clearInterval(tim);tim=null;Violao.stop();document.querySelectorAll('.corda').forEach(x=>{x.dataset.on='';x.classList.remove('on')});}
+S.forEach(([n,f],i)=>{const b=document.createElement('button');b.className='btn btn-outline-light corda';b.textContent=n;b.onclick=()=>{
+ const era=b.dataset.on;para();if(era)return;
+ const toca=()=>Violao.note(Violao.OPEN[i],{v:.9,ch:0});toca();tim=setInterval(toca,3000);b.dataset.on='1';b.classList.add('on');};$('cordas').appendChild(b);});
 function pitch(buf,sr){let rms=0;for(const v of buf)rms+=v*v;if(Math.sqrt(rms/buf.length)<.01)return -1;
  const max=Math.floor(sr/60),min=Math.floor(sr/500);let best=-1,bc=0;const c=new Float32Array(max+1);
  for(let l=min;l<=max;l++){let s=0;for(let i=0;i<buf.length-l;i++)s+=buf[i]*buf[i+l];c[l]=s;}

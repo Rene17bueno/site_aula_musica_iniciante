@@ -426,6 +426,7 @@
                     <h4 class="mt-3 mb-1 fw-bold" id="modalTitle" style="color:#e8d5a3;">Título</h4>
                     <span class="badge bg-secondary-subtle text-secondary text-uppercase fs-7" id="modalBadge">Tipo</span>
                     <p class="text-muted small mt-2" id="modalNotes"></p>
+                    <button type="button" id="btnOuvir" class="btn btn-sm d-none" style="background:#c9a959;color:#0e0d1a;font-weight:600"><i class="fas fa-volume-high me-1"></i> Ouvir o acorde</button>
                     <div id="modalPosicoes" class="d-none mt-3">
                         <div id="modalPosicoesBtns" class="d-flex flex-wrap justify-content-center gap-2"></div>
                         <p class="text-muted small mt-2 mb-0" id="modalPosicaoInfo"></p>
@@ -458,7 +459,7 @@
         // Maior
         ACORDES_BIBLIOTECA["Maior"] = {
             "C": [shape(1, [[2,3,3,"C"],[3,2,2,"E"],[5,1,1,"C"]], ["x","o","o","o","o","o"], null, "aberto")],
-            "D": [shape(1, [[4,2,1,"D"],[5,3,3,"A"],[6,2,2,"F#"]], ["x","x","o","o","o","o"], null, "aberto")],
+            "D": [shape(1, [[4,2,1,"A"],[5,3,3,"D"],[6,2,2,"F#"]], ["x","x","o","o","o","o"], null, "aberto")],
             "E": [shape(1, [[2,2,2,"B"],[3,2,3,"E"],[4,1,1,"G#"]], ["o","o","o","o","o","o"], null, "aberto")],
             "F": [shape(1, [[2,3,3,"C"],[3,3,4,"F"],[4,2,2,"A"]], ["o","o","o","o","o","o"], {fret:1,from:1,to:6}, "barre")],
             "G": [shape(1, [[1,3,2,"G"],[2,2,1,"B"],[6,3,3,"G"]], ["o","o","o","o","o","o"], null, "aberto")],
@@ -478,20 +479,20 @@
         // Sétima
         ACORDES_BIBLIOTECA["Sétima (7)"] = {
             "C": [shape(1, [[2,3,3,"C"],[3,2,2,"E"],[4,3,4,"A#"],[5,1,1,"C"]], ["x","o","o","o","o","o"], null, "aberto")],
-            "D": [shape(1, [[4,2,1,"D"],[5,1,2,"C"],[6,2,3,"F#"]], ["x","x","o","o","o","o"], null, "aberto")],
+            "D": [shape(1, [[4,2,1,"A"],[5,1,2,"C"],[6,2,3,"F#"]], ["x","x","o","o","o","o"], null, "aberto")],
             "E": [shape(1, [[2,2,2,"B"],[4,1,1,"G#"]], ["o","o","o","o","o","o"], null, "aberto")],
             "G": [shape(1, [[1,3,3,"G"],[2,2,2,"B"],[6,1,1,"F"]], ["o","o","o","o","o","o"], null, "aberto")],
-            "A": [shape(1, [[3,2,1,"E"],[5,2,2,"G"]], ["x","o","o","o","o","o"], null, "aberto")],
-            "B": [shape(2, [[3,3,3,"F#"],[5,3,4,"E"]], ["x","o","o","o","o","o"], {fret:1,from:2,to:6}, "barre")]
+            "A": [shape(1, [[3,2,1,"E"],[5,2,2,"C#"]], ["x","o","o","o","o","o"], null, "aberto")],
+            "B": [shape(2, [[3,3,3,"F#"],[5,3,4,"D#"]], ["x","o","o","o","o","o"], {fret:1,from:2,to:6}, "barre")]
         };
         // Sétima Maior
         ACORDES_BIBLIOTECA["Sétima Maior (7M)"] = {
             "C": [shape(1, [[2,3,3,"C"],[3,2,2,"E"]], ["x","o","o","o","o","o"], null, "aberto")],
-            "D": [shape(1, [[4,2,1,"D"],[5,2,1,"C#"],[6,2,1,"F#"]], ["x","x","o","o","o","o"], null, "aberto")],
+            "D": [shape(1, [[4,2,1,"A"],[5,2,1,"C#"],[6,2,1,"F#"]], ["x","x","o","o","o","o"], null, "aberto")],
             "E": [shape(1, [[2,2,2,"B"],[3,1,1,"D#"],[4,1,1,"G#"]], ["o","o","o","o","o","o"], null, "aberto")],
             "G": [shape(1, [[1,3,2,"G"],[6,2,1,"F#"]], ["o","x","o","o","o","o"], null, "aberto")],
             "A": [shape(1, [[3,2,1,"E"],[4,1,2,"G#"],[5,2,3,"C#"]], ["x","o","o","o","o","o"], null, "aberto")],
-            "B": [shape(2, [[3,3,3,"F#"],[4,2,2,"B"],[5,1,1,"A#"]], ["x","o","o","o","o","o"], {fret:1,from:2,to:6}, "barre")]
+            "B": [shape(2, [[3,3,3,"F#"],[4,2,2,"A#"],[5,3,4,"D#"]], ["x","o","o","o","o","o"], {fret:1,from:2,to:6}, "barre")]
         };
         // Sétima Menor (m7)
         ACORDES_BIBLIOTECA["Sétima Menor (m7)"] = {
@@ -505,21 +506,21 @@
         };
         // Suspenso 4
         ACORDES_BIBLIOTECA["Suspenso 4 (sus4)"] = {
-            "C": [shape(1, [[2,3,3,"C"],[3,3,4,"F"],[5,1,1,"C"]], ["x","o","o","o","o","o"], null, "aberto")],
-            "D": [shape(1, [[4,2,1,"D"],[5,3,2,"A"],[6,3,3,"G"]], ["x","x","o","o","o","o"], null, "aberto")],
+            "C": [shape(1, [[2,3,3,"C"],[3,3,4,"F"],[5,1,1,"C"],[6,1,1,"F"]], ["x","o","o","o","o","o"], null, "aberto")],
+            "D": [shape(1, [[4,2,1,"A"],[5,3,2,"D"],[6,3,3,"G"]], ["x","x","o","o","o","o"], null, "aberto")],
             "E": [shape(1, [[2,2,2,"B"],[3,2,3,"E"],[4,2,4,"A"]], ["o","o","o","o","o","o"], null, "aberto")],
-            "G": [shape(1, [[1,3,3,"G"],[2,3,4,"C"],[6,3,2,"G"]], ["o","o","o","o","o","o"], null, "aberto")],
+            "G": [shape(1, [[1,3,3,"G"],[2,3,4,"C"],[5,1,1,"C"],[6,3,2,"G"]], ["o","o","o","o","o","o"], null, "aberto")],
             "A": [shape(1, [[3,2,1,"E"],[4,2,2,"A"],[5,3,3,"D"]], ["x","o","o","o","o","o"], null, "aberto")],
-            "B": [shape(2, [[3,4,3,"F#"],[4,4,4,"B"],[5,3,2,"E"]], ["x","o","o","o","o","o"], {fret:1,from:2,to:6}, "barre")]
+            "B": [shape(2, [[3,3,2,"F#"],[4,3,3,"B"],[5,4,4,"E"]], ["x","o","o","o","o","o"], {fret:1,from:2,to:6}, "barre")]
         };
         // Diminuto
         ACORDES_BIBLIOTECA["Diminuto (m♭5)"] = {
-            "C": [shape(1, [[4,1,1,"D#"],[5,4,4,"C"],[6,2,2,"F#"]], ["x","x","o","o","o","x"], null, "aberto")],
-            "D": [shape(1, [[4,0,0,"D"],[5,1,1,"G#"],[6,1,2,"F"]], ["x","x","o","o","o","o"], null, "aberto")],
-            "E": [shape(1, [[3,3,3,"A#"],[4,2,2,"E"],[5,2,1,"G"]], ["x","x","o","o","o","x"], null, "aberto")],
-            "G": [shape(1, [[4,0,0,"G"],[5,2,1,"C#"],[6,3,2,"A#"]], ["x","x","o","o","o","o"], null, "aberto")],
-            "A": [shape(1, [[3,2,2,"D#"],[4,2,3,"A"],[5,1,1,"C"]], ["x","o","o","o","o","x"], null, "aberto")],
-            "B": [shape(1, [[2,2,2,"B"],[4,3,4,"F"],[5,1,1,"D"]], ["x","o","x","o","o","x"], null, "aberto")]
+            "C": [shape(3, [[2,1,1,"C"],[3,2,3,"F#"],[4,1,2,"A#"],[5,2,4,"D#"]], ["x","o","o","o","o","x"], null, "aberto")],
+            "D": [shape(1, [[4,1,1,"G#"],[5,1,1,"C"],[6,1,1,"F"]], ["x","x","o","o","o","o"], {fret:1,from:4,to:6}, "barre")],
+            "E": [shape(1, [[3,2,1,"E"],[4,3,2,"A#"],[5,3,3,"D"],[6,3,4,"G"]], ["x","x","o","o","o","o"], null, "aberto")],
+            "G": [shape(1, [[1,3,2,"G"],[3,3,3,"F"],[4,3,4,"A#"],[5,2,1,"C#"]], ["o","x","o","o","o","x"], null, "aberto")],
+            "A": [shape(1, [[3,1,1,"D#"],[5,1,2,"C"]], ["x","o","o","o","o","x"], null, "aberto")],
+            "B": [shape(1, [[2,2,1,"B"],[3,3,3,"F"],[4,2,2,"A"],[5,3,4,"D"]], ["x","o","o","o","o","x"], null, "aberto")]
         };
         // Aumentado, Nona e Nona Menor: sem forma "padrão" digitada à mão --
         // os 12 tons vêm inteiros da pestana móvel (FORMAS_MOVEIS) via
@@ -760,6 +761,19 @@
             return { baseFret: k, chord, rotulo: `forma do ${raiz} aberto` };
         }
 
+        // Casa de cada corda (grave -> aguda; -1 = calada) a partir do desenho do acorde.
+        // Ponto: casa relativa a baseFret; pestana cobre as cordas de from a to.
+        function casasDoAcorde(ch) {
+            return [0, 1, 2, 3, 4, 5].map(i => {
+                if (ch.status && ch.status[i] === 'x') return -1;
+                const d = ch.dots.find(x => x[0] === i + 1);
+                if (d) return ch.baseFret + d[1] - 1;
+                const b = ch.barre;
+                if (b && i + 1 >= b.from && i + 1 <= b.to) return ch.baseFret + b.fret - 1;
+                return 0;
+            });
+        }
+
         // Gera todas as posições de um acorde: a forma padrão já existente na
         // biblioteca (quando houver) + as pestanas móveis E-shape/A-shape
         // (quando cadastradas pra essa qualidade), ordenadas do braço do
@@ -795,6 +809,7 @@
                 total: ordenadas.length,
                 baseFret: p.baseFret,
                 rotulo: p.rotulo || '',
+                frets: casasDoAcorde(p.chord),
                 svg: gerarSvgAcorde(tonica, p.chord)
             }));
         }
@@ -1089,8 +1104,15 @@
         const modalPosicoesBtns = document.getElementById('modalPosicoesBtns');
         const modalPosicaoInfo = document.getElementById('modalPosicaoInfo');
 
-        function mostrarPosicao(item, i) {
+        let fretsAtual = null;
+        function ouvir() { if (fretsAtual) Violao.strum(fretsAtual); }
+        document.getElementById('btnOuvir').addEventListener('click', ouvir);
+        modal.addEventListener('hidden.bs.modal', () => Violao.stop());
+
+        function mostrarPosicao(item, i, tocar = true) {
             const p = item.posicoes[i];
+            fretsAtual = p.frets || null;
+            if (tocar) ouvir();
             modalSvgContainer.innerHTML = p.svg;
             modalPosicoesBtns.querySelectorAll('.btn-posicao').forEach((b, bi) => {
                 b.classList.toggle('active', bi === i);
@@ -1120,12 +1142,14 @@
                 modalPosicoesBtns.querySelectorAll('.btn-posicao').forEach(btn => {
                     btn.addEventListener('click', () => mostrarPosicao(item, parseInt(btn.dataset.i)));
                 });
-                mostrarPosicao(item, 0);
+                mostrarPosicao(item, 0, false);
             } else {
                 modalPosicoes.classList.add('d-none');
                 modalPosicoesBtns.innerHTML = '';
                 modalSvgContainer.innerHTML = item.svg;
             }
+            fretsAtual = item.tipo === 'acorde' ? (item.posicoes && item.posicoes[0] ? item.posicoes[0].frets : casasDoAcorde(item.forma)) : null;
+            document.getElementById('btnOuvir').classList.toggle('d-none', !fretsAtual);
         });
 
         // ----- INICIALIZA -----
@@ -1137,5 +1161,6 @@
     </script>
 
     <script src="js/js/layout.js"></script>
+    <script src="js/js/violao.js"></script>
 </body>
 </html>

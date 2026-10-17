@@ -354,6 +354,7 @@
     <div id="site-footer"></div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/js/layout.js"></script>
+    <script src="js/js/violao.js"></script>
     <script>
 
 const N=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],FL=['C','D♭','D','E♭','E','F','G♭','G','A♭','A','B♭','B'];
@@ -482,12 +483,7 @@ function lista(){
   neck();
 }
 function gerar(){root=+$('n').value;qn=$('q').value;sel=null;all=vozes(root,qn,+$('min').value,$('inv').checked);lista();}
-let ac;
-function tocar(fr){ac=ac||new(window.AudioContext||window.webkitAudioContext)();const t0=ac.currentTime+.02;let i=0;
-  fr.forEach((f,s)=>{if(f<0)return;const o=ac.createOscillator(),g=ac.createGain(),t=t0+i++*.045;
-    o.type='triangle';o.frequency.value=FREQ[s]*Math.pow(2,f/12);
-    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.18,t+.01);g.gain.exponentialRampToValueAtTime(.0008,t+1.6);
-    o.connect(g).connect(ac.destination);o.start(t);o.stop(t+1.7);});}
+const tocar=fr=>Violao.strum(fr);
 N.forEach((n,i)=>$('n').add(new Option(n===FL[i]?n:n+'/'+FL[i],i)));
 Object.keys(Q).forEach(k=>$('q').add(new Option(k,k)));
 ['n','q','min','inv'].forEach(i=>$(i).onchange=gerar);

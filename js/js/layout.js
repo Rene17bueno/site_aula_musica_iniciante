@@ -189,6 +189,7 @@
         '<div class="small" style="color: #b5b0a8;">' +
         '<i class="fas fa-copyright me-1" style="color:#c9a959;"></i> 2026 &middot; Renê Aparecido Bueno &middot; Maringá &middot; PR' +
         '</div>' +
+        '<div class="small mt-1" style="color:#8f8a82;font-size:.75rem">' + (LANG === 'pt' ? 'Sons de violão' : LANG === 'es' ? 'Sonidos de guitarra' : 'Guitar sounds') + ': FluidR3_GM (Frank Wen), <a href="https://creativecommons.org/licenses/by/3.0/us/" target="_blank" rel="noopener" style="color:inherit">CC BY 3.0</a></div>' +
         '</div>' +
         '</footer>';
 

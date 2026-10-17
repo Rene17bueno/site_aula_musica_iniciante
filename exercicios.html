@@ -184,11 +184,7 @@
 
         function pluck(n){
             if(!$('snd').checked)return;
-            ac=ac||new (window.AudioContext||window.webkitAudioContext)();
-            var o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime,midi=OPEN[n.s]+n.fret;
-            o.type='triangle';o.frequency.value=440*Math.pow(2,(midi-69)/12);
-            g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.45,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+.9);
-            o.connect(g).connect(ac.destination);o.start(t);o.stop(t+.95);
+            Violao.note(OPEN[n.s]+n.fret,{ch:n.s});
         }
 
         function flash(id){var e=$(id);e.classList.add('on');setTimeout(function(){e.classList.remove('on')},110)}
@@ -232,5 +228,6 @@
     })();
     </script>
     <script src="js/js/layout.js"></script>
+    <script src="js/js/violao.js"></script>
 </body>
 </html>
