@@ -315,6 +315,10 @@
 .pc.beat small{color:#e8d5a3}.pc.sf span{font-size:1.1rem;opacity:.8}.pc.on{background:#c9a959;border-color:#e8d5a3}.pc.on span,.pc.on small{color:#0e0d1a}
 #faixa b{color:#e8d5a3}#faixa .ok{color:#7ee08a}#faixa .no{color:#ffb86b}
 input[type=range]{accent-color:#c9a959}
+.chips{display:flex;flex-wrap:wrap;gap:6px;min-height:34px}.chip{display:inline-flex;align-items:center;gap:6px;background:#14131f;border:1px solid rgba(201,169,89,.35);border-radius:20px;padding:3px 6px 3px 12px;color:#e4dfd7;font-weight:600}
+.chip.on{background:#c9a959;color:#0e0d1a;border-color:#e8d5a3}.chip button{background:transparent;border:0;color:inherit;opacity:.7;padding:0 4px;font-size:1rem;line-height:1}.chip button:hover{opacity:1}
+.fdeg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.deg{padding:4px 0;line-height:1.2;font-size:.85rem}.deg small{display:block;font-size:.65rem;opacity:.7}
+#curSvg svg{width:100px;display:block}
 .form-range::-webkit-slider-thumb{background:#c9a959}.form-range::-moz-range-thumb{background:#c9a959}.form-range::-webkit-slider-runnable-track{background:transparent}.form-range{background:#2a2840;border-radius:6px;height:10px;margin-top:6px;margin-bottom:12px!important}.form-range::-webkit-slider-thumb{margin-top:-5px;width:20px;height:20px}
 @media(max-width:575px){.bpmin{width:96px;font-size:2rem}.pc span{font-size:1.2rem}}
 
@@ -349,9 +353,20 @@ input[type=range]{accent-color:#c9a959}
   <div class="small" id="faixa" style="color:#b5b0a8"></div>
  </div>
  <div class="game-card mb-4">
+  <div class="d-flex justify-content-between align-items-center mb-2"><span class="fw-bold gold">Acordes da batida</span><button class="btn btn-sm btn-outline-light" id="clr">Limpar</button></div>
+  <div id="prog" class="chips mb-2"></div>
+  <div class="row g-2 mb-3"><div class="col-4"><select id="addN" class="form-select form-select-sm" aria-label="Nota"></select></div><div class="col-5"><select id="addQ" class="form-select form-select-sm" aria-label="Tipo"></select></div><div class="col-3"><button id="add" class="btn btn-sm w-100 fw-bold" style="background:#c9a959;color:#0e0d1a">+ Incluir</button></div></div>
+  <hr class="border-gold">
+  <div class="fw-bold gold mb-2">Campo harmônico</div>
+  <div class="row g-2 mb-2"><div class="col-6"><label class="small text-muted" for="fk">Tom</label><select id="fk" class="form-select form-select-sm"></select></div><div class="col-6"><label class="small text-muted" for="fm">Modo</label><select id="fm" class="form-select form-select-sm"><option value="M">Maior</option><option value="m">Menor</option></select></div></div>
+  <div class="d-flex flex-wrap gap-3 mb-2"><div class="form-check"><input class="form-check-input" type="checkbox" id="f7"><label class="form-check-label small text-muted" for="f7">Com sétimas</label></div><div class="form-check d-none" id="vWrap"><input class="form-check-input" type="checkbox" id="fV" checked><label class="form-check-label small text-muted" for="fV">V maior (menor harmônica)</label></div></div>
+  <div class="small text-muted mb-1">Toque num grau para incluir o acorde:</div>
+  <div id="fdeg" class="fdeg mb-3"></div>
+  <div class="row g-2"><div class="col-7"><label class="small text-muted" for="preset">Progressão pronta</label><select id="preset" class="form-select form-select-sm"></select></div><div class="col-5"><label class="small text-muted" for="bpc">Compassos por acorde</label><select id="bpc" class="form-select form-select-sm"><option value="1">1</option><option value="2">2</option><option value="4">4</option></select></div></div>
+ </div>
+ <div class="game-card mb-4">
   <div class="row g-2">
-   <div class="col-6"><label class="small text-muted" for="chord">Acorde da batida</label><select id="chord" class="form-select"></select></div>
-   <div class="col-6"><label class="small text-muted" for="goal">Meta de estudo</label><select id="goal" class="form-select"><option value="0">Sem meta</option><option value="60">1 minuto</option><option value="120">2 minutos</option><option value="180">3 minutos</option><option value="300">5 minutos</option><option value="600">10 minutos</option><option value="900">15 minutos</option></select></div>
+   <div class="col-12"><label class="small text-muted" for="goal">Meta de estudo</label><select id="goal" class="form-select"><option value="0">Sem meta</option><option value="60">1 minuto</option><option value="120">2 minutos</option><option value="180">3 minutos</option><option value="300">5 minutos</option><option value="600">10 minutos</option><option value="900">15 minutos</option></select></div>
   </div>
   <div class="mt-3 d-flex flex-column gap-1">
    <div class="form-check"><input class="form-check-input" type="checkbox" id="optViolao" checked><label class="form-check-label small text-muted" for="optViolao">Violão tocando a levada</label></div>
@@ -382,6 +397,10 @@ input[type=range]{accent-color:#c9a959}
    <button class="btn fw-bold px-5 py-3 fs-5" id="play" style="background:#c9a959;color:#0e0d1a;min-width:200px"><i class="fas fa-play me-2"></i><span>Tocar</span></button>
    <button class="btn btn-outline-light px-4" id="tap" title="Toque no ritmo para descobrir o andamento">Tap</button>
   </div>
+  <div class="d-flex align-items-center justify-content-center gap-3 mb-3 curchord">
+   <div id="curSvg"></div>
+   <div class="text-start"><div class="small text-muted">Acorde agora</div><div class="fs-1 fw-bold gold" id="curName">Am</div><div class="small" id="curRn" style="color:#b5b0a8"></div><div class="small mt-1" style="color:#b5b0a8">Próximo: <b id="nextName" class="gold">—</b></div></div>
+  </div>
   <div class="dots" id="beats"></div>
   <div class="barra mb-3"><i id="barBar"></i></div>
   <div id="grid" class="pgrid"></div>
@@ -396,6 +415,7 @@ input[type=range]{accent-color:#c9a959}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/js/layout.js"></script>
     <script src="js/js/violao.js"></script>
+    <script src="js/js/acordes-lib.js"></script>
     <script>
 
 const $=id=>document.getElementById(id);
@@ -412,14 +432,19 @@ const L=[
  {n:'Bossa nova (2 compassos)',ts:4,sub:2,p:'B--d--B-' + '--d--d--',bpm:120,min:100,max:150,d:'Padrão que se completa em dois compassos, com baixo e acorde defasados. Versão de estudo.'},
  {n:'Baião / Forró (2/4)',ts:2,sub:4,p:'B-dUB-dU',bpm:100,min:80,max:130,d:'Dois tempos, baixo marcando o 1 e o 2 e acordes entre eles. Versão de estudo.'}
 ];
-const CH={Am:[-1,0,2,2,1,0],C:[-1,3,2,0,1,0],G:[3,2,0,0,0,3],Em:[0,2,2,0,0,0],D:[-1,-1,0,2,3,2],Dm:[-1,-1,0,2,3,1],E:[0,2,2,1,0,0],A:[-1,0,2,2,2,0],F:[1,3,3,2,1,1]};
+let prog=[{r:9,q:'m',bemol:false,rn:''}],bpc=1;
+const QN={M:'Maior',m:'Menor',dim:'Diminuto','7':'Sétima (7)',M7:'Sétima maior',m7:'Menor com sétima',m7b5:'Meio-diminuto'};
+const PRE={M:[['I – IV – V – I',[1,4,5,1]],['I – V – vi – IV',[1,5,6,4]],['vi – IV – I – V',[6,4,1,5]],['I – vi – IV – V',[1,6,4,5]],['ii – V – I',[2,5,1]],['I – IV – I – V',[1,4,1,5]]],
+ m:[['i – iv – V',[1,4,5]],['i – VI – III – VII',[1,6,3,7]],['i – VII – VI – V (andaluza)',[1,7,6,5]],['i – iv – VII – III',[1,4,7,3]],['ii° – V – i',[2,5,1]]]};
+const cn=c=>AcLib.nome(c.r,c.q,c.bemol),fr=c=>AcLib.voz(c.r,c.q);
 const TM=[[40,'Grave','muito lento'],[60,'Largo','largo e lento'],[66,'Larghetto','um pouco menos lento'],[76,'Adagio','lento, tranquilo'],[108,'Andante','passo de caminhada'],[120,'Moderato','moderado'],[156,'Allegro','rápido e alegre'],[176,'Vivace','vivo'],[200,'Presto','muito rápido'],[9999,'Prestissimo','o mais rápido possível']];
 const GL={D:'↓',d:'↓',U:'↑',u:'↑',M:'✕',B:'●','-':'·'};
 let cur=L[1],bpm=100,run=false,ctx,tid,raf,step=0,nextT=0,queue=[],t0=0,played=0,count=0,goal=0,taps=[];
-try{const s=JSON.parse(localStorage.getItem('metro')||'{}');if(s.l!=null&&L[s.l])cur=L[s.l];if(s.b)bpm=s.b;if(s.c&&CH[s.c])setTimeout(()=>{$('chord').value=s.c},0);}catch(e){}
+try{const s=JSON.parse(localStorage.getItem('metro')||'{}');if(s.l!=null&&L[s.l])cur=L[s.l];if(s.b)bpm=s.b;if(Array.isArray(s.p)&&s.p.length&&s.p.every(c=>c&&AcLib.NOTAS[c.r]&&QN[c.q]))prog=s.p;if([1,2,4].includes(s.n))bpc=s.n;}catch(e){}
 const total=()=>cur.p.length,perBar=()=>cur.ts*cur.sub;
 L.forEach((l,i)=>$('lev').add(new Option(l.n+' · '+l.ts+'/4',i)));
-Object.keys(CH).forEach(k=>$('chord').add(new Option(k,k)));$('chord').value='Am';
+AcLib.NOTAS.forEach((n,i)=>{const t=n===AcLib.BEMOL[i]?n:n+'/'+AcLib.BEMOL[i];$('addN').add(new Option(t,i));$('fk').add(new Option(t,i));});
+Object.keys(QN).forEach(k=>$('addQ').add(new Option(QN[k],k)));$('fk').value=0;$('bpc').value=bpc;
 $('lev').value=L.indexOf(cur);
 const clamp=v=>Math.max(20,Math.min(300,Math.round(v)||100));
 const tempo=b=>TM.find(x=>b<x[0]);
@@ -428,7 +453,7 @@ function setBpm(v,keep){bpm=clamp(v);$('bpmIn').value=bpm;$('bpmR').value=Math.m
  const inR=bpm>=cur.min&&bpm<=cur.max;$('faixa').innerHTML='Faixa comum desta levada: <b>'+cur.min+' a '+cur.max+' BPM</b> · '+(inR?'<span class="ok">você está dentro da faixa</span>':'<span class="no">'+(bpm<cur.min?'mais lento':'mais rápido')+' que o usual (ótimo para '+(bpm<cur.min?'estudar devagar':'desafio')+')</span>');
  const a=(cur.min-30)/210*100,b=(cur.max-30)/210*100;$('bpmR').style.background='linear-gradient(90deg,#2a2840 '+a+'%,#c9a95966 '+a+'%,#c9a95966 '+b+'%,#2a2840 '+b+'%)';
  save();}
-function save(){try{localStorage.setItem('metro',JSON.stringify({l:L.indexOf(cur),b:bpm,c:$('chord').value}))}catch(e){}}
+function save(){try{localStorage.setItem('metro',JSON.stringify({l:L.indexOf(cur),b:bpm,p:prog,n:bpc}))}catch(e){}}
 function draw(){
  $('levDesc').textContent=cur.d;$('gotoTxt').textContent='Ir para o andamento da levada ('+cur.bpm+' BPM)';
  const lab=cur.sub===2?['','&']:['','e','&','a'];let h='';
@@ -441,7 +466,7 @@ function draw(){
  setBpm(bpm);}
 function click(t,acc){const o=ctx.createOscillator(),g=ctx.createGain();o.type='square';o.frequency.value=acc?1500:1000;
  g.gain.setValueAtTime(acc?.16:.1,t);g.gain.exponentialRampToValueAtTime(.0001,t+.04);o.connect(g).connect(ctx.destination);o.start(t);o.stop(t+.05);}
-function sound(c,t){const fr=CH[$('chord').value],dt=t-ctx.currentTime;
+function sound(c,t,ci){const fr=AcLib.voz(prog[ci].r,prog[ci].q),dt=t-ctx.currentTime;
  if(c==='D')Violao.strum(fr,{t:dt,v:.95,keep:1,gap:.03});
  else if(c==='d')Violao.strum(fr,{t:dt,v:.6,keep:1,gap:.03});
  else if(c==='U')Violao.strum(fr,{t:dt,v:.7,keep:1,dir:'up',gap:.022});
@@ -452,17 +477,17 @@ function sched(){
  while(nextT<ctx.currentTime+.14){
   const st=step,t=nextT,inCount=count>0;
   if(inCount){if(st%cur.sub===0)click(t,st%perBar()===0);count--;if(!count)step=0;else step++;queue.push({k:-1-st,t});nextT+=60/bpm/cur.sub;continue;}
-  const c=cur.p[st%total()];
+  const c=cur.p[st%total()],ci=Math.floor(Math.floor(played/perBar())/bpc)%prog.length;
   if($('optClick').checked&&st%cur.sub===0)click(t,st%perBar()===0);
-  if($('optViolao').checked&&c!=='-')sound(c,t);
-  queue.push({k:st,t});played++;
+  if($('optViolao').checked&&c!=='-')sound(c,t,ci);
+  queue.push({k:st,t,ci});played++;
   nextT+=60/bpm/cur.sub;step=(st+1)%total();}
 }
 function ui(){
  const now=ctx.currentTime;
  while(queue.length&&queue[0].t<=now){const q=queue.shift();
   document.querySelectorAll('.pc.on').forEach(e=>e.classList.remove('on'));
-  if(q.k>=0){const e=$('c'+q.k);if(e)e.classList.add('on');
+  if(q.k>=0){const e=$('c'+q.k);if(e)e.classList.add('on');if(q.ci!==shown)showChord(q.ci);
    const i=q.k%perBar(),b=Math.floor(i/cur.sub);document.querySelectorAll('#beats b').forEach((e,j)=>{e.classList.toggle('on',j===b);e.classList.toggle('um',j===b&&b===0)});
    $('barBar').style.width=((i+1)/perBar()*100)+'%';}
   else{const b=Math.floor((-1-q.k)/cur.sub);document.querySelectorAll('#beats b').forEach((e,j)=>{e.classList.toggle('on',j===b);e.classList.remove('um')});$('msg').textContent='Contagem...';}}
@@ -473,7 +498,7 @@ function ui(){
 async function start(){
  ctx=Violao.init();if(ctx.state==='suspended')await ctx.resume();
  $('msg').textContent='Carregando o som do violão...';
- await Violao.preload(CH[$('chord').value]);
+ await Promise.all(prog.map(c=>Violao.preload(fr(c))));showChord(0);
  goal=+$('goal').value;played=0;step=0;queue=[];count=$('optCount').checked?perBar():0;
  $('goalTxt').textContent=goal?('meta de '+goal/60+' min'):'sem meta';$('goalBar').style.width='0';
  nextT=ctx.currentTime+.08;t0=nextT;run=true;$('msg').textContent=count?'Contagem...':'';
@@ -482,7 +507,7 @@ async function start(){
 function stop(fim){
  const el=ctx?Math.max(0,ctx.currentTime-t0):0;
  run=false;clearInterval(tid);cancelAnimationFrame(raf);Violao.stop();queue=[];
- document.querySelectorAll('.pc.on').forEach(e=>e.classList.remove('on'));document.querySelectorAll('#beats b').forEach(e=>e.className='');$('barBar').style.width='0';
+ document.querySelectorAll('.pc.on').forEach(e=>e.classList.remove('on'));document.querySelectorAll('#beats b').forEach(e=>e.className='');$('barBar').style.width='0';showChord(0);
  $('play').innerHTML='<i class="fas fa-play me-2"></i><span>Tocar</span>';
  $('msg').textContent=fim?'Meta cumprida! '+Math.floor(el/60)+' min '+Math.floor(el%60)+' s a '+bpm+' BPM.':'';
  if(el>=60&&window.Prog){Prog.count('metronomo',true);Prog.max('metronomo-bpm',bpm);}}
@@ -493,11 +518,35 @@ $('bpmR').oninput=e=>setBpm(+e.target.value);
 $('bpmIn').onchange=e=>setBpm(+e.target.value);
 $('bpmIn').onkeydown=e=>{if(e.key==='Enter'){setBpm(+e.target.value);e.target.blur();}};
 document.querySelectorAll('.bpmb').forEach(b=>b.onclick=()=>setBpm(bpm+(+b.dataset.d)));
-$('chord').onchange=()=>{save();if(run)Violao.preload(CH[$('chord').value]);};
+
 $('goal').onchange=()=>{goal=+$('goal').value;$('goalTxt').textContent=goal?('meta de '+goal/60+' min'):'sem meta';};
 $('tap').onclick=()=>{const n=performance.now();if(taps.length&&n-taps[taps.length-1]>2000)taps=[];taps.push(n);taps=taps.slice(-5);
  if(taps.length>=2){const d=(taps[taps.length-1]-taps[0])/(taps.length-1);setBpm(60000/d);}};
 document.addEventListener('keydown',e=>{if(e.code==='Space'&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)&&document.activeElement.tagName!=='BUTTON'){e.preventDefault();$('play').click();}});
+let shown=-1,field=[];
+function showChord(i){
+ if(!prog.length){$('curName').textContent='—';$('curSvg').innerHTML='';$('curRn').textContent='Inclua um acorde';$('nextName').textContent='—';shown=-1;return;}
+ i=i%prog.length;shown=i;const c=prog[i],n=prog[(i+1)%prog.length];
+ $('curName').textContent=cn(c);$('curRn').textContent=(c.rn?c.rn+' · ':'')+QN[c.q];$('curSvg').innerHTML=AcLib.svg(fr(c),c.r);
+ $('nextName').textContent=prog.length>1?cn(n):'(repete)';
+ document.querySelectorAll('#prog .chip').forEach((e,j)=>e.classList.toggle('on',j===i));}
+function renderProg(){
+ $('prog').innerHTML=prog.length?prog.map((c,i)=>'<span class="chip">'+cn(c)+'<button data-i="'+i+'" aria-label="Tirar '+cn(c)+'">×</button></span>').join(''):'<span class="small text-muted">Nenhum acorde. Inclua um abaixo ou use o campo harmônico.</span>';
+ showChord(run&&shown>=0?shown:0);save();if(run)Promise.all(prog.map(c=>Violao.preload(fr(c))));}
+function renderField(){
+ const m=$('fm').value;$('vWrap').classList.toggle('d-none',m!=='m');
+ field=AcLib.campo(+$('fk').value,m,$('f7').checked,$('fV').checked);
+ $('fdeg').innerHTML=field.map((c,i)=>'<button class="btn btn-outline-light deg" data-i="'+i+'">'+c.rn+'<small>'+cn(c)+'</small></button>').join('');
+ const cur0=$('preset').value;$('preset').innerHTML='<option value="">Escolher...</option>'+PRE[m].map((p,i)=>'<option value="'+i+'">'+p[0]+'</option>').join('');}
+$('fdeg').onclick=e=>{const b=e.target.closest('.deg');if(!b)return;const c=field[+b.dataset.i];prog.push({r:c.r,q:c.q,bemol:c.bemol,rn:c.rn});renderProg();};
+$('prog').onclick=e=>{const b=e.target.closest('button');if(!b)return;prog.splice(+b.dataset.i,1);renderProg();};
+$('add').onclick=()=>{prog.push({r:+$('addN').value,q:$('addQ').value,bemol:false,rn:''});renderProg();};
+$('clr').onclick=()=>{prog=[];renderProg();};
+['fk','fm','f7','fV'].forEach(i=>$(i).onchange=renderField);
+$('preset').onchange=()=>{const v=$('preset').value;if(v==='')return;const d=PRE[$('fm').value][+v][1];
+ prog=d.map(g=>{const c=field[g-1];return{r:c.r,q:c.q,bemol:c.bemol,rn:c.rn}});renderProg();$('preset').value='';};
+$('bpc').onchange=()=>{bpc=+$('bpc').value;save();};
+renderField();renderProg();
 draw();
 
 </script>
