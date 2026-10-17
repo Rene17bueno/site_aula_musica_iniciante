@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baixo elétrico · Estudo de Violão Iniciante</title>
+    <meta name="description" content="Baixo elétrico online: braço de 4 cordas, escalas, linhas de baixo sobre campo harmônico e metrônomo com som de baixo real." />
+    <link rel="icon" type="image/png" href="favicon-32.png" />
+    <link rel="apple-touch-icon" href="favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Estudo de Violão Iniciante" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content="https://rene17bueno.github.io/site_aula_musica_iniciante/baixo.html" />
+    <meta property="og:title" content="Baixo elétrico · Estudo de Violão Iniciante" />
+    <meta property="og:description" content="Baixo elétrico online: braço de 4 cordas, escalas, linhas de baixo sobre campo harmônico e metrônomo com som de baixo real." />
+    <meta property="og:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Baixo elétrico · Estudo de Violão Iniciante" />
+    <meta name="twitter:description" content="Baixo elétrico online: braço de 4 cordas, escalas, linhas de baixo sobre campo harmônico e metrônomo com som de baixo real." />
+    <meta name="twitter:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <!-- Fonts & Bootstrap (cdn) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        /* ===== ESTILOS GERAIS INTEGRADOS ===== */
+        body {
+            background: #0e0d1a;
+            color: #e4dfd7;
+            font-family: 'Inter', sans-serif;
+            padding-top: 90px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .gold {
+            color: #e8d5a3;
+        }
+        .bg-dark-custom {
+            background: #14131f;
+        }
+        .border-gold {
+            border-color: rgba(201, 169, 89, 0.3) !important;
+        }
+        .text-gold {
+            color: #e8d5a3;
+        }
+        .text-muted {
+            color: #b5b0a8 !important;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar-custom {
+            background: #0e0d1aee;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(201, 169, 89, 0.15);
+        }
+        .navbar-custom .nav-link {
+            color: #d1cbdc !important;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #e8d5a3 !important;
+        }
+        .nav-brand-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #e8d5a3 !important;
+            text-decoration: none;
+        }
+
+        .chapter-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        .section-tag {
+            display: inline-block;
+            background: rgba(201, 169, 89, 0.12);
+            color: #e8d5a3;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            padding: 5px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            text-transform: uppercase;
+        }
+
+        /* ===== CONTAINER DO JOGO ===== */
+        .game-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            transition: 0.3s ease;
+        }
+        
+        .level-badge {
+            background: rgba(201, 169, 89, 0.2);
+            color: #ffffff;
+            border: 1px solid #e8d5a3;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 6px 18px;
+            border-radius: 50px;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(201, 169, 89, 0.2);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c9a959, #f7e7c4);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* ===== PERGUNTA ===== */
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: #ffffff;
+            margin: 25px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* ===== BOTÕES DE RESPOSTA ===== */
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 169, 89, 0.35);
+            color: #ffffff !important;
+            padding: 16px 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        .option-btn:hover {
+            background: rgba(201, 169, 89, 0.25);
+            border-color: #f7e7c4;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 89, 0.2);
+        }
+
+        /* ===== FEEDBACK ===== */
+        .feedback-area {
+            min-height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .feedback-area.show {
+            opacity: 1;
+        }
+        .feedback-correct {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+        .feedback-incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+        }
+
+        /* ===== SELETOR DE NÍVEIS LATERAL ===== */
+        .btn-level-select {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(201, 169, 89, 0.15);
+            color: #e4dfd7;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .btn-level-select .level-title {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-level-select .level-desc {
+            color: #b5b0a8;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .btn-level-select:hover, .btn-level-select.active {
+            background: rgba(201, 169, 89, 0.15);
+            border-color: #e8d5a3;
+        }
+        .btn-level-select.active .level-title {
+            color: #e8d5a3;
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            border-top: 1px solid rgba(201, 169, 89, 0.1);
+            background: #0e0d1a;
+            padding: 1.5rem 0;
+        }
+        .site-footer .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #e8d5a3;
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding-top: 68px;
+            }
+            .chapter-content {
+                padding: 1.25rem 0 1.75rem;
+            }
+            .game-card {
+                padding: 18px 14px;
+                border-radius: 12px;
+            }
+            .question-text {
+                font-size: 1.35rem;
+                margin: 16px 0;
+                min-height: 56px;
+            }
+            .option-btn {
+                padding: 12px 14px;
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            .feedback-area {
+                min-height: 50px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .level-badge {
+                font-size: 0.78rem;
+                padding: 5px 12px;
+            }
+            .question-text {
+                font-size: 1.2rem;
+                margin: 12px 0;
+                min-height: 48px;
+            }
+            .option-btn {
+                padding: 11px 12px;
+                font-size: 0.95rem;
+            }
+            .row.g-4 {
+                --bs-gutter-y: 0.85rem;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .game-card {
+                padding: 14px 11px;
+            }
+            .feedback-area {
+                min-height: 46px;
+                font-size: 0.93rem;
+            }
+            .btn-level-select .level-desc {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .section-tag {
+                font-size: 0.68rem;
+                padding: 4px 12px;
+            }
+            .btn-level-select {
+                padding: 10px 12px;
+            }
+        }
+            #questionBox{display:block}
+        #questionBox svg{display:block;margin:0 auto 1rem}
+    
+.neckwrap{overflow-x:auto;padding-bottom:6px}
+.nk circle{fill:#e8d5a3;stroke:#0e0d1a;stroke-width:1}.nk text{font-size:11px;font-weight:700;fill:#0e0d1a;pointer-events:none}
+.nk.root circle{fill:#d9962c}.nk.on circle{fill:#8fd18f;stroke:#fff;stroke-width:2}
+.nk.ghost circle{fill:transparent;stroke:none}.nk{cursor:pointer}.nk.ghost:hover circle{fill:#ffffff22}
+.chips span{display:inline-block;background:#26233b;border:1px solid #3a3750;border-radius:999px;padding:3px 12px;margin:2px;font-size:.9rem}.chips span.cur{border-color:#c9a959;background:#3a3150;font-weight:700}
+.big{font-size:2.4rem;font-weight:800}
+
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8CMNEYXZ9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H8CMNEYXZ9');
+    </script>
+</head>
+<body>
+
+    <div id="site-navbar"></div>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <main class="chapter-content">
+<div class="container">
+<div class="row mb-4"><div class="col-12 text-center">
+<span class="section-tag"><i class="fas fa-wave-square me-1"></i> Instrumento</span>
+<h1 class="display-5 fw-bold mt-2">Baixo <span class="gold">elétrico</span></h1>
+<p class="text-muted">Braço de 4 cordas (Mi Lá Ré Sol) com escalas, linhas de baixo sobre o campo harmônico e metrônomo. O baixo é quem segura o tempo da banda.</p></div></div>
+<div class="game-card mb-4"><div class="row g-3 align-items-end">
+ <div class="col-12 col-md-4"><label class="small text-muted" for="som">Som do baixo</label><select id="som" class="form-select"></select></div>
+ <div class="col-12 col-md-8 small text-muted">Dedos (som redondo, para pop, MPB e samba) ou palheta (som mais ataque, para rock). Afine no <a class="gold" href="afinador.html">Afinador</a> escolhendo Baixo.</div>
+</div></div>
+<div class="game-card mb-4">
+ <h5 class="fw-bold gold">Notas no braço</h5>
+ <div class="row g-2 mb-3">
+  <div class="col-4 col-md-2"><label class="small text-muted" for="er">Nota</label><select id="er" class="form-select"></select></div>
+  <div class="col-8 col-md-3"><label class="small text-muted" for="et">Escala</label><select id="et" class="form-select"></select></div>
+  <div class="col-6 col-md-2"><label class="small text-muted" for="ev">Mostrar</label><select id="ev" class="form-select"><option value="n">Notas</option><option value="g">Graus</option></select></div>
+  <div class="col-6 col-md-3 d-flex align-items-end"><div class="form-check"><input class="form-check-input" type="checkbox" id="ea"><label class="form-check-label small text-muted" for="ea">Mostrar só a escala</label></div></div>
+ </div>
+ <div class="neckwrap" id="neck"></div>
+ <div class="small text-muted mt-2">Clique numa nota para ouvir. Mão esquerda: um dedo por casa (1, 2, 3, 4). A 5ª casa de cada corda dá a nota da corda de cima (5ª casa do Mi = Lá).</div>
+</div>
+<div class="game-card mb-4">
+ <h5 class="fw-bold gold">Linhas de baixo</h5>
+ <p class="text-muted small">Escolha um tom, uma progressão e um padrão. O baixo toca sozinho no tempo do metrônomo e o braço mostra onde está cada nota.</p>
+ <div class="row g-2 mb-3">
+  <div class="col-4 col-md-2"><label class="small text-muted" for="lk">Tom</label><select id="lk" class="form-select"></select></div>
+  <div class="col-8 col-md-2"><label class="small text-muted" for="lm">Modo</label><select id="lm" class="form-select"><option value="M">Maior</option><option value="m">Menor</option></select></div>
+  <div class="col-12 col-md-4"><label class="small text-muted" for="lp">Progressão</label><select id="lp" class="form-select"></select></div>
+  <div class="col-12 col-md-4"><label class="small text-muted" for="lpad">Padrão</label><select id="lpad" class="form-select"></select></div>
+ </div>
+ <div class="row g-2 align-items-end mb-3">
+  <div class="col-12 col-md-6"><label class="small text-muted d-flex justify-content-between"><span>Andamento</span><b class="gold"><span id="bv">80</span> BPM</b></label><input id="bpm" type="range" class="form-range" min="40" max="160" value="80"></div>
+  <div class="col-6 col-md-3"><div class="form-check"><input class="form-check-input" type="checkbox" id="clk" checked><label class="form-check-label small text-muted" for="clk">Clique</label></div></div>
+  <div class="col-6 col-md-3"><button class="btn w-100 fw-bold" id="go" style="background:#c9a959;color:#0e0d1a"><i class="fas fa-play me-1"></i> Tocar</button></div>
+ </div>
+ <div class="d-flex justify-content-between align-items-center flex-wrap gap-2"><div class="chips" id="seq"></div><div class="text-end"><div class="big gold" id="cn">&nbsp;</div><div class="small text-muted" id="cd"></div></div></div>
+ <div class="neckwrap mt-2" id="neck2"></div>
+</div>
+<div class="game-card"><h5 class="fw-bold gold">Use o resto do site</h5>
+<div class="d-flex flex-wrap gap-2"><a class="btn btn-outline-light btn-sm" href="metronomo.html">Metrônomo (ligue o baixo na levada)</a><a class="btn btn-outline-light btn-sm" href="afinador.html">Afinador de baixo</a><a class="btn btn-outline-light btn-sm" href="acordes.html">Acordes (para saber a fundamental)</a><a class="btn btn-outline-light btn-sm" href="teclado.html">Teclado</a></div></div>
+
+</div>
+</main>
+
+    <div id="site-footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/js/layout.js"></script>
+    <script src="js/js/violao.js"></script>
+    <script src="js/js/acordes-lib.js"></script>
+    <script src="js/js/braco.js"></script>
+    <script>
+
+const $=id=>document.getElementById(id),SH=AcLib.NOTAS,OPEN=[28,33,38,43];
+Violao.picker($('som'),['baixo','baixo-pua'],'som-baixo');const pre=()=>Violao.preloadRange(28,67);pre();$('som').onuse=pre;
+[$('er'),$('lk')].forEach(s=>s.innerHTML=SH.map((x,i)=>`<option value="${i}">${x}</option>`).join(''));$('er').value=4;$('lk').value=4;
+const ESC={'Pentatônica menor':[0,3,5,7,10],'Pentatônica maior':[0,2,4,7,9],'Maior':[0,2,4,5,7,9,11],'Menor natural':[0,2,3,5,7,8,10],'Blues':[0,3,5,6,7,10]};
+const GRAU={0:'1',1:'♭2',2:'2',3:'♭3',4:'3',5:'4',6:'♭5',7:'5',8:'♭6',9:'6',10:'♭7',11:'7'};
+$('et').innerHTML=Object.keys(ESC).map(k=>`<option>${k}</option>`).join('');
+function esc(){const r=+$('er').value,set=ESC[$('et').value].map(i=>(r+i)%12),so=$('ea').checked;
+ Braco.draw($('neck'),{open:OPEN,n:15,click:m=>Violao.note(m,{v:.9,d:1.3}),mark:(m)=>{const pc=m%12,d=set.includes(pc);if(so&&!d)return null;
+  return {t:$('ev').value==='g'?(d?GRAU[(pc-r+12)%12]:''):SH[pc],c:pc===r?'root':(d?'':'dim')};}});}
+[$('er'),$('et'),$('ev'),$('ea')].forEach(s=>s.onchange=esc);esc();
+// ----- linhas de baixo -----
+const PROG={M:{'I – IV – V – I':[0,3,4,0],'I – V – vi – IV':[0,4,5,3],'vi – IV – I – V':[5,3,0,4],'I – vi – IV – V':[0,5,3,4],'ii – V – I – I':[1,4,0,0]},
+ m:{'i – iv – V – i':[0,3,4,0],'i – VI – III – VII':[0,5,2,6],'i – VII – VI – V':[0,6,5,4],'i – iv – VII – III':[0,3,6,2]}};
+const PAD={'Fundamental (1 por tempo)':[[0,0],[1,0],[2,0],[3,0]],'Fundamental no 1 e quinta no 3':[[0,0],[2,7]],'Raiz, quinta, oitava, quinta':[[0,0],[1,7],[2,12],[3,7]],
+ 'Colcheias na fundamental':[[0,0],[.5,0],[1,0],[1.5,0],[2,0],[2.5,0],[3,0],[3.5,0]],'Raiz, 3ª, 5ª, 3ª (arpejo)':[[0,0],[1,'t'],[2,7],[3,'t']],'Contratempo (pulsando o &)':[[0,0],[1.5,0],[2,0],[3.5,0]]};
+function fillP(){$('lp').innerHTML=Object.keys(PROG[$('lm').value]).map(k=>`<option>${k}</option>`).join('');}
+$('lpad').innerHTML=Object.keys(PAD).map(k=>`<option>${k}</option>`).join('');fillP();
+$('lm').onchange=()=>{fillP();mont();};[$('lk'),$('lp'),$('lpad')].forEach(s=>s.onchange=mont);
+let ch=[];
+function mont(){ch=AcLib.campo(+$('lk').value,$('lm').value,false,true);const idx=PROG[$('lm').value][$('lp').value];ch=idx.map(i=>ch[i]);
+ $('seq').innerHTML=ch.map((c,i)=>`<span id="s${i}">${AcLib.nome(c.r,c.q,c.bemol)}</span>`).join('');}
+mont();
+const rootMidi=r=>28+((r-4+12)%12);   // E1..D#2
+function pos(m){let b=null;OPEN.forEach((o,c)=>{const f=m-o;if(f>=0&&f<=12){const sc=f+(f===0?0.5:0);if(!b||sc<b.sc)b={c,f,sc};}});return b;}
+function mostra(m,r){const p=pos(m);Braco.draw($('neck2'),{open:OPEN,n:15,mark:(mm,c,f)=>p&&c===p.c&&f===p.f?{t:SH[mm%12],c:'on'}:(mm%12===r&&f<=12?{t:SH[r],c:'root'}:null)});}
+function bpmv(){$('bv').textContent=$('bpm').value;}$('bpm').oninput=bpmv;
+let run=false,tm,nx,beat,ctx;
+function click(t,acc){const o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=acc?1500:1000;g.gain.setValueAtTime(.25,t);g.gain.exponentialRampToValueAtTime(.001,t+.05);o.connect(g).connect(ctx.destination);o.start(t);o.stop(t+.06);}
+function stop(){run=false;clearInterval(tm);Violao.stop();$('go').innerHTML='<i class="fas fa-play me-1"></i> Tocar';document.querySelectorAll('#seq span').forEach(x=>x.classList.remove('cur'));
+ if(beat>16)Prog.count('baixo-treino',true);}
+$('go').onclick=async()=>{if(run){stop();return;}ctx=Violao.init();if(ctx.state==='suspended')await ctx.resume();await Violao.preloadRange(28,52);
+ run=true;beat=0;nx=ctx.currentTime+.15;$('go').innerHTML='<i class="fas fa-stop me-1"></i> Parar';
+ tm=setInterval(()=>{while(nx<ctx.currentTime+.14){const bar=Math.floor(beat/4),c=ch[bar%ch.length],b=beat%4,t=nx,sp=60/+$('bpm').value;
+   if($('clk').checked)click(t,b===0);
+   PAD[$('lpad').value].filter(x=>Math.floor(x[0])===b).forEach(([pos0,iv])=>{const tt=t+(pos0-b)*sp,r=rootMidi(c.r),third=['m','m7','dim','m7b5'].includes(c.q)?3:4,m=r+(iv==='t'?third:iv),ms=(tt-ctx.currentTime)*1000;
+    Violao.note(m,{t:tt-ctx.currentTime,v:.95,ch:'b',d:sp*(PAD[$('lpad').value].length>4?.45:.9),r:.06});
+    setTimeout(()=>{if(!run)return;$('cn').textContent=AcLib.nome(c.r,c.q,c.bemol);$('cd').textContent='Nota tocada: '+SH[m%12];mostra(m,c.r);document.querySelectorAll('#seq span').forEach((x,i)=>x.classList.toggle('cur',i===bar%ch.length));},Math.max(0,ms));});
+   nx+=sp;beat++;}},25);};
+
+</script>
+</body>
+</html>

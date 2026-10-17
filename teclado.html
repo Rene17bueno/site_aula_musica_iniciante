@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teclado online · Estudo de Violão Iniciante</title>
+    <meta name="description" content="Teclado musical online com acordes, escalas, campo harmônico e jogo de notas. Toque com mouse, celular ou teclado MIDI." />
+    <link rel="icon" type="image/png" href="favicon-32.png" />
+    <link rel="apple-touch-icon" href="favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Estudo de Violão Iniciante" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content="https://rene17bueno.github.io/site_aula_musica_iniciante/teclado.html" />
+    <meta property="og:title" content="Teclado online · Estudo de Violão Iniciante" />
+    <meta property="og:description" content="Teclado musical online com acordes, escalas, campo harmônico e jogo de notas. Toque com mouse, celular ou teclado MIDI." />
+    <meta property="og:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Teclado online · Estudo de Violão Iniciante" />
+    <meta name="twitter:description" content="Teclado musical online com acordes, escalas, campo harmônico e jogo de notas. Toque com mouse, celular ou teclado MIDI." />
+    <meta name="twitter:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <!-- Fonts & Bootstrap (cdn) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        /* ===== ESTILOS GERAIS INTEGRADOS ===== */
+        body {
+            background: #0e0d1a;
+            color: #e4dfd7;
+            font-family: 'Inter', sans-serif;
+            padding-top: 90px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .gold {
+            color: #e8d5a3;
+        }
+        .bg-dark-custom {
+            background: #14131f;
+        }
+        .border-gold {
+            border-color: rgba(201, 169, 89, 0.3) !important;
+        }
+        .text-gold {
+            color: #e8d5a3;
+        }
+        .text-muted {
+            color: #b5b0a8 !important;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar-custom {
+            background: #0e0d1aee;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(201, 169, 89, 0.15);
+        }
+        .navbar-custom .nav-link {
+            color: #d1cbdc !important;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #e8d5a3 !important;
+        }
+        .nav-brand-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #e8d5a3 !important;
+            text-decoration: none;
+        }
+
+        .chapter-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        .section-tag {
+            display: inline-block;
+            background: rgba(201, 169, 89, 0.12);
+            color: #e8d5a3;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            padding: 5px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            text-transform: uppercase;
+        }
+
+        /* ===== CONTAINER DO JOGO ===== */
+        .game-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            transition: 0.3s ease;
+        }
+        
+        .level-badge {
+            background: rgba(201, 169, 89, 0.2);
+            color: #ffffff;
+            border: 1px solid #e8d5a3;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 6px 18px;
+            border-radius: 50px;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(201, 169, 89, 0.2);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c9a959, #f7e7c4);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* ===== PERGUNTA ===== */
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: #ffffff;
+            margin: 25px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* ===== BOTÕES DE RESPOSTA ===== */
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 169, 89, 0.35);
+            color: #ffffff !important;
+            padding: 16px 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        .option-btn:hover {
+            background: rgba(201, 169, 89, 0.25);
+            border-color: #f7e7c4;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 89, 0.2);
+        }
+
+        /* ===== FEEDBACK ===== */
+        .feedback-area {
+            min-height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .feedback-area.show {
+            opacity: 1;
+        }
+        .feedback-correct {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+        .feedback-incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+        }
+
+        /* ===== SELETOR DE NÍVEIS LATERAL ===== */
+        .btn-level-select {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(201, 169, 89, 0.15);
+            color: #e4dfd7;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .btn-level-select .level-title {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-level-select .level-desc {
+            color: #b5b0a8;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .btn-level-select:hover, .btn-level-select.active {
+            background: rgba(201, 169, 89, 0.15);
+            border-color: #e8d5a3;
+        }
+        .btn-level-select.active .level-title {
+            color: #e8d5a3;
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            border-top: 1px solid rgba(201, 169, 89, 0.1);
+            background: #0e0d1a;
+            padding: 1.5rem 0;
+        }
+        .site-footer .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #e8d5a3;
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding-top: 68px;
+            }
+            .chapter-content {
+                padding: 1.25rem 0 1.75rem;
+            }
+            .game-card {
+                padding: 18px 14px;
+                border-radius: 12px;
+            }
+            .question-text {
+                font-size: 1.35rem;
+                margin: 16px 0;
+                min-height: 56px;
+            }
+            .option-btn {
+                padding: 12px 14px;
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            .feedback-area {
+                min-height: 50px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .level-badge {
+                font-size: 0.78rem;
+                padding: 5px 12px;
+            }
+            .question-text {
+                font-size: 1.2rem;
+                margin: 12px 0;
+                min-height: 48px;
+            }
+            .option-btn {
+                padding: 11px 12px;
+                font-size: 0.95rem;
+            }
+            .row.g-4 {
+                --bs-gutter-y: 0.85rem;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .game-card {
+                padding: 14px 11px;
+            }
+            .feedback-area {
+                min-height: 46px;
+                font-size: 0.93rem;
+            }
+            .btn-level-select .level-desc {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .section-tag {
+                font-size: 0.68rem;
+                padding: 4px 12px;
+            }
+            .btn-level-select {
+                padding: 10px 12px;
+            }
+        }
+            #questionBox{display:block}
+        #questionBox svg{display:block;margin:0 auto 1rem}
+    
+.kbwrap{overflow-x:auto;padding:6px 2px 14px;-webkit-overflow-scrolling:touch}
+#kb{position:relative;height:190px;display:flex;user-select:none;touch-action:none;min-width:max-content}
+.wk{flex:0 0 40px;height:190px;background:#f4efe3;border:1px solid #14121f;border-radius:0 0 8px 8px;position:relative;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding-bottom:8px;color:#4a4560;font-size:.72rem;font-weight:600;transition:background .08s}
+.bk{position:absolute;top:0;width:26px;height:118px;background:#1b1830;border:1px solid #000;border-radius:0 0 6px 6px;z-index:2;cursor:pointer;color:#9c97b0;font-size:.6rem;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;transition:background .08s}
+.wk.hl{background:#e9d9a6}.bk.hl{background:#8a6f2c;color:#fff}
+.wk.root{background:#d9b44a}.bk.root{background:#b8902c;color:#fff}
+.wk.on{background:#8fd18f}.bk.on{background:#3f8f4a;color:#fff}
+.wk.bad{background:#e08a8a}
+.wk .fi,.bk .fi{position:absolute;top:8px;left:0;right:0;text-align:center;font-size:.8rem;font-weight:800;color:#0e0d1a}.bk .fi{top:auto;bottom:26px;color:#fff}
+.modo .btn{border-radius:10px}.modo .btn.act{background:#c9a959;color:#0e0d1a;border-color:#c9a959;font-weight:700}
+.big{font-size:2.2rem;font-weight:800}
+.chips span{display:inline-block;background:#26233b;border:1px solid #3a3750;border-radius:999px;padding:3px 12px;margin:2px;font-size:.85rem}
+.deg{display:flex;flex-wrap:wrap;gap:8px}.deg button{min-width:72px;border:1px solid #3a3750;background:#1b1830;color:#f4efe3;border-radius:12px;padding:6px 10px;line-height:1.25}.deg button small{display:block;color:#b5b0a8}.deg button.on{border-color:#c9a959;background:#2a2540}
+
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8CMNEYXZ9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H8CMNEYXZ9');
+    </script>
+</head>
+<body>
+
+    <div id="site-navbar"></div>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <main class="chapter-content">
+<div class="container">
+<div class="row mb-4"><div class="col-12 text-center">
+<span class="section-tag"><i class="fas fa-keyboard me-1"></i> Instrumento</span>
+<h1 class="display-5 fw-bold mt-2">Teclado <span class="gold">online</span></h1>
+<p class="text-muted">Toque no mouse, no toque da tela, no teclado do computador ou num teclado MIDI. Veja acordes, escalas e o campo harmônico acesos nas teclas.</p></div></div>
+<div class="game-card mb-4">
+ <div class="row g-3 align-items-end">
+  <div class="col-6 col-md-3"><label class="small text-muted" for="som">Instrumento</label><select id="som" class="form-select"></select></div>
+  <div class="col-6 col-md-3"><label class="small text-muted" for="nota">Nomes das notas</label><select id="nota" class="form-select"><option value="c">Cifra (C D E)</option><option value="p">Dó Ré Mi</option></select></div>
+  <div class="col-12 col-md-3 d-flex flex-column gap-1"><div class="form-check"><input class="form-check-input" type="checkbox" id="lab" checked><label class="form-check-label small text-muted" for="lab">Nomes nas teclas</label></div><div class="form-check"><input class="form-check-input" type="checkbox" id="mão" checked><label class="form-check-label small text-muted" for="mão">Baixo na mão esquerda (acordes)</label></div></div>
+  <div class="col-12 col-md-3"><button class="btn btn-outline-light w-100" id="midi"><i class="fas fa-plug me-1"></i> Conectar teclado MIDI</button><div class="small text-muted mt-1" id="midiMsg"></div></div>
+ </div>
+</div>
+<div class="game-card mb-4">
+ <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2"><div class="big gold" id="nm">&nbsp;</div><div class="text-muted" id="det"></div></div>
+ <div class="kbwrap" id="wrap"><div id="kb"></div></div>
+ <div class="small text-muted">No computador: A W S E D F T G Y H U J K O L P Ç tocam as teclas; Z e X mudam a oitava (<b id="oit" class="gold">3</b>).</div>
+</div>
+<div class="modo d-flex flex-wrap gap-2 mb-3" id="modos">
+ <button class="btn btn-outline-light act" data-m="tocar">Tocar</button>
+ <button class="btn btn-outline-light" data-m="acorde">Acordes</button>
+ <button class="btn btn-outline-light" data-m="campo">Campo harmônico</button>
+ <button class="btn btn-outline-light" data-m="escala">Escalas</button>
+ <button class="btn btn-outline-light" data-m="jogo">Jogo das teclas</button>
+</div>
+<div class="game-card" id="p-tocar"><p class="mb-0 text-muted">Toque várias teclas juntas e o site diz que acorde você formou. Experimente C–E–G, depois E–G–C (1ª inversão) e G–C–E (2ª inversão): é o mesmo acorde.</p></div>
+<div class="game-card d-none" id="p-acorde">
+ <div class="row g-2 mb-3">
+  <div class="col-4 col-md-2"><label class="small text-muted" for="ar">Nota</label><select id="ar" class="form-select"></select></div>
+  <div class="col-8 col-md-4"><label class="small text-muted" for="aq">Tipo</label><select id="aq" class="form-select"></select></div>
+  <div class="col-6 col-md-3"><label class="small text-muted" for="ai">Posição</label><select id="ai" class="form-select"></select></div>
+  <div class="col-6 col-md-3 d-flex gap-2 align-items-end"><button class="btn fw-bold flex-fill" id="aoc" style="background:#c9a959;color:#0e0d1a"><i class="fas fa-volume-high"></i> Junto</button><button class="btn btn-outline-light flex-fill" id="aar">Arpejo</button></div>
+ </div>
+ <div class="fw-bold mb-1"><span class="gold" id="an"></span> <span class="text-muted small" id="aq2"></span></div>
+ <div class="chips mb-2" id="at"></div>
+ <div class="small text-muted" id="adedo"></div>
+ <div class="fw-bold mt-2" id="acheck" style="color:#8fd18f"></div>
+</div>
+<div class="game-card d-none" id="p-campo">
+ <div class="row g-2 mb-3">
+  <div class="col-6 col-md-3"><label class="small text-muted" for="ck">Tom</label><select id="ck" class="form-select"></select></div>
+  <div class="col-6 col-md-3"><label class="small text-muted" for="cm">Modo</label><select id="cm" class="form-select"><option value="M">Maior</option><option value="m">Menor natural</option></select></div>
+  <div class="col-12 col-md-6 d-flex flex-wrap gap-3 align-items-end"><div class="form-check"><input class="form-check-input" type="checkbox" id="c7"><label class="form-check-label small text-muted" for="c7">Com sétimas</label></div><div class="form-check d-none" id="cvw"><input class="form-check-input" type="checkbox" id="cv" checked><label class="form-check-label small text-muted" for="cv">V maior</label></div><button class="btn btn-outline-light btn-sm" id="call">Tocar o campo todo</button></div>
+ </div>
+ <div class="small text-muted mb-1">Toque num grau para ouvir e acender o acorde. Ele entra na sua progressão abaixo.</div>
+ <div class="deg mb-3" id="cdeg"></div>
+ <div class="d-flex justify-content-between flex-wrap gap-2 align-items-center"><div class="chips" id="cseq"></div><div class="d-flex gap-2"><button class="btn btn-outline-light btn-sm" id="cclr">Limpar</button><button class="btn btn-sm fw-bold" id="cmet" style="background:#c9a959;color:#0e0d1a"><i class="fas fa-gauge-high me-1"></i> Levar ao metrônomo</button></div></div>
+</div>
+<div class="game-card d-none" id="p-escala">
+ <div class="row g-2 mb-3">
+  <div class="col-4 col-md-2"><label class="small text-muted" for="er">Nota</label><select id="er" class="form-select"></select></div>
+  <div class="col-8 col-md-4"><label class="small text-muted" for="et">Escala</label><select id="et" class="form-select"></select></div>
+  <div class="col-12 col-md-3 d-flex align-items-end"><button class="btn fw-bold w-100" id="eoc" style="background:#c9a959;color:#0e0d1a"><i class="fas fa-play me-1"></i> Tocar a escala</button></div>
+ </div>
+ <div class="chips mb-2" id="en"></div><div class="small text-muted" id="edica"></div>
+</div>
+<div class="game-card d-none" id="p-jogo">
+ <div class="d-flex flex-wrap gap-3 align-items-end mb-3"><div><label class="small text-muted" for="jn">Notas</label><select id="jn" class="form-select"><option value="b">Só teclas brancas</option><option value="t">Todas as teclas</option></select></div><button class="btn fw-bold" id="jgo" style="background:#c9a959;color:#0e0d1a">Começar (10 notas)</button><div class="text-muted ms-auto">Acertos <b class="gold" id="jac">0</b> · Tempo <b class="gold" id="jt">0.0</b> s</div></div>
+ <div class="text-center"><div class="small text-muted">Toque a tecla de</div><div class="big gold" id="jalvo">–</div><div class="small text-muted" id="jmsg"></div></div>
+</div>
+
+</div>
+</main>
+
+    <div id="site-footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/js/layout.js"></script>
+    <script src="js/js/violao.js"></script>
+    <script src="js/js/acordes-lib.js"></script>
+    <script>
+
+const $=id=>document.getElementById(id),SH=AcLib.NOTAS,PT=['Dó','Dó♯','Ré','Ré♯','Mi','Fá','Fá♯','Sol','Sol♯','Lá','Lá♯','Si'];
+const LO=36,HI=84,BEMOL=[1,3,5,8,10],BLK=[1,3,6,8,10];
+const nn=(pc,fl)=>($('nota').value==='p'?PT[pc]:(fl&&BEMOL.includes(pc)?AcLib.BEMOL[pc]:SH[pc]));
+const QT=['M','m','7','M7','m7','dim','m7b5','sus2','sus4','aug','6','m6'];
+// ---------- teclas ----------
+const kb=$('kb'),K={};let nw=0;
+for(let m=LO;m<=HI;m++){const pc=m%12,b=BLK.includes(pc),e=document.createElement('div');e.dataset.m=m;e.className=b?'bk':'wk';
+ if(b){e.style.left=(nw*40-13)+'px';}else nw++;kb.appendChild(e);K[m]=e;}
+function rotulos(){Object.keys(K).forEach(m=>{const e=K[m],pc=m%12,oc=Math.floor(m/12)-1,t=e.querySelector('.t')||e.appendChild(Object.assign(document.createElement('span'),{className:'t'}));
+ t.textContent=$('lab').checked?(BLK.includes(pc)?nn(pc,0).replace('♯','#'):nn(pc)+(pc===0?oc:'')):'';});}
+// ---------- som ----------
+const held={},stops={};let mode='tocar',alvo=null;
+Violao.picker($('som'),['piano','epiano','orgao','cordas'],'som-teclado');
+const pre=()=>Violao.preloadRange(LO,HI);pre();$('som').onuse=pre;
+function play(m,v,opt){return Violao.note(m,Object.assign({v:v||.8,ch:'k'+m},opt||{}));}
+function down(m,v){if(m<LO||m>HI||held[m])return;held[m]=1;K[m].classList.add('on');
+ const org=['orgao','cordas'].includes($('som').value);
+ play(m,v,{hold:org}).then(st=>{if(!held[m]&&st)st(.2);else stops[m]=st;});
+ quando();}
+function up(m){if(!held[m])return;delete held[m];K[m]&&K[m].classList.remove('on');const st=stops[m];delete stops[m];if(st)st($('som').value==='piano'?.45:.2);quando();}
+// ---------- acorde detectado ----------
+function detecta(){const ms=Object.keys(held).map(Number).sort((a,b)=>a-b);if(!ms.length)return null;
+ const pcs=[...new Set(ms.map(m=>m%12))];if(pcs.length<3)return null;const bass=ms[0]%12,hits=[];
+ for(let r=0;r<12;r++)for(const q of QT){const s=AcLib.IV[q].map(i=>(r+i)%12);if(s.length===pcs.length&&s.every(x=>pcs.includes(x)))hits.push({r,q});}
+ if(!hits.length)return null;const h=hits.find(x=>x.r===bass)||hits[0];const fl=BEMOL.includes(h.r);
+ return AcLib.nome(h.r,h.q,fl)+(h.r!==bass?'/'+SH[bass]:'')+' · '+AcLib.QN[h.q]+(h.r!==bass?' (invertido)':'');}
+function quando(){const ms=Object.keys(held).map(Number).sort((a,b)=>a-b);
+ $('nm').innerHTML=ms.length?ms.map(m=>nn(m%12)+(Math.floor(m/12)-1)).join(' · '):'&nbsp;';
+ const d=detecta();$('det').textContent=d?'Acorde: '+d:'';
+ if(mode==='acorde')conferirAcorde(ms);
+ if(mode==='jogo')jogoTecla(ms);}
+// ---------- mouse / toque ----------
+let dragging=false;
+kb.addEventListener('pointerdown',e=>{const k=e.target.closest('[data-m]');if(!k)return;e.preventDefault();dragging=true;kb.setPointerCapture&&0;down(+k.dataset.m);});
+kb.addEventListener('pointerover',e=>{if(!dragging)return;const k=e.target.closest('[data-m]');if(k)down(+k.dataset.m);});
+kb.addEventListener('pointerout',e=>{if(!dragging)return;const k=e.target.closest('[data-m]');if(k&&!(e.relatedTarget&&k.contains(e.relatedTarget)))up(+k.dataset.m);});
+addEventListener('pointerup',()=>{dragging=false;Object.keys(held).filter(m=>!kdown[m]&&!mdown[m]).forEach(m=>up(+m));});
+// teclado do computador
+const MAPA={KeyA:0,KeyW:1,KeyS:2,KeyE:3,KeyD:4,KeyF:5,KeyT:6,KeyG:7,KeyY:8,KeyH:9,KeyU:10,KeyJ:11,KeyK:12,KeyO:13,KeyL:14,KeyP:15,Semicolon:16};
+let oit=3;const kdown={},mdown={};
+addEventListener('keydown',e=>{if(e.repeat||e.ctrlKey||e.metaKey||e.altKey||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;
+ if(e.code==='KeyZ'){oit=Math.max(2,oit-1);$('oit').textContent=oit;return;}if(e.code==='KeyX'){oit=Math.min(5,oit+1);$('oit').textContent=oit;return;}
+ if(e.code in MAPA){const m=12*(oit+1)+MAPA[e.code];kdown[m]=1;down(m);}});
+addEventListener('keyup',e=>{if(e.code in MAPA){const m=12*(oit+1)+MAPA[e.code];delete kdown[m];up(m);}});
+// MIDI
+$('midi').onclick=async()=>{if(!navigator.requestMIDIAccess){$('midiMsg').textContent='Este navegador não tem MIDI. Use o Chrome ou o Edge.';return;}
+ try{const a=await navigator.requestMIDIAccess();const lig=()=>{let n=0;a.inputs.forEach(i=>{n++;i.onmidimessage=ev=>{const [s,m,v]=ev.data,c=s&0xf0;if(c===0x90&&v>0){mdown[m]=1;down(m,.3+v/180);}else if(c===0x80||(c===0x90&&!v)){delete mdown[m];up(m);}};});
+  $('midiMsg').textContent=n?n+' teclado(s) MIDI conectado(s).':'Nenhum teclado MIDI encontrado. Ligue o cabo e tente de novo.';};
+  a.onstatechange=lig;lig();}catch(e){$('midiMsg').textContent='Permissão de MIDI negada.';}};
+// ---------- realces ----------
+function realca(ms,raiz,dedos){Object.values(K).forEach(e=>{e.classList.remove('hl','root','bad');const f=e.querySelector('.fi');if(f)f.remove();});
+ (ms||[]).forEach((m,i)=>{const e=K[m];if(!e)return;e.classList.add(raiz!=null&&m%12===raiz?'root':'hl');if(dedos&&dedos[i]){const f=document.createElement('span');f.className='fi';f.textContent=dedos[i];e.appendChild(f);}});}
+function rolar(m){const e=K[m];if(e)$('wrap').scrollLeft=Math.max(0,e.offsetLeft-80);}
+// ---------- acordes ----------
+const ar=$('ar'),aq=$('aq'),ai=$('ai'),ck=$('ck'),er=$('er');
+const fillN=s=>{s.innerHTML=SH.map((x,i)=>`<option value="${i}">${x}</option>`).join('');};[ar,ck,er].forEach(fillN);
+aq.innerHTML=QT.map(q=>`<option value="${q}">${AcLib.nome(0,q)} · ${AcLib.QN[q]}</option>`).join('');
+let ac={r:0,q:'M',inv:0};
+function vozes(r,q,inv){const base=60+r-(r>6?12:0);let ns=AcLib.IV[q].map(i=>base+i);for(let k=0;k<inv;k++)ns.push(ns.shift()+12);
+ return {bx:$('mão').checked?[base-12<LO?base:base-12]:[],rh:ns};}
+const GR={0:'fundamental',2:'2ª',3:'3ª menor',4:'3ª maior',5:'4ª',6:'5ª diminuta',7:'5ª',8:'5ª aumentada',9:'6ª',10:'7ª menor',11:'7ª maior'};
+const DEDOS={3:['1','3','5'],'3i1':['1','2','5'],'3i2':['1','3','5']};
+function acAtual(){ac.r=+ar.value;ac.q=aq.value;const n=AcLib.IV[ac.q].length;ai.innerHTML=Array.from({length:n},(_,i)=>`<option value="${i}">${i?i+'ª inversão':'Fundamental'}</option>`).join('');ai.value=Math.min(ac.inv,n-1);ac.inv=+ai.value;mostraAc();}
+function mostraAc(){const fl=BEMOL.includes(ac.r),v=vozes(ac.r,ac.q,ac.inv),n=AcLib.IV[ac.q].length;
+ const todas=[...v.bx,...v.rh];const ded=[...v.bx.map(()=>'5'),...(n===3?(DEDOS[ac.inv===1?'3i1':3]):v.rh.map((_,i)=>String([1,2,3,5][i]||5)))];
+ realca(todas,ac.r,ded);rolar(v.bx[0]||v.rh[0]);
+ $('an').textContent=AcLib.nome(ac.r,ac.q,fl);$('aq2').textContent=AcLib.QN[ac.q];
+ $('at').innerHTML=AcLib.IV[ac.q].map(iv=>`<span><b>${nn((ac.r+iv)%12,fl)}</b> · ${GR[iv]}</span>`).join('');
+ $('adedo').textContent='Mão direita (números nas teclas): polegar é o 1, mindinho é o 5. '+($('mão').checked?'Mão esquerda: a fundamental, com o dedo 5.':'');
+ $('acheck').textContent='';}
+function conferirAcorde(ms){if(ms.length<3)return;const alvoPc=new Set(AcLib.IV[ac.q].map(i=>(ac.r+i)%12)),pcs=new Set(ms.map(m=>m%12));
+ if(pcs.size===alvoPc.size&&[...pcs].every(x=>alvoPc.has(x))){$('acheck').textContent='Isso! Você montou '+$('an').textContent+'.';Prog.count('teclado-acorde',true);}else $('acheck').textContent='';}
+[ar,aq,ai].forEach(s=>s.onchange=()=>{if(s===ai)ac.inv=+ai.value;if(s===aq)ac.inv=0;acAtual();});$('mão').onchange=()=>mode==='acorde'&&mostraAc();
+const arp=(ns,gap)=>ns.forEach((m,i)=>play(m,.75,{t:i*gap,d:1.2}));
+$('aoc').onclick=()=>{Violao.stop();const v=vozes(ac.r,ac.q,ac.inv);[...v.bx,...v.rh].forEach((m,i)=>play(m,.75-i*.02,{t:i*.012,d:1.6}));};
+$('aar').onclick=()=>{Violao.stop();const v=vozes(ac.r,ac.q,ac.inv);arp([...v.bx,...v.rh],.28);};
+// ---------- campo harmônico ----------
+ck.value=7;let seq=[];
+function campo(){const f=AcLib.campo(+ck.value,$('cm').value,$('c7').checked,$('cv').checked);$('cvw').classList.toggle('d-none',$('cm').value!=='m');
+ $('cdeg').innerHTML=f.map((c,i)=>`<button data-i="${i}"><b>${c.rn}</b><small>${AcLib.nome(c.r,c.q,c.bemol)}</small></button>`).join('');
+ document.querySelectorAll('#cdeg button').forEach(b=>b.onclick=()=>{const c=f[b.dataset.i];seq.push(c);ac={r:c.r,q:c.q,inv:0};ar.value=c.r;aq.value=c.q;ai.value=0;mostraAc();document.querySelectorAll('#cdeg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');$('aoc').click();seqUi();});return f;}
+function seqUi(){$('cseq').innerHTML=seq.map(c=>`<span>${AcLib.nome(c.r,c.q,c.bemol)}</span>`).join('')||'<span class="text-muted">Sua progressão aparece aqui</span>';}
+[ck,$('cm'),$('c7'),$('cv')].forEach(x=>x.onchange=campo);
+$('cclr').onclick=()=>{seq=[];seqUi();};seqUi();
+$('call').onclick=()=>{const f=campo(),btn=[...document.querySelectorAll('#cdeg button')];f.forEach((c,i)=>setTimeout(()=>{btn[i].click();seq.length=Math.max(0,seq.length-1);seqUi();},i*900));};
+$('cmet').onclick=()=>{const f=AcLib.campo(+ck.value,$('cm').value,$('c7').checked,$('cv').checked),p=(seq.length?seq:f).map(c=>({r:c.r,q:c.q,bemol:c.bemol,rn:c.rn||''}));
+ try{const o=JSON.parse(localStorage.getItem('metro')||'{}');o.p=p.slice(0,16);localStorage.setItem('metro',JSON.stringify(o));localStorage.setItem('som-metro',$('som').value);}catch(e){}location.href='metronomo.html';};
+// ---------- escalas ----------
+const ESC={'Maior':[0,2,4,5,7,9,11],'Menor natural':[0,2,3,5,7,8,10],'Menor harmônica':[0,2,3,5,7,8,11],'Pentatônica maior':[0,2,4,7,9],'Pentatônica menor':[0,3,5,7,10],'Blues':[0,3,5,6,7,10]};
+$('et').innerHTML=Object.keys(ESC).map(k=>`<option>${k}</option>`).join('');
+const escNotas=()=>{const r=+er.value,iv=ESC[$('et').value],b=60+r-(r>6?12:0);return iv.map(i=>b+i).concat(b+12);};
+function esc(){const r=+er.value,ns=escNotas(),fl=BEMOL.includes(r);realca(ns.concat(ns.map(n=>n-12),ns.map(n=>n+12)).filter(n=>K[n]),r);rolar(ns[0]);
+ $('en').innerHTML=ESC[$('et').value].map(i=>`<span>${nn((r+i)%12,fl)}</span>`).join('');
+ $('edica').textContent=$('et').value==='Maior'&&r===0?'Dó maior só tem teclas brancas. Mão direita: 1 2 3 (polegar passa por baixo) 1 2 3 4 5.':'Comece na nota mais grave pintada de dourado e suba devagar, uma tecla por vez.';}
+[er,$('et')].forEach(s=>s.onchange=esc);$('eoc').onclick=()=>{Violao.stop();arp(escNotas(),.32);};
+// ---------- jogo ----------
+let J={on:0};
+function jogoTecla(ms){if(!J.on||!ms.length)return;const m=ms[ms.length-1];if(m%12===J.alvo){J.ac++;$('jac').textContent=J.ac;K[m].classList.remove('bad');prox();}else{J.err++;K[m].classList.add('bad');setTimeout(()=>K[m]&&K[m].classList.remove('bad'),300);}}
+function prox(){if(J.ac>=10){fim();return;}const pool=$('jn').value==='b'?[0,2,4,5,7,9,11]:[...Array(12).keys()];let n;do n=pool[Math.floor(Math.random()*pool.length)];while(n===J.alvo);J.alvo=n;$('jalvo').textContent=nn(n);}
+function fim(){J.on=0;clearInterval(J.tm);const t=(Date.now()-J.t0)/1000;$('jalvo').textContent='Pronto!';
+ const rec=(Prog.get().max||{})['teclado-jogo-'+$('jn').value];const sc=Math.round(1000/(t+J.err*2));Prog.max('teclado-jogo-'+$('jn').value,sc);Prog.count('teclado-jogo',true);
+ $('jmsg').textContent=t.toFixed(1)+' s com '+J.err+' erro(s). Pontos: '+sc+(rec?' (recorde '+Math.max(rec,sc)+')':'');$('jgo').textContent='Jogar de novo';}
+$('jgo').onclick=()=>{J={on:1,ac:0,err:0,t0:Date.now(),alvo:-1};$('jac').textContent=0;$('jmsg').textContent='';prox();J.tm=setInterval(()=>$('jt').textContent=((Date.now()-J.t0)/1000).toFixed(1),100);};
+// ---------- modos ----------
+function modo(m){mode=m;document.querySelectorAll('#modos .btn').forEach(b=>b.classList.toggle('act',b.dataset.m===m));
+ ['tocar','acorde','campo','escala','jogo'].forEach(x=>$('p-'+x).classList.toggle('d-none',x!==m));
+ realca([]);if(m==='acorde')acAtual();if(m==='campo'){campo();acAtual();realca([]);}if(m==='escala')esc();}
+document.querySelectorAll('#modos .btn').forEach(b=>b.onclick=()=>modo(b.dataset.m));
+$('nota').onchange=()=>{rotulos();if(mode==='acorde')mostraAc();if(mode==='escala')esc();campo();};$('lab').onchange=rotulos;
+rotulos();campo();acAtual();realca([]);$('wrap').scrollLeft=K[48].offsetLeft-20;
+
+</script>
+</body>
+</html>

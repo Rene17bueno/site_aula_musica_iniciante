@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guitarra elétrica · Estudo de Violão Iniciante</title>
+    <meta name="description" content="Guitarra elétrica online: sons limpo, crunch e distorcido, power chords, escalas pentatônicas e caixas no braço." />
+    <link rel="icon" type="image/png" href="favicon-32.png" />
+    <link rel="apple-touch-icon" href="favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Estudo de Violão Iniciante" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content="https://rene17bueno.github.io/site_aula_musica_iniciante/guitarra.html" />
+    <meta property="og:title" content="Guitarra elétrica · Estudo de Violão Iniciante" />
+    <meta property="og:description" content="Guitarra elétrica online: sons limpo, crunch e distorcido, power chords, escalas pentatônicas e caixas no braço." />
+    <meta property="og:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Guitarra elétrica · Estudo de Violão Iniciante" />
+    <meta name="twitter:description" content="Guitarra elétrica online: sons limpo, crunch e distorcido, power chords, escalas pentatônicas e caixas no braço." />
+    <meta name="twitter:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <!-- Fonts & Bootstrap (cdn) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        /* ===== ESTILOS GERAIS INTEGRADOS ===== */
+        body {
+            background: #0e0d1a;
+            color: #e4dfd7;
+            font-family: 'Inter', sans-serif;
+            padding-top: 90px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .gold {
+            color: #e8d5a3;
+        }
+        .bg-dark-custom {
+            background: #14131f;
+        }
+        .border-gold {
+            border-color: rgba(201, 169, 89, 0.3) !important;
+        }
+        .text-gold {
+            color: #e8d5a3;
+        }
+        .text-muted {
+            color: #b5b0a8 !important;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar-custom {
+            background: #0e0d1aee;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(201, 169, 89, 0.15);
+        }
+        .navbar-custom .nav-link {
+            color: #d1cbdc !important;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #e8d5a3 !important;
+        }
+        .nav-brand-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #e8d5a3 !important;
+            text-decoration: none;
+        }
+
+        .chapter-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        .section-tag {
+            display: inline-block;
+            background: rgba(201, 169, 89, 0.12);
+            color: #e8d5a3;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            padding: 5px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            text-transform: uppercase;
+        }
+
+        /* ===== CONTAINER DO JOGO ===== */
+        .game-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            transition: 0.3s ease;
+        }
+        
+        .level-badge {
+            background: rgba(201, 169, 89, 0.2);
+            color: #ffffff;
+            border: 1px solid #e8d5a3;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 6px 18px;
+            border-radius: 50px;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(201, 169, 89, 0.2);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c9a959, #f7e7c4);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* ===== PERGUNTA ===== */
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: #ffffff;
+            margin: 25px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* ===== BOTÕES DE RESPOSTA ===== */
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 169, 89, 0.35);
+            color: #ffffff !important;
+            padding: 16px 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        .option-btn:hover {
+            background: rgba(201, 169, 89, 0.25);
+            border-color: #f7e7c4;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 89, 0.2);
+        }
+
+        /* ===== FEEDBACK ===== */
+        .feedback-area {
+            min-height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .feedback-area.show {
+            opacity: 1;
+        }
+        .feedback-correct {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+        .feedback-incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+        }
+
+        /* ===== SELETOR DE NÍVEIS LATERAL ===== */
+        .btn-level-select {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(201, 169, 89, 0.15);
+            color: #e4dfd7;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .btn-level-select .level-title {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-level-select .level-desc {
+            color: #b5b0a8;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .btn-level-select:hover, .btn-level-select.active {
+            background: rgba(201, 169, 89, 0.15);
+            border-color: #e8d5a3;
+        }
+        .btn-level-select.active .level-title {
+            color: #e8d5a3;
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            border-top: 1px solid rgba(201, 169, 89, 0.1);
+            background: #0e0d1a;
+            padding: 1.5rem 0;
+        }
+        .site-footer .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #e8d5a3;
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding-top: 68px;
+            }
+            .chapter-content {
+                padding: 1.25rem 0 1.75rem;
+            }
+            .game-card {
+                padding: 18px 14px;
+                border-radius: 12px;
+            }
+            .question-text {
+                font-size: 1.35rem;
+                margin: 16px 0;
+                min-height: 56px;
+            }
+            .option-btn {
+                padding: 12px 14px;
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            .feedback-area {
+                min-height: 50px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .level-badge {
+                font-size: 0.78rem;
+                padding: 5px 12px;
+            }
+            .question-text {
+                font-size: 1.2rem;
+                margin: 12px 0;
+                min-height: 48px;
+            }
+            .option-btn {
+                padding: 11px 12px;
+                font-size: 0.95rem;
+            }
+            .row.g-4 {
+                --bs-gutter-y: 0.85rem;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .game-card {
+                padding: 14px 11px;
+            }
+            .feedback-area {
+                min-height: 46px;
+                font-size: 0.93rem;
+            }
+            .btn-level-select .level-desc {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .section-tag {
+                font-size: 0.68rem;
+                padding: 4px 12px;
+            }
+            .btn-level-select {
+                padding: 10px 12px;
+            }
+        }
+            #questionBox{display:block}
+        #questionBox svg{display:block;margin:0 auto 1rem}
+    
+.neckwrap{overflow-x:auto;padding-bottom:6px}
+.nk circle{fill:#e8d5a3;stroke:#0e0d1a;stroke-width:1}.nk text{font-size:11px;font-weight:700;fill:#0e0d1a;pointer-events:none}
+.nk.root circle{fill:#d9962c}.nk.sc circle{fill:#e8d5a3}.nk.on circle{fill:#8fd18f}.nk.dim circle{fill:#3a3750}.nk.dim text{fill:#9c97b0}
+.nk.ghost circle{fill:transparent;stroke:none}.nk{cursor:pointer}.nk.ghost:hover circle{fill:#ffffff22}
+.modo .btn.act{background:#c9a959;color:#0e0d1a;border-color:#c9a959;font-weight:700}
+.pw{display:flex;gap:18px;flex-wrap:wrap}.pw>div{text-align:center}
+.chips span{display:inline-block;background:#26233b;border:1px solid #3a3750;border-radius:999px;padding:3px 12px;margin:2px;font-size:.85rem}
+
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8CMNEYXZ9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H8CMNEYXZ9');
+    </script>
+</head>
+<body>
+
+    <div id="site-navbar"></div>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <main class="chapter-content">
+<div class="container">
+<div class="row mb-4"><div class="col-12 text-center">
+<span class="section-tag"><i class="fas fa-bolt me-1"></i> Instrumento</span>
+<h1 class="display-5 fw-bold mt-2">Guitarra <span class="gold">elétrica</span></h1>
+<p class="text-muted">Mesma afinação do violão, outro mundo de sons: limpo, crunch e distorcido. Power chords, escalas e caixas no braço inteiro.</p></div></div>
+<div class="game-card mb-4"><div class="row g-3 align-items-end">
+ <div class="col-12 col-md-4"><label class="small text-muted" for="som">Som da guitarra</label><select id="som" class="form-select"></select></div>
+ <div class="col-12 col-md-8 small text-muted" id="somDica"></div>
+</div></div>
+<div class="game-card mb-4">
+ <h5 class="fw-bold gold">Power chords</h5>
+ <p class="text-muted small">Só duas notas (fundamental e quinta), por isso soam firmes com distorção. Escolha a nota e toque: a mesma forma anda pelo braço.</p>
+ <div class="row g-2 mb-3"><div class="col-6 col-md-3"><label class="small text-muted" for="pr">Nota</label><select id="pr" class="form-select"></select></div>
+ <div class="col-12 col-md-9 d-flex flex-wrap align-items-end gap-2"><button class="btn btn-sm btn-outline-light" id="pmet"><i class="fas fa-gauge-high me-1"></i> Treinar I–IV–V no metrônomo (Rock)</button></div></div>
+ <div class="pw" id="pw"></div>
+ <div class="small text-muted mt-2">Dica: abafe as cordas soltas com a palma da mão direita (palm mute) para um som seco, e solte a mão nos tempos fortes.</div>
+</div>
+<div class="game-card mb-4">
+ <h5 class="fw-bold gold">Escalas e caixas no braço</h5>
+ <div class="row g-2 mb-3">
+  <div class="col-4 col-md-2"><label class="small text-muted" for="er">Nota</label><select id="er" class="form-select"></select></div>
+  <div class="col-8 col-md-3"><label class="small text-muted" for="et">Escala</label><select id="et" class="form-select"></select></div>
+  <div class="col-6 col-md-2"><label class="small text-muted" for="ec">Caixa</label><select id="ec" class="form-select"></select></div>
+  <div class="col-6 col-md-2"><label class="small text-muted" for="ev">Mostrar</label><select id="ev" class="form-select"><option value="n">Notas</option><option value="g">Graus</option></select></div>
+  <div class="col-12 col-md-3 d-flex align-items-end gap-2"><button class="btn fw-bold flex-fill" id="eoc" style="background:#c9a959;color:#0e0d1a"><i class="fas fa-play me-1"></i> Tocar</button></div>
+ </div>
+ <div class="neckwrap" id="neck"></div>
+ <div class="small text-muted mt-2" id="edica"></div>
+</div>
+<div class="game-card"><h5 class="fw-bold gold">Use o resto do site</h5><p class="text-muted mb-2">A afinação é a mesma do violão, então tudo vale aqui:</p>
+<div class="d-flex flex-wrap gap-2"><a class="btn btn-outline-light btn-sm" href="afinador.html">Afinador (escolha Guitarra)</a><a class="btn btn-outline-light btn-sm" href="acordes.html">Dicionário de acordes</a><a class="btn btn-outline-light btn-sm" href="mapa-braco.html">Mapa do braço</a><a class="btn btn-outline-light btn-sm" href="metronomo.html">Metrônomo com levadas</a><a class="btn btn-outline-light btn-sm" href="jogos-braco.html">Jogos do braço</a></div></div>
+
+</div>
+</main>
+
+    <div id="site-footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/js/layout.js"></script>
+    <script src="js/js/violao.js"></script>
+    <script src="js/js/acordes-lib.js"></script>
+    <script src="js/js/braco.js"></script>
+    <script>
+
+const $=id=>document.getElementById(id),SH=AcLib.NOTAS,BEMOL=[1,3,5,8,10],OPEN=[40,45,50,55,59,64];
+const nn=(pc)=>BEMOL.includes(pc)?SH[pc]:SH[pc];
+const DICA={guitarra:'Limpo: acordes abertos, arpejos, baladas. Ouça cada nota separada.',
+ 'guitarra-crunch':'Crunch: ideal para rock e blues. Acordes de 3 notas ainda soam bem.',
+ 'guitarra-dist':'Distorcido: use power chords e notas soltas. Acordes cheios ficam embolados.'};
+Violao.picker($('som'),['guitarra','guitarra-crunch','guitarra-dist'],'som-guitarra');
+const dica=()=>$('somDica').textContent=DICA[$('som').value];dica();$('som').onuse=()=>{dica();Violao.preloadRange(40,76);};Violao.preloadRange(40,76);
+[$('pr'),$('er')].forEach(s=>s.innerHTML=SH.map((x,i)=>`<option value="${i}">${x}</option>`).join(''));$('pr').value=9;$('er').value=9;
+// ----- power chords -----
+function power(){const r=+$('pr').value,html=[];
+ [['Raiz na 6ª corda',AcLib.voz(r,'5').slice()],['Raiz na 5ª corda',null]].forEach(()=>{});
+ const e=(r-4+12)%12,a=(r-9+12)%12,f6=[e,e+2,e+2,-1,-1,-1],f5=[-1,a,a+2,a+2,-1,-1];
+ $('pw').innerHTML=[['Raiz na 6ª corda',f6],['Raiz na 5ª corda',f5]].map(([t,f],i)=>`<div><div class="small text-muted">${t}</div>${AcLib.svg(f,r)}<div class="fw-bold gold mb-1">${SH[r]}5</div><button class="btn btn-sm btn-outline-light" data-i="${i}"><i class="fas fa-volume-high"></i> Tocar</button></div>`).join('');
+ document.querySelectorAll('#pw button').forEach((b,i)=>b.onclick=()=>Violao.strum(i?f5:f6,{gap:.012,v:.9,d:1.4}));}
+$('pr').onchange=power;power();
+$('pmet').onclick=()=>{const r=+$('pr').value,p=[0,5,7].map(i=>({r:(r+i)%12,q:'5',bemol:false,rn:['I','IV','V'][[0,5,7].indexOf(i)]}));
+ try{localStorage.setItem('metro',JSON.stringify({l:2,b:110,p:p,n:1}));localStorage.setItem('som-metro','guitarra-crunch');}catch(e){}location.href='metronomo.html';};
+// ----- escalas -----
+const ESC={'Pentatônica menor':[0,3,5,7,10],'Pentatônica maior':[0,2,4,7,9],'Blues':[0,3,5,6,7,10],'Maior':[0,2,4,5,7,9,11],'Menor natural':[0,2,3,5,7,8,10]};
+const GRAU={0:'1',1:'♭2',2:'2',3:'♭3',4:'3',5:'4',6:'♭5',7:'5',8:'♭6',9:'6',10:'♭7',11:'7'};
+$('et').innerHTML=Object.keys(ESC).map(k=>`<option>${k}</option>`).join('');
+// caixas (só pentatônicas): 2 notas por corda; em cada corda vale o par de notas vizinhas mais próximo do par da 6ª corda
+function caixas(r,iv){if(iv.length!==5)return [];const set=iv.map(i=>(r+i)%12),F=OPEN.map(o=>{const a=[];for(let f=0;f<=17;f++)if(set.includes((o+f)%12))a.push(f);return a;});
+ const par=c=>F[c].slice(0,-1).map((f,j)=>[f,F[c][j+1]]),med=p=>(p[0]+p[1])/2;
+ return par(0).filter(p=>p[0]<12).sort((x,y)=>((x[0]-((r-4+12)%12)+12)%12)-((y[0]-((r-4+12)%12)+12)%12)).map(p0=>{const m=med(p0);
+  return OPEN.map((_,c)=>c?par(c).sort((x,y)=>Math.abs(med(x)-m)-Math.abs(med(y)-m))[0]:p0);});}
+let bx=[];
+function esc(){const r=+$('er').value,iv=ESC[$('et').value],set=iv.map(i=>(r+i)%12);bx=caixas(r,iv);
+ const cur=$('ec').value;$('ec').innerHTML='<option value="">Todas</option>'+bx.map((w,i)=>`<option value="${i}">Caixa ${i+1}</option>`).join('');$('ec').value=bx.length&&cur!==''&&+cur<bx.length?cur:'';
+ const k=$('ec').value,bxk=k===''?null:bx[+k];
+ Braco.draw($('neck'),{open:OPEN,n:15,click:(m)=>Violao.note(m,{v:.85,d:1.2}),
+  mark:(m,c,f)=>{const pc=m%12;if(!set.includes(pc))return null;
+   if(bxk&&!bxk[c].includes(f))return null;
+   return {t:$('ev').value==='g'?GRAU[(pc-r+12)%12]:nn(pc),c:pc===r?'root':'sc'};}});
+ $('edica').textContent=bx.length?'As 5 caixas cobrem o braço todo e se encaixam em sequência. Comece pela caixa 1 (raiz na 6ª corda) e toque devagar, subindo e descendo.':'Esta escala aparece no braço todo; toque as notas clicando nelas.';}
+[$('er'),$('et'),$('ec'),$('ev')].forEach(s=>s.onchange=esc);esc();
+$('eoc').onclick=()=>{Violao.stop();const r=+$('er').value,iv=ESC[$('et').value],set=iv.map(i=>(r+i)%12),k=$('ec').value,bxk=k===''?null:bx[+k];
+ const notas=[];for(let c=0;c<6;c++)for(let f=0;f<=15;f++){const m=OPEN[c]+f;if(!set.includes(m%12))continue;if(bxk&&!bxk[c].includes(f))continue;notas.push(m);}
+ const asc=[...new Set(notas)].sort((a,b)=>a-b).slice(0,16);asc.concat(asc.slice(0,-1).reverse()).forEach((m,i)=>Violao.note(m,{t:i*.3,v:.8,d:.5,ch:'e'+i}));};
+
+</script>
+</body>
+</html>

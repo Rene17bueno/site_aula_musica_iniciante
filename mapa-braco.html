@@ -339,6 +339,7 @@
 <div class="col-6 col-md-2"><label class="small text-muted" for="min">Cordas tocadas</label><select id="min" class="form-select"><option value="3">3 ou mais</option><option value="4" selected>4 ou mais</option><option value="5">5 ou mais</option><option value="6">Todas (6)</option></select></div>
 <div class="col-6 col-md-2"><label class="small text-muted" for="f">Mostrar</label><select id="f" class="form-select"><option value="">Todas</option><option value="caged">Só formas CAGED</option><option value="bar">Com pestana</option><option value="free">Sem pestana</option><option value="open">Com corda solta</option></select></div>
 <div class="col-6 col-md-3"><label class="small text-muted" for="r">Região do braço</label><select id="r" class="form-select"><option value="">Braço todo</option><option value="0">Casas 0 a 4</option><option value="5">Casas 5 a 9</option><option value="10">Casas 10 a 15</option></select></div>
+<div class="col-12 col-md-4"><label class="small text-muted" for="som">Som ao clicar no acorde</label><select id="som" class="form-select"></select></div>
 <div class="col-12 d-flex flex-wrap gap-4"><div class="form-check"><input class="form-check-input" type="checkbox" id="m"><label class="form-check-label small text-muted" for="m">Mostrar graus (1, 3, 5...) em vez de notas</label></div><div class="form-check"><input class="form-check-input" type="checkbox" id="inv"><label class="form-check-label small text-muted" for="inv">Incluir inversões (baixo diferente da tônica)</label></div></div>
 </div></div>
 <div class="game-card mb-3" id="neckBox">
@@ -483,6 +484,7 @@ function lista(){
   neck();
 }
 function gerar(){root=+$('n').value;qn=$('q').value;sel=null;all=vozes(root,qn,+$('min').value,$('inv').checked);lista();}
+Violao.picker(document.getElementById('som'),['nylon','guitarra','guitarra-crunch','piano','epiano','orgao','cordas'],'som-mapa');
 const tocar=fr=>Violao.strum(fr);
 N.forEach((n,i)=>$('n').add(new Option(n===FL[i]?n:n+'/'+FL[i],i)));
 Object.keys(Q).forEach(k=>$('q').add(new Option(k,k)));

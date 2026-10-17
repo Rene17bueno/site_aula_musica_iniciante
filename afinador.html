@@ -326,6 +326,7 @@
 <span class="section-tag"><i class="fas fa-sliders me-1"></i> Ferramenta</span>
 <h1 class="display-5 fw-bold mt-2">Afinador <span class="gold">online</span></h1>
 <p class="text-muted">Use o microfone do celular ou do computador. Toque uma corda solta e ajuste até o ponteiro ficar no centro.</p></div></div>
+<div class="row justify-content-center mb-3"><div class="col-lg-4 col-md-6"><label class="small text-muted" for="inst">Instrumento</label><select id="inst" class="form-select"><option value="violao">Violão</option><option value="guitarra">Guitarra</option><option value="baixo">Baixo (4 cordas)</option></select></div></div>
 <div class="row g-4 justify-content-center"><div class="col-lg-8"><div class="game-card text-center">
 <div class="fs-1 gold fw-bold" id="nota">--</div>
 <div class="text-muted mb-3" id="hz">Toque uma corda</div>
@@ -346,16 +347,19 @@
     <script src="js/js/violao.js"></script>
     <script>
 
-const S=[['6ª E',82.41],['5ª A',110.0],['4ª D',146.83],['3ª G',196.0],['2ª B',246.94],['1ª E',329.63]];
+const INS={violao:{s:[['6ª E',40],['5ª A',45],['4ª D',50],['3ª G',55],['2ª B',59],['1ª E',64]],som:'nylon'},
+ guitarra:{s:[['6ª E',40],['5ª A',45],['4ª D',50],['3ª G',55],['2ª B',59],['1ª E',64]],som:'guitarra'},
+ baixo:{s:[['4ª E',28],['3ª A',33],['2ª D',38],['1ª G',43]],som:'baixo'}};
 const N=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 const $=id=>document.getElementById(id);let ctx,tim;
 // referência: o som do próprio violão, repetido até tocar de novo no botão
 function para(){clearInterval(tim);tim=null;Violao.stop();document.querySelectorAll('.corda').forEach(x=>{x.dataset.on='';x.classList.remove('on')});}
-S.forEach(([n,f],i)=>{const b=document.createElement('button');b.className='btn btn-outline-light corda';b.textContent=n;b.onclick=()=>{
+function monta(){para();$('cordas').innerHTML='';const I=INS[$('inst').value];I.s.forEach(([n,m])=>{const b=document.createElement('button');b.className='btn btn-outline-light corda';b.textContent=n;b.onclick=()=>{
  const era=b.dataset.on;para();if(era)return;
- const toca=()=>Violao.note(Violao.OPEN[i],{v:.9,ch:0});toca();tim=setInterval(toca,3000);b.dataset.on='1';b.classList.add('on');};$('cordas').appendChild(b);});
+ const toca=()=>Violao.note(m,{v:.9,ch:0,inst:I.som});toca();tim=setInterval(toca,3000);b.dataset.on='1';b.classList.add('on');};$('cordas').appendChild(b);});}
+$('inst').onchange=monta;monta();
 function pitch(buf,sr){let rms=0;for(const v of buf)rms+=v*v;if(Math.sqrt(rms/buf.length)<.01)return -1;
- const max=Math.floor(sr/60),min=Math.floor(sr/500);let best=-1,bc=0;const c=new Float32Array(max+1);
+ const max=Math.floor(sr/($('inst').value==='baixo'?35:60)),min=Math.floor(sr/500);let best=-1,bc=0;const c=new Float32Array(max+1);
  for(let l=min;l<=max;l++){let s=0;for(let i=0;i<buf.length-l;i++)s+=buf[i]*buf[i+l];c[l]=s;}
  let l=min;while(l<max&&c[l]>c[l+1])l++;for(;l<=max;l++)if(c[l]>bc){bc=c[l];best=l;}
  if(best<1)return -1;const a=c[best-1],b=c[best],d=c[best+1]||b;const sh=(a-d)/(2*(a-2*b+d))||0;return sr/(best+sh);}

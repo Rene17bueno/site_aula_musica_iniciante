@@ -4,7 +4,10 @@
    AcLib.nome(raiz, q, bemol) / AcLib.svg(frets, raiz) / AcLib.campo(tom, modo, com7, vMaior) */
 (function (w) {
   var OP = [4, 9, 2, 7, 11, 4], SH = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'], FL = ['C', 'D♭', 'D', 'E♭', 'E', 'F', 'G♭', 'G', 'A♭', 'A', 'B♭', 'B'];
-  var SUF = { M: '', m: 'm', dim: '°', '7': '7', M7: 'maj7', m7: 'm7', m7b5: 'm7♭5' };
+  var SUF = { M: '', m: 'm', dim: '°', '7': '7', M7: 'maj7', m7: 'm7', m7b5: 'm7♭5', sus2: 'sus2', sus4: 'sus4', aug: '+', '6': '6', m6: 'm6', '5': '5' };
+  // intervalos (semitons) de cada tipo; os cinco últimos só valem para teclado (não têm forma de violão)
+  var IV = { M: [0, 4, 7], m: [0, 3, 7], dim: [0, 3, 6], '7': [0, 4, 7, 10], M7: [0, 4, 7, 11], m7: [0, 3, 7, 10], m7b5: [0, 3, 6, 10], sus2: [0, 2, 7], sus4: [0, 5, 7], aug: [0, 4, 8], '6': [0, 4, 7, 9], m6: [0, 3, 7, 9], '5': [0, 7] };
+  var QN = { M: 'Maior', m: 'Menor', dim: 'Diminuto', '7': 'Dominante 7', M7: 'Maior com 7ª maior', m7: 'Menor com 7ª', m7b5: 'Meio-diminuto', sus2: 'Suspenso 2', sus4: 'Suspenso 4', aug: 'Aumentado', '6': 'Maior com 6ª', m6: 'Menor com 6ª', '5': 'Power chord (quinta)' };
   // formas abertas por nota (0=C ...) e formas móveis (corda da raiz: 0=Mi grave, 1=Lá, 2=Ré; -9 = calada)
   var ABERTA = {
     M: { 0: [-1, 3, 2, 0, 1, 0], 2: [-1, -1, 0, 2, 3, 2], 4: [0, 2, 2, 1, 0, 0], 7: [3, 2, 0, 0, 0, 3], 9: [-1, 0, 2, 2, 2, 0] },
@@ -21,7 +24,8 @@
     M7: [[0, [0, 2, 1, 1, 0, 0]], [1, [N, 0, 2, 1, 2, 0]]],
     m7: [[0, [0, 2, 0, 0, 0, 0]], [1, [N, 0, 2, 0, 1, 0]]],
     dim: [[1, [N, 0, 1, N, 1, N]], [2, [N, N, 0, 1, 3, 1]]],
-    m7b5: [[1, [N, 0, 1, 0, 1, N]], [2, [N, N, 0, 1, 1, 1]]]
+    m7b5: [[1, [N, 0, 1, 0, 1, N]], [2, [N, N, 0, 1, 1, 1]]],
+    '5': [[0, [0, 2, 2, N, N, N]], [1, [N, 0, 2, 2, N, N]]]
   };
   function voz(r, q) {
     var o = ABERTA[q] && ABERTA[q][r];
@@ -87,5 +91,5 @@
       return { r: (tom + iv) % 12, q: q, rn: rn, bemol: bemol };
     });
   }
-  w.AcLib = { voz: voz, nome: nome, svg: svg, campo: campo, NOTAS: SH, BEMOL: FL };
+  w.AcLib = { IV: IV, QN: QN, voz: voz, nome: nome, svg: svg, campo: campo, NOTAS: SH, BEMOL: FL };
 })(window);

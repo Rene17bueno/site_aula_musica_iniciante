@@ -2,3 +2,8 @@ Amostras de violão de nylon (acoustic_guitar_nylon), notas MIDI 40 a 84.
 Origem: soundfont FluidR3_GM (Frank Wen), pré-renderizado em https://github.com/gleitz/midi-js-soundfonts
 Licença: Creative Commons Attribution 3.0 (https://creativecommons.org/licenses/by/3.0/us/) - exige crédito.
 Nome do arquivo = número MIDI da nota (40 = Mi grave, 64 = Mi agudo da corda solta).
+
+Demais pastas (notas MIDI = nome do arquivo), mesma origem e licença:
+piano (acoustic_grand_piano), epiano (electric_piano_1), orgao (church_organ), cordas (string_ensemble_1),
+baixo (electric_bass_finger), baixo-pua (electric_bass_pick), guitarra (electric_guitar_clean),
+guitarra-crunch (overdriven_guitar), guitarra-dist (distortion_guitar).

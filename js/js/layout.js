@@ -34,7 +34,7 @@
             home: "Início", lessons: "Aulas", chapters: "Capítulos", chapter: "Capítulo",
             chords: "Acordes", exercises: "Exercícios", games: "Jogos",
             visualChallenge: "Desafio Visual", noteId: "Identificação de Notas", fretGames: "Jogos do Braço",
-            trail: "Comece aqui", practice: "Praticar", changes: "Trocas de acordes", tuner: "Afinador", technique: "Técnica e saúde", map: "Mapa do braço", metro: "Metrônomo", community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin",
+            trail: "Comece aqui", practice: "Praticar", changes: "Trocas de acordes", tuner: "Afinador", technique: "Técnica e saúde", map: "Mapa do braço", metro: "Metrônomo", inst: "Instrumentos", community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin",
             navBrand: "<span>Violão</span> &middot; Iniciante",
             footBrand: "<span>Estudo de Violão</span> Iniciante", catholic: "Músico Católico", catholicSub: "Cifras e repertórios para a missa"
         },
@@ -42,7 +42,7 @@
             home: "Home", lessons: "Lessons (PT)", chapters: "Chapters", chapter: "Chapter",
             chords: "Chords", exercises: "Exercises (PT)", games: "Games",
             visualChallenge: "Visual Challenge", noteId: "Note Identification", fretGames: "Fretboard Games (PT)",
-            trail: "Start here (PT)", practice: "Practice", changes: "Chord changes (PT)", tuner: "Tuner (PT)", technique: "Technique (PT)", map: "Fretboard map (PT)", metro: "Metronome (PT)", community: "Community", attendance: "Attendance", adminPanel: "Admin Panel",
+            trail: "Start here (PT)", practice: "Practice", changes: "Chord changes (PT)", tuner: "Tuner (PT)", technique: "Technique (PT)", map: "Fretboard map (PT)", metro: "Metronome (PT)", inst: "Instruments (PT)", community: "Community", attendance: "Attendance", adminPanel: "Admin Panel",
             navBrand: "<span>Guitar</span> &middot; Beginner",
             footBrand: "<span>Beginner</span> Guitar Study", catholic: "Catholic Musician", catholicSub: "Chord sheets for Mass (PT)"
         },
@@ -50,7 +50,7 @@
             home: "Inicio", lessons: "Clases (PT)", chapters: "Capítulos", chapter: "Capítulo",
             chords: "Acordes", exercises: "Ejercicios (PT)", games: "Juegos",
             visualChallenge: "Desafío Visual", noteId: "Identificación de Notas", fretGames: "Juegos del Brazo (PT)",
-            trail: "Empieza aquí (PT)", practice: "Practicar", changes: "Cambios de acordes (PT)", tuner: "Afinador (PT)", technique: "Técnica (PT)", map: "Mapa del mástil (PT)", metro: "Metrónomo (PT)", community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración",
+            trail: "Empieza aquí (PT)", practice: "Practicar", changes: "Cambios de acordes (PT)", tuner: "Afinador (PT)", technique: "Técnica (PT)", map: "Mapa del mástil (PT)", metro: "Metrónomo (PT)", inst: "Instrumentos (PT)", community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración",
             navBrand: "<span>Guitarra</span> &middot; Principiante",
             footBrand: "<span>Estudio de Guitarra</span> para Principiantes", catholic: "Músico Católico", catholicSub: "Cifras e repertórios para a missa"
         }
@@ -124,14 +124,14 @@
         '</li>';
 
     var NAVBAR_HTML =
-        '<nav class="navbar navbar-expand-lg navbar-dark custom-navbar fixed-top">' +
+        '<nav class="navbar navbar-expand-xl navbar-dark custom-navbar fixed-top">' +
         '<div class="container-fluid container-md">' +
         '<a class="navbar-brand nav-brand-title" href="' + local("index.html") + '">' + t.navBrand + '</a>' +
         '<button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">' +
         '<span class="navbar-toggler-icon"></span></button>' +
         '<div class="collapse navbar-collapse justify-content-end" id="navbarContent">' +
-        '<ul class="navbar-nav mb-2 mb-lg-0 gap-2 text-center text-lg-start pt-3 pt-lg-0">' +
-        '<li class="nav-item"><a class="nav-link" href="' + local("index.html") + '"><i class="fas fa-home me-1"></i> ' + t.home + '</a></li>' +
+        '<ul class="navbar-nav mb-2 mb-xl-0 gap-2 text-center text-xl-start pt-3 pt-xl-0">' +
+        '<li class="nav-item"><a class="nav-link" href="' + local("index.html") + '" aria-label="' + t.home + '"><i class="fas fa-home"></i><span class="nav-home-t"> ' + t.home + '</span></a></li>' +
         '<li class="nav-item"><a class="nav-link" href="' + shared("trilha.html") + '"><i class="fas fa-route me-1"></i> ' + t.trail + '</a></li>' +
         '<li class="nav-item"><a class="nav-link" href="' + shared("aulas.html") + '"><i class="fas fa-circle-play me-1"></i> ' + t.lessons + '</a></li>' +
         '<li class="nav-item dropdown">' +
@@ -141,6 +141,20 @@
         '<li class="nav-item"><a class="nav-link" href="' + shared("acordes.html") + '"><i class="fas fa-guitar me-1"></i> ' + t.chords + '</a></li>' +
         '<li class="nav-item"><a class="nav-link" href="' + shared("afinador.html") + '"><i class="fas fa-sliders me-1"></i> ' + t.tuner + '</a></li>' +
         '<li class="nav-item"><a class="nav-link" href="' + shared("metronomo.html") + '"><i class="fas fa-gauge-high me-1"></i> ' + t.metro + '</a></li>' +
+        '<li class="nav-item dropdown">' +
+        '<a class="nav-link dropdown-toggle" href="#" id="instDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-music me-1"></i> ' + t.inst + '</a>' +
+        '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="instDropdown">' +
+        '<li><a class="dropdown-item" href="' + local("index.html") + '"><i class="fas fa-guitar me-2"></i> Violão</a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("teclado.html") + '"><i class="fas fa-keyboard me-2"></i> Teclado</a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("guitarra.html") + '"><i class="fas fa-bolt me-2"></i> Guitarra</a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("baixo.html") + '"><i class="fas fa-wave-square me-2"></i> Baixo elétrico</a></li>' +
+        '<li><hr class="dropdown-divider"></li>' +
+        '<li><a class="dropdown-item" href="' + shared("violino.html") + '"><i class="fas fa-music me-2"></i> Violino <small class="text-muted">· em breve</small></a></li>' +
+        '<li><a class="dropdown-item" href="' + shared("violoncelo.html") + '"><i class="fas fa-music me-2"></i> Violoncelo <small class="text-muted">· em breve</small></a></li>' +
+        '<li><hr class="dropdown-divider"></li>' +
+        '<li><a class="dropdown-item" href="' + shared("instrumentos.html") + '"><i class="fas fa-table-cells-large me-2"></i> Todos os instrumentos</a></li>' +
+        '</ul>' +
+        '</li>' +
         '<li class="nav-item dropdown">' +
         '<a class="nav-link dropdown-toggle" href="#" id="praticarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-hand-pointer me-1"></i> ' + t.practice + '</a>' +
         '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="praticarDropdown">' +
@@ -190,7 +204,7 @@
         '<div class="small" style="color: #b5b0a8;">' +
         '<i class="fas fa-copyright me-1" style="color:#c9a959;"></i> 2026 &middot; Renê Aparecido Bueno &middot; Maringá &middot; PR' +
         '</div>' +
-        '<div class="small mt-1" style="color:#8f8a82;font-size:.75rem">' + (LANG === 'pt' ? 'Sons de violão' : LANG === 'es' ? 'Sonidos de guitarra' : 'Guitar sounds') + ': FluidR3_GM (Frank Wen), <a href="https://creativecommons.org/licenses/by/3.0/us/" target="_blank" rel="noopener" style="color:inherit">CC BY 3.0</a></div>' +
+        '<div class="small mt-1" style="color:#8f8a82;font-size:.75rem">' + (LANG === 'pt' ? 'Sons dos instrumentos' : LANG === 'es' ? 'Sonidos de los instrumentos' : 'Instrument sounds') + ': FluidR3_GM (Frank Wen), <a href="https://creativecommons.org/licenses/by/3.0/us/" target="_blank" rel="noopener" style="color:inherit">CC BY 3.0</a></div>' +
         '</div>' +
         '</footer>';
 
@@ -204,8 +218,9 @@
         ':focus-visible{outline:2px solid #c9a959;outline-offset:2px;border-radius:4px}',
         /* navbar sólida */
         '.custom-navbar{background:#0e0d1a!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border-bottom:1px solid rgba(201,169,89,.28)!important;box-shadow:0 4px 18px rgba(0,0,0,.45);padding-top:.55rem;padding-bottom:.55rem;z-index:1040}',
-        '@media (min-width:992px){.custom-navbar .navbar-brand{white-space:nowrap}}','.custom-navbar .navbar-brand{white-space:normal;line-height:1.15;max-width:75%}',
+        '@media (min-width:1200px){.custom-navbar .navbar-brand{white-space:nowrap}}','.custom-navbar .navbar-brand{white-space:normal;line-height:1.15;max-width:75%}',
         '.custom-navbar .nav-link{white-space:nowrap;border-radius:8px;padding:.5rem .7rem!important;transition:color .2s,background .2s}',
+        '.form-range,.form-check-input{accent-color:#c9a959}.form-check-input:checked{background-color:#c9a959;border-color:#c9a959}',
         '.custom-navbar .nav-link:hover,.custom-navbar .nav-link.active{background:rgba(201,169,89,.12)}',
         '.custom-navbar .navbar-toggler{padding:.45rem .6rem;border-radius:8px;background:rgba(201,169,89,.1)}',
         '.custom-navbar .navbar-toggler:focus{box-shadow:0 0 0 2px rgba(201,169,89,.5)}',
@@ -220,9 +235,10 @@
         'table{max-width:100%}',
         '.site-footer{border-top:1px solid rgba(201,169,89,.2)}','.footer-contact{color:#e8d5a3;text-decoration:none;font-size:.9rem;padding:.3rem .6rem;border-radius:8px;transition:background .2s}','.footer-contact:hover{background:rgba(201,169,89,.14);color:#e8d5a3}','.store-card{display:flex;flex-direction:column;align-items:center;height:100%;padding:1rem;border:1px solid rgba(201,169,89,.3);border-radius:16px;background:#14131f;text-decoration:none!important;transition:transform .2s,border-color .2s,box-shadow .2s}','.store-card:hover{transform:translateY(-4px);border-color:#c9a959;box-shadow:0 14px 34px rgba(201,169,89,.18)}','.store-img{width:100%;max-width:240px;aspect-ratio:3/4;object-fit:cover;border-radius:8px;box-shadow:0 10px 26px rgba(0,0,0,.55)}','.store-cover{margin-bottom:1rem;width:100%;max-width:240px;aspect-ratio:3/4;border-radius:8px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:1.2rem;background:linear-gradient(160deg,#1c1b2e,#0a0a14);border:1px solid rgba(201,169,89,.45);box-shadow:inset 0 0 0 5px #0e0d1a,inset 0 0 0 6px rgba(201,169,89,.35),0 10px 26px rgba(0,0,0,.55)}','.store-cover i{color:#c9a959;font-size:1.5rem;margin-bottom:.8rem}','.store-cover b{font-family:"Playfair Display",serif;color:#e8d5a3;font-size:clamp(.85rem,3.4vw,1.15rem);line-height:1.2;letter-spacing:.3px;text-transform:uppercase}','.store-cover small{color:#b5b0a8;margin-top:.8rem;font-size:.72rem}','.catholic-btn{display:inline-flex;align-items:center;gap:.6rem;padding:.3rem .85rem .3rem .3rem;border-radius:999px;background:linear-gradient(135deg,#e8d5a3 0%,#c9a959 100%);color:#0e0d1a!important;text-decoration:none!important;font-weight:600;line-height:1.1;white-space:nowrap;box-shadow:0 0 0 1px rgba(232,213,163,.5),0 6px 18px rgba(201,169,89,.28);transition:transform .2s,box-shadow .2s}','.catholic-btn:hover{transform:translateY(-2px);box-shadow:0 0 0 1px #e8d5a3,0 10px 26px rgba(201,169,89,.45)}','.catholic-ico{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#0e0d1a;color:#e8d5a3;font-size:.8rem;flex:none}','.catholic-txt{display:flex;flex-direction:column;font-size:.85rem}','.catholic-txt small{font-weight:500;font-size:.66rem;opacity:.75;letter-spacing:.2px}','.catholic-ext{font-size:.65rem;opacity:.6}','@media (min-width:992px) and (max-width:1399.98px){.catholic-txt small{display:none}.catholic-btn{padding-right:.7rem}}','.site-footer .catholic-btn{padding:.45rem 1.2rem .45rem .45rem;gap:.8rem}','.site-footer .catholic-ico{width:42px;height:42px;font-size:1rem}','.site-footer .catholic-txt{font-size:1rem}','.site-footer .catholic-txt small{font-size:.74rem}',
         /* notebook/tablet estreito: menu cabe em uma linha */
-        '@media (min-width:992px) and (max-width:1399.98px){.custom-navbar .nav-link{font-size:.8rem!important;padding:.45rem .5rem!important}.custom-navbar .navbar-nav{gap:.1rem!important}.custom-navbar .navbar-brand{font-size:1rem}.custom-navbar .container-md,.custom-navbar .container-fluid{max-width:100%}}',
+        '@media (min-width:1200px) and (max-width:1799.98px){.custom-navbar .nav-home-t{display:none}}',
+        '@media (min-width:1200px) and (max-width:1799.98px){.custom-navbar .nav-link{font-size:.8rem!important;padding:.45rem .5rem!important}.custom-navbar .navbar-nav{gap:.1rem!important}.custom-navbar .navbar-brand{font-size:1rem}.custom-navbar .container-md,.custom-navbar .container-fluid{max-width:100%}}',
         /* tablet/celular: menu recolhido rolável, alvos de toque grandes */
-        '@media (max-width:991.98px){.custom-navbar .navbar-collapse{max-height:calc(100vh - 84px);max-height:calc(100dvh - 84px);overflow-y:auto;-webkit-overflow-scrolling:touch}.custom-navbar .nav-link{padding:.7rem .9rem!important;font-size:.95rem!important}.custom-navbar .dropdown-menu{max-height:none;box-shadow:none;margin:.2rem 0 .4rem}.custom-navbar .dropdown-item{padding:.65rem .9rem}}',
+        '@media (max-width:1199.98px){.custom-navbar .navbar-collapse{max-height:calc(100vh - 84px);max-height:calc(100dvh - 84px);overflow-y:auto;-webkit-overflow-scrolling:touch}.custom-navbar .nav-link{padding:.7rem .9rem!important;font-size:.95rem!important}.custom-navbar .dropdown-menu{max-height:none;box-shadow:none;margin:.2rem 0 .4rem}.custom-navbar .dropdown-item{padding:.65rem .9rem}}',
         '@media (max-width:575.98px){body{padding-top:76px!important}.container,.container-fluid{padding-left:16px;padding-right:16px}.display-5{font-size:2rem}.btn{min-height:44px}}',
         '@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}'
     ].join('\n');
