@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="h-100">
 <head>
-<script>try{if(!localStorage.getItem("instrumento"))location.replace("instrumentos.html")}catch(e){}</script>
+<script>try{if(!localStorage.getItem("instrumento")||!document.referrer||new URL(document.referrer).host!==location.host)location.replace("instrumentos.html")}catch(e){}</script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script>
