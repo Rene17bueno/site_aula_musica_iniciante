@@ -318,7 +318,7 @@ input[type=range]{accent-color:#c9a959}
 .chips{display:flex;flex-wrap:wrap;gap:6px;min-height:34px}.chip{display:inline-flex;align-items:center;gap:6px;background:#14131f;border:1px solid rgba(201,169,89,.35);border-radius:20px;padding:3px 6px 3px 12px;color:#e4dfd7;font-weight:600}
 .chip.on{background:#c9a959;color:#0e0d1a;border-color:#e8d5a3}.chip button{background:transparent;border:0;color:inherit;opacity:.7;padding:0 4px;font-size:1rem;line-height:1}.chip button:hover{opacity:1}
 .fdeg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.deg{padding:4px 0;line-height:1.2;font-size:.85rem}.deg small{display:block;font-size:.65rem;opacity:.7}
-#curSvg svg{width:100px;display:block}
+#curSvg svg{width:100px;display:block}#curSvg.wide svg{width:min(300px,62vw)}.nk circle{fill:#e8d5a3;stroke:#0e0d1a}.nk text{font-size:11px;font-weight:700;fill:#0e0d1a}.nk.root circle{fill:#d9962c}
 .form-range::-webkit-slider-thumb{background:#c9a959}.form-range::-moz-range-thumb{background:#c9a959}.form-range::-webkit-slider-runnable-track{background:transparent}.form-range{background:#2a2840;border-radius:6px;height:10px;margin-top:6px;margin-bottom:12px!important}.form-range::-webkit-slider-thumb{margin-top:-5px;width:20px;height:20px}
 @media(max-width:575px){.bpmin{width:96px;font-size:2rem}.pc span{font-size:1.2rem}}
 
@@ -417,6 +417,7 @@ input[type=range]{accent-color:#c9a959}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/js/layout.js"></script>
     <script src="js/js/violao.js"></script>
+<script src="js/js/braco.js"></script>
     <script src="js/js/acordes-lib.js"></script>
     <script>
 
@@ -468,11 +469,12 @@ function draw(){
  setBpm(bpm);}
 function click(t,acc){const o=ctx.createOscillator(),g=ctx.createGain();o.type='square';o.frequency.value=acc?1500:1000;
  g.gain.setValueAtTime(acc?.16:.1,t);g.gain.exponentialRampToValueAtTime(.0001,t+.04);o.connect(g).connect(ctx.destination);o.start(t);o.stop(t+.05);}
-Violao.picker($('som'),['nylon','guitarra','guitarra-crunch','piano','epiano','orgao','cordas'],'som-metro');$('som').onuse=()=>Promise.all(prog.map(c=>Violao.preload(fr(c))));
+Violao.picker($('som'),['nylon','guitarra','guitarra-crunch','piano','epiano','orgao','cordas','baixo'],'som-metro');$('som').onuse=()=>{if(prog.length)showChord(Math.max(shown,0));return $('som').value==='baixo'?Violao.preloadRange(28,45,'baixo'):Promise.all(prog.map(c=>Violao.preload(fr(c))));};
 try{if(localStorage.getItem('instrumento')==='baixo'){$('optBaixo').checked=true;$('optViolao').checked=false;}}catch(e){}
 function baixo(st,t,ci){const b=(st%perBar())/cur.sub;if(st%cur.sub||(b!==0&&b!==2))return;const r=prog[ci].r,m=28+((r-4+12)%12)+(b?7:0),dt=t-ctx.currentTime;
  Violao.note(m,{inst:'baixo',t:dt,v:b?.7:.95,ch:'bx',d:60/bpm*(b?1.6:1.9),r:.08});}
 function sound(c,t,ci){const fr=AcLib.voz(prog[ci].r,prog[ci].q),dt=t-ctx.currentTime;
+ if($('som').value==='baixo'){if(c==='M')return;const r=prog[ci].r,m=28+((r-4+12)%12)+('uU'.includes(c)?7:0);Violao.note(m,{inst:'baixo',t:dt,v:'DB'.includes(c)?.95:.6,ch:'bx',d:60/bpm*.9,r:.08});return;}
  if(c==='D')Violao.strum(fr,{t:dt,v:.95,keep:1,gap:.03});
  else if(c==='d')Violao.strum(fr,{t:dt,v:.6,keep:1,gap:.03});
  else if(c==='U')Violao.strum(fr,{t:dt,v:.7,keep:1,dir:'up',gap:.022});
@@ -486,7 +488,7 @@ function sched(){
   const c=cur.p[st%total()],ci=Math.floor(Math.floor(played/perBar())/bpc)%prog.length;
   if($('optClick').checked&&st%cur.sub===0)click(t,st%perBar()===0);
   if($('optViolao').checked&&c!=='-')sound(c,t,ci);
-  if($('optBaixo').checked)baixo(st,t,ci);
+  if($('optBaixo').checked&&$('som').value!=='baixo')baixo(st,t,ci);
   queue.push({k:st,t,ci});played++;
   nextT+=60/bpm/cur.sub;step=(st+1)%total();}
 }
@@ -531,10 +533,18 @@ $('tap').onclick=()=>{const n=performance.now();if(taps.length&&n-taps[taps.leng
  if(taps.length>=2){const d=(taps[taps.length-1]-taps[0])/(taps.length-1);setBpm(60000/d);}};
 document.addEventListener('keydown',e=>{if(e.code==='Space'&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)&&document.activeElement.tagName!=='BUTTON'){e.preventDefault();$('play').click();}});
 let shown=-1,field=[];
+const TEC=['piano','epiano','orgao','cordas'];
+function diag(c){const ins=$('som').value,w=$('curSvg');w.classList.toggle('wide',ins==='baixo'||TEC.includes(ins));
+ if(TEC.includes(ins)){const on=new Set(AcLib.IV[c.q].map(v=>c.r+v)),W=[0,2,4,5,7,9,11];let wh='',bl='';
+  for(let i=0;i<14;i++){const m=W[i%7]+12*Math.floor(i/7);wh+='<rect x="'+i*20+'" y="0" width="20" height="80" rx="2" fill="'+(on.has(m)?'#c9a959':'#f4efe3')+'" stroke="#0e0d1a"/>'+(on.has(m)?'<text x="'+(i*20+10)+'" y="74" font-size="9" text-anchor="middle" fill="#0e0d1a">'+AcLib.NOTAS[m%12].replace('#','♯')+'</text>':'');
+   if([0,1,3,4,5].includes(i%7)){const mb=m+1;bl+='<rect x="'+(i*20+14)+'" y="0" width="12" height="48" rx="2" fill="'+(on.has(mb)?'#c9a959':'#0e0d1a')+'" stroke="#6b6780"/>';}}
+  return '<svg viewBox="0 0 280 82" role="img" aria-label="Teclado">'+wh+bl+'</svg>';}
+ if(ins==='baixo'){const rp=c.r,fp=(c.r+7)%12;Braco.draw(w,{open:[28,33,38,43],n:12,mark:(m,st,fr)=>m%12===rp&&fr<8?{t:'R',c:'root'}:m%12===fp&&fr<8?{t:'5',c:'sc'}:null});return null;}
+ return AcLib.svg(fr(c),c.r);}
 function showChord(i){
  if(!prog.length){$('curName').textContent='—';$('curSvg').innerHTML='';$('curRn').textContent='Inclua um acorde';$('nextName').textContent='—';shown=-1;return;}
  i=i%prog.length;shown=i;const c=prog[i],n=prog[(i+1)%prog.length];
- $('curName').textContent=cn(c);$('curRn').textContent=(c.rn?c.rn+' · ':'')+QN[c.q];$('curSvg').innerHTML=AcLib.svg(fr(c),c.r);
+ $('curName').textContent=cn(c);$('curRn').textContent=(c.rn?c.rn+' · ':'')+QN[c.q];{const d=diag(c);if(d!==null)$('curSvg').innerHTML=d;}
  $('nextName').textContent=prog.length>1?cn(n):'(repete)';
  document.querySelectorAll('#prog .chip').forEach((e,j)=>e.classList.toggle('on',j===i));}
 function renderProg(){
