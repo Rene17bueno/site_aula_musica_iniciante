@@ -46,7 +46,7 @@
       if (!b) return synth(m, t, v, g);
       var s = c.createBufferSource(); s.buffer = b;
       g.gain.setValueAtTime(v, t); s.connect(g); s.start(t);
-      if (o.d) { g.gain.setValueAtTime(v, t + o.d); g.gain.linearRampToValueAtTime(0, t + o.d + 0.15); s.stop(t + o.d + 0.2); }
+      if (o.d) { g.gain.setValueAtTime(v, t + o.d); g.gain.linearRampToValueAtTime(0, t + o.d + (o.r || 0.15)); s.stop(t + o.d + (o.r || 0.15) + 0.05); }
       live[id + 'x'] = g; s.onended = function () { delete live[id + 'x']; };
     });
   }
@@ -55,10 +55,15 @@
     o = o || {};
     var gap = o.gap == null ? 0.035 : o.gap, v = o.v == null ? 0.8 : o.v, ms = [];
     fr.forEach(function (f, i) { if (f >= 0) ms.push([i, OPEN[i] + f]); });
-    stop();
+    if (o.dir === 'up') ms = ms.filter(function (x) { return x[0] >= 2; }).reverse();   // para cima: cordas agudas
+    if (o.bass) ms = ms.slice(0, 1);
+    if (!o.keep) stop();
     return Promise.all(ms.map(function (x) { return load(x[1]); })).then(function () {
-      ms.forEach(function (x, i) { note(x[1], { t: i * gap, v: v * (1 - i * 0.03), ch: x[0] }); });
+      ms.forEach(function (x, i) { note(x[1], { t: (o.t || 0) + i * gap, v: v * (1 - i * 0.03), ch: x[0], d: o.d, r: o.r }); });
     });
   }
-  w.Violao = { note: note, strum: strum, stop: stop, init: init, OPEN: OPEN };
+  function preload(fr) {
+    return Promise.all(fr.map(function (f, i) { return f >= 0 ? load(OPEN[i] + f) : null; }));
+  }
+  w.Violao = { note: note, strum: strum, preload: preload, stop: stop, init: init, OPEN: OPEN };
 })(window);

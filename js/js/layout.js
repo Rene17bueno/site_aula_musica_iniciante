@@ -34,7 +34,7 @@
             home: "Início", lessons: "Aulas", chapters: "Capítulos", chapter: "Capítulo",
             chords: "Acordes", exercises: "Exercícios", games: "Jogos",
             visualChallenge: "Desafio Visual", noteId: "Identificação de Notas", fretGames: "Jogos do Braço",
-            trail: "Comece aqui", practice: "Praticar", changes: "Trocas de acordes", tuner: "Afinador", technique: "Técnica e saúde", map: "Mapa do braço", community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin",
+            trail: "Comece aqui", practice: "Praticar", changes: "Trocas de acordes", tuner: "Afinador", technique: "Técnica e saúde", map: "Mapa do braço", metro: "Metrônomo", community: "Comunidade", attendance: "Presença", adminPanel: "Painel Admin",
             navBrand: "<span>Violão</span> &middot; Iniciante",
             footBrand: "<span>Estudo de Violão</span> Iniciante", catholic: "Músico Católico", catholicSub: "Cifras e repertórios para a missa"
         },
@@ -42,7 +42,7 @@
             home: "Home", lessons: "Lessons (PT)", chapters: "Chapters", chapter: "Chapter",
             chords: "Chords", exercises: "Exercises (PT)", games: "Games",
             visualChallenge: "Visual Challenge", noteId: "Note Identification", fretGames: "Fretboard Games (PT)",
-            trail: "Start here (PT)", practice: "Practice", changes: "Chord changes (PT)", tuner: "Tuner (PT)", technique: "Technique (PT)", map: "Fretboard map (PT)", community: "Community", attendance: "Attendance", adminPanel: "Admin Panel",
+            trail: "Start here (PT)", practice: "Practice", changes: "Chord changes (PT)", tuner: "Tuner (PT)", technique: "Technique (PT)", map: "Fretboard map (PT)", metro: "Metronome (PT)", community: "Community", attendance: "Attendance", adminPanel: "Admin Panel",
             navBrand: "<span>Guitar</span> &middot; Beginner",
             footBrand: "<span>Beginner</span> Guitar Study", catholic: "Catholic Musician", catholicSub: "Chord sheets for Mass (PT)"
         },
@@ -50,7 +50,7 @@
             home: "Inicio", lessons: "Clases (PT)", chapters: "Capítulos", chapter: "Capítulo",
             chords: "Acordes", exercises: "Ejercicios (PT)", games: "Juegos",
             visualChallenge: "Desafío Visual", noteId: "Identificación de Notas", fretGames: "Juegos del Brazo (PT)",
-            trail: "Empieza aquí (PT)", practice: "Practicar", changes: "Cambios de acordes (PT)", tuner: "Afinador (PT)", technique: "Técnica (PT)", map: "Mapa del mástil (PT)", community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración",
+            trail: "Empieza aquí (PT)", practice: "Practicar", changes: "Cambios de acordes (PT)", tuner: "Afinador (PT)", technique: "Técnica (PT)", map: "Mapa del mástil (PT)", metro: "Metrónomo (PT)", community: "Comunidad", attendance: "Asistencia", adminPanel: "Panel de Administración",
             navBrand: "<span>Guitarra</span> &middot; Principiante",
             footBrand: "<span>Estudio de Guitarra</span> para Principiantes", catholic: "Músico Católico", catholicSub: "Cifras e repertórios para a missa"
         }
@@ -140,6 +140,7 @@
         '</li>' +
         '<li class="nav-item"><a class="nav-link" href="' + shared("acordes.html") + '"><i class="fas fa-guitar me-1"></i> ' + t.chords + '</a></li>' +
         '<li class="nav-item"><a class="nav-link" href="' + shared("afinador.html") + '"><i class="fas fa-sliders me-1"></i> ' + t.tuner + '</a></li>' +
+        '<li class="nav-item"><a class="nav-link" href="' + shared("metronomo.html") + '"><i class="fas fa-gauge-high me-1"></i> ' + t.metro + '</a></li>' +
         '<li class="nav-item dropdown">' +
         '<a class="nav-link dropdown-toggle" href="#" id="praticarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-hand-pointer me-1"></i> ' + t.practice + '</a>' +
         '<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="praticarDropdown">' +
@@ -258,7 +259,7 @@
 
     // Tela acesa nas páginas de prática (celular no apoio, violão no colo)
     function keepAwake() {
-        if (!/(exercicios|trocas|afinador|tecnica|jogos|jogo-imagem)/.test(file) || !navigator.wakeLock) return;
+        if (!/(exercicios|trocas|afinador|metronomo|tecnica|jogos|jogo-imagem)/.test(file) || !navigator.wakeLock) return;
         var req = function () { navigator.wakeLock.request("screen").catch(function () {}); };
         req(); document.addEventListener("visibilitychange", function () { if (!document.hidden) req(); });
     }

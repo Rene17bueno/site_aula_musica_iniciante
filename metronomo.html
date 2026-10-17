@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metrônomo e levadas · Estudo de Violão Iniciante</title>
+    <meta name="description" content="Metrônomo com levadas de violão (pop, balada, samba, bossa, reggae, valsa...), andamento por barra, botões ou digitando, e cronômetro de estudo." />
+    <link rel="icon" type="image/png" href="favicon-32.png" />
+    <link rel="apple-touch-icon" href="favicon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Estudo de Violão Iniciante" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content="https://rene17bueno.github.io/site_aula_musica_iniciante/metronomo.html" />
+    <meta property="og:title" content="Metrônomo e levadas · Estudo de Violão Iniciante" />
+    <meta property="og:description" content="Metrônomo com levadas de violão (pop, balada, samba, bossa, reggae, valsa...), andamento por barra, botões ou digitando, e cronômetro de estudo." />
+    <meta property="og:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Metrônomo e levadas · Estudo de Violão Iniciante" />
+    <meta name="twitter:description" content="Metrônomo com levadas de violão (pop, balada, samba, bossa, reggae, valsa...), andamento por barra, botões ou digitando, e cronômetro de estudo." />
+    <meta name="twitter:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+    <!-- Fonts & Bootstrap (cdn) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <style>
+        /* ===== ESTILOS GERAIS INTEGRADOS ===== */
+        body {
+            background: #0e0d1a;
+            color: #e4dfd7;
+            font-family: 'Inter', sans-serif;
+            padding-top: 90px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .gold {
+            color: #e8d5a3;
+        }
+        .bg-dark-custom {
+            background: #14131f;
+        }
+        .border-gold {
+            border-color: rgba(201, 169, 89, 0.3) !important;
+        }
+        .text-gold {
+            color: #e8d5a3;
+        }
+        .text-muted {
+            color: #b5b0a8 !important;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar-custom {
+            background: #0e0d1aee;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(201, 169, 89, 0.15);
+        }
+        .navbar-custom .nav-link {
+            color: #d1cbdc !important;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #e8d5a3 !important;
+        }
+        .nav-brand-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #e8d5a3 !important;
+            text-decoration: none;
+        }
+
+        .chapter-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        .section-tag {
+            display: inline-block;
+            background: rgba(201, 169, 89, 0.12);
+            color: #e8d5a3;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            padding: 5px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            text-transform: uppercase;
+        }
+
+        /* ===== CONTAINER DO JOGO ===== */
+        .game-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            transition: 0.3s ease;
+        }
+        
+        .level-badge {
+            background: rgba(201, 169, 89, 0.2);
+            color: #ffffff;
+            border: 1px solid #e8d5a3;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 6px 18px;
+            border-radius: 50px;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(201, 169, 89, 0.2);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c9a959, #f7e7c4);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* ===== PERGUNTA ===== */
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: #ffffff;
+            margin: 25px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* ===== BOTÕES DE RESPOSTA ===== */
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 169, 89, 0.35);
+            color: #ffffff !important;
+            padding: 16px 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        .option-btn:hover {
+            background: rgba(201, 169, 89, 0.25);
+            border-color: #f7e7c4;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 89, 0.2);
+        }
+
+        /* ===== FEEDBACK ===== */
+        .feedback-area {
+            min-height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .feedback-area.show {
+            opacity: 1;
+        }
+        .feedback-correct {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+        .feedback-incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+        }
+
+        /* ===== SELETOR DE NÍVEIS LATERAL ===== */
+        .btn-level-select {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(201, 169, 89, 0.15);
+            color: #e4dfd7;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .btn-level-select .level-title {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-level-select .level-desc {
+            color: #b5b0a8;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .btn-level-select:hover, .btn-level-select.active {
+            background: rgba(201, 169, 89, 0.15);
+            border-color: #e8d5a3;
+        }
+        .btn-level-select.active .level-title {
+            color: #e8d5a3;
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            border-top: 1px solid rgba(201, 169, 89, 0.1);
+            background: #0e0d1a;
+            padding: 1.5rem 0;
+        }
+        .site-footer .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #e8d5a3;
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding-top: 68px;
+            }
+            .chapter-content {
+                padding: 1.25rem 0 1.75rem;
+            }
+            .game-card {
+                padding: 18px 14px;
+                border-radius: 12px;
+            }
+            .question-text {
+                font-size: 1.35rem;
+                margin: 16px 0;
+                min-height: 56px;
+            }
+            .option-btn {
+                padding: 12px 14px;
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            .feedback-area {
+                min-height: 50px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .level-badge {
+                font-size: 0.78rem;
+                padding: 5px 12px;
+            }
+            .question-text {
+                font-size: 1.2rem;
+                margin: 12px 0;
+                min-height: 48px;
+            }
+            .option-btn {
+                padding: 11px 12px;
+                font-size: 0.95rem;
+            }
+            .row.g-4 {
+                --bs-gutter-y: 0.85rem;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .game-card {
+                padding: 14px 11px;
+            }
+            .feedback-area {
+                min-height: 46px;
+                font-size: 0.93rem;
+            }
+            .btn-level-select .level-desc {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .section-tag {
+                font-size: 0.68rem;
+                padding: 4px 12px;
+            }
+            .btn-level-select {
+                padding: 10px 12px;
+            }
+        }
+            #questionBox{display:block}
+        #questionBox svg{display:block;margin:0 auto 1rem}
+    
+.barra{height:10px;border-radius:6px;background:#2a2840;overflow:hidden}.barra i{display:block;height:100%;width:0;background:#c9a959;transition:width .12s linear}
+.bpmin{width:120px;font-size:2.6rem;font-weight:700;text-align:center;background:transparent;color:#e8d5a3;border:1px solid rgba(201,169,89,.35);padding:.1rem .3rem;-moz-appearance:textfield}
+.bpmin::-webkit-outer-spin-button,.bpmin::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}.bpmin:focus{background:#14131f;color:#e8d5a3;border-color:#c9a959;box-shadow:0 0 0 3px #c9a95955}
+.bpmb{min-width:48px;font-weight:600}
+.dots{display:flex;justify-content:center;gap:10px;margin-bottom:10px}.dots b{width:22px;height:22px;border-radius:50%;background:#2a2840;transition:background .06s}.dots b.on{background:#e8d5a3}.dots b.on.um{background:#c9a959;box-shadow:0 0 12px #c9a959}
+.pgrid{display:flex;flex-direction:column;gap:8px}.prow{display:grid;gap:4px}
+.pc{background:#14131f;border:1px solid rgba(201,169,89,.2);border-radius:8px;padding:4px 0;transition:background .06s,border-color .06s}.pc small{display:block;color:#8a8598;font-size:.7rem}.pc span{font-size:1.5rem;line-height:1.2;color:#e4dfd7}
+.pc.beat small{color:#e8d5a3}.pc.sf span{font-size:1.1rem;opacity:.8}.pc.on{background:#c9a959;border-color:#e8d5a3}.pc.on span,.pc.on small{color:#0e0d1a}
+#faixa b{color:#e8d5a3}#faixa .ok{color:#7ee08a}#faixa .no{color:#ffb86b}
+input[type=range]{accent-color:#c9a959}
+.form-range::-webkit-slider-thumb{background:#c9a959}.form-range::-moz-range-thumb{background:#c9a959}.form-range::-webkit-slider-runnable-track{background:transparent}.form-range{background:#2a2840;border-radius:6px;height:10px;margin-top:6px;margin-bottom:12px!important}.form-range::-webkit-slider-thumb{margin-top:-5px;width:20px;height:20px}
+@media(max-width:575px){.bpmin{width:96px;font-size:2rem}.pc span{font-size:1.2rem}}
+
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H8CMNEYXZ9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H8CMNEYXZ9');
+    </script>
+</head>
+<body>
+
+    <div id="site-navbar"></div>
+
+    <!-- ===== CONTEÚDO PRINCIPAL ===== -->
+    <main class="chapter-content">
+<div class="container">
+<div class="row mb-4"><div class="col-12 text-center">
+<span class="section-tag"><i class="fas fa-gauge-high me-1"></i> Ritmo</span>
+<h1 class="display-5 fw-bold mt-2">Metrônomo e <span class="gold">levadas</span></h1>
+<p class="text-muted">Escolha uma levada, ajuste o andamento (barra, botões ou digitando) e toque junto. O violão toca a batida no tempo certo.</p></div></div>
+<div class="row g-4">
+<div class="col-lg-5">
+ <div class="game-card mb-4">
+  <label class="small text-muted" for="lev">Levada</label>
+  <select id="lev" class="form-select mb-2"></select>
+  <p class="small mb-2" id="levDesc" style="color:#b5b0a8"></p>
+  <button class="btn w-100 fw-bold mb-2" id="goto" style="background:#c9a959;color:#0e0d1a"><i class="fas fa-bullseye me-1"></i> <span id="gotoTxt"></span></button>
+  <div class="small" id="faixa" style="color:#b5b0a8"></div>
+ </div>
+ <div class="game-card mb-4">
+  <div class="row g-2">
+   <div class="col-6"><label class="small text-muted" for="chord">Acorde da batida</label><select id="chord" class="form-select"></select></div>
+   <div class="col-6"><label class="small text-muted" for="goal">Meta de estudo</label><select id="goal" class="form-select"><option value="0">Sem meta</option><option value="60">1 minuto</option><option value="120">2 minutos</option><option value="180">3 minutos</option><option value="300">5 minutos</option><option value="600">10 minutos</option><option value="900">15 minutos</option></select></div>
+  </div>
+  <div class="mt-3 d-flex flex-column gap-1">
+   <div class="form-check"><input class="form-check-input" type="checkbox" id="optViolao" checked><label class="form-check-label small text-muted" for="optViolao">Violão tocando a levada</label></div>
+   <div class="form-check"><input class="form-check-input" type="checkbox" id="optClick" checked><label class="form-check-label small text-muted" for="optClick">Clique do metrônomo</label></div>
+   <div class="form-check"><input class="form-check-input" type="checkbox" id="optCount"><label class="form-check-label small text-muted" for="optCount">Contagem de 1 compasso antes de começar</label></div>
+  </div>
+ </div>
+ <div class="game-card">
+  <div class="d-flex justify-content-between align-items-end mb-1"><span class="small text-muted">Tempo de estudo</span><span class="fs-4 fw-bold gold" id="clock">0:00</span></div>
+  <div class="barra"><i id="goalBar"></i></div>
+  <div class="small mt-2" style="color:#b5b0a8"><span id="barsN">0</span> compassos · <span id="goalTxt">sem meta</span></div>
+ </div>
+</div>
+<div class="col-lg-7">
+ <div class="game-card text-center">
+  <div class="d-flex justify-content-center align-items-center gap-2 gap-sm-3 mb-1">
+   <button class="btn btn-outline-light bpmb" data-d="-5" aria-label="Menos 5">-5</button>
+   <button class="btn btn-outline-light bpmb" data-d="-1" aria-label="Menos 1">-1</button>
+   <div><input id="bpmIn" type="number" inputmode="numeric" min="20" max="300" value="100" class="form-control bpmin" aria-label="Digitar BPM"><div class="small text-muted">BPM</div></div>
+   <button class="btn btn-outline-light bpmb" data-d="1" aria-label="Mais 1">+1</button>
+   <button class="btn btn-outline-light bpmb" data-d="5" aria-label="Mais 5">+5</button>
+  </div>
+  <div class="fs-4 gold fw-bold" id="tempoNome">Andante</div>
+  <div class="small mb-3" id="tempoDesc" style="color:#b5b0a8"></div>
+  <input id="bpmR" type="range" min="30" max="240" value="100" class="form-range mb-1" aria-label="Andamento">
+  <div class="d-flex justify-content-between small text-muted mb-3"><span>30</span><span>Largo</span><span>Andante</span><span>Allegro</span><span>240</span></div>
+  <div class="d-flex justify-content-center gap-2 mb-3">
+   <button class="btn fw-bold px-5 py-3 fs-5" id="play" style="background:#c9a959;color:#0e0d1a;min-width:200px"><i class="fas fa-play me-2"></i><span>Tocar</span></button>
+   <button class="btn btn-outline-light px-4" id="tap" title="Toque no ritmo para descobrir o andamento">Tap</button>
+  </div>
+  <div class="dots" id="beats"></div>
+  <div class="barra mb-3"><i id="barBar"></i></div>
+  <div id="grid" class="pgrid"></div>
+  <div class="small mt-3" id="msg" style="color:#b5b0a8"></div>
+ </div>
+</div>
+</div>
+</div>
+</main>
+
+    <div id="site-footer"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/js/layout.js"></script>
+    <script src="js/js/violao.js"></script>
+    <script>
+
+const $=id=>document.getElementById(id);
+// steps: D/d = para baixo (forte/fraco), U/u = para cima, M = abafada (chuck), B = só o baixo, - = silêncio. sub = notas por tempo.
+const L=[
+ {n:'Só para baixo',ts:4,sub:2,p:'D-d-d-d-',bpm:70,min:50,max:100,d:'A mais simples: uma batida para baixo em cada tempo. Boa para começar e firmar a mão direita.'},
+ {n:'Pop / Folk',ts:4,sub:2,p:'D-dU-uDU',bpm:100,min:80,max:130,d:'A batida mais usada: baixo, baixo-cima, cima-baixo-cima. Funciona em centenas de músicas.'},
+ {n:'Rock (colcheias)',ts:4,sub:2,p:'DuDuDuDu',bpm:120,min:100,max:150,d:'Mão sempre descendo e subindo, acentuando os tempos. Pegada contínua.'},
+ {n:'Balada',ts:4,sub:2,p:'D--U-uDU',bpm:72,min:60,max:90,d:'Lenta, com espaços. O silêncio entre as batidas faz a música respirar.'},
+ {n:'Country (baixo e acorde)',ts:4,sub:2,p:'B-d-B-d-',bpm:110,min:90,max:140,d:'Alterna a nota grave com o acorde: "bum-chá, bum-chá".'},
+ {n:'Reggae (contratempo)',ts:4,sub:2,p:'-u-U-u-U',bpm:76,min:65,max:95,d:'O acorde cai no contratempo ("e"), curto e seco, com acento no 2 e no 4.'},
+ {n:'Valsa (3/4)',ts:3,sub:2,p:'B-dudu',bpm:96,min:70,max:130,d:'Três tempos por compasso: baixo no 1, acordes no 2 e no 3.'},
+ {n:'Samba (2/4)',ts:2,sub:4,p:'M-DUM-DU',bpm:96,min:80,max:120,d:'Duas batidas por compasso, divididas em semicolcheias, com a mão abafando no primeiro tempo. Versão de estudo.'},
+ {n:'Bossa nova (2 compassos)',ts:4,sub:2,p:'B--d--B-' + '--d--d--',bpm:120,min:100,max:150,d:'Padrão que se completa em dois compassos, com baixo e acorde defasados. Versão de estudo.'},
+ {n:'Baião / Forró (2/4)',ts:2,sub:4,p:'B-dUB-dU',bpm:100,min:80,max:130,d:'Dois tempos, baixo marcando o 1 e o 2 e acordes entre eles. Versão de estudo.'}
+];
+const CH={Am:[-1,0,2,2,1,0],C:[-1,3,2,0,1,0],G:[3,2,0,0,0,3],Em:[0,2,2,0,0,0],D:[-1,-1,0,2,3,2],Dm:[-1,-1,0,2,3,1],E:[0,2,2,1,0,0],A:[-1,0,2,2,2,0],F:[1,3,3,2,1,1]};
+const TM=[[40,'Grave','muito lento'],[60,'Largo','largo e lento'],[66,'Larghetto','um pouco menos lento'],[76,'Adagio','lento, tranquilo'],[108,'Andante','passo de caminhada'],[120,'Moderato','moderado'],[156,'Allegro','rápido e alegre'],[176,'Vivace','vivo'],[200,'Presto','muito rápido'],[9999,'Prestissimo','o mais rápido possível']];
+const GL={D:'↓',d:'↓',U:'↑',u:'↑',M:'✕',B:'●','-':'·'};
+let cur=L[1],bpm=100,run=false,ctx,tid,raf,step=0,nextT=0,queue=[],t0=0,played=0,count=0,goal=0,taps=[];
+try{const s=JSON.parse(localStorage.getItem('metro')||'{}');if(s.l!=null&&L[s.l])cur=L[s.l];if(s.b)bpm=s.b;if(s.c&&CH[s.c])setTimeout(()=>{$('chord').value=s.c},0);}catch(e){}
+const total=()=>cur.p.length,perBar=()=>cur.ts*cur.sub;
+L.forEach((l,i)=>$('lev').add(new Option(l.n+' · '+l.ts+'/4',i)));
+Object.keys(CH).forEach(k=>$('chord').add(new Option(k,k)));$('chord').value='Am';
+$('lev').value=L.indexOf(cur);
+const clamp=v=>Math.max(20,Math.min(300,Math.round(v)||100));
+const tempo=b=>TM.find(x=>b<x[0]);
+function setBpm(v,keep){bpm=clamp(v);$('bpmIn').value=bpm;$('bpmR').value=Math.max(30,Math.min(240,bpm));
+ const t=tempo(bpm);$('tempoNome').textContent=t[1];$('tempoDesc').textContent=t[2]+' · '+bpm+' batidas por minuto';
+ const inR=bpm>=cur.min&&bpm<=cur.max;$('faixa').innerHTML='Faixa comum desta levada: <b>'+cur.min+' a '+cur.max+' BPM</b> · '+(inR?'<span class="ok">você está dentro da faixa</span>':'<span class="no">'+(bpm<cur.min?'mais lento':'mais rápido')+' que o usual (ótimo para '+(bpm<cur.min?'estudar devagar':'desafio')+')</span>');
+ const a=(cur.min-30)/210*100,b=(cur.max-30)/210*100;$('bpmR').style.background='linear-gradient(90deg,#2a2840 '+a+'%,#c9a95966 '+a+'%,#c9a95966 '+b+'%,#2a2840 '+b+'%)';
+ save();}
+function save(){try{localStorage.setItem('metro',JSON.stringify({l:L.indexOf(cur),b:bpm,c:$('chord').value}))}catch(e){}}
+function draw(){
+ $('levDesc').textContent=cur.d;$('gotoTxt').textContent='Ir para o andamento da levada ('+cur.bpm+' BPM)';
+ const lab=cur.sub===2?['','&']:['','e','&','a'];let h='';
+ for(let r=0;r<total()/perBar();r++){h+='<div class="prow" style="grid-template-columns:repeat('+perBar()+',1fr)">';
+  for(let i=0;i<perBar();i++){const k=r*perBar()+i,beat=i%cur.sub===0,c=cur.p[k];
+   h+='<div class="pc'+(beat?' beat':'')+(c==='d'||c==='u'?' sf':'')+'" id="c'+k+'"><small>'+(beat?(i/cur.sub+1):lab[i%cur.sub])+'</small><span>'+GL[c]+'</span></div>';}
+  h+='</div>';}
+ $('grid').innerHTML=h;
+ let d='';for(let i=0;i<cur.ts;i++)d+='<b></b>';$('beats').innerHTML=d;
+ setBpm(bpm);}
+function click(t,acc){const o=ctx.createOscillator(),g=ctx.createGain();o.type='square';o.frequency.value=acc?1500:1000;
+ g.gain.setValueAtTime(acc?.16:.1,t);g.gain.exponentialRampToValueAtTime(.0001,t+.04);o.connect(g).connect(ctx.destination);o.start(t);o.stop(t+.05);}
+function sound(c,t){const fr=CH[$('chord').value],dt=t-ctx.currentTime;
+ if(c==='D')Violao.strum(fr,{t:dt,v:.95,keep:1,gap:.03});
+ else if(c==='d')Violao.strum(fr,{t:dt,v:.6,keep:1,gap:.03});
+ else if(c==='U')Violao.strum(fr,{t:dt,v:.7,keep:1,dir:'up',gap:.022});
+ else if(c==='u')Violao.strum(fr,{t:dt,v:.48,keep:1,dir:'up',gap:.022});
+ else if(c==='M')Violao.strum(fr,{t:dt,v:.55,keep:1,gap:.012,d:.05,r:.04});
+ else if(c==='B')Violao.strum(fr,{t:dt,v:.9,keep:1,bass:1});}
+function sched(){
+ while(nextT<ctx.currentTime+.14){
+  const st=step,t=nextT,inCount=count>0;
+  if(inCount){if(st%cur.sub===0)click(t,st%perBar()===0);count--;if(!count)step=0;else step++;queue.push({k:-1-st,t});nextT+=60/bpm/cur.sub;continue;}
+  const c=cur.p[st%total()];
+  if($('optClick').checked&&st%cur.sub===0)click(t,st%perBar()===0);
+  if($('optViolao').checked&&c!=='-')sound(c,t);
+  queue.push({k:st,t});played++;
+  nextT+=60/bpm/cur.sub;step=(st+1)%total();}
+}
+function ui(){
+ const now=ctx.currentTime;
+ while(queue.length&&queue[0].t<=now){const q=queue.shift();
+  document.querySelectorAll('.pc.on').forEach(e=>e.classList.remove('on'));
+  if(q.k>=0){const e=$('c'+q.k);if(e)e.classList.add('on');
+   const i=q.k%perBar(),b=Math.floor(i/cur.sub);document.querySelectorAll('#beats b').forEach((e,j)=>{e.classList.toggle('on',j===b);e.classList.toggle('um',j===b&&b===0)});
+   $('barBar').style.width=((i+1)/perBar()*100)+'%';}
+  else{const b=Math.floor((-1-q.k)/cur.sub);document.querySelectorAll('#beats b').forEach((e,j)=>{e.classList.toggle('on',j===b);e.classList.remove('um')});$('msg').textContent='Contagem...';}}
+ const el=Math.max(0,now-t0),m=Math.floor(el/60),s=Math.floor(el%60);
+ $('clock').textContent=m+':'+String(s).padStart(2,'0');$('barsN').textContent=Math.floor(played/perBar());
+ if(goal){$('goalBar').style.width=Math.min(100,el/goal*100)+'%';if(el>=goal){stop(true);return;}}
+ raf=requestAnimationFrame(ui);}
+async function start(){
+ ctx=Violao.init();if(ctx.state==='suspended')await ctx.resume();
+ $('msg').textContent='Carregando o som do violão...';
+ await Violao.preload(CH[$('chord').value]);
+ goal=+$('goal').value;played=0;step=0;queue=[];count=$('optCount').checked?perBar():0;
+ $('goalTxt').textContent=goal?('meta de '+goal/60+' min'):'sem meta';$('goalBar').style.width='0';
+ nextT=ctx.currentTime+.08;t0=nextT;run=true;$('msg').textContent=count?'Contagem...':'';
+ $('play').innerHTML='<i class="fas fa-stop me-2"></i><span>Parar</span>';
+ sched();tid=setInterval(sched,25);raf=requestAnimationFrame(ui);try{if(navigator.wakeLock)navigator.wakeLock.request('screen').catch(()=>{})}catch(e){}}
+function stop(fim){
+ const el=ctx?Math.max(0,ctx.currentTime-t0):0;
+ run=false;clearInterval(tid);cancelAnimationFrame(raf);Violao.stop();queue=[];
+ document.querySelectorAll('.pc.on').forEach(e=>e.classList.remove('on'));document.querySelectorAll('#beats b').forEach(e=>e.className='');$('barBar').style.width='0';
+ $('play').innerHTML='<i class="fas fa-play me-2"></i><span>Tocar</span>';
+ $('msg').textContent=fim?'Meta cumprida! '+Math.floor(el/60)+' min '+Math.floor(el%60)+' s a '+bpm+' BPM.':'';
+ if(el>=60&&window.Prog){Prog.count('metronomo',true);Prog.max('metronomo-bpm',bpm);}}
+$('play').onclick=()=>run?stop():start();
+$('lev').onchange=()=>{cur=L[+$('lev').value];step=0;played=0;if(run){stop();}draw();};
+$('goto').onclick=()=>setBpm(cur.bpm);
+$('bpmR').oninput=e=>setBpm(+e.target.value);
+$('bpmIn').onchange=e=>setBpm(+e.target.value);
+$('bpmIn').onkeydown=e=>{if(e.key==='Enter'){setBpm(+e.target.value);e.target.blur();}};
+document.querySelectorAll('.bpmb').forEach(b=>b.onclick=()=>setBpm(bpm+(+b.dataset.d)));
+$('chord').onchange=()=>{save();if(run)Violao.preload(CH[$('chord').value]);};
+$('goal').onchange=()=>{goal=+$('goal').value;$('goalTxt').textContent=goal?('meta de '+goal/60+' min'):'sem meta';};
+$('tap').onclick=()=>{const n=performance.now();if(taps.length&&n-taps[taps.length-1]>2000)taps=[];taps.push(n);taps=taps.slice(-5);
+ if(taps.length>=2){const d=(taps[taps.length-1]-taps[0])/(taps.length-1);setBpm(60000/d);}};
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&!/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)&&document.activeElement.tagName!=='BUTTON'){e.preventDefault();$('play').click();}});
+draw();
+
+</script>
+</body>
+</html>
