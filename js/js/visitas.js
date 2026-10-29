@@ -6,7 +6,7 @@
 
   // Botão oculto (canto esquerdo do menu, onde está o retângulo vermelho)
   const a = document.createElement('a');
-  a.href = 'admin-visitas.html';
+  a.href = window.__ADMIN_URL || 'admin-visitas.html';
   a.setAttribute('aria-label', 'Painel');
   a.style.cssText = 'position:fixed;top:20px;left:24px;width:54px;height:26px;z-index:2000;opacity:0;cursor:default';
   document.body.appendChild(a);
