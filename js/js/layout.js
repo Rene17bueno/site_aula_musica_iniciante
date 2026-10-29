@@ -460,3 +460,7 @@
         renderInstBanner();
     });
 })();
+
+
+// Contador de visitas (carrega js/js/visitas.js em todas as páginas)
+;(function(){var c=document.currentScript;if(!c||!c.src)return;var s=document.createElement('script');s.src=c.src.replace('layout.js','visitas.js');window.__ADMIN_URL=new URL('../../admin-visitas.html',c.src).href;var go=function(){document.body.appendChild(s)};document.readyState==='loading'?document.addEventListener('DOMContentLoaded',go):go()})();
