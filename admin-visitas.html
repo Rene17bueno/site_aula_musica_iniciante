@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Painel de Visitas</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0f0d14;--card:#1a1722;--bd:#2c2838;--tx:#f1ece0;--mut:#9a94a8;--gold:#d4af37}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,sans-serif;padding:16px}
+.w{max-width:1100px;margin:auto}h1{font-size:1.4rem;margin:0}h1 span{color:var(--gold)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-bottom:12px}
+.kpi b{display:block;font-size:2rem;color:var(--gold)}.kpi small{color:var(--mut)}
+input,select,button{background:#241f2e;color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:8px 12px;font:inherit}
+button{cursor:pointer}button.p{background:var(--gold);color:#1a1400;border:0;font-weight:600}
+#login{max-width:340px;margin:20vh auto;display:grid;gap:10px}
+.tw{overflow:auto;max-height:480px;margin-top:8px}table{border-collapse:collapse;width:100%;font-size:.85rem}
+th,td{padding:6px 10px;border-bottom:1px solid var(--bd);text-align:left;white-space:nowrap}th{position:sticky;top:0;background:var(--card);color:var(--gold)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.err{color:#ff7b7b;min-height:1.2em}
+canvas{max-height:260px}
+</style>
+</head>
+<body>
+<div class="w">
+  <form id="login" class="card">
+    <h1>Painel <span>de Visitas</span></h1>
+    <input id="em" type="email" placeholder="E-mail" autocomplete="username" required>
+    <input id="pw" type="password" placeholder="Senha" autocomplete="current-password" required>
+    <button class="p">Entrar</button><div id="lerr" class="err"></div>
+  </form>
+
+  <div id="app" hidden>
+    <div class="top">
+      <h1>Painel <span>de Visitas</span></h1>
+      <div class="row">
+        <select id="per"><option value="7">7 dias</option><option value="30" selected>30 dias</option><option value="90">90 dias</option><option value="0">Tudo</option></select>
+        <button id="csv">Baixar CSV</button><button id="out">Sair</button>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card kpi"><small>Visualizações</small><b id="k1">0</b></div>
+      <div class="card kpi"><small>Visitantes únicos</small><b id="k2">0</b></div>
+      <div class="card kpi"><small>Sessões</small><b id="k3">0</b></div>
+      <div class="card kpi"><small>Páginas por sessão</small><b id="k4">0</b></div>
+    </div>
+    <div class="card" style="margin-bottom:12px"><canvas id="cDia"></canvas></div>
+    <div class="grid">
+      <div class="card"><small>Páginas mais vistas</small><canvas id="cPag"></canvas></div>
+      <div class="card"><small>Origem do tráfego</small><canvas id="cOri"></canvas></div>
+      <div class="card"><small>Dispositivo</small><canvas id="cDis"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="row"><b>Registros</b><input id="f" placeholder="Filtrar (página, origem, navegador...)" style="flex:1;min-width:200px"><small id="cnt" style="color:var(--mut)"></small></div>
+      <div class="tw"><table><thead><tr id="th"></tr></thead><tbody id="tb"></tbody></table></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SB_URL='https://leaydrhjqbjpuzjnnvus.supabase.co', SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlYXlkcmhqcWJqcHV6am5udnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyOTY1MTAsImV4cCI6MjEwODg3MjUxMH0.Hw2LNI4lsFdZcMOz2hat2jTsAD1TsH_SN5V3XD0fnOk';
+const sb=supabase.createClient(SB_URL,SB_KEY);
+const $=i=>document.getElementById(i);
+const COLS=[['criado_em','Data/hora'],['pagina','Página'],['origem','Origem'],['dispositivo','Dispositivo'],['navegador','Navegador'],['so','SO'],['idioma','Idioma'],['tela','Tela'],['fuso','Fuso'],['visitante_id','Visitante']];
+let rows=[],charts={};
+
+try{localStorage.setItem('nao_contar','1')}catch{} // este navegador deixa de contar como visita
+
+async function boot(){
+  const {data:{session}}=await sb.auth.getSession();
+  $('login').hidden=!!session;$('app').hidden=!session;
+  if(session)load();
+}
+$('login').onsubmit=async e=>{e.preventDefault();
+  const {error}=await sb.auth.signInWithPassword({email:$('em').value,password:$('pw').value});
+  $('lerr').textContent=error?'E-mail ou senha inválidos.':'';boot();};
+$('out').onclick=async()=>{await sb.auth.signOut();boot();};
+$('per').onchange=load;$('f').oninput=table;
+
+async function load(){
+  const d=+$('per').value;rows=[];
+  for(let from=0;;from+=1000){ // pagina de 1000 em 1000
+    let q=sb.from('visitas').select('*').order('criado_em',{ascending:false}).range(from,from+999);
+    if(d)q=q.gte('criado_em',new Date(Date.now()-d*864e5).toISOString());
+    const {data,error}=await q;
+    if(error){alert('Erro ao ler: '+error.message);return;}
+    rows.push(...data);if(data.length<1000||rows.length>=20000)break;
+  }
+  kpis();graphs();table();
+}
+const count=(k,n=8)=>Object.entries(rows.reduce((a,r)=>(a[r[k]||'—']=(a[r[k]||'—']||0)+1,a),{})).sort((a,b)=>b[1]-a[1]).slice(0,n);
+function kpis(){
+  const v=new Set(rows.map(r=>r.visitante_id)).size,s=new Set(rows.map(r=>r.sessao_id)).size;
+  $('k1').textContent=rows.length;$('k2').textContent=v;$('k3').textContent=s;$('k4').textContent=s?(rows.length/s).toFixed(1):0;
+}
+function draw(id,type,labels,data,opt={}){
+  charts[id]?.destroy();
+  charts[id]=new Chart($(id),{type,data:{labels,datasets:[{data,backgroundColor:['#d4af37','#8f7bd6','#4fb6a4','#e07a5f','#6c9bd1','#c9a0dc','#9ac26b','#777'],borderColor:'#d4af37',tension:.3}]},
+    options:{plugins:{legend:{display:type==='doughnut',labels:{color:'#f1ece0'}}},scales:type==='doughnut'?{}:{x:{ticks:{color:'#9a94a8'}},y:{ticks:{color:'#9a94a8'},beginAtZero:true}},...opt}});
+}
+function graphs(){
+  const dia=rows.reduce((a,r)=>{const k=new Date(r.criado_em).toLocaleDateString('sv-SE');a[k]=(a[k]||0)+1;return a;},{});
+  const ks=Object.keys(dia).sort();
+  draw('cDia','line',ks.map(k=>k.slice(5).split('-').reverse().join('/')),ks.map(k=>dia[k]));
+  const p=count('pagina'),o=count('origem'),dv=count('dispositivo');
+  draw('cPag','bar',p.map(x=>x[0]),p.map(x=>x[1]),{indexAxis:'y'});
+  draw('cOri','bar',o.map(x=>x[0]),o.map(x=>x[1]),{indexAxis:'y'});
+  draw('cDis','doughnut',dv.map(x=>x[0]),dv.map(x=>x[1]));
+}
+function table(){
+  const t=$('f').value.toLowerCase(),
+    r=rows.filter(x=>!t||Object.values(x).join(' ').toLowerCase().includes(t));
+  $('th').replaceChildren(...COLS.map(c=>Object.assign(document.createElement('th'),{textContent:c[1]})));
+  $('tb').replaceChildren(...r.slice(0,500).map(x=>{const tr=document.createElement('tr');
+    COLS.forEach(([k])=>{const td=document.createElement('td');
+      td.textContent=k==='criado_em'?new Date(x[k]).toLocaleString('pt-BR'):k==='visitante_id'?(x[k]||'').slice(0,8):(x[k]??'');tr.appendChild(td);});return tr;}));
+  $('cnt').textContent=`${Math.min(r.length,500)} de ${r.length}`;
+}
+$('csv').onclick=()=>{
+  const esc=v=>`"${String(v??'').replace(/"/g,'""').replace(/^([=+\-@])/,"'$1")}"`; // evita injeção de fórmula no Excel
+  const csv='﻿'+[COLS.map(c=>c[1]).join(';'),...rows.map(r=>COLS.map(([k])=>esc(r[k])).join(';'))].join('\n');
+  Object.assign(document.createElement('a'),{href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),download:'visitas.csv'}).click();
+};
+boot();
+</script>
+</body>
+</html>
