@@ -142,6 +142,7 @@
         var X0=60, W=72, Y0=40, DY=36, FRETS=12, NS=6;
         // MIDI das cordas soltas: 6=E2 ... 1=E4
         var OPEN={6:40,5:45,4:50,3:55,2:59,1:64};
+        document.getElementById('board').setAttribute('data-som',JSON.stringify({o:'h',s0:Y0,ds:DY,f0:X0,df:W,fb:1,nf:FRETS,m:[64,59,55,50,45,40]}));
         var NAMES=['Dó','Dó#','Ré','Ré#','Mi','Fá','Fá#','Sol','Sol#','Lá','Lá#','Si'];
         var $=function(i){return document.getElementById(i)};
         var NS_='http://www.w3.org/2000/svg';

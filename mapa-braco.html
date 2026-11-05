@@ -443,7 +443,7 @@ let all=[],view=[],sel=null,root=0,qn='Maior';
 const lab=pc=>{const q=Q[qn],i=(pc-root+12)%12;return $('m').checked?((q.lab&&q.lab[i])||GRAU[i]):N[pc];};
 function svgV(x){
   const X=s=>20+s*14,base=x.pos>0&&Math.max(...x.fr)<=5?1:Math.max(x.pos,1),Y=f=>26+(f-base)*20+10;
-  let s=`<svg viewBox="0 0 110 134" aria-hidden="true">`;
+  let s=`<svg viewBox="0 0 110 134" data-som='{"o":"v","s0":20,"ds":14,"f0":26,"df":20,"fb":${base},"nf":5,"m":[40,45,50,55,59,64]}' aria-hidden="true">`;
   if(base===1)s+=`<rect x="19" y="23" width="72" height="4" fill="#e8d5a3"/>`;
   else s+=`<text x="4" y="${Y(x.pos)+4}" fill="#b5b0a8" font-size="10">${x.pos}ª</text>`;
   for(let r=0;r<=5;r++)s+=`<line x1="20" x2="90" y1="${26+r*20}" y2="${26+r*20}" stroke="#6b6780"/>`;
@@ -458,7 +458,7 @@ function svgV(x){
 }
 function neck(){
   const L=44,W=52,T=22,H=30,sx=f=>f===0?L-16:L+(f-.5)*W,sy=s=>T+(5-s)*H;
-  let s=`<svg viewBox="0 0 ${L+MAXF*W+10} ${T+5*H+34}" role="img" aria-label="Braço do violão com as notas do acorde">`;
+  let s=`<svg viewBox="0 0 ${L+MAXF*W+10} ${T+5*H+34}" data-som='{"o":"h","s0":${T},"ds":${H},"f0":${L},"df":${W},"fb":1,"nf":${MAXF},"m":[64,59,55,50,45,40]}' role="img" aria-label="Braço do violão com as notas do acorde">`;
   for(let f=1;f<=MAXF;f++){s+=`<line x1="${L+f*W}" x2="${L+f*W}" y1="${T}" y2="${sy(0)}" stroke="#4a4660"/><text x="${sx(f)}" y="${sy(0)+24}" fill="#8a8598" font-size="11" text-anchor="middle">${f}</text>`;
     if([3,5,7,9,15].includes(f))s+=`<circle cx="${sx(f)}" cy="${sy(0)+11}" r="3" fill="#4a4660"/>`;
     if(f===12)s+=`<circle cx="${sx(f)-8}" cy="${sy(0)+11}" r="3" fill="#4a4660"/><circle cx="${sx(f)+8}" cy="${sy(0)+11}" r="3" fill="#4a4660"/>`;}

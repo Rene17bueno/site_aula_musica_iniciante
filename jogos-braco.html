@@ -412,7 +412,7 @@ const uniq=(c,pool,n=4)=>{const s=new Set([c]);for(const x of shuf(pool)){if(s.s
 const nm=p=>N[((p%12)+12)%12];
 
 function diagram(fr,base,barre){
-  const x=i=>30+i*28,y=j=>34+j*30;let s='<svg viewBox="0 0 200 190" style="max-width:220px;width:100%" class="mb-3">';
+  const x=i=>30+i*28,y=j=>34+j*30;let s='<svg viewBox="0 0 200 190" data-som=\'{"o":"v","s0":30,"ds":28,"f0":34,"df":30,"fb":'+base+',"nf":5,"m":[40,45,50,55,59,64]}\' style="max-width:220px;width:100%" class="mb-3">';
   if(base===1)s+=`<rect x="${x(0)-2}" y="31" width="${x(5)-x(0)+4}" height="5" fill="#e8d5a3"/>`;
   else s+=`<text x="${x(5)+14}" y="${y(0)+20}" fill="#e8d5a3" font-size="13">${base}ª casa</text>`;
   for(let j=0;j<=4;j++)s+=`<line x1="${x(0)}" x2="${x(5)}" y1="${y(j)}" y2="${y(j)}" stroke="#6b6780"/>`;
@@ -424,7 +424,7 @@ function diagram(fr,base,barre){
   return s+'</svg>';
 }
 function fretDot(s,f){ // s=1..6 (1 = mais fina)
-  const X=f=>60+f*70,Y=s=>20+(s-1)*28;let o='<svg viewBox="0 0 560 180" style="max-width:520px;width:100%" class="mb-3">';
+  const X=f=>60+f*70,Y=s=>20+(s-1)*28;let o='<svg viewBox="0 0 560 180" data-som=\'{"o":"h","s0":20,"ds":28,"f0":60,"df":70,"fb":1,"nf":7,"m":[64,59,55,50,45,40]}\' style="max-width:520px;width:100%" class="mb-3">';
   for(let k=0;k<=7;k++)o+=`<line x1="${X(k)}" x2="${X(k)}" y1="${Y(1)}" y2="${Y(6)}" stroke="${k?'#6b6780':'#e8d5a3'}" stroke-width="${k?1:4}"/>`;
   for(let t=1;t<=6;t++)o+=`<line x1="${X(0)}" x2="${X(7)}" y1="${Y(t)}" y2="${Y(t)}" stroke="#9c97b0"/>`;
   for(let k=1;k<=7;k++)o+=`<text x="${X(k)-35}" y="172" fill="#8d88a0" font-size="12" text-anchor="middle">${k}</text>`;

@@ -536,9 +536,9 @@ let shown=-1,field=[];
 const TEC=['piano','epiano','orgao','cordas'];
 function diag(c){const ins=$('som').value,w=$('curSvg');w.classList.toggle('wide',ins==='baixo'||TEC.includes(ins));
  if(TEC.includes(ins)){const on=new Set(AcLib.IV[c.q].map(v=>c.r+v)),W=[0,2,4,5,7,9,11];let wh='',bl='';
-  for(let i=0;i<14;i++){const m=W[i%7]+12*Math.floor(i/7);wh+='<rect x="'+i*20+'" y="0" width="20" height="80" rx="2" fill="'+(on.has(m)?'#c9a959':'#f4efe3')+'" stroke="#0e0d1a"/>'+(on.has(m)?'<text x="'+(i*20+10)+'" y="74" font-size="9" text-anchor="middle" fill="#0e0d1a">'+AcLib.NOTAS[m%12].replace('#','♯')+'</text>':'');
-   if([0,1,3,4,5].includes(i%7)){const mb=m+1;bl+='<rect x="'+(i*20+14)+'" y="0" width="12" height="48" rx="2" fill="'+(on.has(mb)?'#c9a959':'#0e0d1a')+'" stroke="#6b6780"/>';}}
-  return '<svg viewBox="0 0 280 82" role="img" aria-label="Teclado">'+wh+bl+'</svg>';}
+  for(let i=0;i<14;i++){const m=W[i%7]+12*Math.floor(i/7);wh+='<rect data-n="'+(60+m)+'" x="'+i*20+'" y="0" width="20" height="80" rx="2" fill="'+(on.has(m)?'#c9a959':'#f4efe3')+'" stroke="#0e0d1a"/>'+(on.has(m)?'<text x="'+(i*20+10)+'" y="74" font-size="9" text-anchor="middle" fill="#0e0d1a">'+AcLib.NOTAS[m%12].replace('#','♯')+'</text>':'');
+   if([0,1,3,4,5].includes(i%7)){const mb=m+1;bl+='<rect data-n="'+(61+m)+'" x="'+(i*20+14)+'" y="0" width="12" height="48" rx="2" fill="'+(on.has(mb)?'#c9a959':'#0e0d1a')+'" stroke="#6b6780"/>';}}
+  return '<svg viewBox="0 0 280 82" data-som=\'{"o":"k"}\' role="img" aria-label="Teclado">'+wh+bl+'</svg>';}
  if(ins==='baixo'){const rp=c.r,fp=(c.r+7)%12;Braco.draw(w,{open:[28,33,38,43],n:12,mark:(m,st,fr)=>m%12===rp&&fr<8?{t:'R',c:'root'}:m%12===fp&&fr<8?{t:'5',c:'sc'}:null});return null;}
  return AcLib.svg(fr(c),c.r);}
 function showChord(i){
