@@ -3,6 +3,7 @@
    corda 0 = mais grave (fica embaixo). */
 (function (w) {
   function draw(el, o) {
+    if (!o.click) o.click = function (m, c) { if (w.Violao) w.Violao.note(m, { ch: c }); };
     var S = o.open.length, n = o.n || 15, W = 56, X0 = 34, G = 30, H = (S - 1) * G + 36, T = 14;
     var s = '<svg viewBox="0 0 ' + (X0 + n * W + 12) + ' ' + (H + T) + '" style="min-width:' + Math.round((X0 + n * W) * 0.62) + 'px;width:100%" role="img">';
     s += '<rect x="' + X0 + '" y="' + (T + 8) + '" width="' + n * W + '" height="' + (S - 1) * G + '" fill="#241f35"/>';

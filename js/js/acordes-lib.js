@@ -63,7 +63,7 @@
     var pos = fz.length ? Math.min.apply(0, fz) : 0, mx = fr.length ? Math.max.apply(0, fr) : 0;
     var base = pos > 0 && mx <= 5 ? 1 : Math.max(pos, 1);
     var X = function (s) { return 20 + s * 14; }, Y = function (f) { return 26 + (f - base) * 20 + 10; };
-    var h = '<svg viewBox="0 0 110 134" aria-hidden="true">';
+    var h = '<svg viewBox="0 0 110 134" data-som=\'{"o":"v","s0":20,"ds":14,"f0":26,"df":20,"fb":' + base + ',"nf":5,"m":[40,45,50,55,59,64]}\' aria-hidden="true">';
     if (base === 1) h += '<rect x="19" y="23" width="72" height="4" fill="#e8d5a3"/>';
     else h += '<text x="2" y="' + (Y(pos) + 4) + '" fill="#b5b0a8" font-size="10">' + pos + 'ª</text>';
     for (var r = 0; r <= 5; r++) h += '<line x1="20" x2="90" y1="' + (26 + r * 20) + '" y2="' + (26 + r * 20) + '" stroke="#6b6780"/>';
