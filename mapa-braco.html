@@ -310,7 +310,7 @@
 .vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:12px}
 .vc{background:#14131f;border:1px solid rgba(201,169,89,.25);border-radius:12px;padding:8px 6px;color:#e4dfd7;cursor:pointer;text-align:center;transition:border-color .15s,transform .15s}
 .vc:hover{border-color:#c9a959;transform:translateY(-2px)}.vc.on{border-color:#e8d5a3;box-shadow:0 0 0 2px #c9a95966}
-.vc .vt{font-size:.72rem;min-height:1.1em;color:#e8d5a3}.vc .vf{font:600 .75rem ui-monospace,Menlo,monospace;color:#b5b0a8}.vc svg{width:100%;max-width:110px}
+.vc .vn{font-weight:700;color:#fff;font-size:.95rem}.vc .vt{font-size:.72rem;min-height:1.1em;color:#e8d5a3}.vc .vf{font:600 .75rem ui-monospace,Menlo,monospace;color:#b5b0a8}.vc svg{width:100%;max-width:110px}
 
     </style>
     <!-- Google tag (gtag.js) -->
@@ -378,6 +378,9 @@ const Q={
  'Nona (9)':{iv:[0,4,7,10,2],req:[0,4,10,2],lab:{2:'9'}},
  'Nona Menor (m9)':{iv:[0,3,7,10,2],req:[0,3,10,2],lab:{2:'9'}}
 };
+const SUF={'Maior':'','Menor':'m','Power chord (5)':'5','Sétima (7)':'7','Sétima Maior (7M)':'maj7','Sétima Menor (m7)':'m7','Meio-diminuto (m7♭5)':'m7♭5','Diminuto (dim7)':'dim7','Aumentado (aug)':'aug','Suspenso 2 (sus2)':'sus2','Suspenso 4 (sus4)':'sus4','Sexta (6)':'6','Sexta Menor (m6)':'m6','Add9':'add9','Nona (9)':'9','Nona Menor (m9)':'m9'};
+// nome com baixo: a corda mais grave que soa define a inversão (C/E)
+const cname=v=>{const s=v.fr.findIndex(x=>x>=0),b=s<0?root:(OPEN[s]+v.fr[s])%12;return N[root]+SUF[qn]+(b===root?'':'/'+N[b])};
 const GRAU={0:'1',1:'♭9',2:'2',3:'♭3',4:'3',5:'4',6:'♭5',7:'5',8:'♯5',9:'6',10:'♭7',11:'7'};
 // Formas abertas (corda grave -> aguda, -1 = calada). Levadas k casas acima viram as formas CAGED.
 const ABERTAS={
@@ -471,7 +474,7 @@ function neck(){
       s+=`<circle cx="${sx(f)}" cy="${sy(i)}" r="${on?12:dim?8:11}" fill="${r?'#c9a959':'#f0f0f0'}" opacity="${dim?.28:1}"${on?' stroke="#fff" stroke-width="2.5"':''}/>`;
       if(!dim||on)s+=`<text x="${sx(f)}" y="${sy(i)+4}" font-size="${on?11:10}" font-weight="700" fill="#0e0d1a" text-anchor="middle">${lab(pc)}</text>`;}}
   $('neck').innerHTML=s+'</svg>';
-  const nm=N[root]+' '+qn;
+  const nm=sl?cname(sl)+' · '+qn:N[root]+' '+qn;
   $('info').innerHTML=sl?`<b class="gold">${nm}</b> · ${sl.fr.map(f=>f<0?'x':f).join('-')}${sl.cg?' · '+sl.cg:''}${sl.bar?` · pestana na casa ${sl.bar.f}`:''} · notas (grave→agudo): ${sl.fr.map((f,i)=>f<0?'':N[(OPEN[i]+f)%12]).filter(Boolean).join(' ')}`
     :`<b class="gold">${nm}</b>: todas as posições das notas ${set.map(p=>N[p]).join(' · ')} no braço.`;
 }
@@ -480,7 +483,7 @@ function lista(){
   view=all.filter(v=>(!f||(f==='caged'?v.cg:f==='bar'?v.bar:f==='free'?!v.bar:v.fr.includes(0)))&&(r===''||(v.pos>=+r&&v.pos<=(+r===0?4:+r+4))));
   if(sel&&!view.some(v=>v.k===sel))sel=null;
   $('cnt').textContent=view.length+(view.length===1?' forma':' formas')+(all.length!==view.length?' de '+all.length:'');
-  $('grid').innerHTML=view.length?view.map(v=>`<button class="vc${v.k===sel?' on':''}" data-k="${v.k}" aria-label="${N[root]} ${qn}: ${v.fr.map(x=>x<0?'x':x).join('-')}"><div class="vt">${v.cg||'&nbsp;'}</div>${svgV(v)}<div class="vf">${v.fr.map(x=>x<0?'x':x).join('-')}</div></button>`).join(''):'<p class="text-muted">Nenhuma forma com esses filtros. Afrouxe "Cordas tocadas" ou a região.</p>';
+  $('grid').innerHTML=view.length?view.map(v=>`<button class="vc${v.k===sel?' on':''}" data-k="${v.k}" aria-label="${cname(v)} (${qn}): ${v.fr.map(x=>x<0?'x':x).join('-')}"><div class="vn">${cname(v)}</div><div class="vt">${v.cg||'&nbsp;'}</div>${svgV(v)}<div class="vf">${v.fr.map(x=>x<0?'x':x).join('-')}</div></button>`).join(''):'<p class="text-muted">Nenhuma forma com esses filtros. Afrouxe "Cordas tocadas" ou a região.</p>';
   neck();
 }
 function gerar(){root=+$('n').value;qn=$('q').value;sel=null;all=vozes(root,qn,+$('min').value,$('inv').checked);lista();}

@@ -472,7 +472,7 @@ function acAtual(){ac.r=+ar.value;ac.q=aq.value;const n=AcLib.IV[ac.q].length;ai
 function mostraAc(){const fl=BEMOL.includes(ac.r),v=vozes(ac.r,ac.q,ac.inv),n=AcLib.IV[ac.q].length;
  const todas=[...v.bx,...v.rh];const ded=[...v.bx.map(()=>'5'),...(n===3?(DEDOS[ac.inv===1?'3i1':3]):v.rh.map((_,i)=>String([1,2,3,5][i]||5)))];
  realca(todas,ac.r,ded);rolar(v.bx[0]||v.rh[0]);
- $('an').textContent=AcLib.nome(ac.r,ac.q,fl);$('aq2').textContent=AcLib.QN[ac.q];
+ $('an').textContent=AcLib.nome(ac.r,ac.q,fl)+(ac.inv?'/'+nn((ac.r+AcLib.IV[ac.q][ac.inv])%12,fl):'');$('aq2').textContent=AcLib.QN[ac.q];
  $('at').innerHTML=AcLib.IV[ac.q].map(iv=>`<span><b>${nn((ac.r+iv)%12,fl)}</b> · ${GR[iv]}</span>`).join('');
  $('adedo').textContent='Mão direita (números nas teclas): polegar é o 1, mindinho é o 5. '+($('mão').checked?'Mão esquerda: a fundamental, com o dedo 5.':'');
  $('acheck').textContent='';}

@@ -764,6 +764,12 @@
 
         // Casa de cada corda (grave -> aguda; -1 = calada) a partir do desenho do acorde.
         // Ponto: casa relativa a baseFret; pestana cobre as cordas de from a to.
+        // Baixo = corda mais grave que soa; se não for a tônica, o acorde é invertido (C/E)
+        const baixoSuf = (ton, fr) => {
+            const i = fr.findIndex(f => f >= 0); if (i < 0) return '';
+            const b = (NOTAS.indexOf(AFINACAO[i]) + fr[i]) % 12;
+            return b === NOTAS.indexOf(ton) ? '' : '/' + NOTAS[b];
+        };
         function casasDoAcorde(ch) {
             return [0, 1, 2, 3, 4, 5].map(i => {
                 if (ch.status && ch.status[i] === 'x') return -1;
@@ -959,7 +965,7 @@
                 const f = formaPadrao || (gerada && gerada.chord);
                 if (!f) return; // essa qualidade ainda não tem pestana móvel calculada pra gerar esse tom
 
-                let nome = `${tonica} ${tipo}`;
+                let nome = `${tonica} ${tipo}${baixoSuf(tonica, casasDoAcorde(f))}`;
                 let badge = tipo;
                 let cat = 'triade';
                 if (tipo.includes('Sétima') || tipo.includes('7')) cat = 'tetrade';
@@ -1119,6 +1125,7 @@
             modalPosicoesBtns.querySelectorAll('.btn-posicao').forEach((b, bi) => {
                 b.classList.toggle('active', bi === i);
             });
+            if (item.tipo === 'acorde' && p.frets) document.getElementById('modalTitle').textContent = `${item.tonica} ${item.badge}${baixoSuf(item.tonica, p.frets)}`;
             const casa = p.baseFret === 0 ? 'aberta' : `${p.baseFret}ª casa`;
             modalPosicaoInfo.textContent = (item.tipo === 'escala')
                 ? `Posição ${p.posicao} de ${p.total} — começa em ${p.notaGrau} (${casa})`
