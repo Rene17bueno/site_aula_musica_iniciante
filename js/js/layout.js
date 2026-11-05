@@ -147,7 +147,8 @@
         ["-"],
         ["jogo-imagem.html", "fa-eye", t.visualChallenge, "violao,guitarra"],
         ["jogos.html", "fa-music", t.noteId, "violao,guitarra,teclado,baixo"],
-        ["jogos-braco.html", "fa-guitar", t.fretGames, "violao,guitarra"]
+        ["jogos-braco.html", "fa-guitar", t.fretGames, "violao,guitarra"],
+        ["teoria.html", "fa-lightbulb", tx("Teoria: jogos e desafios", "Theory games (PT)", "Juegos de teoría (PT)"), "violao,guitarra,teclado,baixo"]
     ];
     function itemPractice() {
         var h = "", last = "";
