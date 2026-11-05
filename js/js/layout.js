@@ -324,6 +324,7 @@
         /* tablet/celular: menu recolhido rolável, alvos de toque grandes */
         '@media (max-width:1199.98px){.custom-navbar .navbar-collapse{max-height:calc(100vh - 84px);max-height:calc(100dvh - 84px);overflow-y:auto;-webkit-overflow-scrolling:touch}.custom-navbar .nav-link{padding:.7rem .9rem!important;font-size:.95rem!important}.custom-navbar .dropdown-menu{max-height:none;box-shadow:none;margin:.2rem 0 .4rem}.custom-navbar .dropdown-item{padding:.65rem .9rem}}',
         '@media (max-width:575.98px){body{padding-top:76px!important}.container,.container-fluid{padding-left:16px;padding-right:16px}.display-5{font-size:2rem}.btn{min-height:44px}}',
+        '.back-fab{position:fixed;left:14px;bottom:14px;z-index:1030;display:inline-flex;align-items:center;gap:.45rem;min-height:44px;padding:.5rem 1rem;border-radius:999px;border:1px solid rgba(201,169,89,.55);background:#14131f;color:#e8d5a3;font-weight:600;font-size:.9rem;box-shadow:0 6px 18px rgba(0,0,0,.5);cursor:pointer}.back-fab:hover{background:#c9a959;color:#0e0d1a}@media print{.back-fab{display:none}}',
         '@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}'
     ].join('\n');
 
@@ -448,6 +449,21 @@
         host.insertBefore(d, host.firstChild);
     }
 
+    // Botão Voltar: volta à página anterior do site; se veio de fora, vai ao início
+    function addBack() {
+        if (file === "index.html" || file === "") return;
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "back-fab";
+        b.setAttribute("aria-label", tx("Voltar à página anterior", "Back to previous page", "Volver a la página anterior"));
+        b.innerHTML = '<i class="fas fa-arrow-left"></i><span>' + tx("Voltar", "Back", "Volver") + '</span>';
+        b.onclick = function () {
+            var same = false;
+            try { same = !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (e) {}
+            if (same && history.length > 1) history.back(); else location.href = local("index.html");
+        };
+        document.body.appendChild(b);
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
         injectSharedCss();
         keepAwake();
@@ -459,6 +475,7 @@
         activateNavLinks();
         bindInst();
         renderInstBanner();
+        addBack();
     });
 })();
 
