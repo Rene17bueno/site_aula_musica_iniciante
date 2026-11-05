@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teoria musical: jogos e desafios · Aula de Música Iniciante</title>
+<meta name="description" content="Ciclo das quintas, intervalos, tríades, escalas, modos e ritmo em jogos: quiz com níveis, montar arrastando, treino de ouvido, desafio diário e exercícios." />
+<link rel="icon" type="image/png" href="favicon-32.png" />
+<link rel="apple-touch-icon" href="favicon.png" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Aula de Música Iniciante" />
+<meta property="og:locale" content="pt_BR" />
+<meta property="og:url" content="https://rene17bueno.github.io/site_aula_musica_iniciante/teoria.html" />
+<meta property="og:title" content="Teoria musical: jogos e desafios · Aula de Música Iniciante" />
+<meta property="og:description" content="Ciclo das quintas, intervalos, tríades, escalas, modos e ritmo em jogos e desafios." />
+<meta property="og:image" content="https://rene17bueno.github.io/site_aula_musica_iniciante/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha384-/o6I2CkkWC//PSjvWC/eYN7l3xM3tJm8ZzVkCOfp//W05QcE3mlGskpoHB6XqI+B" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<style>
+
+        /* ===== ESTILOS GERAIS INTEGRADOS ===== */
+        body {
+            background: #0e0d1a;
+            color: #e4dfd7;
+            font-family: 'Inter', sans-serif;
+            padding-top: 90px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .gold {
+            color: #e8d5a3;
+        }
+        .bg-dark-custom {
+            background: #14131f;
+        }
+        .border-gold {
+            border-color: rgba(201, 169, 89, 0.3) !important;
+        }
+        .text-gold {
+            color: #e8d5a3;
+        }
+        .text-muted {
+            color: #b5b0a8 !important;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar-custom {
+            background: #0e0d1aee;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid rgba(201, 169, 89, 0.15);
+        }
+        .navbar-custom .nav-link {
+            color: #d1cbdc !important;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #e8d5a3 !important;
+        }
+        .nav-brand-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #e8d5a3 !important;
+            text-decoration: none;
+        }
+
+        .chapter-content {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        .section-tag {
+            display: inline-block;
+            background: rgba(201, 169, 89, 0.12);
+            color: #e8d5a3;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            padding: 5px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            text-transform: uppercase;
+        }
+
+        /* ===== CONTAINER DO JOGO ===== */
+        .game-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 169, 89, 0.25);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            transition: 0.3s ease;
+        }
+        
+        .level-badge {
+            background: rgba(201, 169, 89, 0.2);
+            color: #ffffff;
+            border: 1px solid #e8d5a3;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 6px 18px;
+            border-radius: 50px;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(201, 169, 89, 0.2);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #c9a959, #f7e7c4);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* ===== PERGUNTA ===== */
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            color: #ffffff;
+            margin: 25px 0;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* ===== BOTÕES DE RESPOSTA ===== */
+        .option-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(201, 169, 89, 0.35);
+            color: #ffffff !important;
+            padding: 16px 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 15px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        .option-btn:hover {
+            background: rgba(201, 169, 89, 0.25);
+            border-color: #f7e7c4;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 89, 0.2);
+        }
+
+        /* ===== FEEDBACK ===== */
+        .feedback-area {
+            min-height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        .feedback-area.show {
+            opacity: 1;
+        }
+        .feedback-correct {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+        }
+        .feedback-incorrect {
+            background: rgba(231, 76, 60, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(231, 76, 60, 0.4);
+        }
+
+        /* ===== SELETOR DE NÍVEIS LATERAL ===== */
+        .btn-level-select {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(201, 169, 89, 0.15);
+            color: #e4dfd7;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            text-align: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+        .btn-level-select .level-title {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .btn-level-select .level-desc {
+            color: #b5b0a8;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .btn-level-select:hover, .btn-level-select.active {
+            background: rgba(201, 169, 89, 0.15);
+            border-color: #e8d5a3;
+        }
+        .btn-level-select.active .level-title {
+            color: #e8d5a3;
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            border-top: 1px solid rgba(201, 169, 89, 0.1);
+            background: #0e0d1a;
+            padding: 1.5rem 0;
+        }
+        .site-footer .footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: #e8d5a3;
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding-top: 68px;
+            }
+            .chapter-content {
+                padding: 1.25rem 0 1.75rem;
+            }
+            .game-card {
+                padding: 18px 14px;
+                border-radius: 12px;
+            }
+            .question-text {
+                font-size: 1.35rem;
+                margin: 16px 0;
+                min-height: 56px;
+            }
+            .option-btn {
+                padding: 12px 14px;
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            .feedback-area {
+                min-height: 50px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .level-badge {
+                font-size: 0.78rem;
+                padding: 5px 12px;
+            }
+            .question-text {
+                font-size: 1.2rem;
+                margin: 12px 0;
+                min-height: 48px;
+            }
+            .option-btn {
+                padding: 11px 12px;
+                font-size: 0.95rem;
+            }
+            .row.g-4 {
+                --bs-gutter-y: 0.85rem;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .game-card {
+                padding: 14px 11px;
+            }
+            .feedback-area {
+                min-height: 46px;
+                font-size: 0.93rem;
+            }
+            .btn-level-select .level-desc {
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .section-tag {
+                font-size: 0.68rem;
+                padding: 4px 12px;
+            }
+            .btn-level-select {
+                padding: 10px 12px;
+            }
+        }
+            
+/* ===== TEORIA ===== */
+.tabs-t{display:flex;gap:.5rem;overflow-x:auto;padding-bottom:.4rem;margin-bottom:1rem;-webkit-overflow-scrolling:touch}
+.tab-t{flex:none;background:rgba(255,255,255,.04);border:1px solid rgba(201,169,89,.25);color:#e4dfd7;border-radius:999px;padding:.55rem 1rem;font-weight:600;font-size:.9rem;min-height:44px;cursor:pointer;white-space:nowrap}
+.tab-t.on,.tab-t:hover{background:rgba(201,169,89,.22);border-color:#e8d5a3;color:#fff}
+.panel-t[hidden]{display:none}
+.nomes-t{display:inline-flex;border:1px solid rgba(201,169,89,.35);border-radius:999px;overflow:hidden}
+.nomes-t button{background:transparent;border:0;color:#e4dfd7;padding:.35rem .9rem;font-size:.85rem;min-height:36px;cursor:pointer}
+.nomes-t button.on{background:#c9a959;color:#0e0d1a;font-weight:700}
+.stat-t{display:flex;flex-wrap:wrap;gap:.5rem 1.2rem;font-size:.9rem;color:#b5b0a8}
+.stat-t b{color:#e8d5a3}
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+@media (max-width:576px){.opt-grid{grid-template-columns:1fr}}
+.opt-grid .option-btn{margin-bottom:0;text-align:center}
+.option-btn.ok{background:rgba(46,204,113,.22)!important;border-color:#2ecc71!important}
+.option-btn.bad{background:rgba(231,76,60,.22)!important;border-color:#e74c3c!important}
+.option-btn:disabled{opacity:.95;cursor:default;transform:none}
+.q-t{font-family:'Playfair Display',serif;font-size:1.45rem;color:#fff;text-align:center;margin:18px 0;line-height:1.35}
+@media (max-width:576px){.q-t{font-size:1.15rem}}
+.why-t{background:rgba(255,255,255,.04);border-left:3px solid #c9a959;border-radius:8px;padding:.7rem .9rem;margin-top:.9rem;color:#d9d3c8;font-size:.95rem}
+.hearts i{color:#e74c3c;margin:0 2px}.hearts i.off{color:#4a4658}
+.lvl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.6rem}
+.lvl-grid .btn-level-select{margin:0;min-height:72px}
+.stars{color:#c9a959;letter-spacing:2px;font-size:.85rem}.stars .off{color:#4a4658}
+.cn{cursor:pointer}.cn circle{fill:#1b1a2b;stroke:rgba(201,169,89,.45);stroke-width:1.5;transition:fill .2s}
+.cn:hover circle,.cn.sel circle{fill:#c9a959}.cn:hover text,.cn.sel text{fill:#0e0d1a}
+.cn text{fill:#f1ece2;font-weight:700;text-anchor:middle;dominant-baseline:central;pointer-events:none;font-family:Inter,sans-serif}
+.cn.min circle{fill:#14131f;stroke:rgba(143,209,143,.5)}.cn.min text{fill:#bfe8bf}
+.cn.min:hover circle,.cn.min.sel circle{fill:#8fd18f}.cn.min:hover text,.cn.min.sel text{fill:#0e0d1a}
+.sig-t{fill:#b5b0a8;font-size:11px;text-anchor:middle;dominant-baseline:central;font-family:Inter,sans-serif;pointer-events:none}
+.chips-t,.slots-t{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center}
+.chip-t{min-width:56px;min-height:46px;padding:.4rem .8rem;border-radius:10px;border:1px solid rgba(201,169,89,.5);background:rgba(201,169,89,.12);color:#fff;font-weight:700;cursor:grab;user-select:none;display:inline-flex;align-items:center;justify-content:center}
+.chip-t.sel{background:#c9a959;color:#0e0d1a}
+.slot-t{width:70px;min-height:74px;border:2px dashed rgba(201,169,89,.4);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px;cursor:pointer;background:rgba(255,255,255,.02)}
+.slot-t small{color:#8f8a82;font-size:.66rem;text-align:center;line-height:1.1}
+.slot-t.over{border-color:#e8d5a3;background:rgba(201,169,89,.15)}
+.slot-t.fix .chip-t{cursor:default;border-style:dashed;opacity:.9}
+.slot-t.ok{border-color:#2ecc71;background:rgba(46,204,113,.12)}.slot-t.bad{border-color:#e74c3c;background:rgba(231,76,60,.12)}
+.in-t{background:#0e0d1a;border:1px solid rgba(201,169,89,.4);color:#fff;border-radius:10px;padding:.7rem .9rem;width:100%;font-size:1.05rem;min-height:46px}
+.in-t:focus{outline:2px solid #c9a959}
+.mini-t{font-size:.85rem;color:#b5b0a8}
+.info-t b.g{color:#e8d5a3}
+.info-t .row-t{display:flex;justify-content:space-between;gap:1rem;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.info-t .row-t span:first-child{color:#b5b0a8}
+.info-t .row-t span:last-child{text-align:right}
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H8CMNEYXZ9"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-H8CMNEYXZ9');
+</script>
+</head>
+<body>
+<div id="site-navbar"></div>
+<main class="chapter-content">
+<div class="container">
+  <div class="row mb-3"><div class="col-12 text-center">
+    <span class="section-tag"><i class="fas fa-lightbulb me-1"></i> Teoria</span>
+    <h1 class="display-5 fw-bold mt-2">Teoria musical <span class="gold">em jogo</span></h1>
+    <p class="text-muted mb-2">Ciclo das quintas, intervalos, tríades, escalas, modos e ritmo. Tudo livre, sem cadastro; o progresso fica salvo neste navegador.</p>
+    <div class="nomes-t" role="group" aria-label="Nomes das notas"><button type="button" data-n="solfejo">Dó Ré Mi</button><button type="button" data-n="cifra">C D E</button></div>
+  </div></div>
+  <div class="tabs-t" id="tabs" role="tablist">
+    <button class="tab-t" data-t="ciclo">Ciclo das quintas</button>
+    <button class="tab-t" data-t="quiz">Quiz por níveis</button>
+    <button class="tab-t" data-t="montar">Montar</button>
+    <button class="tab-t" data-t="ouvido">Treino de ouvido</button>
+    <button class="tab-t" data-t="diario">Desafio diário</button>
+    <button class="tab-t" data-t="exe">Exercícios</button>
+  </div>
+
+  <!-- CICLO -->
+  <section class="panel-t" id="p-ciclo" hidden>
+    <div class="row g-4">
+      <div class="col-lg-6"><div class="game-card text-center">
+        <svg id="svgCiclo" viewBox="0 0 460 460" role="img" aria-label="Ciclo das quintas" style="max-width:460px;width:100%"></svg>
+        <div class="mini-t mt-2">Anel externo: tons maiores. Anel interno: relativas menores. Toque num tom.</div>
+      </div></div>
+      <div class="col-lg-6"><div class="game-card info-t" id="infoCiclo"></div>
+        <div class="game-card mt-3"><h5 class="gold fw-bold">Como usar o ciclo</h5>
+          <ul class="text-muted mb-0" style="line-height:1.7">
+            <li>Para a direita (sentido horário), cada tom sobe uma quinta e ganha um sustenido: C, G, D, A, E, B, F♯.</li>
+            <li>Para a esquerda, cada tom sobe uma quarta e ganha um bemol: F, B♭, E♭, A♭, D♭, G♭.</li>
+            <li>Ordem dos sustenidos: Fá Dó Sol Ré Lá Mi Si. Ordem dos bemóis: o inverso, Si Mi Lá Ré Sol Dó Fá.</li>
+            <li>Sustenidos: o tom é meio tom acima do último sustenido. Bemóis: o tom é o penúltimo bemol.</li>
+            <li>Os vizinhos de um tom (dominante e subdominante) compartilham 6 das 7 notas, por isso modulam com facilidade.</li>
+          </ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel-t" id="p-quiz" hidden>
+    <div class="row g-4">
+      <div class="col-lg-4"><div class="game-card"><h5 class="gold fw-bold mb-3">Níveis</h5><div class="lvl-grid" id="lvls" style="grid-template-columns:1fr"></div></div></div>
+      <div class="col-lg-8"><div class="game-card" id="quizBox"></div></div>
+    </div>
+  </section>
+
+  <!-- MONTAR -->
+  <section class="panel-t" id="p-montar" hidden>
+    <div class="game-card">
+      <div class="d-flex flex-wrap gap-2 mb-3" id="mTipos"></div>
+      <div id="mBox"></div>
+    </div>
+  </section>
+
+  <!-- OUVIDO -->
+  <section class="panel-t" id="p-ouvido" hidden>
+    <div class="game-card">
+      <div class="row g-2 mb-3">
+        <div class="col-md-4"><label class="mini-t">Treino</label><select id="eTipo" class="form-select"><option value="int">Intervalos</option><option value="tri">Qualidade da tríade</option><option value="esc">Escalas e modos</option></select></div>
+        <div class="col-md-4"><label class="mini-t">Dificuldade</label><select id="eNivel" class="form-select"><option value="1">Fácil</option><option value="2">Médio</option><option value="3">Difícil</option></select></div>
+        <div class="col-md-4 d-flex align-items-end"><div class="form-check"><input class="form-check-input" type="checkbox" id="eHarm"><label class="form-check-label" for="eHarm">Intervalo harmônico (juntas)</label></div></div>
+      </div>
+      <div id="eBox" class="text-center"></div>
+    </div>
+  </section>
+
+  <!-- DIARIO -->
+  <section class="panel-t" id="p-diario" hidden>
+    <div class="game-card" id="dBox"></div>
+  </section>
+
+  <!-- EXERCICIOS -->
+  <section class="panel-t" id="p-exe" hidden>
+    <div class="game-card">
+      <div class="d-flex flex-wrap gap-2 mb-3" id="xTipos"></div>
+      <div id="xBox"></div>
+    </div>
+  </section>
+</div>
+</main>
+<div id="site-footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/js/layout.js"></script>
+<script>
+(function(){
+'use strict';
+/* ================= MOTOR DE TEORIA ================= */
+const L='CDEFGAB', NAT=[0,2,4,5,7,9,11], SOL=['Dó','Ré','Mi','Fá','Sol','Lá','Si'];
+const mod=(n,m)=>((n%m)+m)%m;
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v);}catch(e){return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}};
+let MODE=store.get('teoriaNomes','solfejo');
+let rnd=Math.random;
+const ri=n=>Math.floor(rnd()*n), pick=a=>a[ri(a.length)];
+function shuf(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=ri(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
+const N=(l,a)=>({l:mod(l,7),a:a||0});
+const pc=n=>mod(NAT[n.l]+n.a,12);
+const same=(x,y)=>x.l===y.l&&x.a===y.a;
+function spell(l,p){l=mod(l,7);return N(l,mod(p-NAT[l]+6,12)-6);}
+const code=n=>L[n.l]+(n.a>0?'#'.repeat(n.a):'b'.repeat(-n.a));
+function P(c){return N(L.indexOf(c[0]),(c.match(/#/g)||[]).length-(c.slice(1).match(/b/g)||[]).length);}
+const accS=a=>a===0?'':a>0?'♯'.repeat(a):'♭'.repeat(-a);
+const nm=n=>(MODE==='cifra'?L[n.l]:SOL[n.l])+accS(n.a);
+const QN={M:'maior',m:'menor',d:'diminuta',A:'aumentada'};
+const QST={M:[0,4,7],m:[0,3,7],d:[0,3,6],A:[0,4,8]};
+const QS={M:'',m:'m',d:'°',A:'+'};
+function triad(r,q){return [r,spell(r.l+2,pc(r)+QST[q][1]),spell(r.l+4,pc(r)+QST[q][2])];}
+function chordName(r,q){return MODE==='cifra'?nm(r)+QS[q]:nm(r)+' '+({M:'maior',m:'menor',d:'diminuto',A:'aumentado'}[q]);}
+const SC={maior:[0,2,4,5,7,9,11],menor:[0,2,3,5,7,8,10],menorH:[0,2,3,5,7,8,11],dorico:[0,2,3,5,7,9,10],frigio:[0,1,3,5,7,8,10],lidio:[0,2,4,6,7,9,11],mixolidio:[0,2,4,5,7,9,10],locrio:[0,1,3,5,6,8,10]};
+SC.eolio=SC.menor;
+const scaleOf=(r,k)=>SC[k].map((st,i)=>spell(r.l+i,pc(r)+st));
+const pentM=r=>[0,2,4,7,9].map((st,i)=>spell(r.l+[0,1,2,4,5][i],pc(r)+st));
+const pentm=r=>[0,3,5,7,10].map((st,i)=>spell(r.l+[0,2,3,4,6][i],pc(r)+st));
+const KEYS=[['C',0],['G',1],['D',2],['A',3],['E',4],['B',5],['F#',6],['C#',7],['F',-1],['Bb',-2],['Eb',-3],['Ab',-4],['Db',-5],['Gb',-6],['Cb',-7]].map(([c,s])=>({n:P(c),sig:s}));
+const CIRC12=['C','G','D','A','E','B','F#','Db','Ab','Eb','Bb','F'];
+const K12=KEYS.filter(k=>CIRC12.includes(code(k.n)));
+const keyInfo=n=>KEYS.find(k=>same(k.n,n));
+const keyBySig=s=>KEYS.find(k=>k.sig===s);
+const minorOf=n=>scaleOf(n,'maior')[5];
+const SHARPS=['F','C','G','D','A','E','B'], FLATS=['B','E','A','D','G','C','F'];
+const sigList=s=>s>0?SHARPS.slice(0,s).map(x=>N(L.indexOf(x),1)):FLATS.slice(0,-s).map(x=>N(L.indexOf(x),-1));
+const sigText=s=>s===0?'sem alterações':s>0?(s===1?'1 sustenido':s+' sustenidos'):(s===-1?'1 bemol':(-s)+' bemóis');
+const keyName=n=>nm(n)+' maior', minName=n=>nm(n)+' menor';
+const IV=[{d:1,s:1,n:'2ª menor'},{d:1,s:2,n:'2ª maior'},{d:2,s:3,n:'3ª menor'},{d:2,s:4,n:'3ª maior'},{d:3,s:5,n:'4ª justa'},{d:3,s:6,n:'4ª aumentada'},{d:4,s:6,n:'5ª diminuta'},{d:4,s:7,n:'5ª justa'},{d:5,s:8,n:'6ª menor'},{d:5,s:9,n:'6ª maior'},{d:6,s:10,n:'7ª menor'},{d:6,s:11,n:'7ª maior'},{d:7,s:12,n:'8ª justa'}];
+const upper=(r,iv)=>spell(r.l+iv.d,pc(r)+iv.s);
+const ROOTS=['C','D','E','F','G','A','B','F#','Bb','Eb','Ab','C#','Db'].map(P);
+function mkQ(q,c,w,why){const ws=[...new Set(w)].filter(x=>x!==c&&x!=null);const o=shuf([c,...shuf(ws).slice(0,3)]);return {q,o,a:o.indexOf(c),w:why};}
+const ok1=n=>Math.abs(n.a)<=1;
+function genInt(){for(;;){const r=pick(ROOTS),iv=pick(IV),u=upper(r,iv);if(ok1(u))return {r,iv,u};}}
+const joinN=a=>a.map(nm).join(' – ');
+const ROM=['I','ii','iii','IV','V','vi','vii°'], DQ=['M','m','m','M','M','m','d'];
+const MODOS=[{k:'dorico',deg:1,n:'dórico'},{k:'frigio',deg:2,n:'frígio'},{k:'lidio',deg:3,n:'lídio'},{k:'mixolidio',deg:4,n:'mixolídio'},{k:'eolio',deg:5,n:'eólio (menor natural)'},{k:'locrio',deg:6,n:'lócrio'}];
+function campo(k){const sc=scaleOf(k,'maior');return sc.map((r,i)=>({r,q:DQ[i],rom:ROM[i],name:chordName(r,DQ[i])}));}
+
+/* ===== GERADORES DE PERGUNTAS (por nível) ===== */
+const G={};
+G[1]=[
+()=>{const i=ri(7),k=1+ri(4),a=N(i),b=N(i+k);const s=mod(NAT[b.l]-NAT[a.l],12);return mkQ(`Quantos semitons há de <b>${nm(a)}</b> até <b>${nm(b)}</b>, subindo?`,String(s),[s-1,s+1,s+2,s-2,s+3].filter(x=>x>0).map(String),'Entre notas naturais vizinhas há um tom (2 semitons), exceto Mi–Fá e Si–Dó, que têm só 1 semitom.');},
+()=>{const r=pick(['C','D','E','F','G','A','B','F#','Bb'].map(P));const u=spell(r.l+1,pc(r)+2);return mkQ(`Qual nota fica <b>um tom acima</b> de ${nm(r)}?`,nm(u),[spell(r.l+1,pc(r)+1),spell(r.l+1,pc(r)+3),spell(r.l-1,pc(r)-2),spell(r.l+2,pc(r)+3),spell(r.l+1,pc(r)+4)].filter(ok1).map(nm),`Um tom são 2 semitons e a nota seguinte na ordem das letras: ${nm(r)} → ${nm(u)}.`);},
+()=>mkQ('Entre quais notas naturais existe apenas <b>1 semitom</b>?',`${nm(P('E'))}–${nm(P('F'))} e ${nm(P('B'))}–${nm(P('C'))}`,[`${nm(P('C'))}–${nm(P('D'))} e ${nm(P('F'))}–${nm(P('G'))}`,`${nm(P('D'))}–${nm(P('E'))} e ${nm(P('G'))}–${nm(P('A'))}`,`${nm(P('F'))}–${nm(P('G'))} e ${nm(P('B'))}–${nm(P('C'))}`,`${nm(P('A'))}–${nm(P('B'))} e ${nm(P('E'))}–${nm(P('F'))}`],'Nas teclas do piano, são os pares sem tecla preta no meio.'),
+()=>mkQ('Quantos semitons tem <b>um tom</b>?','2',['1','3','4'],'Um tom = 2 semitons; um semitom é a menor distância entre duas notas no violão (uma casa).'),
+()=>{const r=pick(['C','D','E','F','G','A','B','Bb','Eb'].map(P));const u=spell(r.l,pc(r)+1);return mkQ(`Qual nota é <b>meio tom acima</b> de ${nm(r)} com o mesmo nome (acidente)?`,nm(u),[spell(r.l,pc(r)-1),spell(r.l+1,pc(r)+1),spell(r.l,pc(r)+2),spell(r.l-1,pc(r)-1)].filter(ok1).map(nm),'Sustenido sobe meio tom; bemol desce meio tom. O mesmo nome de letra recebe o acidente.');}
+];
+G[2]=[
+()=>{const k=pick(KEYS),s=k.sig;const w=[-s,s+1,s-1,s+2,s-2].filter(v=>Math.abs(v)<=7&&v!==s).map(sigText);return mkQ(`Qual é a armadura de clave de <b>${keyName(k.n)}</b>?`,sigText(s),w,s===0?'Dó maior só usa teclas brancas.':`${keyName(k.n)}: ${sigList(s).map(nm).join(', ')}.`);},
+()=>{const k=pick(KEYS);return mkQ(`Qual tom maior tem armadura com <b>${sigText(k.sig)}</b>?`,keyName(k.n),shuf(KEYS.filter(x=>x!==k)).slice(0,5).map(x=>keyName(x.n)),`${sigText(k.sig)} → ${keyName(k.n)}. Siga o ciclo das quintas a partir de Dó.`);},
+()=>{if(rnd()<.5){const k=pick(KEYS.filter(x=>x.sig>=1)),l=sigList(k.sig),last=l[l.length-1];return mkQ(`Uma armadura tem os sustenidos ${l.map(nm).join(' ')}. Qual é o tom maior?`,keyName(k.n),shuf(KEYS.filter(x=>x!==k)).slice(0,5).map(x=>keyName(x.n)),`Último sustenido (${nm(last)}) é a sensível: o tom está meio tom acima, ${nm(k.n)}.`);}
+ const k=pick(KEYS.filter(x=>x.sig<=-2)),l=sigList(k.sig);return mkQ(`Uma armadura tem os bemóis ${l.map(nm).join(' ')}. Qual é o tom maior?`,keyName(k.n),shuf(KEYS.filter(x=>x!==k)).slice(0,5).map(x=>keyName(x.n)),`Com bemóis, o tom é o penúltimo bemol: ${nm(k.n)}.`);},
+()=>{return mkQ('Qual é a ordem correta dos <b>sustenidos</b> na armadura?',SHARPS.map(x=>nm(N(L.indexOf(x)))).join(' '),[shuf(SHARPS).map(x=>nm(N(L.indexOf(x)))).join(' '),['F','B','E','A','D','G','C'].map(x=>nm(N(L.indexOf(x)))).join(' '),FLATS.map(x=>nm(N(L.indexOf(x)))).join(' '),['F','G','C','D','A','E','B'].map(x=>nm(N(L.indexOf(x)))).join(' ')],'Fá Dó Sol Ré Lá Mi Si: cada sustenido novo é uma quinta acima do anterior. Os bemóis seguem a ordem inversa.');}
+];
+const domOf=n=>{const k=keyInfo(n),d=k&&keyBySig(k.sig+1);return d&&d.n;}, subOf=n=>{const k=keyInfo(n),d=k&&keyBySig(k.sig-1);return d&&d.n;};
+G[3]=[
+()=>{const k=pick(KEYS.filter(x=>domOf(x.n))),r=domOf(k.n),s=subOf(k.n);return mkQ(`No ciclo das quintas, qual é a <b>dominante</b> (uma quinta acima) de ${keyName(k.n)}?`,keyName(r),[s&&keyName(s),keyName(minorOf(k.n)),...shuf(KEYS.filter(x=>x.n!==r)).slice(0,3).map(x=>keyName(x.n))],'Dominante = 5º grau da escala, um passo no sentido horário; ganha um sustenido (ou perde um bemol).');},
+()=>{const k=pick(KEYS.filter(x=>subOf(x.n))),r=subOf(k.n),d=domOf(k.n);return mkQ(`No ciclo das quintas, qual é a <b>subdominante</b> (uma quarta acima) de ${keyName(k.n)}?`,keyName(r),[d&&keyName(d),keyName(minorOf(k.n)),...shuf(KEYS.filter(x=>x.n!==r)).slice(0,3).map(x=>keyName(x.n))],'Subdominante = 4º grau, um passo no sentido anti-horário; ganha um bemol (ou perde um sustenido).');},
+()=>{const k=pick(KEYS),m=minorOf(k.n),d=domOf(k.n),s=subOf(k.n);return mkQ(`Qual é a <b>relativa menor</b> de ${keyName(k.n)}?`,minName(m),[minName(k.n),d&&minName(minorOf(d)),s&&minName(minorOf(s)),minName(spell(k.n.l+1,pc(k.n)+2)),...shuf(KEYS).slice(0,4).map(x=>minName(x.n))],`A relativa menor é o 6º grau da escala maior (${nm(k.n)} → ${nm(m)}) e tem a mesma armadura.`);},
+()=>{const k=pick(KEYS),m=minorOf(k.n),d=domOf(k.n),s=subOf(k.n);return mkQ(`Qual é a <b>relativa maior</b> de ${minName(m)}?`,keyName(k.n),[keyName(m),d&&keyName(d),s&&keyName(s),keyName(spell(m.l+1,pc(m)+2)),...shuf(KEYS).slice(0,4).map(x=>keyName(x.n))].filter(x=>x),`A relativa maior fica uma terça menor (3 semitons) acima da tônica menor e divide a mesma armadura.`);},
+()=>{const k=pick(KEYS.filter(x=>domOf(x.n)&&subOf(x.n))),s=k.sig,d=domOf(k.n),b=subOf(k.n);const f=(x,y)=>x&&y?`${nm(x.n)} e ${nm(y.n)}`:null;return mkQ(`Quais são os <b>dois tons vizinhos</b> de ${keyName(k.n)} no ciclo?`,`${nm(b)} e ${nm(d)}`,[f(keyBySig(s-2),keyBySig(s+1)),f(keyBySig(s-1),keyBySig(s+2)),f(keyBySig(s+1),keyBySig(s+2)),f(keyBySig(s-2),keyBySig(s-1)),...[1,2,3].map(()=>f(pick(KEYS),pick(KEYS)))],'Os vizinhos (subdominante e dominante) diferem por apenas uma alteração na armadura.');},
+()=>mkQ('Qual tom maior está <b>mais distante</b> de '+keyName(P('C'))+' no ciclo das quintas?',keyName(P('F#'))+' (ou '+keyName(P('Gb'))+')',[keyName(P('G')),keyName(P('E')),keyName(P('Ab'))],'F♯ e G♭ ficam no lado oposto do ciclo, com 6 alterações na armadura.')
+];
+G[4]=[
+()=>{const {r,iv,u}=genInt();return mkQ(`Qual é o intervalo de <b>${nm(r)}</b> até <b>${nm(u)}</b>, subindo?`,iv.n,[...IV.filter(x=>x.d===iv.d&&x!==iv).map(x=>x.n),...shuf(IV.filter(x=>x.d!==iv.d)).slice(0,3).map(x=>x.n)],`Contando as letras de ${nm(r)} a ${nm(u)} dá a ${iv.d+1}ª; ${iv.s} semitons dão ${iv.n}.`);},
+()=>{const {r,iv,u}=genInt();return mkQ(`Qual nota está uma <b>${iv.n}</b> acima de ${nm(r)}?`,nm(u),[spell(u.l,pc(u)+1),spell(u.l,pc(u)-1),spell(u.l+1,pc(u)),spell(u.l-1,pc(u)),...shuf(IV).map(x=>upper(r,x)).filter(x=>ok1(x)&&!same(x,u)&&!same(x,r))].filter(ok1).map(nm),`Conte ${iv.d+1} letras a partir de ${nm(r)} e ajuste o acidente até ${iv.s} semitons: ${nm(u)}. O nome da letra importa (${nm(u)} e outra grafia soam igual, mas só uma é a ${iv.n}).`);},
+()=>{const iv=pick(IV);return mkQ(`Quantos semitons tem uma <b>${iv.n}</b>?`,String(iv.s),[iv.s+1,iv.s-1,iv.s+2,iv.s-2,iv.s+3,iv.s-3].filter(x=>x>=1&&x<=12).map(String),'Memorize: 2m=1, 2M=2, 3m=3, 3M=4, 4J=5, trítono=6, 5J=7, 6m=8, 6M=9, 7m=10, 7M=11, 8J=12.');},
+()=>mkQ('Qual intervalo é chamado de <b>trítono</b>?','4ª aumentada / 5ª diminuta (6 semitons)',['4ª justa (5 semitons)','5ª justa (7 semitons)','3ª maior (4 semitons)'],'O trítono divide a oitava ao meio: três tons inteiros (6 semitons).')
+];
+G[5]=[
+()=>{for(;;){const r=pick(ROOTS),q=pick(['M','m','d','A']),t=triad(r,q);if(!t.every(ok1))continue;const ws=[...['M','m','d','A'].filter(x=>x!==q).map(x=>triad(r,x)),...[2,-2,5,-1,1,-3,3,7,-5].map(d=>triad(spell(r.l,pc(r)+d),q))].filter(a=>a.every(ok1)).map(joinN);return mkQ(`Quais notas formam a tríade <b>${QN[q]}</b> de ${nm(r)}?`,joinN(t),ws,`Tríade ${QN[q]}: fundamental, terça e quinta. Estrutura em semitons: ${QST[q][1]} + ${QST[q][2]-QST[q][1]}.`);}},
+()=>{for(;;){const r=pick(ROOTS),q=pick(['M','m','d','A']),t=triad(r,q);if(!t.every(ok1))continue;return mkQ(`A tríade <b>${joinN(t)}</b> é:`,QN[q],['maior','menor','diminuta','aumentada'].filter(x=>x!==QN[q]),`${joinN(t)}: terça de ${QST[q][1]} semitons e quinta de ${QST[q][2]} semitons a partir da fundamental.`);}},
+()=>{const q=pick(['M','m','d','A']),sq={M:'4 + 3',m:'3 + 4',d:'3 + 3',A:'4 + 4'};return mkQ(`Qual a sequência de terças (em semitons) da tríade <b>${QN[q]}</b>?`,sq[q],Object.values(sq).filter(x=>x!==sq[q]),'Maior = 3M + 3m; menor = 3m + 3M; diminuta = 3m + 3m; aumentada = 3M + 3M.');},
+()=>{const r=pick(ROOTS),q=pick(['M','m']),t=triad(r,q);if(!t.every(ok1))return G[5][2]();return mkQ(`Qual é a <b>quinta</b> da tríade de ${chordName(r,q)}?`,nm(t[2]),[spell(t[2].l,pc(t[2])+1),spell(t[2].l,pc(t[2])-1),t[1],t[0],spell(t[2].l,pc(t[2])+2)].filter(ok1).map(nm),`A quinta fica 7 semitons acima da fundamental: ${nm(r)} → ${nm(t[2])}.`);}
+];
+G[6]=[
+()=>{const maj=rnd()<.5,root=maj?pick(KEYS).n:minorOf(pick(K12).n),sc=scaleOf(root,maj?'maior':'menor'),n=2+ri(6),c=sc[n-1];return mkQ(`Qual é a <b>${n}ª nota</b> da escala de ${nm(root)} ${maj?'maior':'menor natural'}?`,nm(c),[spell(c.l,pc(c)+1),spell(c.l,pc(c)-1),sc[mod(n-2,7)],sc[n%7]].filter(ok1).map(nm),`${nm(root)} ${maj?'maior':'menor natural'}: ${sc.map(nm).join(' ')}.`);},
+()=>mkQ('Qual a fórmula de tons (T) e semitons (S) da escala <b>maior</b>?','T T S T T T S',['T S T T S T T','T T T S T T S','S T T S T T T'],'Maior: T T S T T T S (semitons entre 3–4 e 7–8). Menor natural: T S T T S T T.'),
+()=>mkQ('Qual a fórmula da escala <b>menor natural</b>?','T S T T S T T',['T T S T T T S','T S T T T S T','S T T T S T T'],'Menor natural: T S T T S T T; é a escala maior começando no 6º grau.'),
+()=>mkQ('A escala menor natural difere da maior (mesma tônica) em quais graus?','3º, 6º e 7º',['2º, 3º e 6º','4º e 5º','3º e 7º apenas'],'Compare Dó maior (Mi, Lá, Si) com Dó menor (Mi♭, Lá♭, Si♭): 3º, 6º e 7º ficam um semitom abaixo.'),
+()=>{const r=pick(['A','E','D','G','C','B','F#'].map(P)),c=pentm(r);return mkQ(`Quais notas formam a <b>pentatônica menor</b> de ${nm(r)}?`,c.map(nm).join(' '),[pentM(r).map(nm).join(' '),pentm(spell(r.l+4,pc(r)+7)).map(nm).join(' '),[0,3,5,7,9].map((st,i)=>spell(r.l+[0,2,3,4,5][i],pc(r)+st)).map(nm).join(' ')],'Pentatônica menor: 1, ♭3, 4, 5, ♭7. É a escala menor natural sem o 2º e o 6º graus.');},
+()=>mkQ('A escala menor <b>harmônica</b> eleva qual grau da menor natural?','7º grau',['3º grau','6º grau','2º grau'],'Menor harmônica: 7º grau elevado meio tom (sensível), criando o acorde dominante com terça maior.')
+];
+G[7]=[
+()=>{const k=pick(KEYS).n,c=campo(k),i=ri(7),ws=[chordName(c[i].r,c[i].q==='M'?'m':'M'),...c.filter((x,j)=>j!==i).map(x=>x.name)];return mkQ(`No campo harmônico de <b>${keyName(k)}</b>, qual é o acorde do grau <b>${c[i].rom}</b>?`,c[i].name,ws,`Qualidades do campo maior: I, IV, V maiores; ii, iii, vi menores; vii° diminuto. ${c.map(x=>x.name).join(' · ')}.`);},
+()=>{const k=pick(KEYS).n,c=campo(k),i=ri(6),bad=chordName(c[i].r,c[i].q==='M'?'m':'M'),rest=shuf(c.filter((x,j)=>j!==i)).slice(0,3).map(x=>x.name);return mkQ(`Qual acorde <b>não pertence</b> ao campo harmônico de ${keyName(k)}?`,bad,rest,`No campo de ${nm(k)}: ${c.map(x=>x.name).join(' · ')}. ${bad} troca a qualidade de ${c[i].name}.`);},
+()=>{const k=pick(KEYS).n,c=campo(k),i=ri(7);return mkQ(`No tom de ${keyName(k)}, qual é o grau do acorde <b>${c[i].name}</b>?`,c[i].rom,ROM.filter(x=>x!==c[i].rom),`${c[i].name} é o ${i+1}º grau de ${nm(k)}.`);},
+()=>{const k=pick(KEYS).n,c=campo(k),f=a=>a.map(i=>c[i].name).join(' – ');return mkQ(`A progressão <b>I – V – vi – IV</b> no tom de ${keyName(k)} é:`,f([0,4,5,3]),[f([0,3,5,4]),f([0,4,3,5]),f([0,5,3,4])],'I–V–vi–IV é a progressão pop mais usada (ex.: C – G – Am – F).');},
+()=>{const k=pick(KEYS).n,c=campo(k);return mkQ(`Qual acorde é a <b>dominante</b> (V) no tom de ${keyName(k)}?`,c[4].name,[c[3].name,c[5].name,c[1].name],`O V é o acorde do 5º grau (${c[4].name}); resolve naturalmente no I.`);}
+];
+G[8]=[
+()=>{const P12=pick(K12).n,m=pick(MODOS.filter(x=>x.k!=='eolio')),sc=scaleOf(P12,'maior'),t=sc[m.deg];return mkQ(`<b>${nm(t)} ${m.n}</b> usa as mesmas notas de qual escala maior?`,keyName(P12),shuf(K12.filter(x=>!same(x.n,P12))).slice(0,5).map(x=>keyName(x.n)),`Os modos são a mesma escala começando em outro grau: ${nm(t)} é o ${m.deg+1}º grau de ${nm(P12)} maior.`);},
+()=>{const m=pick(MODOS);return mkQ(`Qual modo começa no <b>${m.deg+1}º grau</b> da escala maior?`,m.n,MODOS.filter(x=>x!==m).map(x=>x.n).concat(['jônio']),'Jônio (1º, maior), dórico (2º), frígio (3º), lídio (4º), mixolídio (5º), eólio (6º, menor) e lócrio (7º).');},
+()=>{const t=pick([['lídio','é a escala maior com a <b>4ª aumentada</b>'],['mixolídio','é a escala maior com a <b>7ª menor</b>'],['dórico','é a escala menor com a <b>6ª maior</b>'],['frígio','é a escala menor com a <b>2ª menor</b>'],['lócrio','é a escala menor com <b>2ª menor e 5ª diminuta</b>']]);return mkQ(`Qual modo ${t[1]}?`,t[0],['lídio','mixolídio','dórico','frígio','lócrio','jônio'].filter(x=>x!==t[0]),'Característica de cada modo: lídio ♯4; mixolídio ♭7; dórico 6M; frígio ♭2; lócrio ♭2 e ♭5.');},
+()=>{for(;;){const r=pick(ROOTS),m=pick(MODOS.concat([{k:'maior',n:'jônio (maior)'}])),sc=scaleOf(r,m.k);if(!sc.every(ok1))continue;return mkQ(`As notas <b>${sc.map(nm).join(' ')}</b> (tônica ${nm(r)}) formam qual modo?`,m.n,['jônio (maior)',...MODOS.map(x=>x.n)].filter(x=>x!==m.n),`Compare com a escala maior de ${nm(r)}: as alterações nos graus mostram o modo.`);}}
+];
+const RIT=[
+['Quantos tempos vale uma <b>semibreve</b> (compasso 4/4)?','4',['2','1','8'],'Semibreve 4 tempos, mínima 2, semínima 1, colcheia ½, semicolcheia ¼.'],
+['Quantos tempos vale uma <b>mínima</b>?','2',['1','4','½'],'A mínima vale metade da semibreve: 2 tempos.'],
+['Quantas <b>colcheias</b> cabem em uma semínima?','2',['1','3','4'],'Cada figura vale metade da anterior: semínima = 2 colcheias.'],
+['Quantas <b>semicolcheias</b> cabem em uma semínima?','4',['2','3','8'],'Semínima = 2 colcheias = 4 semicolcheias.'],
+['O <b>ponto de aumento</b> acrescenta à nota:','metade do seu valor',['o dobro do valor','um quarto do valor','sempre 1 tempo'],'Mínima pontuada = 2 + 1 = 3 tempos.'],
+['Quanto vale uma <b>semínima pontuada</b>?','1,5 tempo',['2 tempos','0,75 tempo','1 tempo'],'Semínima (1) + metade (0,5) = 1,5 tempo.'],
+['No compasso <b>3/4</b>, o número de cima indica:','3 tempos por compasso',['a semínima vale 3 tempos','são 3 compassos por pauta','a mínima vale 3 tempos'],'Numerador = quantos tempos por compasso.'],
+['No compasso 3/4, o número de baixo (4) indica:','a unidade de tempo é a semínima',['são 4 tempos por compasso','o compasso tem 4 notas','a colcheia é a unidade'],'Denominador 4 = semínima (1/4 da semibreve) como unidade de tempo.'],
+['Qual compasso é <b>composto</b> (cada tempo se divide em 3)?','6/8',['2/4','3/4','4/4'],'Em compasso composto, cada pulso tem 3 subdivisões: 6/8 = 2 pulsos de 3 colcheias.'],
+['Em 6/8, quantos <b>pulsos</b> sentimos normalmente?','2 pulsos de 3 colcheias',['6 pulsos','3 pulsos','4 pulsos'],'6/8 é binário composto: dois pulsos, cada um com três colcheias.'],
+['Uma <b>ligadura de valor</b> entre duas notas iguais:','soma as durações em uma só nota',['toca as duas mais curtas','muda a altura','indica uma pausa'],'A segunda nota não é repetida: o som continua.'],
+['<b>Síncope</b> é:','nota que começa em tempo fraco e se prolonga para o tempo forte',['pausa no início do compasso','aumento do andamento','nota repetida três vezes'],'Deslocar o acento é o que dá swing ao samba, ao funk e ao reggae.'],
+['Uma <b>quiáltera de 3</b> colcheias ocupa o tempo de:','2 colcheias (uma semínima)',['3 semínimas','4 colcheias','1 colcheia'],'Três notas no espaço de duas: tercina.'],
+['<b>120 bpm</b> significa:','120 pulsos por minuto',['120 compassos por minuto','120 notas por segundo','compasso de 120 tempos'],'bpm = batidas por minuto; 120 bpm = 2 batidas por segundo.'],
+['Quantas semínimas cabem em um compasso <b>4/4</b>?','4',['2','3','6'],'4/4: quatro semínimas por compasso.'],
+['Qual pausa dura <b>4 tempos</b> em 4/4?','pausa de semibreve',['pausa de mínima','pausa de semínima','pausa de colcheia'],'A pausa de semibreve ocupa o compasso inteiro em 4/4 (e em qualquer compasso, o compasso inteiro).']
+];
+G[9]=RIT.map(r=>()=>mkQ(r[0],r[1],r[2],r[3]));
+G[10]=[].concat(G[2],G[3],G[4],G[5],G[6],G[7],G[8],G[9]);
+const NIVEIS=[['Notas, tons e semitons','Distâncias entre notas'],['Armaduras de clave','Sustenidos e bemóis'],['Ciclo das quintas','Dominante, relativas, vizinhos'],['Intervalos','Nome, nota e semitons'],['Tríades','Notas e qualidades'],['Escalas','Maior, menor e pentatônica'],['Campo harmônico','Graus, acordes e progressões'],['Modos','Dórico ao lócrio'],['Ritmo e compasso','Figuras, pontos, compassos'],['Desafio final','Mistura de tudo']];
+function buildRun(lvl,n){const pool=G[lvl],out=[],used=new Set();let guard=0;while(out.length<n&&guard++<200){const g=pool[ri(pool.length)];let q;try{q=g();}catch(e){continue;}if(!q||q.o.length<4||q.a<0||used.has(q.q))continue;used.add(q.q);out.push(q);}return out;}
+
+/* ===== ÁUDIO (síntese simples, sem arquivos) ===== */
+let AC;const ac=()=>{if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC;};
+function tone(m,t0,d,v){const c=ac(),f=440*Math.pow(2,(m-69)/12),o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain(),g2=c.createGain(),lp=c.createBiquadFilter();o.type='triangle';o2.type='sine';o.frequency.value=f;o2.frequency.value=f*2;g2.gain.value=.3;lp.type='lowpass';lp.frequency.value=2600;g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(v||.2,t0+.012);g.gain.exponentialRampToValueAtTime(.0001,t0+d);o.connect(lp);o2.connect(g2);g2.connect(lp);lp.connect(g);g.connect(c.destination);o.start(t0);o2.start(t0);o.stop(t0+d+.05);o2.stop(t0+d+.05);}
+function playSeq(ms,step,dur){const t=ac().currentTime+.05;ms.forEach((m,i)=>tone(m,t+i*step,dur||step*1.8));}
+function playChord(ms,dur){const t=ac().currentTime+.05;ms.forEach(m=>tone(m,t,dur||1.8,.15));}
+const baseMidi=n=>60+(pc(n)>6?pc(n)-12:pc(n));
+
+/* ===== UI base ===== */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const stars=n=>'<span class="stars">'+[1,2,3].map(i=>`<span class="${i<=n?'':'off'}">★</span>`).join('')+'</span>';
+function show(t){$$('.panel-t').forEach(p=>p.hidden=p.id!=='p-'+t);$$('.tab-t').forEach(b=>b.classList.toggle('on',b.dataset.t===t));try{history.replaceState(null,'','#'+t);}catch(e){}if(INIT[t])INIT[t]();}
+const INIT={};
+$$('.tab-t').forEach(b=>b.onclick=()=>show(b.dataset.t));
+function setNomes(m){MODE=m;store.set('teoriaNomes',m);$$('.nomes-t button').forEach(b=>b.classList.toggle('on',b.dataset.n===m));const cur=($$('.tab-t.on')[0]||{}).dataset;if(cur&&INIT[cur.t])INIT[cur.t](true);}
+$$('.nomes-t button').forEach(b=>b.onclick=()=>setNomes(b.dataset.n));
+
+/* ===== CICLO ===== */
+let cSel=0;
+INIT.ciclo=function(){
+  const cx=230,cy=230,pos=(R,i)=>[cx+R*Math.sin(i*Math.PI/6),cy-R*Math.cos(i*Math.PI/6)];
+  let h='';
+  CIRC12.forEach((c,i)=>{
+    const n=P(c),m=minorOf(n),[x,y]=pos(185,i),[sx,sy]=pos(133,i),[mx,my]=pos(92,i);
+    const maj=i===6?`${nm(P('F#'))}/${nm(P('Gb'))}`:nm(n), mn=i===6?`${nm(P('D#'))}m/${nm(P('Eb'))}m`:nm(m)+(MODE==='cifra'?'m':' m');
+    const sg=i<=6?(i===0?'0':i+'♯'):(12-i)+'♭'+(i===6?'':'');
+    h+=`<g class="cn${cSel===i?' sel':''}" data-i="${i}"><circle cx="${x}" cy="${y}" r="29"/><text x="${x}" y="${y}" font-size="${i===6?9:MODE==='cifra'?16:13}">${maj}</text></g>`;
+    h+=`<text class="sig-t" x="${sx}" y="${sy}">${i===6?'6♯/6♭':sg}</text>`;
+    h+=`<g class="cn min${cSel===i?' sel':''}" data-i="${i}"><circle cx="${mx}" cy="${my}" r="22"/><text x="${mx}" y="${my}" font-size="${i===6?7.5:MODE==='cifra'?13:11}">${mn}</text></g>`;
+  });
+  h+=`<text x="230" y="224" text-anchor="middle" fill="#e8d5a3" font-family="Playfair Display,serif" font-size="15">Ciclo</text><text x="230" y="244" text-anchor="middle" fill="#e8d5a3" font-family="Playfair Display,serif" font-size="15">das quintas</text>`;
+  $('#svgCiclo').innerHTML=h;
+  $$('#svgCiclo .cn').forEach(g=>g.onclick=()=>{cSel=+g.dataset.i;INIT.ciclo();});
+  const c=CIRC12[cSel],n=P(c),k=keyInfo(n),sc=scaleOf(n,'maior'),cp=campo(n),m=minorOf(n),d=domOf(n),s=subOf(n);
+  $('#infoCiclo').innerHTML=`<h4 class="gold fw-bold mb-2">${keyName(n)}${cSel===6?' (ou '+keyName(P('Gb'))+')':''}</h4>
+  <div class="row-t"><span>Armadura</span><span>${sigText(k.sig)}${k.sig?': '+sigList(k.sig).map(nm).join(' '):''}</span></div>
+  <div class="row-t"><span>Relativa menor</span><span>${minName(m)}</span></div>
+  <div class="row-t"><span>Dominante (V)</span><span>${d?keyName(d):'-'}</span></div>
+  <div class="row-t"><span>Subdominante (IV)</span><span>${s?keyName(s):'-'}</span></div>
+  <div class="row-t"><span>Escala</span><span>${sc.map(nm).join(' ')}</span></div>
+  <div class="row-t"><span>Campo harmônico</span><span>${cp.map(x=>x.name).join(' · ')}</span></div>
+  <div class="d-flex flex-wrap gap-2 mt-3"><button class="btn btn-warning fw-bold" id="cEsc"><i class="fas fa-play me-1"></i> Ouvir a escala</button><button class="btn btn-outline-warning fw-bold" id="cProg"><i class="fas fa-music me-1"></i> Ouvir I – IV – V – I</button></div>`;
+  const b=baseMidi(n);
+  $('#cEsc').onclick=()=>playSeq([...SC.maior.map(x=>b+x),b+12],.38,.8);
+  $('#cProg').onclick=()=>{const t=ac().currentTime+.05;[0,3,4,0].forEach((gr,i)=>{const r=sc[gr],t3=triad(r,DQ[gr]).map(x=>{let mm=baseMidi(x);while(mm<b-5)mm+=12;while(mm>b+6)mm-=12;return mm;});t3.forEach(mm=>tone(mm,t+i*1.1,1.0,.14));});};
+};
+
+/* ===== QUIZ ===== */
+let Q=null;
+function qSaved(){return store.get('teoriaQuiz',{});}
+INIT.quiz=function(){
+  const sv=qSaved();
+  $('#lvls').innerHTML=NIVEIS.map((x,i)=>`<button class="btn-level-select${Q&&Q.lvl===i+1?' active':''}" data-l="${i+1}"><div class="d-flex justify-content-between"><span class="level-title">${i+1}. ${x[0]}</span>${stars((sv[i+1]||{}).s||0)}</div><div class="level-desc">${x[1]}${sv[i+1]?' · melhor: '+sv[i+1].p+' pts':''}</div></button>`).join('');
+  $$('#lvls button').forEach(b=>b.onclick=()=>quizStart(+b.dataset.l));
+  if(!Q&&!$('#quizBox').innerHTML.trim())$('#quizBox').innerHTML='<div class="text-center py-4"><i class="fas fa-trophy gold fs-1 mb-2"></i><h4 class="gold fw-bold">Escolha um nível</h4><p class="text-muted mb-0">8 perguntas por nível, 3 vidas. Acerte 6 para passar. Todos os níveis estão abertos.</p></div>';
+};
+function quizStart(l){Q={lvl:l,qs:buildRun(l,8),i:0,ok:0,lives:3,pts:0,streak:0,done:false};INIT.quiz();quizShow();}
+function quizShow(){
+  const q=Q.qs[Q.i];if(!q)return;
+  $('#quizBox').innerHTML=`<div class="d-flex justify-content-between align-items-center flex-wrap gap-2"><span class="level-badge">Nível ${Q.lvl}: ${NIVEIS[Q.lvl-1][0]}</span><span class="hearts">${[0,1,2].map(i=>`<i class="fas fa-heart${i>=Q.lives?' off':''}"></i>`).join('')}</span><span class="gold fw-bold">${Q.pts} pts</span></div>
+  <div class="progress-container mt-3"><div class="progress-bar-fill" style="width:${Q.i/Q.qs.length*100}%"></div></div>
+  <div class="q-t">${q.q}</div><div class="opt-grid" id="qo">${q.o.map((o,i)=>`<button class="option-btn" data-i="${i}">${esc(o)}</button>`).join('')}</div><div id="qw"></div>`;
+  $$('#qo button').forEach(b=>b.onclick=()=>quizAns(+b.dataset.i));
+}
+function quizAns(i){
+  const q=Q.qs[Q.i],ok=i===q.a;$$('#qo button').forEach((b,j)=>{b.disabled=true;if(j===q.a)b.classList.add('ok');else if(j===i)b.classList.add('bad');});
+  window.Prog&&Prog.count('teoria-quiz',ok);
+  if(ok){Q.ok++;Q.streak++;Q.pts+=10+Math.min(Q.streak-1,5)*2;}else{Q.streak=0;Q.lives--;}
+  const last=Q.i===Q.qs.length-1,dead=Q.lives<=0;
+  $('#qw').innerHTML=`<div class="feedback-area show ${ok?'feedback-correct':'feedback-incorrect'} mt-3">${ok?'Correto!':'Não foi dessa vez.'}</div><div class="why-t">${q.w}</div><div class="text-center mt-3"><button class="btn btn-warning fw-bold" id="qn">${last||dead?'Ver resultado':'Próxima'} <i class="fas fa-arrow-right ms-1"></i></button></div>`;
+  $('#qn').onclick=()=>{if(last||dead)quizEnd();else{Q.i++;quizShow();}};
+}
+function quizEnd(){
+  const q=Q,pass=q.ok>=6&&q.lives>0,mistakes=q.i+1-q.ok,st=!pass?0:mistakes===0?3:mistakes<=1?2:1;
+  const sv=qSaved(),cur=sv[q.lvl]||{s:0,p:0};sv[q.lvl]={s:Math.max(cur.s,st),p:Math.max(cur.p,q.pts)};store.set('teoriaQuiz',sv);
+  if(pass&&window.Prog)Prog.max('teoria-nivel',q.lvl);
+  const nxt=q.lvl<10?q.lvl+1:null;Q=null;INIT.quiz();
+  $('#quizBox').innerHTML=`<div class="text-center py-3"><i class="fas ${pass?'fa-circle-check':'fa-circle-xmark'} fs-1 mb-2" style="color:${pass?'#2ecc71':'#e74c3c'}"></i><h3 class="gold fw-bold">${pass?'Nível concluído!':'Quase lá'}</h3><div class="mb-2">${stars(st)}</div><p class="text-muted">${q.ok} acertos em ${q.i+1} perguntas · ${q.pts} pontos${pass?'':'. Precisa de 6 acertos e pelo menos 1 vida.'}</p><div class="d-flex flex-wrap gap-2 justify-content-center"><button class="btn btn-warning fw-bold" id="qr">Jogar de novo</button>${pass&&nxt?'<button class="btn btn-outline-warning fw-bold" id="qx">Próximo nível</button>':''}</div></div>`;
+  $('#qr').onclick=()=>quizStart(q.lvl);const x=$('#qx');if(x)x.onclick=()=>quizStart(nxt);
+}
+
+/* ===== MONTAR (clicar ou arrastar) ===== */
+const MT=[['ciclo','Ciclo das quintas'],['escala','Escala maior'],['triade','Tríade'],['armadura','Ordem da armadura']];
+let mCur='ciclo',M=null;
+function dispCode(c){return c.split('|').map(x=>nm(P(x))).join('/');}
+function mkPuzzle(t){
+  if(t==='ciclo'){const lab=i=>i===0?'0':i<6?i+'♯':i===6?'6♯/6♭':(12-i)+'♭';return {tit:'Monte o ciclo das quintas, a partir do Dó (sentido horário)',slots:12,fixed:{0:'C'},chips:['G','D','A','E','B','F#|Gb','Db','Ab','Eb','Bb','F'],ans:CIRC12.map((c,i)=>i===6?'F#|Gb':c),lab,dica:'Cada passo à direita sobe uma quinta e acrescenta um sustenido.'};}
+  if(t==='escala'){const k=pick(KEYS).n,sc=scaleOf(k,'maior'),ans=sc.map(code);const ds=shuf(sc.slice(1)).slice(0,3).map(x=>{const o=pick([spell(x.l+1,pc(x)),spell(x.l-1,pc(x)),spell(x.l,pc(x)+1),spell(x.l,pc(x)-1)].filter(ok1));return o;}).map(code).filter(c=>!ans.includes(c));return {tit:`Monte a escala de ${keyName(k)}`,slots:7,fixed:{0:ans[0]},chips:[...new Set([...ans.slice(1),...ds])],ans,lab:i=>(i+1)+'º grau',dica:'Fórmula: T T S T T T S. Uma letra por grau, sem repetir letras.'};}
+  if(t==='triade'){for(;;){const r=pick(ROOTS),q=pick(['M','m','d','A']),tr=triad(r,q);if(!tr.every(ok1))continue;const ans=tr.map(code),ds=['M','m','d','A'].filter(x=>x!==q).flatMap(x=>triad(r,x).slice(1)).filter(ok1).map(code).filter(c=>!ans.includes(c));return {tit:`Monte a tríade ${QN[q]} de ${nm(r)}`,slots:3,fixed:{0:ans[0]},chips:[...new Set([ans[1],ans[2],...shuf(ds).slice(0,3)])],ans,lab:i=>['fundamental','terça','quinta'][i],dica:`Terça a ${QST[q][1]} semitons e quinta a ${QST[q][2]} semitons da fundamental.`};}}
+  const sh=rnd()<.5,ans=(sh?SHARPS:FLATS).map(x=>code(N(L.indexOf(x),sh?1:-1)));return {tit:`Coloque na ordem os ${sh?'sustenidos':'bemóis'} da armadura`,slots:7,fixed:{},chips:ans.slice(),ans,lab:i=>(i+1)+'º',dica:sh?'Fá Dó Sol Ré Lá Mi Si (cada um uma quinta acima do anterior).':'Si Mi Lá Ré Sol Dó Fá (a ordem inversa dos sustenidos).'};
+}
+INIT.montar=function(re){
+  $('#mTipos').innerHTML=MT.map(x=>`<button class="tab-t${x[0]===mCur?' on':''}" data-m="${x[0]}">${x[1]}</button>`).join('');
+  $$('#mTipos button').forEach(b=>b.onclick=()=>{mCur=b.dataset.m;M=null;INIT.montar();});
+  if(!M||M.t!==mCur){M=mkPuzzle(mCur);M.t=mCur;M.pl=Array(M.slots).fill(null);Object.keys(M.fixed).forEach(i=>M.pl[i]=M.fixed[i]);M.sel=null;M.res=null;M.chips=shuf(M.chips);}
+  mRender();
+};
+function mRender(){
+  const used=new Set(M.pl.filter(Boolean));
+  const chip=(c,fx)=>`<span class="chip-t${M.sel===c?' sel':''}" data-c="${c}" draggable="${fx?'false':'true'}">${esc(dispCode(c))}</span>`;
+  $('#mBox').innerHTML=`<h5 class="gold fw-bold text-center">${M.tit}</h5><p class="mini-t text-center">Toque numa peça e depois no lugar, ou arraste. Toque numa peça já colocada para devolvê-la.</p>
+  <div class="slots-t mb-3">${M.pl.map((c,i)=>`<div class="slot-t${M.fixed[i]?' fix':''}${M.res?(M.res[i]?' ok':' bad'):''}" data-s="${i}">${c?chip(c,!!M.fixed[i]):''}<small>${esc(M.lab(i))}</small></div>`).join('')}</div>
+  <div class="chips-t mb-3" id="bank">${M.chips.filter(c=>!used.has(c)).map(c=>chip(c)).join('')||'<span class="mini-t">Todas as peças foram colocadas.</span>'}</div>
+  <div class="text-center d-flex flex-wrap gap-2 justify-content-center"><button class="btn btn-warning fw-bold" id="mV">Verificar</button><button class="btn btn-outline-warning" id="mD">Dica</button><button class="btn btn-outline-warning" id="mN">Novo desafio</button></div><div id="mF"></div>`;
+  $$('#mBox .chip-t').forEach(el=>{
+    el.onclick=ev=>{ev.stopPropagation();const c=el.dataset.c,sl=el.closest('.slot-t');if(sl){const i=+sl.dataset.s;if(M.fixed[i])return;M.pl[i]=null;M.res=null;M.sel=null;}else M.sel=M.sel===c?null:c;mRender();};
+    el.ondragstart=ev=>{ev.dataTransfer.setData('text/plain',el.dataset.c);ev.dataTransfer.effectAllowed='move';};
+  });
+  $$('#mBox .slot-t').forEach(sl=>{
+    const i=+sl.dataset.s;
+    sl.onclick=()=>{if(M.fixed[i]||!M.sel||M.pl[i])return;M.pl[i]=M.sel;M.sel=null;M.res=null;mRender();};
+    sl.ondragover=ev=>{ev.preventDefault();sl.classList.add('over');};
+    sl.ondragleave=()=>sl.classList.remove('over');
+    sl.ondrop=ev=>{ev.preventDefault();const c=ev.dataTransfer.getData('text/plain');if(!c||M.fixed[i]||M.pl[i])return sl.classList.remove('over');const j=M.pl.indexOf(c);if(j>=0&&!M.fixed[j])M.pl[j]=null;M.pl[i]=c;M.sel=null;M.res=null;mRender();};
+  });
+  $('#bank').ondragover=ev=>ev.preventDefault();
+  $('#bank').ondrop=ev=>{ev.preventDefault();const c=ev.dataTransfer.getData('text/plain'),j=M.pl.indexOf(c);if(j>=0&&!M.fixed[j]){M.pl[j]=null;M.res=null;mRender();}};
+  $('#mV').onclick=()=>{M.res=M.pl.map((c,i)=>c===M.ans[i]);const n=M.res.filter(Boolean).length,all=n===M.slots;window.Prog&&Prog.count('teoria-montar',all);mRender();$('#mF').innerHTML=`<div class="feedback-area show ${all?'feedback-correct':'feedback-incorrect'} mt-3">${all?'Perfeito! Tudo no lugar.':n+' de '+M.slots+' no lugar. Ajuste os destacados em vermelho.'}</div>`;};
+  $('#mD').onclick=()=>{$('#mF').innerHTML=`<div class="why-t">${M.dica}</div>`;};
+  $('#mN').onclick=()=>{M=null;INIT.montar();};
+}
+
+/* ===== TREINO DE OUVIDO ===== */
+const E={tipo:'int',acertos:0,total:0,streak:0,cur:null};
+const EINT={1:[3,4,7,12],2:[2,3,4,5,7,9,12],3:[1,2,3,4,5,6,7,8,9,10,11,12]};
+const EQ={1:['M','m'],2:['M','m','d'],3:['M','m','d','A']};
+const ESC={1:['maior','menor'],2:['maior','menor','menorH','dorico'],3:['maior','menor','menorH','dorico','frigio','lidio','mixolidio','locrio']};
+const ESCN={maior:'Maior',menor:'Menor natural',menorH:'Menor harmônica',dorico:'Dórico',frigio:'Frígio',lidio:'Lídio',mixolidio:'Mixolídio',locrio:'Lócrio'};
+function eNew(){
+  const t=$('#eTipo').value,n=+$('#eNivel').value,r=55+ri(13);let o,ans,play;
+  if(t==='int'){const l=EINT[n],s=pick(l),iv=IV.filter(x=>x.s===s);const names=l.map(x=>IV.filter(y=>y.s===x).filter(y=>y.n!=='5ª diminuta')[0].n);ans=iv.filter(y=>y.n!=='5ª diminuta')[0].n;o=names;const harm=$('#eHarm').checked;play=()=>harm?playChord([r,r+s],1.8):playSeq([r,r+s],.7,1.3);}
+  else if(t==='tri'){const qs=EQ[n],q=pick(qs);o=qs.map(x=>QN[x]);ans=QN[q];play=()=>{const m=QST[q].map(x=>r+x);playSeq(m,.35,1.0);setTimeout(()=>playChord(m,1.8),1300);};}
+  else{const ks=ESC[n],k=pick(ks);o=ks.map(x=>ESCN[x]);ans=ESCN[k];play=()=>playSeq([...SC[k].map(x=>r+x),r+12],.32,.7);}
+  E.cur={o,ans,play,done:false};
+}
+INIT.ouvido=function(){
+  if(!E.cur)eNew();eRender();
+};
+['eTipo','eNivel','eHarm'].forEach(id=>document.addEventListener('change',e=>{if(e.target.id===id){eNew();eRender();}}));
+function eRender(){
+  const c=E.cur;
+  $('#eBox').innerHTML=`<div class="stat-t justify-content-center mb-3"><span>Acertos: <b>${E.acertos}/${E.total}</b></span><span>Sequência: <b>${E.streak}</b></span></div>
+  <button class="btn btn-warning btn-lg fw-bold mb-3" id="eP"><i class="fas fa-play me-2"></i> Ouvir</button>
+  <div class="q-t">${$('#eTipo').value==='int'?'Que intervalo é esse?':$('#eTipo').value==='tri'?'Qual a qualidade da tríade?':'Que escala ou modo é esse?'}</div>
+  <div class="opt-grid" id="eO">${c.o.map(o=>`<button class="option-btn">${esc(o)}</button>`).join('')}</div><div id="eF"></div>`;
+  $('#eP').onclick=()=>c.play();
+  $$('#eO button').forEach(b=>b.onclick=()=>{if(c.done)return;c.done=true;const ok=b.textContent===c.ans;E.total++;if(ok){E.acertos++;E.streak++;}else E.streak=0;window.Prog&&Prog.count('teoria-ouvido',ok);
+    $$('#eO button').forEach(x=>{x.disabled=true;if(x.textContent===c.ans)x.classList.add('ok');else if(x===b)x.classList.add('bad');});
+    $('#eF').innerHTML=`<div class="feedback-area show ${ok?'feedback-correct':'feedback-incorrect'} mt-3">${ok?'Correto!':'Era: '+esc(c.ans)}</div><div class="mt-3"><button class="btn btn-outline-warning me-2" id="eR">Ouvir de novo</button><button class="btn btn-warning fw-bold" id="eN">Próximo</button></div>`;
+    $('#eR').onclick=()=>c.play();$('#eN').onclick=()=>{eNew();eRender();E.cur.play();};});
+}
+
+/* ===== DESAFIO DIÁRIO ===== */
+const dstr=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function hashS(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619);}return h>>>0;}
+let D=null;
+function dailyQs(day){const keep=rnd;rnd=mulberry(hashS('teoria'+day));const lv=[2,3,4,5,6,7,8,9],qs=[],used=new Set();let g=0;while(qs.length<5&&g++<200){const l=lv[ri(lv.length)];let q;try{q=pick(G[l])();}catch(e){continue;}if(q&&q.o.length===4&&q.a>=0&&!used.has(q.q)){used.add(q.q);qs.push(q);}}rnd=keep;return qs;}
+INIT.diario=function(){
+  const day=dstr(new Date()),st=store.get('teoriaDiario',{streak:0,best:0,last:'',hist:{}});
+  const done=st.hist&&st.hist[day]!=null;
+  if(!D||D.day!==day){D={day,qs:dailyQs(day),i:0,ok:0,rep:done};}
+  dRender(st);
+};
+function dRender(st){
+  const box=$('#dBox'),hoje=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
+  const head=`<div class="d-flex justify-content-between flex-wrap gap-2 mb-2"><h4 class="gold fw-bold mb-0">Desafio de ${hoje}</h4><div class="stat-t"><span>Sequência: <b>${st.streak||0}</b> dia(s)</span><span>Recorde: <b>${st.best||0}</b></span></div></div>`;
+  if(D.i>=D.qs.length){
+    const txt=`Desafio Diário de Teoria ${new Date().toLocaleDateString('pt-BR')}: ${D.ok}/5 · sequência de ${st.streak||0} dia(s) · ${location.origin}${location.pathname}#diario`;
+    box.innerHTML=head+`<div class="text-center py-3"><h3 class="gold fw-bold">${D.ok}/5</h3><p class="text-muted">${D.rep?'Treino extra (não conta para a sequência).':D.ok>=3?'Boa! Sequência mantida. Volte amanhã.':'Sequência registrada. Volte amanhã para outro desafio.'}</p><div class="d-flex flex-wrap gap-2 justify-content-center"><button class="btn btn-warning fw-bold" id="dS">Copiar resultado</button><button class="btn btn-outline-warning" id="dR">Treinar de novo</button></div><input class="in-t mt-3" id="dT" readonly value="${esc(txt)}" style="display:none"></div>`;
+    $('#dS').onclick=()=>{const t=$('#dT');try{navigator.clipboard.writeText(txt).then(()=>{$('#dS').textContent='Copiado!';},()=>{t.style.display='block';t.select();});}catch(e){t.style.display='block';t.select();}};
+    $('#dR').onclick=()=>{D={day:D.day,qs:dailyQs(D.day),i:0,ok:0,rep:true};dRender(store.get('teoriaDiario',{streak:0,best:0,hist:{}}));};
+    return;
+  }
+  const q=D.qs[D.i];
+  box.innerHTML=head+`<div class="progress-container mb-2"><div class="progress-bar-fill" style="width:${D.i/5*100}%"></div></div><div class="mini-t">Pergunta ${D.i+1} de 5${D.rep?' (treino extra)':''}</div><div class="q-t">${q.q}</div><div class="opt-grid" id="dO">${q.o.map(o=>`<button class="option-btn">${esc(o)}</button>`).join('')}</div><div id="dW"></div>`;
+  $$('#dO button').forEach((b,i)=>b.onclick=()=>{const ok=i===q.a;$$('#dO button').forEach((x,j)=>{x.disabled=true;if(j===q.a)x.classList.add('ok');else if(j===i)x.classList.add('bad');});if(ok)D.ok++;window.Prog&&Prog.count('teoria-diario',ok);
+    $('#dW').innerHTML=`<div class="feedback-area show ${ok?'feedback-correct':'feedback-incorrect'} mt-3">${ok?'Correto!':'Não foi dessa vez.'}</div><div class="why-t">${q.w}</div><div class="text-center mt-3"><button class="btn btn-warning fw-bold" id="dN">${D.i===4?'Ver resultado':'Próxima'}</button></div>`;
+    $('#dN').onclick=()=>{D.i++;if(D.i>=5&&!D.rep){const s=store.get('teoriaDiario',{streak:0,best:0,last:'',hist:{}}),y=new Date();y.setDate(y.getDate()-1);s.streak=s.last===dstr(y)?(s.streak||0)+1:1;s.best=Math.max(s.best||0,s.streak);s.last=D.day;s.hist=s.hist||{};s.hist[D.day]=D.ok;store.set('teoriaDiario',s);dRender(s);}else dRender(store.get('teoriaDiario',{streak:0,best:0,hist:{}}));};});
+}
+
+/* ===== EXERCÍCIOS ESCRITOS ===== */
+const XT=[['escala','Escalas'],['triade','Tríades'],['armadura','Armaduras'],['intervalo','Intervalos'],['transpor','Transpor acordes']];
+let xCur='escala',X=null;
+function parseNote(tok){tok=tok.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/♯/g,'#').replace(/♭/g,'b');const m=/^(do|re|mi|fa|sol|la|si|[a-g])(#{0,2}|b{0,2})$/.exec(tok);if(!m)return null;const nmap={do:0,re:1,mi:2,fa:3,sol:4,la:5,si:6};const l=m[1] in nmap?nmap[m[1]]:L.indexOf(m[1].toUpperCase());return N(l,m[2][0]==='#'?m[2].length:-m[2].length*(m[2]?1:0));}
+function parseChord(tok){tok=tok.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/♯/g,'#').replace(/♭/g,'b');const m=/^(do|re|mi|fa|sol|la|si|[a-g])(#{0,2}|b{0,2})(m|min)?$/.exec(tok);if(!m)return null;const nmap={do:0,re:1,mi:2,fa:3,sol:4,la:5,si:6};const l=m[1] in nmap?nmap[m[1]]:L.indexOf(m[1].toUpperCase());return {n:N(l,m[2][0]==='#'?m[2].length:m[2]?-m[2].length:0),q:m[3]?'m':'M'};}
+const toks=s=>s.split(/[\s,;–—\-\/]+/).filter(Boolean);
+function mkX(t){
+  if(t==='escala'){const maj=rnd()<.6,r=maj?pick(KEYS).n:minorOf(pick(K12).n),a=scaleOf(r,maj?'maior':'menor');return {p:`Escreva as 7 notas da escala de <b>${nm(r)} ${maj?'maior':'menor natural'}</b>, separadas por espaço.`,kind:'notes',ans:a,hint:`Fórmula ${maj?'T T S T T T S':'T S T T S T T'}; use cada letra uma vez. Pode digitar C# / Bb ou Dó# / Sib.`};}
+  if(t==='triade'){for(;;){const r=pick(ROOTS),q=pick(['M','m','d','A']),a=triad(r,q);if(!a.every(ok1))continue;return {p:`Escreva as 3 notas da tríade <b>${QN[q]}</b> de <b>${nm(r)}</b>.`,kind:'notes',ans:a,hint:`Fundamental, terça (${QST[q][1]} semitons) e quinta (${QST[q][2]} semitons).`};}}
+  if(t==='armadura'){const k=pick(KEYS.filter(x=>x.sig!==0)),a=sigList(k.sig);return {p:`Escreva as notas alteradas da armadura de <b>${keyName(k.n)}</b>, na ordem em que aparecem.`,kind:'notes',ans:a,order:true,hint:k.sig>0?'Sustenidos: Fá Dó Sol Ré Lá Mi Si.':'Bemóis: Si Mi Lá Ré Sol Dó Fá.'};}
+  if(t==='intervalo'){const {r,iv,u}=genInt();if(iv.s===12)return mkX(t);return {p:`Escreva a nota que está uma <b>${iv.n}</b> acima de <b>${nm(r)}</b>.`,kind:'notes',ans:[u],hint:`Conte ${iv.d+1} letras e ajuste para ${iv.s} semitons.`};}
+  const k=pick(K12.filter(x=>x.sig!==0)).n,cp=campo(k),cc=campo(P('C'));const prog=pick([[0,5,3,4],[0,3,4,0],[0,4,5,3],[1,4,0,0]]);
+  const ch=a=>a.map(i=>code(cc[i].r)+(cc[i].q==='m'?'m':'')).join(' ');
+  return {p:`Transponha de Dó maior para <b>${keyName(k)}</b>: <b>${prog.map(i=>ROM[i]).join(' – ')}</b>. Em Dó seria <b>${ch(prog)}</b>. Escreva em cifra ou solfejo (ex.: G Em C D).`,kind:'chords',ans:prog.map(i=>({n:cp[i].r,q:cp[i].q==='d'?'m':cp[i].q})),hint:`Escala de ${nm(k)}: ${scaleOf(k,'maior').map(nm).join(' ')}. Acordes: ${cp.map(x=>x.name).join(' · ')}.`,prog};
+}
+INIT.exe=function(){
+  $('#xTipos').innerHTML=XT.map(x=>`<button class="tab-t${x[0]===xCur?' on':''}" data-x="${x[0]}">${x[1]}</button>`).join('');
+  $$('#xTipos button').forEach(b=>b.onclick=()=>{xCur=b.dataset.x;X=null;INIT.exe();});
+  if(!X||X.t!==xCur){X=mkX(xCur);X.t=xCur;}
+  const kind=X.kind;
+  $('#xBox').innerHTML=`<div class="q-t" style="text-align:left">${X.p}</div><input class="in-t" id="xI" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${kind==='chords'?'ex.: G Em C D':'ex.: C D E F G A B'}"><div class="d-flex flex-wrap gap-2 mt-3"><button class="btn btn-warning fw-bold" id="xV">Verificar</button><button class="btn btn-outline-warning" id="xH">Dica</button><button class="btn btn-outline-warning" id="xA">Ver resposta</button><button class="btn btn-outline-warning" id="xN">Outro exercício</button></div><div id="xF"></div>`;
+  const ansTxt=()=>X.kind==='chords'?X.ans.map(c=>nm(c.n)+(c.q==='m'?'m':'')).join(' '):X.ans.map(nm).join(' ');
+  const verify=()=>{const raw=toks($('#xI').value);let ok=false,msg='',valid=false;
+    if(X.kind==='notes'){const g=raw.map(parseNote);
+      if(!g.length||g.some(x=>!x))msg='Não entendi alguma nota. Use letras (C D E) ou nomes (Dó Ré Mi), com # ou b.';
+      else if(g.length!==X.ans.length)msg=`Você digitou ${g.length} nota(s); o exercício pede ${X.ans.length}.`;
+      else{valid=true;ok=g.every((n,i)=>same(n,X.ans[i]));
+        if(!ok){const asSet=g.every(n=>X.ans.some(a=>same(a,n))),enh=g.every((n,i)=>pc(n)===pc(X.ans[i]));
+          msg=asSet?'As notas estão certas, mas a ordem importa.':enh?'Os sons estão certos, mas a grafia não: cada letra aparece uma vez (enarmonia).':'Ainda não. Confira a fórmula e a dica.';}}}
+    else{const g=raw.map(parseChord);
+      if(!g.length||g.some(x=>!x)||g.length!==X.ans.length)msg=`Digite ${X.ans.length} acordes (ex.: G Em C D ou Sol Mim Dó Ré).`;
+      else{valid=true;ok=g.every((c,i)=>same(c.n,X.ans[i].n)&&c.q===X.ans[i].q);if(!ok)msg='Ainda não. Veja o campo harmônico do novo tom na dica.';}}
+    if(valid&&window.Prog)Prog.count('teoria-exe',ok);
+    $('#xF').innerHTML=`<div class="feedback-area show ${ok?'feedback-correct':'feedback-incorrect'} mt-3">${ok?'Correto!':esc(msg)}</div>`;};
+  $('#xV').onclick=verify;$('#xI').onkeydown=e=>{if(e.key==='Enter')verify();};
+  $('#xH').onclick=()=>{$('#xF').innerHTML=`<div class="why-t">${X.hint}</div>`;};
+  $('#xA').onclick=()=>{$('#xF').innerHTML=`<div class="why-t">Resposta: <b>${esc(ansTxt())}</b></div>`;};
+  $('#xN').onclick=()=>{X=null;INIT.exe();};
+};
+
+/* ===== TESTES INTERNOS (window.TEORIA) ===== */
+window.TEORIA={nm,P,code,scaleOf,triad,KEYS,G,sigText,sigList,minorOf,pentm,IV,upper,spell,setMode:m=>{MODE=m;},buildRun,dailyQs,parseNote,parseChord,mkX,mkPuzzle,campo,get rndSet(){return rnd;},domOf,subOf};
+
+/* ===== ARRANQUE ===== */
+setNomes(MODE);
+const h=(location.hash||'').replace('#','');
+show(['ciclo','quiz','montar','ouvido','diario','exe'].includes(h)?h:'ciclo');
+})();
+</script>
+</body>
+</html>
